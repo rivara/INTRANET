@@ -1,6 +1,5 @@
 @extends('layouts.app')
 @section('content')
-a
     <div class="title">
         <h1>hola <?php echo $nombre[0] ?></h1>
     </div>
