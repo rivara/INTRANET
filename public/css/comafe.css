@@ -1,0 +1,82 @@
+/*********************************************/
+/****************COMAFE***********************/
+/*********************************************/
+
+/*html tag*/
+html body{
+    background-color:#fff;
+}
+
+/*header*/
+.headerC{
+    background: rgb(255,255,255);
+    background: linear-gradient(50deg, rgba(255,255,255,1) 0%, rgba(181,191,0,1) 100%, rgba(0,212,255,1) 100%);
+    -webkit-box-shadow: -1px 5px 5px 1px rgba(0,0,0,0.25);
+    -moz-box-shadow: -1px 5px 5px 1px rgba(0,0,0,0.25);
+    box-shadow: -1px 5px 5px 1px rgba(0,0,0,0.25);
+}
+
+.header .btn-link{
+    color:grey !important;
+    text-decoration: none;
+}
+.header a{
+    color:grey !important;
+}
+
+
+.logoComafe{
+    background-image:url("/img/logoComafe.png");
+    background-repeat: no-repeat;
+    height: 70px;
+    width: 230px;
+}
+
+
+body {margin: 0}
+
+.navbar {
+    display: flex; /* displays flex-items (children) inline */
+    justify-content: space-between; /* children are evenly distributed, first child is on the left and last child on the right side */
+}
+
+ul {
+    list-style: none;
+}
+
+/*color*/
+.colorC{
+    background-color:#B5BF00 !important;
+    color:#fff !important;
+}
+
+.center {
+    margin: auto;
+    width: 90%;
+    padding: 10px;
+}
+
+/*********************************************/
+/*************FERRCASH************************/
+/*********************************************/
+
+.logoFerrcash{
+    background-image:url("/img/logoFerrcash.png");
+    background-repeat: no-repeat;
+    height: 70px;
+    width: 230px;
+}
+
+/*header*/
+.headerF{
+    background: rgb(236, 115, 44);
+    /*background: linear-gradient(50deg, rgba(240, 146, 92,1) 0%, rgb(236, 115, 44) 100%, rgba(0,212,255,1) 100%);
+    -webkit-box-shadow: -1px 5px 5px 1px rgba(0,0,0,0.25);
+    -moz-box-shadow: -1px 5px 5px 1px rgba(0,0,0,0.25);
+    box-shadow: -1px 5px 5px 1px rgba(0,0,0,0.25);*/
+}
+
+.colorF{
+    background-color:#ec732c  !important;
+    color:#fff !important;
+}

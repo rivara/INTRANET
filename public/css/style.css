@@ -1,0 +1,283 @@
+/*******************************************************/
+/*********************ADMIN*****************************/
+/*******************************************************/
+
+
+.title{
+    padding-left: 40px;
+}
+
+.subtitle{
+    padding-left: 50px;
+    margin-bottom: 40px;
+}
+
+.card{
+    margin-top: 15%;
+
+}
+
+
+.table div{
+  margin-top: 30px;
+}
+
+.table button{
+    width: 175px;
+}
+
+
+.btn p{
+    padding-top: 15px;
+    font-weight: bold;
+}
+
+.center {
+    margin: auto;
+    width: 800px;
+    padding: 10px;
+}
+
+thead{
+    background-color: #cccccc;
+}
+
+th{
+    color:#595959;
+}
+
+.btnE{
+    width:50px !important;
+}
+
+
+.buscador{
+    width:500px;
+    height: 30px;
+    margin-bottom:20px;
+    margin-left: 95px;
+}
+
+.cover{
+    border-width:1px;
+    border-style:solid;
+    color:grey;
+    border-color:#3490dc;
+    border-radius:12px;
+    -moz-border-radius:12px;
+    -webkit-border-radius:12px;
+    padding-top:5px;
+    font-size: 12px;
+    width: 120px;
+    text-align: center;
+    font-weight: bold;
+    float: left;
+    margin: 5px;
+    height: 40px;
+}
+
+.coverF{
+background-color: blue;
+}
+
+.list{
+    float: left;
+    padding-left:20px;
+    font-size: 14px;
+}
+
+
+.coverDrag{
+    border-width:1px;
+    border-style:solid;
+    color:grey;
+    border-color:black;
+    border-radius:12px;
+    -moz-border-radius:12px;
+    -webkit-border-radius:12px;
+    padding-top:5px;
+    font-size: 12px;
+    width: 300px;
+    text-align: center;
+    font-weight: bold;
+    float: left;
+    margin: 5px;
+    height: 340px;
+}
+
+
+.wrapper {
+    width: 100%;
+    min-height: 32px;
+    height: auto!important;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    background-color:#DFE8F1;
+    -webkit-box-shadow: #B3B3B3 5px 5px 5px;
+    -moz-box-shadow: #B3B3B3 5px 5px 5px;
+    box-shadow: #B3B3B3 5px 5px 5px;
+    padding:50px;
+    width:83%;
+}
+
+.draggable p {
+    padding: 5px;
+    width: 100%;
+}
+
+.arrow{
+    cursor: context-menu;
+}
+
+.titleE{
+    font-size: 12px;
+    font-weight: bold;
+}
+.title2{
+    height: 40px;
+    padding: 0px;
+}
+
+.title2 h5{
+    padding-top: 10px;
+}
+.head{
+    height:90px;
+    width: 300px;
+
+}
+
+
+.btn-circle {
+    width: 30px;
+    height: 30px;
+    padding: 6px 0px;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.42857;
+}
+
+
+.error{
+    color:red;
+}
+
+.mitad{
+    width: 50% !important;
+    padding-left: 10%;
+
+}
+
+
+.mitad2{
+    width: 50% !important;
+
+}
+
+
+
+.centerLogin{
+    background-color: #f2f2f2;
+    padding: 15%;
+    border: 1px solid #cccccc;
+}
+
+.portales{
+    background-color: rgba(0,0,0,.05);
+    padding: 15px;
+}
+
+
+.greyC{
+    background-color: #edf2f7;
+    border: 1px solid #cad9e8;
+    padding: 10px;
+}
+
+
+
+
+.iconModal{
+    width: 90%;
+    min-height: 32px;
+    height: auto!important;
+    background-color:#fff;
+    padding:50px;;
+    margin: 10px;
+}
+
+
+/**** partes ****/
+
+.width100{
+    width:100% !important;
+}
+.width100px{
+    width:100px !important;
+}
+.width110px {
+    width: 110px !important;
+}
+.width200px{
+    width:200px !important;
+}
+
+
+.width300px{
+    width:300px !important;
+}
+
+.width400px{
+    width:400px !important;
+}
+
+.width600px{
+    width:600px !important;
+}
+
+
+/**padding**/
+.paddingtop10px{
+    padding-top: 10px;
+}
+
+/**margin**/
+.margin10px{
+    margin: 10px;
+}
+.marginBottom20px {
+    margin-bottom: 20px !important;
+}
+.marginBottom10px {
+    margin-bottom: 10px !important;
+}
+
+.marginLeft90{
+    margin-left: 90%;
+}
+.margintop10px{
+    margin-top: 10px;
+}
+
+/**float**/
+
+.floatLeft{
+    float:left;
+}
+.floatRight{
+    float:right;
+}
+
+
+
+
+
+
+
+
+
+
+
+
