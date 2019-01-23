@@ -3,7 +3,7 @@
 @section('content')
 
     <div class="subtitle">
-        <h4>Administración usuarios @</h4>
+        <h4>Administración usuarios</h4>
     </div>
     <div class="container">
         <div class="row">

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-
+<h1>prueba</h1>
 <div class="container">
     @if(!empty($successMsg))
         <div id="create" class="alert alert-success"> {{ $successMsg }}</div>
