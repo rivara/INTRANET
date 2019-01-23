@@ -54,6 +54,7 @@
             </div>
         </div>
     </div>
+        <button class="btn btn-dark floatRight"  onclick="window.open('file.doc')">descarga</button>
 </div>
 
 

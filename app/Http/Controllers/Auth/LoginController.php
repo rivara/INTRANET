@@ -8,11 +8,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use DB;
 use Hash;
-use Crypt;
 use Redirect;
 use Session;
 use Illuminate\Pagination\LengthAwarePaginator;
-
+use Illuminate\Support\Facades\Crypt;
 
 class LoginController extends Controller
 {
@@ -47,6 +46,10 @@ class LoginController extends Controller
     }*/
 
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
     public function verifica(Request $request)
     {
         //Buscamos en la bbdd el mail
@@ -56,8 +59,11 @@ class LoginController extends Controller
         if ($claveDB == "[]") {
             return redirect()->back()->withErrors(['email' => 'No exsite este Mail']);
         }
+
+
         //Si no existe lanzamos mensaje de error
-        if ($request['password'] == decrypt($claveDB)) {
+       if ($request['password'] == decrypt($claveDB)) {
+       // if (encrypt($request['password']) == $claveDB){
             //recoger datos
             $usuarioId = DB::table('usuarios')->where('email', $request['email'])->pluck('id');
             $nombre = DB::table('usuarios')->where('email', $request['email'])->pluck('nombre');
@@ -77,7 +83,8 @@ class LoginController extends Controller
             //Mete el email en una variable de sesión
             session()->put('mail', $request['email']);
             return view('/home', ['nombre' => $nombre, 'portales' => $portales]);
-        } else {
+        }
+        else {
             //Si no lanzo mensaje de error
             return redirect()->back()->withErrors(['password' => 'Clave erronea']);
         }

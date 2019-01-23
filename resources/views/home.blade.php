@@ -6,7 +6,7 @@
 
     <div class="center">
         <div class="row table">
-            @if( ! empty($portales))
+            @if(! empty($portales))
           @foreach ($portales as $portal)
             <div class=" col-sm-4">
                 <form action="{{ route('redirect') }}" method="POST">
