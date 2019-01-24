@@ -2,7 +2,6 @@
 @section('content')
 
 <div class="container">
-    <h2>prueba</h2>
     @if(!empty($successMsg))
         <div id="create" class="alert alert-success"> {{ $successMsg }}</div>
     @endif
