@@ -39,14 +39,20 @@ class AdminController
             //Envia parametros a la pantalla de grabar
             $portales[] = [""];
             $grupos[] = [""];
-            $usuarios = DB::table('usuarios')->where('id', $request['id'])->get();
+            $usuario = DB::table('usuarios')->where('id', $request['id'])->get();
             $gruposId = DB::table('usuarios_grupos')->where('id_usuario', $request['id'])->pluck('id_grupo');
             $i = 0;
             foreach ($gruposId as $grupoId) {
                 $grupos[$i] = DB::table('portales')->where('id', $grupoId)->get();
                 $i++;
             }
-            return view("management\users\update", ['usuarios' => $usuarios, 'grupos' => $grupos]);
+
+
+
+
+
+
+            return view("management/users/update", ['usuarios' => $usuario, 'grupos' => $grupos]);
         }
 
     }
@@ -58,7 +64,8 @@ class AdminController
         $portales[] = [""];
         $usuarios[] = [""];
         $nombre = $request['nombre'];
-        return view("management\users\create", ['nombre' => $nombre]);
+
+        return view("management/users/create", ['nombre' => $nombre]);
     }
 
 
@@ -84,9 +91,9 @@ class AdminController
         } else {
             //Si es vacio mete 1 por defecto
             if (!is_null($request['password'])) {
-                $clave = Crypt::encrypt(1);
+                $clave = encrypt(1);
             } else {
-                $clave = Crypt::encrypt($request['password']);
+                $clave = encrypt($request['password']);
             }
         }
 
@@ -102,15 +109,28 @@ class AdminController
             ));
         }
         // aqui pagino
-        $nombre = DB::table('usuarios')->where('email', session('mail'))->pluck('nombre');
-        $request['oAccion'] = "listado";
+
+
+
+
+
         $usuarios = DB::table('usuarios')->get();
+
+
+
+        $nombre = DB::table('usuarios')->where('email', session('mail'))->pluck('nombre');
+        //Aqui pagino
+        $request['oAccion'] = "listado";
         $collection = collect($usuarios);
         $page = $request['page'];
         $perPage = 10;
         $paginate = new LengthAwarePaginator($collection->forPage($page, $perPage), $collection->count(), $perPage,
             $page, ['path' => url('admin')]);
-        return view('management\users\admin', ['nombre' => $nombre, 'usuarios' => $paginate]);
+        return view('management/users/admin', ['nombre' => $nombre, 'usuarios' => $paginate]);
+
+
+
+
     }
 
 
@@ -144,16 +164,27 @@ class AdminController
         //Update lo que hay en la caja de texto
         DB::table('usuarios')->where('id', $request['usuarioId'])->update(['nombre' => $request['nombre']]);
         DB::table('usuarios')->where('id', $request['usuarioId'])->update(['email' => $request['email']]);
-        //aqui pagino
-        $nombre = DB::table('usuarios')->where('email', session('mail'))->pluck('nombre');
-        $request['oAccion'] = "listado";
+
+
+
+
+
+
+
+
         $usuarios = DB::table('usuarios')->get();
+
+
+
+        $nombre = DB::table('usuarios')->where('email', session('mail'))->pluck('nombre');
+        //Aqui pagino
+        $request['oAccion'] = "listado";
         $collection = collect($usuarios);
         $page = $request['page'];
         $perPage = 10;
         $paginate = new LengthAwarePaginator($collection->forPage($page, $perPage), $collection->count(), $perPage,
             $page, ['path' => url('admin')]);
-        return view('management\users\admin', ['nombre' => $nombre, 'usuarios' => $paginate]);
+        return view('management/users/admin', ['nombre' => $nombre, 'usuarios' => $paginate]);
     }
 
 
@@ -163,7 +194,7 @@ class AdminController
         $gruposId = DB::table('usuarios_grupos')->where('id_usuario', $request['usuarioId'])->pluck('id_grupo');
         //Grupos en los que NO estan
         $grupoTotales = DB::table('grupos')->whereNotIn('id', $gruposId)->get();
-        return view("management\users\groupAdd", ['grupos' => $grupoTotales, 'usuarioId' => $request['usuarioId']]);
+        return view("management/users/groupAdd", ['grupos' => $grupoTotales, 'usuarioId' => $request['usuarioId']]);
     }
 
     public function actionAddUserGroup(Request $request)
@@ -195,7 +226,7 @@ class AdminController
             $i++;
         }
 
-        return view("management\users\update", ['usuarios' => $usuarios, 'grupos' => $grupos]);
+        return view("management/users/update", ['usuarios' => $usuarios, 'grupos' => $grupos]);
     }
 
 
@@ -215,7 +246,7 @@ class AdminController
             $grupos[$i] = DB::table('portales')->where('id', $grupoId)->get();
             $i++;
         }
-        return view("management\users\update", ['usuarios' => $usuarios, 'grupos' => $grupos]);
+        return view("management/users/update", ['usuarios' => $usuarios, 'grupos' => $grupos]);
     }
 
 
@@ -236,7 +267,7 @@ class AdminController
         $paginate = new LengthAwarePaginator($collection->forPage($page, $perPage), $collection->count(), $perPage,
             $page, ['path' => url('admin')]);
         //$usuarios = DB::table('usuarios')->get();
-        return view('management\users\admin', ['nombre' => $nombre, 'usuarios' => $paginate]);
+        return view('management/users/admin', ['nombre' => $nombre, 'usuarios' => $paginate]);
     }
 
     public function actionSearch(Request $request)
@@ -250,7 +281,9 @@ class AdminController
         $perPage = 10;
         $paginate = new LengthAwarePaginator($collection->forPage($page, $perPage), $collection->count(), $perPage,
             $page, ['path' => url('admin')]);
-        return view('management\users\admin', ['nombre' => $nombre, 'usuarios' => $paginate]);
+        return view('management/users/admin', ['nombre' => $nombre, 'usuarios' => $paginate]);
     }
+
+
 
 }

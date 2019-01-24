@@ -3,16 +3,14 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Response as FacadeResponse;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use DB;
-use Hash;
-use Crypt;
 use Redirect;
 use Session;
 use Illuminate\Pagination\LengthAwarePaginator;
-
 
 class LoginController extends Controller
 {
@@ -47,6 +45,10 @@ class LoginController extends Controller
     }*/
 
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
     public function verifica(Request $request)
     {
         //Buscamos en la bbdd el mail
@@ -56,7 +58,11 @@ class LoginController extends Controller
         if ($claveDB == "[]") {
             return redirect()->back()->withErrors(['email' => 'No exsite este Mail']);
         }
+
+
         //Si no existe lanzamos mensaje de error
+
+
         if ($request['password'] == decrypt($claveDB)) {
             //recoger datos
             $usuarioId = DB::table('usuarios')->where('email', $request['email'])->pluck('id');
@@ -77,7 +83,8 @@ class LoginController extends Controller
             //Mete el email en una variable de sesión
             session()->put('mail', $request['email']);
             return view('/home', ['nombre' => $nombre, 'portales' => $portales]);
-        } else {
+        }
+        else {
             //Si no lanzo mensaje de error
             return redirect()->back()->withErrors(['password' => 'Clave erronea']);
         }
@@ -157,4 +164,31 @@ class LoginController extends Controller
     }
 
 
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function actionDescarga(Request $request){
+
+
+        $filename="ayuda.exe";
+        //PDF file is stored under project/public/download/info.pdf
+        //
+        $file_path = public_path("storage/").$filename;
+
+        if (file_exists($file_path))
+        {
+            // Send Download
+            return FacadeResponse::download($file_path, $filename, [
+                'Content-Length: '. filesize($file_path)
+            ]);
+        }
+        else
+        {
+            // Error
+            exit('¡Este fichero no existe!');
+        }
+
+
+    }
 }

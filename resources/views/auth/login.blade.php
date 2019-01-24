@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-
 <div class="container">
     @if(!empty($successMsg))
         <div id="create" class="alert alert-success"> {{ $successMsg }}</div>
@@ -54,6 +53,9 @@
             </div>
         </div>
     </div>
+        <form action="{{route('descarga')}}" method="GET">
+        <button class="btn btn-dark floatRight" ><i class="fa fa-info-circle icon-large"></i>&nbsp;Informacion</button>
+        </form>
 </div>
 
 

@@ -1,12 +1,12 @@
 @extends('layouts.app')
 @section('content')
     <div class="title">
-        <h1>hola <?php echo $nombre[0] ?></h1>
+        <h1>Hola <?php echo $nombre[0] ?></h1>
     </div>
 
     <div class="center">
         <div class="row table">
-            @if( ! empty($portales))
+            @if(! empty($portales))
           @foreach ($portales as $portal)
             <div class=" col-sm-4">
                 <form action="{{ route('redirect') }}" method="POST">
