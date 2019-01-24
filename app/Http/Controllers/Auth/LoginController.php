@@ -3,15 +3,14 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Response as FacadeResponse;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use DB;
-use Hash;
 use Redirect;
 use Session;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Crypt;
 
 class LoginController extends Controller
 {
@@ -62,8 +61,9 @@ class LoginController extends Controller
 
 
         //Si no existe lanzamos mensaje de error
-       if ($request['password'] == decrypt($claveDB)) {
-       // if (encrypt($request['password']) == $claveDB){
+
+
+        if ($request['password'] == decrypt($claveDB)) {
             //recoger datos
             $usuarioId = DB::table('usuarios')->where('email', $request['email'])->pluck('id');
             $nombre = DB::table('usuarios')->where('email', $request['email'])->pluck('nombre');
@@ -164,4 +164,31 @@ class LoginController extends Controller
     }
 
 
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function actionDescarga(Request $request){
+
+
+        $filename="ayuda.exe";
+        //PDF file is stored under project/public/download/info.pdf
+        //
+        $file_path = public_path("storage/").$filename;
+
+        if (file_exists($file_path))
+        {
+            // Send Download
+            return FacadeResponse::download($file_path, $filename, [
+                'Content-Length: '. filesize($file_path)
+            ]);
+        }
+        else
+        {
+            // Error
+            exit('¡Este fichero no existe!');
+        }
+
+
+    }
 }

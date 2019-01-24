@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-<h1>prueba</h1>
 <div class="container">
     @if(!empty($successMsg))
         <div id="create" class="alert alert-success"> {{ $successMsg }}</div>
@@ -54,7 +53,9 @@
             </div>
         </div>
     </div>
-        <button class="btn btn-dark floatRight"  onclick="window.open('file.doc')">descarga</button>
+        <form action="{{route('descarga')}}" method="GET">
+        <button class="btn btn-dark floatRight" ><i class="fa fa-info-circle icon-large"></i>&nbsp;Informacion</button>
+        </form>
 </div>
 
 

@@ -9,6 +9,10 @@ Route::group(['middleware' => 'revalidate'], function() {
         return view('auth/login');
     });
     Route::post('login', 'Auth\LoginController@verifica');
+    Route::get('descarga', 'Auth\LoginController@actionDescarga')->name('descarga');
+
+
+
 
 //Logueo
     Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');

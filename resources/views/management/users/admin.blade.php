@@ -1,7 +1,7 @@
 
 @extends('layouts.app')
 @section('content')
-
+<p></p>
     <div class="subtitle">
         <h4>Administración usuarios</h4>
     </div>
