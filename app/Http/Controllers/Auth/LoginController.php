@@ -124,7 +124,7 @@ class LoginController extends Controller
 
         }
         //pendiente
-        return redirect()->away($url[0]."?bla=bla");
+        //return redirect()->away($url[0]."?bla=bla");
 
     }
 

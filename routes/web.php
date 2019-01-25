@@ -70,7 +70,7 @@ Route::group(['middleware' => 'revalidate'], function() {
 
 // Envio de mail de reseteo de password
     Route::get('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
-    Route::post('password/email', 'Auth\ForgotPasswordController@reset')->name('password.email');
+    Route::post('password/email', 'Auth\ForgotPasswordController@toMail')->name('password.email');
 
 
 //DESB2

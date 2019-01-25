@@ -3,10 +3,15 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Notifications\PasswordReset;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Http\Request;
-use Illuminate\Auth\Notifications\ResetPassword;
-use Illuminate\Notifications\Messages\MailMessage as notify;
+use App\Notifications\TestMessage;
+use Illuminate\Notifications\Notification;
+
+/**
+ * @method notify(PasswordReset $param)
+ */
 class ForgotPasswordController extends Controller
 {
     /*
@@ -68,7 +73,7 @@ class ForgotPasswordController extends Controller
     }
 
 
-    public function reset(Request $request) {
+    public function toMail(Request $request) {
 
 
         //$link = url( "/password/email/?token=".$request->token);
@@ -85,8 +90,11 @@ class ForgotPasswordController extends Controller
         // Your your own implementation.
        // new ResetPasswordNotification($request->token);
         //instanciar toMail
-        $this->notify(new ResetPassword($request->token));
+
 
     }
+
+
+
 
 }
