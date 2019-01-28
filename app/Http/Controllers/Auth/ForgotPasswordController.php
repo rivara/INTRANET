@@ -3,11 +3,16 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Notifications\PasswordReset;
+use App\Notifications\Reset;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Http\Request;
 use App\Notifications\TestMessage;
+use Illuminate\Mail\Message;
+use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Notification;
+use App\User;
+
+
 
 /**
  * @method notify(PasswordReset $param)
@@ -90,11 +95,35 @@ class ForgotPasswordController extends Controller
         // Your your own implementation.
        // new ResetPasswordNotification($request->token);
         //instanciar toMail
-
+        return (new SlackMessage)->content('One of your invoices has been paid!');
 
     }
 
 
+    /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        // user 2 sends a message to user 1
+        $message = new Message;
+        $message->setAttribute('from', 2);
+        $message->setAttribute('to', 1);
+        $message->setAttribute('message', 'Demo message from user 2 to user 1.');
+        $message->save();
 
+        $fromUser = User::find(2);
+        $toUser = User::find(1);
+
+        // send notification using the "user" model, when the user receives new message
+        $toUser->notify(new NewMessage($fromUser));
+
+        //send notification using the "Notification" facade
+        Notification::send($toUser, new NewMessage($fromUser));
+        //Mail::to(request()->email)->send(new newpassword($token));
+    }
 
 }
