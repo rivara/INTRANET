@@ -173,7 +173,6 @@ class LoginController extends Controller
 
         $filename="ayuda.exe";
         //PDF file is stored under project/public/download/info.pdf
-        //
         $file_path = public_path("storage/").$filename;
 
         if (file_exists($file_path))
