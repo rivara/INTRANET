@@ -124,6 +124,9 @@ class LoginController extends Controller
 
         }
         //pendiente
+        // aqui recojo los datos por cookies y los envio
+        $cookie_name = "user";
+
         return redirect()->away($url[0]);
 
     }
