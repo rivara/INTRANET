@@ -11,7 +11,7 @@
             <div class=" col-sm-4">
                 <form action="{{ route('redirect') }}" method="POST">
                     @csrf
-                    <button type="submit" class="btn btn-outline-primary">
+                    <button type="submit" class="btn btn-outline-primary"  formtarget= <?php echo($portal[0]->target)?>>
                         <i class="fa  <?php echo($portal[0]->icono)?> fa-4x" aria-hidden="true"></i>
                         <p> <?php echo($portal[0]->nombre)  ?></p>
 

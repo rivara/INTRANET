@@ -29,12 +29,50 @@
                     <strong>{{ $errors->first('url') }}</strong>
                 </span>
             @endif
+
             <br>
             <label for="Icono">Icono</label>
             <div class="page">
                 <input type="text" class="input1 input form-control width300px" name="icono" value="{{$portales[0]->icono}}"/>
             </div>
-            <br><br/>
+            <br>
+            <label for="Target">target</label>
+            <div>
+                @if($portales[0]->target==0)
+                    <input type="radio"  name="target" value="0" checked>
+                    <label for="type">_blank</label>
+                @else
+                    <input type="radio"  name="target" value="0">
+                    <label for="type">_blank</label>
+                @endif
+            </div>
+            <div>
+                @if($portales[0]->target==1)
+                    <input type="radio"  name="target" value="1" checked>
+                    <label for="type">_self</label>
+                @else
+                    <input type="radio"  name="target" value="1">
+                    <label for="type">_self</label>
+                @endif
+            </div>
+            <div>
+                @if($portales[0]->target==2)
+                    <input type="radio"  name="target" value="2" checked>
+                    <label for="type">_parent</label>
+                @else
+                    <input type="radio"  name="target" value="2">
+                    <label for="type">_parent</label>
+                @endif
+            </div>
+            <div>
+                @if($portales[0]->target==3)
+                    <input type="radio"  name="target" value="3" checked>
+                    <label for="type">_top</label>
+                @else
+                    <input type="radio"  name="target" value="3">
+                    <label for="type">_top</label>
+                @endif
+            </div>
             <button class="btn btn-primary floatRight"><i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i>
                 grabar
             </button>

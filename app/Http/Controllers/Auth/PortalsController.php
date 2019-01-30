@@ -26,6 +26,8 @@ class PortalsController
 
     public function actionRecord(Request $request){
 
+
+
         $nombreError = array('nombre' => ' ');
         $urlError = array('url' => ' ');
 
@@ -47,7 +49,7 @@ class PortalsController
 
         if(count($dato)== 0) {
 
-            DB::table('portales')->insert(array('nombre' =>strtoupper($request['nombre']),'url'=>$request['url'],'icono'=>$request['icono']));
+            DB::table('portales')->insert(array('nombre' =>strtoupper($request['nombre']),'url'=>$request['url'],'icono'=>$request['icono'],'target'=>$request['target']));
             return view("/management/portals/portals",['nombre' => $request['nombre']]);
         }else{
             return redirect()->back()->withErrors(array_merge($nombreError));
@@ -58,7 +60,7 @@ class PortalsController
 
     public function actionUpdatePortal(Request $request)
     {
-        DB::table('portales')->where('id', $request['id'])->update(['url' => $request['url'],'nombre'=>$request['nombre'],'icono'=>$request['icono']]);
+        DB::table('portales')->where('id', $request['id'])->update(['url' => $request['url'],'nombre'=>$request['nombre'],'icono'=>$request['icono'],'target'=>$request['target']]);
         return view("/management/portals/portals");
     }
 

@@ -33,6 +33,7 @@
                 <th>ICONO</th>
                 <th>NOMBRE</th>
                 <th>URL</th>
+                <th>TARGET</th>
                 <th>
                     <form class="floatRight" method="GET" action="{{ route('createPortal') }}">
                         <button type="submit" name="submit" value="Edit" class="btn btn-light btnE floatRight"><i
@@ -49,7 +50,22 @@
                         <td>{{$portal->id}} </td>
                         <td> <i class="fa {{$portal->icono}} fa-lg" ></i> &nbsp; {{$portal->icono}}</td>
                         <td>{{$portal->nombre}}</td>
-                        <td>{{$portal->url}}
+                        <td>{{$portal->url}}</td>
+
+                        <td>
+                            @if($portal->target==0)
+                                <p>_blank</p>
+                            @endif
+                            @if($portal->target==1)
+                                <p>_self</p>
+                            @endif
+                            @if($portal->target==2)
+                                <p>_parent</p>
+                            @endif
+                            @if($portal->target==3)
+                                <p>_top</p>
+                            @endif
+                        </td>
                         <td>
                             <button type="submit" name="submit" value="Edit" class="btn btn-light btnE "><i
                                         class="fa fa-pencil fa-lg"></i></button>

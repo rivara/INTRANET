@@ -34,8 +34,26 @@
             <label for="Icono">Icono</label>
             <div class="page">
                 <input type="text" class="input1 input form-control width200px" name="icono"/>
-
             </div>
+            <br>
+            <label for="Target">target</label>
+            <div>
+                <input type="radio"  name="target" value="0">
+                <label for="type">_blank</label>
+            </div>
+            <div>
+                <input type="radio"  name="target" value="1">
+                <label for="type">_self</label>
+            </div>
+            <div>
+                <input type="radio"  name="target" value="2">
+                <label for="type">_parent</label>
+            </div>
+            <div>
+                <input type="radio"  name="target" value="3">
+                <label for="type">_top</label>
+            </div>
+             <br>
             <button class="btn btn-primary floatRight"><i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i>
                 grabar
             </button>
