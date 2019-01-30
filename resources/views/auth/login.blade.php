@@ -54,7 +54,7 @@
         </div>
     </div>
         <form action="{{route('descarga')}}" method="GET">
-        <button class="btn btn-dark floatRight" ><i class="fa fa-info-circle icon-large"></i>&nbsp;Informacion</button>
+        <button class="btn btn-dark floatRight" ><i class="fa fa-info-circle icon-large"></i>&nbsp;Soporte remoto</button>
         </form>
 </div>
 
