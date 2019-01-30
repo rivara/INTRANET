@@ -125,9 +125,10 @@ class LoginController extends Controller
         }
         //pendiente
         // aqui recojo los datos por cookies y los envio
-        $cookie_name = "user";
 
-        return redirect()->away($url[0]);
+        //return view('ejemplo');
+        $claveDB = DB::table('usuarios')->where('nombre', $request['nombre'])->pluck('clave');
+        return redirect()->away($url[0]."?nombre=".$nombre."&password=".decrypt($claveDB));
 
     }
 
