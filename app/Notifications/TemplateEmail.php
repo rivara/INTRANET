@@ -48,7 +48,6 @@ class TemplateEmail extends Notification
             ->line('Si no solicitó un restablecimiento de contraseña, ignore este correo electrónico.');
     }
 
-
     /**
      * Get the array representation of the notification.
      *
