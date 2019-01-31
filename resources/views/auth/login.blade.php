@@ -43,7 +43,7 @@
                                     {{ __('Entrar') }}
                                 </button>
 
-                                <button type="button" class="btn btn-primary" onclick="window.location='{{ route('password.email')}}'">
+                                <button type="button" class="btn btn-primary" onclick="window.location='{{ route('admin.password.request')}}'">
                                     {{ __('¿Olvido su  password?') }}
                                 </button>
                             </div>

@@ -2,7 +2,11 @@
 @section('content')
 
     <div class="container width600px">
-
+        @if (session('status'))
+            <div class="alert alert-success">
+                {{ session('status') }}
+            </div>
+        @endif
             <div class="card">
 
                 <div class="card-body">
@@ -19,11 +23,7 @@
                         <div class="col-md-5"></div>
 
                  <div class="col-md-6">
-                    @if (session('status'))
-                            <div class="alert alert-success">
-                                {{ session('status') }}
-                            </div>
-                        @endif
+
                         <br>
 
                             <form class="form-horizontal" method="POST" action="{{ route('password.email') }}">

@@ -1,5 +1,14 @@
 <?php
-
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
 
 Auth::routes();
 
@@ -68,10 +77,6 @@ Route::group(['middleware' => 'revalidate'], function() {
     Route::get('management/update/portalAdd/Delete', 'Auth\PortalsController@actionDeletePortal')->name('deletePortal');
 
 
-// Envio de mail de reseteo de password
-    Route::get('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
-    Route::post('password/email', 'Auth\ForgotPasswordController@toMail')->name('password.email');
-
 
 //DESB2
     Route::get('desb2b/prueba', 'Auth\Desb2bController@prueba')->name('prueba');
@@ -80,15 +85,10 @@ Route::group(['middleware' => 'revalidate'], function() {
 //DESB2-FERRCASH REVISAR
     Route::get('desb2b-Ferrcash/prueba', 'Auth\Desb2bFerrcashController@prueba')->name('prueba');
     Route::get('desb2b-Ferrcash/', 'Auth\Desb2bFerrcashController@backb2b')->name('backb2b');
-
+//Admin password reset routes
+    Route::post('/password/email','Auth\AdminForgotPasswordController@sendResetLinkEmail')->name('admin.password.email');
+    Route::get('/password/reset','Auth\AdminForgotPasswordController@showLinkRequestForm')->name('admin.password.request');
+    Route::post('/password/reset','Auth\AdminResetPasswordController@reset');
+    Route::get('/password/reset2','Auth\AdminResetPasswordController@showResetForm')->name('admin.password.reset');
 
 });
-
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
