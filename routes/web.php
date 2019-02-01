@@ -89,10 +89,7 @@ Route::group(['middleware' => 'revalidate'], function() {
     Route::get('password/reset','Auth\ForgotPasswordController@showLinkRequestForm')->name('request');
     Route::post('password/reset','Auth\ForgotPasswordController@sendResetLinkEmail')->name('forgot');
     Route::post('password/forgot','Auth\ResetPasswordController@reset');
-
-
-
-    Route::get('password/back','Auth\ResetPasswordController@showResetForm')->name('reset');
+    Route::get('password/back/{token}','Auth\ResetPasswordController@showResetForm')->name('reset');
     Route::post('password/back','Auth\ResetPasswordController@actionModificaPassword')->name('modificaPassword');
 
 });

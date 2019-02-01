@@ -16,8 +16,9 @@ class TemplateEmail extends Notification
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($token)
     {
+        $this->token = $token;
 
     }
 
@@ -41,6 +42,7 @@ class TemplateEmail extends Notification
 
         public function toMail($notifiable)
     {
+
         return (new MailMessage)
             ->line('Ha recibido este correo electrónico porque recibimos una solicitud de restablecimiento de contraseña para su cuenta')
             ->action('Reseteo Password', route('reset', $this->token))

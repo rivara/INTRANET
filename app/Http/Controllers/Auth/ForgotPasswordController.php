@@ -57,16 +57,14 @@ class ForgotPasswordController  extends Controller
         $mail=$request['email'];
         $user = new User();
         $user->email = $mail;   // This is the email you want to send to.
-        $user->notify(new TemplateEmail());
+        $token=str_random(32);
+        $user->notify(new TemplateEmail($token));
         return back()->with('status', 'solicitud enviada rivise su email!');
     }
 
 
 
-
-
-
-    // funcion
+    //funcion para envio de correos
     public function envioMail(Request $request){
         $messageBody ="";
         Mail::raw($messageBody,function ($message){
@@ -74,11 +72,9 @@ class ForgotPasswordController  extends Controller
             $message->to('prueba');
             $message->subject('');
         });
-
         if (Mail::failures()) {
             return back()->with('fail', 'error');
         }
-
         return back()->with('success', 'ok');
     }
 
