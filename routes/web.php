@@ -86,9 +86,13 @@ Route::group(['middleware' => 'revalidate'], function() {
     Route::get('desb2b-Ferrcash/prueba', 'Auth\Desb2bFerrcashController@prueba')->name('prueba');
     Route::get('desb2b-Ferrcash/', 'Auth\Desb2bFerrcashController@backb2b')->name('backb2b');
 //Admin password reset routes
-    Route::post('/password/email','Auth\AdminForgotPasswordController@sendResetLinkEmail')->name('admin.password.email');
-    Route::get('/password/reset','Auth\AdminForgotPasswordController@showLinkRequestForm')->name('admin.password.request');
-    Route::post('/password/reset','Auth\AdminResetPasswordController@reset');
-    Route::get('/password/reset2','Auth\AdminResetPasswordController@showResetForm')->name('admin.password.reset');
+    Route::get('password/reset','Auth\ForgotPasswordController@showLinkRequestForm')->name('request');
+    Route::post('password/reset','Auth\ForgotPasswordController@sendResetLinkEmail')->name('forgot');
+    Route::post('password/forgot','Auth\ResetPasswordController@reset');
+
+
+
+    Route::get('password/back','Auth\ResetPasswordController@showResetForm')->name('reset');
+    Route::post('password/back','Auth\ResetPasswordController@actionModificaPassword')->name('modificaPassword');
 
 });

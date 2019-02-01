@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Notifications\Notifiable;
 
 
-class AdminForgotPasswordController  extends Controller
+class ForgotPasswordController  extends Controller
 
 {
     /*
@@ -44,7 +44,8 @@ class AdminForgotPasswordController  extends Controller
     }
 
     public function showLinkRequestForm() {
-        return view('auth.passwords.admin-email');
+
+        return view('auth/passwords/email');
     }
 
     //defining which password broker to use, in our case its the admins
@@ -59,6 +60,11 @@ class AdminForgotPasswordController  extends Controller
         $user->notify(new TemplateEmail());
         return back()->with('status', 'solicitud enviada rivise su email!');
     }
+
+
+
+
+
 
     // funcion
     public function envioMail(Request $request){

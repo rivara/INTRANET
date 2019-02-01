@@ -1,77 +1,50 @@
 @extends('layouts.app')
-
 @section('content')
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">{{ __('') }}</div>
 
-                    <div class="card-body">
+
+    <div class="container width600px">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-1">
+                        <form id="logout-form" method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="btn btn-light fa fa-arrow-left fa-lg "></button>
+                        </form>
+                    </div>
+                    <div class="col-md-6">
+                        <h3>Reenvio de mail</h3>
+                    </div>
+                    <div class="col-md-5"></div>
+
+                    <div class="col-md-6">
                         @if (session('status'))
-                            <div class="alert alert-success" role="alert">
+                            <div id="alert" class="alert alert-success">
                                 {{ session('status') }}
                             </div>
                         @endif
+                        <br>
 
-                        <form method="POST" action="{{ route('password.reset') }}">
-                            @csrf
-
-                            <div class="form-group row">
-                                <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Correo') }}</label>
-
-                                <div class="col-md-6">
-                                    <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required>
-
-                                    @if ($errors->has('email'))
-                                        <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Clave') }}</label>
-
-                                <div class="col-md-6">
-                                    <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="passwordNew" value="{{ old('password') }}" required>
-
-                                    @if ($errors->has('password'))
-                                        <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="passwordNew" class="col-md-4 col-form-label text-md-right">{{ __('Repita clave') }}</label>
-
-                                <div class="col-md-6">
-                                    <input id="passwordNew" type="password" class="form-control{{ $errors->has('passwordNew' ) ? ' is-invalid' : '' }}" name="password" value="{{ old('passwordNew') }}" required>
-
-                                    @if ($errors->has('passwordNew'))
-                                        <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('passwordNew') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
+                        <form class="form-horizontal" method="POST" action="{{ route('forgot') }}">
+                            {{ csrf_field() }}
+                            <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
+                                @if ($errors->has('email'))
+                                    <span class="help-block">
+                                                <strong>{{ $errors->first('email') }}</strong>
+                                            </span>
+                                @endif
                             </div>
 
-                            <div class="form-group row mb-0">
-                                <div class="col-md-6 offset-md-4">
-                                    <button type="submit" class="btn btn-primary">
-                                        {{ __('Envia') }}
-                                    </button>
-                                    <button type="button" class="btn btn-primary" onclick="window.location='{{ route('login')}}'">
-                                        {{ __('volver') }}
-                                    </button>
-                                </div>
-                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                Enviar
+                            </button>
+
+                            <input type="hidden" name="token" value="<?php echo csrf_token(); ?>">
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 @endsection

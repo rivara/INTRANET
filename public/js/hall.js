@@ -84,8 +84,8 @@ $(".delete").click(function(){
         var icono = $(this).val();
         $("#icon").html('<i class="fa fa-2x ' + icono + '"></i>');
     });
-
-
+     //persiana de mensaje
+    $("#alert").fadeTo(2000, 500).slideUp(500, function(){$("#alert").slideUp(500);});
 
 
 

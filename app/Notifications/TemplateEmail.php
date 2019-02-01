@@ -4,7 +4,6 @@ namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
 class TemplateEmail extends Notification
@@ -44,7 +43,7 @@ class TemplateEmail extends Notification
     {
         return (new MailMessage)
             ->line('Ha recibido este correo electrónico porque recibimos una solicitud de restablecimiento de contraseña para su cuenta')
-            ->action('Reseteo Password', route('admin.password.reset', $this->token))
+            ->action('Reseteo Password', route('reset', $this->token))
             ->line('Si no solicitó un restablecimiento de contraseña, ignore este correo electrónico.');
     }
 

@@ -3,8 +3,9 @@
 
 <div class="container">
     @if(!empty($successMsg))
-        <div id="create" class="alert alert-success"> {{ $successMsg }}</div>
+        <div id="alert" class="alert alert-success"> {{ $successMsg }}</div>
     @endif
+
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -43,7 +44,7 @@
                                     {{ __('Entrar') }}
                                 </button>
 
-                                <button type="button" class="btn btn-primary" onclick="window.location='{{ route('admin.password.request')}}'">
+                                <button type="button" class="btn btn-primary" onclick="window.location='{{ route('request')}}'">
                                     {{ __('¿Olvido su  password?') }}
                                 </button>
                             </div>
