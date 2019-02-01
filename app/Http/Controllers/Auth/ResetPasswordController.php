@@ -51,11 +51,15 @@ class ResetPasswordController
     }
 
     public function actionModificaPassword(Request $request){
-       if($request['password']==$request['password_confirmation']){
+
+        $existe=DB::table('usuarios')->where('email',$request['email'])->count();
+
+       if(($request['password']==$request['password_confirmation'])&&($existe==1)){
            DB::table('usuarios')->where('email', $request['email'])->update(['clave' => encrypt($request['password'])]);
            return view('auth/login')->with(array('successMsg'=>'Mail cambiado'));
       }else{
-            return back()->with('fail', 'no grabado');
+            return back()->with('statusFail', 'No grabado passwords distintas y/o no existe mail');
+
        }
     }
 

@@ -7,9 +7,9 @@
                     <div class="col-md-12">
                             <h3>Reseteo de la password</h3>
 
-                        @if (session('status'))
-                            <div class="alert alert-success">
-                                {{ session('status') }}
+                        @if (session('statusFail'))
+                            <div id="alert" class="alert alert-danger">
+                                {{ session('statusFail') }}
                             </div>
                         @endif
                         <form class="form-horizontal" role="form" method="POST" action="{{ route('modificaPassword') }}">

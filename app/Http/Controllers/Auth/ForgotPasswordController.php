@@ -12,10 +12,9 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Notifications\Notifiable;
-
+use DB;
 
 class ForgotPasswordController  extends Controller
 
@@ -55,11 +54,18 @@ class ForgotPasswordController  extends Controller
 
     public function sendResetLinkEmail(Request $request){
         $mail=$request['email'];
-        $user = new User();
-        $user->email = $mail;   // This is the email you want to send to.
-        $token=str_random(32);
-        $user->notify(new TemplateEmail($token));
-        return back()->with('status', 'solicitud enviada rivise su email!');
+        $existe=DB::table('usuarios')->where('email',$mail)->count();
+
+        if ($existe== 1) {
+            $user = new User();
+            $user->email = $mail;   // This is the email you want to send to.
+            $token = str_random(32);
+            $user->notify(new TemplateEmail($token));
+            return back()->with('statusOk', 'Solicitud enviada rivise su email!');
+        }else{
+
+            return back()->with('statusFail','Este mail no existe en la bbdd');
+        }
     }
 
 
@@ -67,8 +73,9 @@ class ForgotPasswordController  extends Controller
     //funcion para envio de correos
     public function envioMail(Request $request){
         $messageBody ="";
-        Mail::raw($messageBody,function ($message){
-            $message->from('rvalle@comafe.es', 'Learning Laravel');
+        $mail=$request['email'];
+        Mail::raw($messageBody,function ($message,$mail){
+            $message->from($mail, 'Learning Laravel');
             $message->to('prueba');
             $message->subject('');
         });
