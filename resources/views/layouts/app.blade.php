@@ -72,7 +72,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-body">
-                        <h6>si tienes problemas  contacte con informatica</h6>
+                        <h6>Si tienes problemas contacte con informática</h6>
                         <a href="mailto:informatica@comafe.es">
                             informatica@comafe.es
                         </a>
