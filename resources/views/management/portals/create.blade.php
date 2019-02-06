@@ -35,10 +35,17 @@
             <div class="page">
                 <input type="text" class="input1 input form-control width200px" name="icono"/>
             </div>
+            @if ($errors->has('icono'))
+                <span class="error">
+                    <strong>{{ $errors->first('icono') }}</strong>
+                </span>
+            @endif
+
+            <br>
             <br>
             <label for="Target">target</label>
             <div>
-                <input type="radio"  name="target" value="0">
+                <input type="radio"  name="target" value="0" checked>
                 <label for="type">_blank</label>
             </div>
             <div>

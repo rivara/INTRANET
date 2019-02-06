@@ -30,7 +30,7 @@ class PortalsController
 
         $nombreError = array('nombre' => ' ');
         $urlError = array('url' => ' ');
-
+        $iconoError = array('icono' => ' ');
 
         if (is_null($request['nombre'])) {
             $nombreError = array('nombre' => 'No debe ser vacio');
@@ -38,9 +38,14 @@ class PortalsController
         if (is_null($request['url'])) {
             $urlError = array('url' => 'No debe ser vacio');
         }
-        if (is_null($request['nombre']) || is_null($request['url'])) {
-            return redirect()->back()->withErrors(array_merge($nombreError, $urlError));
+        if (is_null($request['icono'])) {
+            $iconoError = array('icono' => 'No debe ser vacio');
         }
+        if (is_null($request['nombre']) || is_null($request['url']) || is_null($request['icono'])) {
+            return redirect()->back()->withErrors(array_merge($nombreError, $urlError,$iconoError));
+        }
+
+
 
 
         $nombreError = array('nombre' => 'Existe este portal');
