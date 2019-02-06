@@ -57,7 +57,7 @@
                         @endif
                             <button type="submit"   class=" btn btn-circle btn-outline-info fa fa-question"
                                     data-toggle="modal"
-                                    data-target="#confirm" value="aa">
+                                    data-target="#confirmInf">
                             </button>
                     </ul>
                 </div>
@@ -68,7 +68,7 @@
         </main>
     </div>
     <!-- Modal Dialog -->
-    <div class="modal fade" id="confirm" aria-labelledby="confirmDeleteLabel">
+    <div class="modal fade" id="confirmInf" aria-labelledby="confirmDeleteLabel">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-body">
