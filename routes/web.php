@@ -71,11 +71,19 @@ Route::group(['middleware' => 'revalidate'], function() {
 //create
     Route::get('management/portals/createGroup/Add', 'Auth\PortalsController@actionRecord')->name('recordPortal');
 //update
-    Route::get('management/portals/editPortal/update',
-        'Auth\PortalsController@actionUpdatePortal')->name('updatePortal');
+    Route::get('management/portals/editPortal/update','Auth\PortalsController@actionUpdatePortal')->name('updatePortal');
 //delete
     Route::get('management/update/portalAdd/Delete', 'Auth\PortalsController@actionDeletePortal')->name('deletePortal');
 
+
+
+//Agora
+//addFile
+    Route::get('add', 'Auth\AgoraController@actionAddFile')->name('addFile');
+//deleteFile
+    Route::get('delete', 'Auth\AgoraController@actionDeleteFile')->name('deleteFile');
+//back
+    Route::get('backk', 'Auth\AgoraController@actionBackAgora')->name('backAgora');
 
 
 //DESB2

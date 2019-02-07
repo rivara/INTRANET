@@ -33,8 +33,8 @@
             <div class="col-sm-4"></div>
             </div>
         <div class="row justify-content-center">
-            <table class="table table-striped table-bordered" border="1px solid black">
-                <thead></thead>
+            <table class="table table-striped table-bordered table-info" border="1px solid black">
+                <thead>
                 <th>ID</th>
                 <th>Nombre</th>
                 <th>Grupos</th>
@@ -46,6 +46,7 @@
                         <input type="hidden" value="">
                     </form>
                 </th>
+                </thead>
                 <tbody>
                 <?php   $usuarios = DB::table('usuarios')->get(); ?>
                 @foreach($usuarios as $value)

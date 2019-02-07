@@ -9,7 +9,7 @@
             <div class="col-sm-1">
                 <form class="floatLeft marginBottom20px" method="GET" action="{{route('goUpdateGroup')}}">
                     @csrf
-                    <button type="submit" name="submit" value="Edit" class="btn btn-light btnE ">
+                    <button type="submit" name="submit" value="Edit" class="btn btn-outline-primary  btnE ">
                         <i class="fa fa-arrow-left fa-lg"></i>
                     </button>
                     <input type="hidden" name="grupoId" value="{{$grupoId}}">
@@ -21,7 +21,7 @@
             <div class="col-sm-8"></div>
         </div>
         <div class="row justify-content-center">
-            <table class="table table-striped table-bordered" border="1px solid black">
+            <table class="table table-striped table-bordered table-info" border="1px solid black">
                 <form method="GET" action="{{ route('addGrupoPortal') }}">
                     <thead>
                     <th>Nombre</th>

@@ -123,10 +123,11 @@ class LoginController extends Controller
             return view('/desb2b-Ferrcash/index', ['oAccion' => $request['oAccion']]);
 
         }
-        //pendiente
-        // aqui recojo los datos por cookies y los envio
+        if ($url[0] == "agora") {
+             return view('agora/docu');
 
-        //return view('ejemplo');
+        }
+
         $claveDB = DB::table('usuarios')->where('nombre', $request['nombre'])->pluck('clave');
         return redirect()->away($url[0]."?nombre=".$nombre."&password=".decrypt($claveDB));
 

@@ -10,7 +10,7 @@
             <div class="col-sm-1 marginBottom20px">
                 <form id="logout-form" action="{{ route('backAdmin') }}" method="GET">
                     @csrf
-                    <button type="submit" name="submit" value="Edit" class="btn btn-light btnE ">
+                    <button type="submit" name="submit" value="Edit" class="btn btn-outline-primary btnE ">
                         <i class="fa fa-arrow-left fa-lg"></i>
                     </button>
                 </form>
@@ -29,7 +29,7 @@
 
 
         <div class="row">
-            <table class="table table-striped table-bordered" border="1px solid black">
+            <table class="table table-striped table-bordered table-info" border="1px solid black">
                 <thead>
                 <th>ID</th>
                 <th>Nombre</th>

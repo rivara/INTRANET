@@ -1,13 +1,21 @@
 @extends('layouts.app')
 @section('content')
-    <div class="title">
-        <form class="floatLeft" method="GET" action="{{ route('groups') }}">
-            <button type="submit" class="btn btn-light btnE ">
-                <i class="fa fa-arrow-left fa-lg"></i>
-            </button>
-        </form>
-        <h4 class="paddingtop10px">Modificacion del grupo
-            de {{str_replace(array('["', '"]'), '',DB::table('grupos')->where('id', $grupoId)->pluck('nombre'))}}</h4>
+    <div class="row">
+        <div  class="col-md-2 paddingLeft50px" >
+            <form   action="{{ route('redirect') }}" method="POST">
+                @csrf
+                <button type="submit" name="submit" value="Edit" class="btn btn-outline-primary  btnE ">
+                    <i class="fa fa-arrow-left fa-lg"></i></button>
+                <input type="hidden" name="id" value=1>
+                <input type="hidden" name="name" value="" style="display:none;">
+            </form>
+        </div>
+        <div  class="col-md-2" ></div>
+        <div  class="col-md-3" >
+            <h2 class="paddingtop10px">&nbsp;Modificacion del grupo
+                de {{str_replace(array('["', '"]'), '',DB::table('grupos')->where('id', $grupoId)->pluck('nombre'))}}</h2>
+        </div>
+        <div   class="col-md-5"></div>
     </div>
     <br/>
     <div class="container wrapper mitad2">
@@ -40,7 +48,7 @@
                 </form>
             </div>
             <div class="col-md-12">
-                <table class="table table-striped table-bordered" border="1px solid black">
+                <table class="table table-striped table-bordered table-info" border="1px solid black">
                     @foreach(DB::table('grupos_portales')->where('id_grupo',$grupoId)->pluck('id_portal') as $portal)
 
                         <form action="{{ route('deleteGroupPortal') }}" method="GET">

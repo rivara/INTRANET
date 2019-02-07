@@ -9,7 +9,7 @@
             <div class="col-sm-1 marginBottom20px">
                 <form id="logout-form" action="{{ route('backAdmin') }}" method="GET">
                     @csrf
-                    <button type="submit" name="submit" value="Edit" class="btn btn-light btnE ">
+                    <button type="submit" name="submit" value="Edit" class="btn  btnE btn-outline-primary ">
                         <i class="fa fa-arrow-left fa-lg"></i>
                     </button>
                 </form>
@@ -26,14 +26,14 @@
             <div class="col-sm-7"></div>
         </div>
 
-        <div class="row justify-content-center">
-            <table class="table table-striped table-bordered" border="1px solid black">
-                <thead></thead>
-                <th>ID</th>
-                <th>ICONO</th>
-                <th>NOMBRE</th>
+        <div class="row">
+            <table class="table table-striped table-bordered table-info" border="1px solid black">
+                <thead>
+                <th>Id</th>
+                <th>Icono</th>
+                <th>Nombre</th>
                 <th>URL</th>
-                <th>TARGET</th>
+                <th>Target</th>
                 <th>
                     <form class="floatRight" method="GET" action="{{ route('createPortal') }}">
                         <button type="submit" name="submit" value="Edit" class="btn btn-light btnE floatRight"><i
@@ -41,6 +41,7 @@
                         <input type="hidden" value="">
                     </form>
                 </th>
+                </thead>
                 <tbody>
                 <?php   $portales = DB::table('portales')->get(); ?>
                 @foreach($portales as $portal)

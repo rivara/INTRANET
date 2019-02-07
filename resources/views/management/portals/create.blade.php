@@ -1,18 +1,24 @@
 
 @extends('layouts.app')
 @section('content')
-    <div class="title">
-        <form class="floatLeft" action="{{ route('portals') }}" method="GET">
-            @csrf
-            <button type="submit" name="submit" value="Edit" class="btn btn-light btnE ">
-                <i class="fa fa-arrow-left fa-lg"></i></button>
-            <input type="hidden" name="nombre">
-        </form>
-        <h4 class="floatLeft paddingtop10px">Crear Portales</h4>
+    <div class="row">
+        <div  class="col-md-2 paddingLeft50px" >
+            <form   action="{{ route('redirect') }}" method="POST">
+                @csrf
+                <button type="submit" name="submit" value="Edit" class="btn btn-outline-primary  btnE ">
+                    <i class="fa fa-arrow-left fa-lg"></i></button>
+                <input type="hidden" name="id" value=1>
+                <input type="hidden" name="name" value="" style="display:none;">
+            </form>
+        </div>
+        <div  class="col-md-2" ></div>
+        <div  class="col-md-3" >
+            <h1 class="paddingtop10px">&nbsp;Crear Portales</h1>
+        </div>
+        <div   class="col-md-5"></div>
     </div>
-    <br>
-
-    <div class="container wrapper mitad floatLeft">
+    <br />
+    <div class="container wrapper mitad">
         <form id="logout-form" action="{{route('recordPortal')}}" method="GET">
             <h3>PORTAL</h3>
             <label for="Nombre">Nombre</label>

@@ -8,7 +8,7 @@
             <div class="col-sm-1">
                 <form class="floatLeft marginBottom20px" method="GET" action="{{route('goUpdateUser')}}" >
                     @csrf
-                    <button type="submit" name="submit" value="Edit" class="btn btn-light btnE ">
+                    <button type="submit" name="submit" value="Edit" class="btn btn-outline-primary  btnE ">
                         <i class="fa fa-arrow-left fa-lg"></i>
                     </button>
                     <input type="hidden" name="id" value="{{$usuarioId}}">
