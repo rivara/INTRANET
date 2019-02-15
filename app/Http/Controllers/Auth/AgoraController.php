@@ -45,7 +45,6 @@ class AgoraController
         Storage::delete('file.jpg');
         DB::table('archivos')->where(['id' => $request["id"]])->delete();
         //eliminar fichero
-
         return view('agora/docu');
     }
 
