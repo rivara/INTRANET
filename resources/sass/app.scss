@@ -12,3 +12,10 @@
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
+// Dropzone
+@import '~dropzone/dist/min/dropzone.min.css';
+
+.dropzone {
+  margin-bottom: 20px;
+  min-height: auto;
+}

@@ -30,37 +30,40 @@
                             <th>Descripción</th>
                             <th>Fichero</th>
                             <th>
-                                <form class="floatRight" method="GET" action="{{ route('addFile') }}">
+                                <form class="floatRight" method="GET" action="{{ route('goAddFile') }}">
                                     <button type="submit" name="submit" value="Edit" class="btn  btnE floatRight"><i
                                                 class="fa fa-plus fa-lg"></i></button>
                                     <input type="hidden" value="">
                                 </form>
                             </th>
                             </thead>
-                            <?php //$grupos = DB::table('grupos')->get(); ?>
 
-                                <form class="floatLeft" method="GET" action="">
+                            <?php $ficheros = DB::table('archivos')->get(); ?>
+                            @foreach($ficheros as $fichero)
+                                <form class="floatLeft" method="GET"  action="{{ route('deleteFile') }}">
+
                                     <tr>
                                         <td>
-
+                                            {{$fichero->id}}
                                         </td>
                                         <td>
-
+                                            {{$fichero->descripcion}}
                                         </td>
                                         <td>
                                             <i class="fa fa-floppy-o" aria-hidden="true"></i>
-
+                                            {{$fichero->nombre}}
+                                            {{$fichero->otros}}
                                         </td>
                                         <td>
 
-                                            <button type="button" class="delete btn btn-warning btnE " data-toggle="modal"
-                                                    data-target="#confirm" value="">
-                                                <i class="fa fa-trash fa-lg"></i>
-                                            </button>
-                                            <input type="hidden" name="grupoId" value=>
+                                            <button type="submit" name="id" value="{{$fichero->id}}" class="btn btn-light btnE "><i
+                                                        class="fa fa-pencil fa-lg"></i></button>
+
+
                                         </td>
                                     </tr>
                                 </form>
+                            @endforeach
                         </table>
                     </div>
                 </div>

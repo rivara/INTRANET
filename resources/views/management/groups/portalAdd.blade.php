@@ -20,6 +20,7 @@
             </div>
             <div class="col-sm-8"></div>
         </div>
+
         <div class="row justify-content-center">
             <table class="table table-striped table-bordered table-info" border="1px solid black">
                 <form method="GET" action="{{ route('addGrupoPortal') }}">

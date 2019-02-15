@@ -79,11 +79,13 @@ Route::group(['middleware' => 'revalidate'], function() {
 
 //Agora
 //addFile
-    Route::get('add', 'Auth\AgoraController@actionAddFile')->name('addFile');
+    Route::get('add', 'Auth\AgoraController@upload')->name('upload');
+    Route::get('add/file', 'Auth\AgoraController@actionGoAddFile')->name('goAddFile');
+
 //deleteFile
     Route::get('delete', 'Auth\AgoraController@actionDeleteFile')->name('deleteFile');
 //back
-    Route::get('backk', 'Auth\AgoraController@actionBackAgora')->name('backAgora');
+    Route::get('back', 'Auth\AgoraController@actionBackAgora')->name('backAgora');
 
 
 //DESB2

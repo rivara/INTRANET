@@ -332,10 +332,10 @@ background-color: blue;
     text-align: center;
     margin-top: 60px;
 }
-
+/*
 input[type="file"] {
     display: none;
-}
+}*/
 .custom-file-upload {
     display: inline-block;
     padding: 6px 9px;

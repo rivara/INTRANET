@@ -54,3 +54,11 @@ if (token) {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+// bootstrap.js
+
+/**
+ * Dropzone
+ */
+
+window.Dropzone = require('dropzone');
+Dropzone.autoDiscover = false;
