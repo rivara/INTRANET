@@ -40,8 +40,6 @@
 
                             <?php $ficheros = DB::table('archivos')->get(); ?>
                             @foreach($ficheros as $fichero)
-
-
                                     <tr>
                                         <td>
                                             {{$fichero->id}}
