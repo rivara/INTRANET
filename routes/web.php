@@ -81,6 +81,13 @@ Route::group(['middleware' => 'revalidate'], function() {
 //addFile
     Route::get('add', 'Auth\AgoraController@upload')->name('upload');
     Route::get('add/file', 'Auth\AgoraController@actionGoAddFile')->name('goAddFile');
+    Route::get('download', 'Auth\AgoraController@actionDownload')->name('download');
+
+
+
+
+
+
 
 //deleteFile
     Route::get('delete', 'Auth\AgoraController@actionDeleteFile')->name('deleteFile');

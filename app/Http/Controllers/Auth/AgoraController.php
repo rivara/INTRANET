@@ -19,7 +19,8 @@ class AgoraController
 
     public function actionGoAddFile()
     {
-        return view('agora/carga2');
+        return view('agora/carga');
+       // return view('agora/prueba');
     }
 
     public function  actionBackAgora()
@@ -41,12 +42,56 @@ class AgoraController
 
     public function actionDeleteFile(Request $request)
     {
-        echo $request['id'];
-        Storage::delete('file.jpg');
+        $name = DB::table('archivos')->where('id', $request["id"])->value('nombre');
+        Storage::disk('local')->delete($name, 'Contents');
         DB::table('archivos')->where(['id' => $request["id"]])->delete();
-        //eliminar fichero
+        //Eliminar fichero
         return view('agora/docu');
     }
+
+
+    public function actionDownload(Request $request)
+    {
+        $name = DB::table('archivos')->where('id', $request["id"])->value('nombre');
+        return Storage::download($name);
+    }
+
+
+
+
+    public function multifileupload()
+    {
+        return view('dropzoneJs');
+    }
+
+    public function store(Request $request)
+    {
+        $image = $request->file('file');
+        $imageName = time() . $image->getClientOriginalName();
+        $upload_success = $image->move(public_path('images'), $imageName);
+
+        if ($upload_success) {
+            return response()->json($upload_success, 200);
+        } // Else, return error 400
+        else {
+            return response()->json('error', 400);
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

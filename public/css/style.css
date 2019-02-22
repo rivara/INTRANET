@@ -284,6 +284,10 @@ background-color: blue;
 }
 
 /**margin**/
+.margin30{
+    margin:20%;
+}
+
 .margin10px{
     margin: 10px;
 }
@@ -354,6 +358,8 @@ input[type="file"] {
 
 }
 
+
+
 .table-warning thead {
     background-color: #ffed4a !important;
 }
@@ -374,6 +380,33 @@ input[type="file"] {
 }
 .btn-warning b {
     color:#595959 !important;
+}
+
+
+.holder_default {
+    width:500px;
+    height:180px;
+    border: 10px dashed #ccc;
+}
+
+#holder.hover {
+    width:400px;
+    height:180px;
+    border: 10px dashed #0c0 !important;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+.visible {
+    visibility: visible;
+}
+
+#droptarget {
+    height:180px;
+    width: 100%;
+    border: 3px dashed #ffed4a;
 }
 
 /*******************************************************/

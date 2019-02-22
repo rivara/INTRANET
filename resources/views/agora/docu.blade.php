@@ -40,7 +40,7 @@
 
                             <?php $ficheros = DB::table('archivos')->get(); ?>
                             @foreach($ficheros as $fichero)
-                                <form class="floatLeft" method="GET"  action="{{ route('deleteFile') }}">
+
 
                                     <tr>
                                         <td>
@@ -50,19 +50,25 @@
                                             {{$fichero->descripcion}}
                                         </td>
                                         <td>
-                                            <i class="fa fa-floppy-o" aria-hidden="true"></i>
-                                            {{$fichero->nombre}}
+                                            <b>nombre: </b>{{$fichero->nombre}}
                                             {{$fichero->otros}}
+                                            <form class="floatRight" method="GET" action="{{route('download')}}">
+                                                <button type="submit" name="id"  class="btn btn-light btnE">
+                                                    <i class="fa fa-floppy-o"></i>
+                                                </button>
+                                            </form>
                                         </td>
                                         <td>
-
+                                            <form class="floatLeft" method="GET"  action="{{ route('deleteFile') }}">
+                                            <button type="submit" name="id" value="{{$fichero->id}}" class="btn btn-light btnE "><i
+                                                        class="fa fa-trash fa-lg"></i></button>
                                             <button type="submit" name="id" value="{{$fichero->id}}" class="btn btn-light btnE "><i
                                                         class="fa fa-pencil fa-lg"></i></button>
 
-
+                                            </form>
                                         </td>
                                     </tr>
-                                </form>
+
                             @endforeach
                         </table>
                     </div>

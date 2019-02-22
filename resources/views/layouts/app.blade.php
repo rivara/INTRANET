@@ -16,6 +16,7 @@
     <script src="{{ asset('js/app.js') }}" ></script>
     <script src="{{ asset('js/Gruntfile.js')}}"></script>
     <script src="{{ asset('js/simple-iconpicker.js')}}"></script>
+    <script src="{{ asset('js/dropzone.js')}}"></script>
     <script>
         var whichInput = 0;
 
