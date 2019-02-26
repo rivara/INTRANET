@@ -87,6 +87,10 @@ $(".delete").click(function(){
      //persiana de mensaje
     $("#alert").fadeTo(2000, 500).slideUp(500, function(){$("#alert").slideUp(500);});
 
+    $('form input').change(function () {
+        $('form p').text(this.files.length + " file(s) selected");
+    });
+
 
 
 });

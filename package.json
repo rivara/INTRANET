@@ -19,6 +19,7 @@
         "vue": "^2.5.17"
     },
     "dependencies": {
+        "bootstrap-fileinput": "^4.5.2",
         "dropzone": "^5.5.1",
         "font-awesome": "^4.7.0",
         "js-yaml": "^3.12.1"

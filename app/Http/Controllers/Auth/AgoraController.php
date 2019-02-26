@@ -12,6 +12,7 @@ use App\Upload;
 use Illuminate\Http\Request;
 use DB;
 use Redirect;
+use Response;
 use Session;
 use Webpatser\Uuid\Uuid;
 class AgoraController
@@ -30,6 +31,7 @@ class AgoraController
 
     public function upload(Request $request)
     {
+
         $descripcion=$request['descripcion'];
         Storage::disk('local')->put($request['file'], 'Contents');
         $size = Storage::size($request['file']);
@@ -50,10 +52,22 @@ class AgoraController
     }
 
 
+
     public function actionDownload(Request $request)
     {
         $name = DB::table('archivos')->where('id', $request["id"])->value('nombre');
-        return Storage::download($name);
+        //return response()->download(storage_path('app\public\\'.$name));
+        //$file= Storage::disk('local')->getDriver()->getAdapter()->applyPathPrefix($name);
+        //PDF file is stored under project/public/download/info.pdf
+        // $file= public_path(). "/download/info.pdf";
+        //PDF file is stored under project/public/download/info.pdf
+        $file= Storage::disk('local')->getDriver()->getAdapter()->applyPathPrefix($name);
+        //--->
+        return Storage::disk('local')->get($file);
+       // return Response::download($file);
+
+
+
     }
 
 

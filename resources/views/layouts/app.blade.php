@@ -10,13 +10,16 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Portal-Empresa') }}</title>
     <!-- Scripts -->
-    <script src="{{ asset('js/jquery-3.3.3.min.js') }}"></script>
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/hall.js') }}" ></script>
     <script src="{{ asset('js/app.js') }}" ></script>
     <script src="{{ asset('js/Gruntfile.js')}}"></script>
     <script src="{{ asset('js/simple-iconpicker.js')}}"></script>
-    <script src="{{ asset('js/dropzone.js')}}"></script>
+    <script src="{{ asset('js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{ asset('js/jsDrag/plugins/sortable.js')}}"></script>
+    <script src="{{ asset('js/jsDrag/fileinput.js')}}"></script>
+    <script src="{{ asset('js/jsDrag/locales/fr.js')}}"></script>
+    <script src="{{ asset('js/jsDrag/locales/es.js')}}"></script>
     <script>
         var whichInput = 0;
 
@@ -26,6 +29,7 @@
             $('.input3').iconpicker(".input3");
         });
     </script>
+
     @stack('scripts')
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
@@ -35,6 +39,8 @@
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/font-awesome.css') }}" rel="stylesheet">
     <link href="{{ asset('css/simple-iconpicker.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/fileinput.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/themes/explorer-fas/theme.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">

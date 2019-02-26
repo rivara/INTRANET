@@ -24,7 +24,7 @@
                 <div class="card-body">
 
                     <div class="row">
-                        <table class="table table-striped table-bordered table-warning" border="1px solid black">
+                        <table class="table tableAgora">
                             <thead>
                             <th>ID</th>
                             <th>Descripción</th>
@@ -33,7 +33,6 @@
                                 <form class="floatRight" method="GET" action="{{ route('goAddFile') }}">
                                     <button type="submit" name="submit" value="Edit" class="btn  btnE floatRight"><i
                                                 class="fa fa-plus fa-lg"></i></button>
-                                    <input type="hidden" value="">
                                 </form>
                             </th>
                             </thead>
@@ -42,27 +41,30 @@
                             @foreach($ficheros as $fichero)
                                     <tr>
                                         <td>
-                                            {{$fichero->id}}
+                                            <i class="fa fa-file-pdf-o fa-4x" aria-hidden="true"></i>
+
                                         </td>
                                         <td>
-                                            {{$fichero->descripcion}}
+                                            <b>{{$fichero->descripcion}}</b>
+
                                         </td>
                                         <td>
-                                            <b>nombre: </b>{{$fichero->nombre}}
+                                            <b>{{$fichero->nombre}}</b>
                                             {{$fichero->otros}}
-                                            <form class="floatRight" method="GET" action="{{route('download')}}">
-                                                <button type="submit" name="id"  class="btn btn-light btnE">
-                                                    <i class="fa fa-floppy-o"></i>
-                                                </button>
-                                            </form>
+
+
                                         </td>
                                         <td>
                                             <form class="floatLeft" method="GET"  action="{{ route('deleteFile') }}">
                                             <button type="submit" name="id" value="{{$fichero->id}}" class="btn btn-light btnE "><i
                                                         class="fa fa-trash fa-lg"></i></button>
-                                            <button type="submit" name="id" value="{{$fichero->id}}" class="btn btn-light btnE "><i
-                                                        class="fa fa-pencil fa-lg"></i></button>
+                                            </form>
 
+                                            <form class="floatLeft" method="GET" action="{{route('download')}}">
+                                                <button type="submit" name="id"  class="btn btn-light btnE">
+                                                    <i class="fa fa-download fa-2x" aria-hidden="true"></i>
+                                                    <input type="hidden" name="id" value={{$fichero->id}} >
+                                                </button>
                                             </form>
                                         </td>
                                     </tr>

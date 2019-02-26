@@ -403,11 +403,22 @@ input[type="file"] {
     visibility: visible;
 }
 
-#droptarget {
-    height:180px;
-    width: 100%;
-    border: 3px dashed #ffed4a;
+.btn-file input[type="file"]{
+    background-color: red !important;
 }
+input-group file-caption-main{
+    background-color: red !important;
+}
+.tableAgora{
+    background-color: #fff;
+    border: 1px solid #1b1e21;
+}
+
+.tableAgora i{
+  color:red;
+}
+
+
 
 /*******************************************************/
 /*********************GENERAL*****************************/
