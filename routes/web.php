@@ -88,7 +88,6 @@ Route::group(['middleware' => 'revalidate'], function() {
 
 
 
-
 //deleteFile
     Route::get('delete', 'Auth\AgoraController@actionDeleteFile')->name('deleteFile');
 //back

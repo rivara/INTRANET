@@ -299,7 +299,10 @@ background-color: blue;
 }
 
 .marginLeft90{
-    margin-left: 90%;
+     margin-left: 90%;
+ }
+.marginLeft20{
+    margin-left: 20%;
 }
 .margintop10px{
     margin-top: 10px;
@@ -314,7 +317,12 @@ background-color: blue;
     float:right;
 }
 
-
+.refresh{
+    position: relative;
+    left: 0px;
+    top: 0px;
+    z-index: 1;
+}
 /*******************************************************/
 /*********************AGORA*****************************/
 /*******************************************************/
@@ -403,28 +411,11 @@ input[type="file"] {
     visibility: visible;
 }
 
-.btn-file input[type="file"]{
-    background-color: red !important;
-}
-input-group file-caption-main{
-    background-color: red !important;
-}
-.tableAgora{
-    background-color: #fff;
-    border: 1px solid #1b1e21;
-}
-
-.tableAgora i{
-  color:red;
-}
-
 
 
 /*******************************************************/
 /*********************GENERAL*****************************/
 /*******************************************************/
-
-
 
 .btn-circle {
     width: 30px;

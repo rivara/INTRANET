@@ -66,6 +66,8 @@ class LoginController extends Controller
         if ($request['password'] == decrypt($claveDB)) {
             //recoger datos
             $usuarioId = DB::table('usuarios')->where('email', $request['email'])->pluck('id');
+
+
             $nombre = DB::table('usuarios')->where('email', $request['email'])->pluck('nombre');
             //saco los grupos que pertenece el usuario
             $gruposId = DB::table('usuarios_grupos')->where('id_usuario', $usuarioId)->pluck('id_grupo');
@@ -82,7 +84,7 @@ class LoginController extends Controller
             $portales = array_unique($portales);
             //Mete el email en una variable de sesión
             session()->put('mail', $request['email']);
-            return view('/home', ['nombre' => $nombre, 'portales' => $portales]);
+            return view('/home', ['nombre' => $nombre,'id_usuario' => $usuarioId, 'portales' => $portales]);
         }
         else {
             //Si no lanzo mensaje de error
@@ -124,7 +126,7 @@ class LoginController extends Controller
 
         }
         if ($url[0] == "agora") {
-             return view('agora/docu');
+             return view('agora/docu', ['id_usuario' => $request['id_usuario']]);
 
         }
 
@@ -138,6 +140,7 @@ class LoginController extends Controller
     {
         $usuarioId = DB::table('usuarios')->where('email', session('mail'))->pluck('id');
         $nombre = DB::table('usuarios')->where('email', session('mail'))->pluck('nombre');
+        $nombreId= DB::table('usuarios')->where('email', session('mail'))->pluck('id');
         //saco los grupos que pertenece el usuario
         $gruposId = DB::table('usuarios_grupos')->where('id_usuario', $usuarioId)->pluck('id_grupo');
         //Saco los portales que puede ver en los grupos en los que esta ese usuario
@@ -151,7 +154,7 @@ class LoginController extends Controller
         }
         //Elimina duplicados
         $portales = array_unique($portales);
-        return view('/home', ['nombre' => $nombre, 'portales' => $portales]);
+        return view('/home', ['nombre' => $nombre,'id_usuario' => $nombreId, 'portales' => $portales]);
     }
 
 

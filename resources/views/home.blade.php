@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="title">
-        <h1>Hola <?php echo $nombre[0] ?></h1>
+        <h1>Holsa <?php echo $nombre[0] ?></h1>
     </div>
 
     <div class="center">
@@ -17,6 +17,7 @@
 
                         <input type="hidden" name="id" value="<?php echo($portal[0]->id) ?>">
                         <input type="hidden" name="nombre" value="<?php echo $nombre[0] ?>">
+                        <input type="hidden" name="id_usuario" value="<?php echo $id_usuario ?>">
                         <input type="hidden" name="oAccion" value="inicio">
                 </form>
             </div>
