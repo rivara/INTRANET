@@ -29,8 +29,16 @@
                     <span>editar Portales</span>
                 </button>
             </form>
+
             </div>
-            <div class="col-sm-4"></div>
+            <div class="col-sm-4">
+                <form class="floatLeft" action="{{route('portals')}}" method="GET">
+                    <button type="submit" class="btn btn-primary btn-sm">
+                        <i class="fa  fa-book"></i>
+                        <span>biblioteca </span>
+                    </button>
+                </form>
+            </div>
             </div>
         <div class="row justify-content-center">
             <table class="table table-striped table-bordered table-info" border="1px solid black">

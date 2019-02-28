@@ -26,8 +26,6 @@ class PortalsController
 
     public function actionRecord(Request $request){
 
-
-
         $nombreError = array('nombre' => ' ');
         $urlError = array('url' => ' ');
         $iconoError = array('icono' => ' ');
@@ -44,9 +42,6 @@ class PortalsController
         if (is_null($request['nombre']) || is_null($request['url']) || is_null($request['icono'])) {
             return redirect()->back()->withErrors(array_merge($nombreError, $urlError,$iconoError));
         }
-
-
-
 
         $nombreError = array('nombre' => 'Existe este portal');
         // si el nombre ya existe no se podara grabar por lo que reenviara un mensaje de error

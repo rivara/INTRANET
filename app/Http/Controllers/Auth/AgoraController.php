@@ -29,6 +29,21 @@ class AgoraController
         return view('agora/docu', ['id_usuario' => $request['id_usuario']]);
     }
 
+
+    public function  actionGoAddSubGroup (Request $request)
+    {
+        return view('agora/subgrupoAdd', ['id_usuario' => $request['id_usuario'],'id_grupo' => $request['id_grupo'],'nombre_grupo' => $request['nombre_grupo']]);
+    }
+
+
+    public function  actionBackDocu (Request $request)
+    {
+        return view('agora/docu', ['id_usuario' => $request['id_usuario']]);
+    }
+
+
+
+
     public function upload(Request $request)
     {
 
@@ -140,6 +155,39 @@ class AgoraController
 
 
 
+    public function actionSubGroupRecord(Request $request){
+
+
+        $nombreError = array('nombre' => ' ');
+
+
+        if (is_null($request['nombre'])) {
+            $nombreError = array('nombre' => 'No debe ser vacio');
+        }
+
+
+
+
+        if (is_null($request['nombre'])) {
+            return redirect()->back()->withErrors(array_merge($nombreError));
+        }
+
+        $nombreError = array('nombre' => 'Existe este portal');
+        // si el nombre ya existe no se podara grabar por lo que reenviara un mensaje de error
+        $id_subgrupo=DB::table('subgrupos')->where('nombre',strtoupper($request['nombre']))->pluck('id');
+
+        if(count($id_subgrupo)== 0) {
+            //grabo el subgrupo
+            DB::table('subgrupos')->insert(array('nombre' =>$request['nombre']));
+            $id_subgrupo=DB::table('subgrupos')->where('nombre',$request['nombre'])->pluck('id');
+            $id_subgrupo=substr($id_subgrupo,1,1);
+            // lo relaciono con el subgrupo
+            DB::table('grupos_subgrupos')->insert(array('id_grupo'=>$request['id_grupo'],'id_subgrupo'=> $id_subgrupo));
+            return view('agora/docu', ['id_usuario' => $request['id_usuario']]);
+        }else{
+            return redirect()->back()->withErrors(array_merge($nombreError));
+        }
+    }
 
 
 

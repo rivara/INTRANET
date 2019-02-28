@@ -299,13 +299,30 @@ background-color: blue;
 }
 
 .marginLeft90{
-     margin-left: 90%;
+     margin-left: 90% !important;
  }
+.marginLeft45{
+    margin-left: 45% !important;
+}
 .marginLeft20{
-    margin-left: 20%;
+    margin-left: 20% !important;
+}
+
+.marginLeft60px{
+    margin-left: 60px !important;
+}
+
+
+.marginLeft30px{
+    margin-left: 30px !important;
+}
+
+
+.marginLeft15px{
+    margin-left: 15px !important;
 }
 .margintop10px{
-    margin-top: 10px;
+    margin-top: 10px !important;
 }
 
 /**float**/
