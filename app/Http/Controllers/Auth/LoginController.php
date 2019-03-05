@@ -126,7 +126,7 @@ class LoginController extends Controller
 
         }
         if ($url[0] == "agora") {
-             return view('agora/docu', ['id_usuario' => $request['id_usuario']]);
+             return view('agora/carpetas', ['id_usuario' => $request['id_usuario']]);
 
         }
 

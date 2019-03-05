@@ -69,7 +69,8 @@
                         </td>
                         <td>
                             <button type="submit" name="submit" value="Edit" class="btn btn-light btnE "><i
-                                        class="fa fa-pencil fa-lg"></i></button>
+                                        class="fa fa-pencil fa-lg"></i>
+                            </button>
 
                             <button class="delete btn btn-light btnE " type="button" data-toggle="modal"
                                     data-target="#confirm" value="{{$portal->id}}">

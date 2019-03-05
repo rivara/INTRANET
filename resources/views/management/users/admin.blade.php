@@ -1,4 +1,3 @@
-
 @extends('layouts.app')
 @section('content')
     <div class="subtitle">
@@ -11,24 +10,25 @@
                     <button class="btn btn-primary btnE "><i class=" fa fa-home  fa-lg"></i></button>
                 </form>
             </div>
-                <div class="col-sm-3">
-                    <input type="text" class="form-control busca" placeholder="Buscar..." aria-label="Recipient's username">
-                </div>
+            <div class="col-sm-3">
+                <input type="text" class="form-control busca" placeholder="Buscar..." aria-label="Recipient's username">
+            </div>
             <div class="col-sm-2">
-                <form class="floatLeft marginBottom20px" method="GET" action="{{route('groups')}}" >
+                <form class="floatLeft marginBottom20px" method="GET" action="{{route('groups')}}">
                     <button type="submit" class="btn btn-primary btn-sm">
                         <i class="fa fa-users"></i>
                         <span>editar grupos</span>
-                    </button><input type="hidden" name="nombre" value='{{$nombre}}'>
+                    </button>
+                    <input type="hidden" name="nombre" value='{{$nombre}}'>
                 </form>
             </div>
             <div class="col-sm-2">
-            <form class="floatLeft" action="{{route('portals')}}" method="GET">
-                <button type="submit" class="btn btn-primary btn-sm">
-                    <i class="fa  fa-desktop"></i>
-                    <span>editar Portales</span>
-                </button>
-            </form>
+                <form class="floatLeft" action="{{route('portals')}}" method="GET">
+                    <button type="submit" class="btn btn-primary btn-sm">
+                        <i class="fa  fa-desktop"></i>
+                        <span>editar Portales</span>
+                    </button>
+                </form>
 
             </div>
             <div class="col-sm-4">
@@ -39,7 +39,7 @@
                     </button>
                 </form>
             </div>
-            </div>
+        </div>
         <div class="row justify-content-center">
             <table class="table table-striped table-bordered table-info" border="1px solid black">
                 <thead>
@@ -80,11 +80,10 @@
                                             class="fa fa-pencil fa-lg"></i></button>
 
 
-
-                                <button type="button" class="delete btn btn-light btnE "  data-toggle="modal"  data-target="#confirm" value="{{$value->id}}">
+                                <button type="button" class="delete btn btn-light btnE " data-toggle="modal"
+                                        data-target="#confirm" value="{{$value->id}}">
                                     <i class="fa fa-trash fa-lg"></i>
                                 </button>
-
                             </td>
                             <input type="hidden" name="id" value="{{$value->id}}">
                             <input type="hidden" name="nombre" value="{{$nombre}}">
@@ -112,7 +111,7 @@
                         <button type="submit" name="submit" value="Delete" class="btn btn-danger ">
                             borrar
                         </button>
-                        <input type="hidden" name="usuarioId"   id="id">
+                        <input type="hidden" name="usuarioId" id="id">
                         <input type="hidden" name="nombre" value="{{$nombre}}">
                     </form>
                 </div>

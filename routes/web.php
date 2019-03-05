@@ -81,10 +81,13 @@ Route::group(['middleware' => 'revalidate'], function() {
 //addFile  renombrar
     Route::get('add', 'Auth\AgoraController@upload')->name('upload');
     Route::get('add/file', 'Auth\AgoraController@actionGoAddFile')->name('goAddFile');
-    Route::get('add/subgroup', 'Auth\AgoraController@actionGoAddSubGroup')->name('goAddSubGroup');
+    Route::get('subgroup', 'Auth\AgoraController@actionGoAddSubGroup')->name('goAddSubGroup');
+    Route::get('subgroup/go_record', 'Auth\AgoraController@actionGoSubGroup')->name('goSubGroup');
     Route::get('download', 'Auth\AgoraController@actionDownload')->name('download');
     Route::get('subgroup/record', 'Auth\AgoraController@actionSubGroupRecord')->name('subGroupRecord');
-    Route::post('docuback', 'Auth\AgoraController@actionBackDocu')->name('backDocu');
+    Route::get('subgroup/delete', 'Auth\AgoraController@actionSubGroupDelete')->name('subGroupDelete');
+    Route::get('subCarpeta', 'Auth\AgoraController@actionGoSubCarpeta')->name('goSubCarpeta');
+    Route::get('carpeta', 'Auth\AgoraController@actionBackCarpeta')->name('backCarpeta');
 
 
 
