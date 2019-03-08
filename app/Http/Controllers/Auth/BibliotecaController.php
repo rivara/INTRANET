@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Facades\Storage;
 use App\Upload;
 use Illuminate\Http\Request;
@@ -17,12 +18,12 @@ use Response;
 use Session;
 use Webpatser\Uuid\Uuid;
 
-class AgoraController
+class BibliotecaController
 {
 
     public function actionGoAddFile(Request $request)
     {
-        return view('agora/ficheros', [
+        return view('biblioteca/ficheros', [
             'id_usuario' => $request['id_usuario'],
             'id_subgrupo' => $request['id_subgrupo'],
             'id_grupo' => $request['id_grupo']
@@ -31,13 +32,13 @@ class AgoraController
 
     public function actionBackAgora(Request $request)
     {
-        return view('agora/carpeta', ['id_usuario' => $request['id_usuario']]);
+        return view('biblioteca/carpeta', ['id_usuario' => $request['id_usuario']]);
     }
 
 
     public function actionGoAddSubGroup(Request $request)
     {
-        return view('agora/subgrupoAdd', [
+        return view('biblioteca/subgrupoAdd', [
             'id_usuario' => $request['id_usuario'],
             'id_grupo' => $request['id_grupo'],
             'id_subgrupo' => $request['id_subgrupo']
@@ -47,12 +48,12 @@ class AgoraController
 
     public function actionBackCarpeta(Request $request)
     {
-        return view('agora/carpetas', ['id_usuario' => $request['id_usuario']]);
+        return view('biblioteca/carpetas', ['id_usuario' => $request['id_usuario']]);
     }
 
     public function actionGoSubGroup(Request $request)
     {
-        return view('agora/subgrupo', [
+        return view('biblioteca/subgrupo', [
             'id_usuario' => $request['id_usuario'],
             'id_grupo' => $request['id_grupo'],
             'id_subgrupo' => $request['id_subgrupo']
@@ -62,19 +63,33 @@ class AgoraController
 
     public function actionGoSubCarpeta(Request $request)
     {
-        return view('agora/subcarpetas', ['id_usuario' => $request['id_usuario'], 'id_grupo' => $request['id_grupo']]);
+        return view('biblioteca/subcarpetas', ['id_usuario' => $request['id_usuario'], 'id_grupo' => $request['id_grupo']]);
     }
 
 
     public function upload(Request $request)
     {
-        $descripcion = $request['descripcion'];
-        Storage::disk('local')->put($request['file'], 'Contents');
-        $size = Storage::size($request['file']);
+        //get file extension
+        $ext = $request->file('file')->getClientOriginalExtension();
+
+        //filename to store
+        $filename =$request->file('file')->getClientOriginalName();
+
+        //Upload File to external server
+        Storage::disk('local')->put( $filename, fopen($request->file('file'), 'r+'));
+        $path = Storage::disk('local')->getAdapter()->getPathPrefix();
+        $descripcion="";
+
+        if (! is_Null($request['descripcion'])){
+            $descripcion = $request['descripcion'];
+        }
+
+
+
+        $size = $request->file('file')->getsize();
         $todayDate = date("Y-m-d");
         $otros = 'Fecha:' . $todayDate . ' Peso:' . $size . " Kb";
         //icon + color
-        $ext = pathinfo($request['file'], PATHINFO_EXTENSION);
         $formato = "fa fa-file-o text-info";
         switch ($ext) {
             //formato imagen
@@ -122,13 +137,13 @@ class AgoraController
                 break;
         }
         DB::table('archivos')->insert(array(
-            'descripcion' => strtoupper($descripcion),
-            'nombre' => $request['file'],
+            'descripcion' => $descripcion,
+            'nombre' => $request->file('file')->getClientOriginalName(),
             'otros' => $otros,
             'formato' => $formato,
             'id_subgrupo' => $request['id_subgrupo']
         ));
-        return view('agora/subgrupo', [
+        return view('biblioteca/subgrupo', [
             'id_usuario' => $request['id_usuario'],
             'id_grupo' => $request['id_grupo'],
             'id_subgrupo' => $request['id_subgrupo']
@@ -142,7 +157,7 @@ class AgoraController
         Storage::disk('local')->delete($name, 'Contents');
         DB::table('archivos')->where(['id' => $request["id"]])->delete();
         //Eliminar fichero
-        return view('agora/subgrupo', [
+        return view('biblioteca/subgrupo', [
             'id_usuario' => $request['id_usuario'],
             'id_grupo' => $request['id_grupo'],
             'id_subgrupo' => $request['id_subgrupo']
@@ -152,10 +167,13 @@ class AgoraController
 
     public function actionDownload(Request $request)
     {
-        $name = DB::table('archivos')->where('id_subgrupo', $request["id_subgrupo"])->value('nombre');
-        $file = Storage::disk('local')->getDriver()->getAdapter()->applyPathPrefix($name);
-        return Response::download($file, $name);
+        $name = DB::table('archivos')->where('id', $request["id"])->value('nombre');
+        //recoje mal la extension del fichero
+         $myFile = Storage::disk('local')->getDriver()->getAdapter()->applyPathPrefix($name);
+        return Response::download($myFile);
+
     }
+
 
 
     public function multifileupload()
@@ -199,7 +217,7 @@ class AgoraController
                 'id_grupo' => $request['id_grupo'],
                 'id_subgrupo' => $id_subgrupo[0]
             ));
-            return view('agora/subcarpetas', [
+            return view('biblioteca/subcarpetas', [
                 'id_usuario' => $request['id_usuario'],
                 'id_grupo' => $request['id_grupo'],
                 'id_subgrupo' => $request['id_subgrupo']
@@ -218,12 +236,10 @@ class AgoraController
         DB::table('subgrupos')->where('id', $request["id_subgrupo"])->delete();
         //Elimino archivos -> esto podriamos tenerlo en una carpeta old
         DB::table('archivos')->where('id_subgrupo', $request["id_subgrupo"])->delete();
-        return view('agora/subcarpetas', [
+        return view('biblioteca/subcarpetas', [
             'id_usuario' => $request['id_usuario'],
             'id_grupo' => $request['id_grupo'],
             'id_subgrupo' => $request['id_subgrupo']
         ]);
     }
-
-
 }

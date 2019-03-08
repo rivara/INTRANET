@@ -79,22 +79,21 @@ Route::group(['middleware' => 'revalidate'], function() {
 
 //Agora
 //addFile  renombrar
-    Route::get('add', 'Auth\AgoraController@upload')->name('upload');
-    Route::get('add/file', 'Auth\AgoraController@actionGoAddFile')->name('goAddFile');
-    Route::get('subgroup', 'Auth\AgoraController@actionGoAddSubGroup')->name('goAddSubGroup');
-    Route::get('subgroup/go_record', 'Auth\AgoraController@actionGoSubGroup')->name('goSubGroup');
-    Route::get('download', 'Auth\AgoraController@actionDownload')->name('download');
-    Route::get('subgroup/record', 'Auth\AgoraController@actionSubGroupRecord')->name('subGroupRecord');
-    Route::get('subgroup/delete', 'Auth\AgoraController@actionSubGroupDelete')->name('subGroupDelete');
-    Route::get('subCarpeta', 'Auth\AgoraController@actionGoSubCarpeta')->name('goSubCarpeta');
-    Route::get('carpeta', 'Auth\AgoraController@actionBackCarpeta')->name('backCarpeta');
 
+    Route::get('add/file', 'Auth\BibliotecaController@actionGoAddFile')->name('goAddFile');
+    Route::get('subgroup', 'Auth\BibliotecaController@actionGoAddSubGroup')->name('goAddSubGroup');
+    Route::get('subgroup/go_record', 'Auth\BibliotecaController@actionGoSubGroup')->name('goSubGroup');
+    Route::get('subgroup/record', 'Auth\BibliotecaController@actionSubGroupRecord')->name('subGroupRecord');
+    Route::get('subgroup/delete', 'Auth\BibliotecaController@actionSubGroupDelete')->name('subGroupDelete');
+    Route::get('subCarpeta', 'Auth\BibliotecaController@actionGoSubCarpeta')->name('goSubCarpeta');
+    Route::get('carpeta', 'Auth\BibliotecaController@actionBackCarpeta')->name('backCarpeta');
 
-
-
+//record file
+    Route::post('upload', 'Auth\BibliotecaController@upload')->name('upload');
+    Route::get('download', 'Auth\BibliotecaController@actionDownload')->name('download');
 
 //deleteFile
-    Route::get('delete', 'Auth\AgoraController@actionDeleteFile')->name('deleteFile');
+    Route::get('delete', 'Auth\BibliotecaController@actionDeleteFile')->name('deleteFile');
 //back
     Route::get('back', 'Auth\AgoraController@actionBackAgora')->name('backAgora');
 

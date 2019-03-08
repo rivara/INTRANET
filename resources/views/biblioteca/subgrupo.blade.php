@@ -66,15 +66,20 @@
                             </td>
                             <td>
                                 <form class="floatLeft" method="GET" action="{{route('deleteFile')}}">
-                                    <button type="submit" name="id" value="{{$fichero->id}}" class="btn btnE ">
+                                    <button type="submit" class="btn btnE ">
                                         <i class="fa fa-trash fa-2x"></i></button>
+
+
+                                    <input type="hidden" name="id" value={{$fichero->id}} >
                                     <input type="hidden" name="id_usuario" value={{$id_usuario}} >
                                     <input type="hidden" name="id_grupo" value={{$id_grupo}}>
                                     <input type="hidden" name="id_subgrupo" value={{$id_subgrupo}} >
                                 </form>
+
                                 <form class="floatLeft" method="GET" action="{{route('download')}}">
-                                    <button type="submit" name="id" class="btn  btnE">
+                                    <button type="submit"  class="btn  btnE">
                                         <i class="fa fa-download fa-2x" aria-hidden="true"></i>
+                                        <input type="hidden" name="id" value={{$fichero->id}} >
                                         <input type="hidden" name="id_usuario" value={{$id_usuario}} >
                                         <input type="hidden" name="id_grupo" value={{$id_grupo}}>
                                         <input type="hidden" name="id_subgrupo" value={{$id_subgrupo}} >

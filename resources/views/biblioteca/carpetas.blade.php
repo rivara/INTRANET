@@ -30,7 +30,7 @@
                                 <p>
                                     <?php
                                     $num = DB::table('grupos_subgrupos')->where('id_grupo', $grupo[0]->id)->count();
-                                    echo "<small>".$num."&nbsp;</small>";
+                                    echo "<small>" . $num . "&nbsp;</small>";
                                     echo "<i class='fa fa-folder' aria-hidden='true'></i>";
                                     ?>
                                 </p>

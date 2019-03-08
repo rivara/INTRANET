@@ -118,15 +118,15 @@ class LoginController extends Controller
             return view('management/users/admin', ['nombre' => $nombre, 'usuarios' => $paginate]);
         }
         if ($url[0] == "desb2b") {
-            return view('/desb2b/index', ['oAccion' => $request['oAccion']]);
+            return view('/desb2b/index',['oAccion' => $request['oAccion'],'id_usuario' => $request['id_usuario']]);
         }
 
         if ($url[0] == "ferrcash") {
             return view('/desb2b-Ferrcash/index', ['oAccion' => $request['oAccion']]);
 
         }
-        if ($url[0] == "agora") {
-             return view('agora/carpetas', ['id_usuario' => $request['id_usuario']]);
+        if ($url[0] == "biblioteca") {
+             return view('biblioteca/carpetas', ['id_usuario' => $request['id_usuario']]);
 
         }
 

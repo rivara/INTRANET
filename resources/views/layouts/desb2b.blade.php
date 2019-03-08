@@ -56,10 +56,8 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <!--<ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
+            <ul class="navbar-nav">
+
                 <li class="nav-item">
                     <a class="nav-link" href="#">Features</a>
                 </li>
@@ -76,12 +74,25 @@
                         <a class="dropdown-item" href="#">Something else here</a>
                     </div>
                 </li>
-            </ul>-->
+            </ul>
+            <?php
+                //Grupos del usuraio id
+                $paginas_id = DB::table('usuarios_grupos')->where('id_usuario',$id_usuario)->value('id_grupo');
+
+
+                //Paginas GRUPOS
+                $paginas_id = DB::table('grupos_b2b')->where('id_grupo',$id_grupo)->value('nombre');
+
+                //PAGINAS
+                $paginas = DB::table('archivos')->where('id',$id_grupo)->value('nombre');
+            ?>
+              //foreach($paginas  $pagina)
             <ul>
                 <li>
-                {#porrtales->usuario#}
+                  {#$pagina#}
                 </li>
             </ul>
+            //endfor
         </div>
     </nav>
     <main class="py-4">
