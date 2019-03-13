@@ -32,10 +32,10 @@
 
             </div>
             <div class="col-sm-4">
-                <form class="floatLeft" action="{{route('portals')}}" method="GET">
+                <form class="floatLeft"  method="GET">
                     <button type="submit" class="btn btn-primary btn-sm">
-                        <i class="fa  fa-book"></i>
-                        <span>biblioteca </span>
+                        <i class="fa fa-th-list"></i>
+                        <span>menub2b</span>
                     </button>
                 </form>
             </div>

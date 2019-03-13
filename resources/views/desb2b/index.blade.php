@@ -1,16 +1,20 @@
 
 @extends('layouts.desb2b')
-@section('content')
 
-@if($oAccion=="inicio")
-<form action="{{ route('prueba') }}" method="GET">
+@include('desb2b.bar')
 
-</form>
-@endif
+<div id="dvContenido" class="separacion-vertical-arriba" align="center">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td height="100" align="center" valign="middle">
+                <table width="90%" border="0" cellspacing="0" cellpadding="0">
 
-@if($oAccion=="listado")
-
-
-@endif
-
-@endsection
+                        <td>
+                            <H1>Ferreterias X</H1>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>

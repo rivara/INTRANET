@@ -13,8 +13,9 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class desb2BController
 {
-    public function prueba(Request $request)
+    public function actionWebAdmLog(Request $request)
     {
+
         $admLog = new WebAdmLog();
         $fechaDesde= $request['fechaDesde'];
         $fechaHasta= $request['fechaHasta'];
@@ -25,20 +26,20 @@ class desb2BController
         $des=$admLog->des($request['des']);
         $userMag=$admLog->userMag($request['userMag']);
         $logs=$admLog->getRegistros($fechaDesde, $fechaHasta,null, null);
-        $request['oAccion']="listado";
         $collection = collect($logs);
         $page = $request['page'];
         $perPage = 10;
-        $paginate = new LengthAwarePaginator($collection->forPage($page, $perPage), $collection->count(), $perPage, $page, ['path'=>url('/desb2b/prueba')]);
-        return view('/desb2b/prueba', ['oAccion' =>  $request['oAccion'],'logs'=>$paginate,'email'=>$request['email'],'fechaDesde'=>$fechaDesde,
-            'fechaHasta'=>$fechaHasta,'empresa'=>$empresa,'cdclien'=>$cdclien,'cdsucur'=>$cdsucur,'seccion'=>$seccion,'des'=>$des,'userMag'=>$userMag]);
+        $paginate = new LengthAwarePaginator($collection->forPage($page, $perPage), $collection->count(), $perPage, $page, ['path'=>url('/WebAdmLog?oAccion=listado&id_usuario=[1]')]);
+        return view('/desb2b/WebAdmLog', ['oAccion' =>  $request['oAccion'],'logs'=>$paginate,'email'=>$request['email'],'fechaDesde'=>$fechaDesde,
+            'fechaHasta'=>$fechaHasta,'empresa'=>$empresa,'cdclien'=>$cdclien,'cdsucur'=>$cdsucur,'seccion'=>$seccion,'des'=>$des,'userMag'=>$userMag,'id_usuario'=>$request['id_usuario']]);
 
     }
 
-    public function backb2b(Request $request)
+    public function actionindex(Request $request)
     {
-        return view('/desb2b/prueba',['oAccion' => 'inicio']);
+       return view('/desb2b/Index',['oAccion' => 'inicio','id_usuario'=>$request['id_usuario']]);
     }
+
 
 
 }

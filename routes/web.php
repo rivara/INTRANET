@@ -99,12 +99,15 @@ Route::group(['middleware' => 'revalidate'], function() {
 
 
 //DESB2
-    Route::get('desb2b/prueba', 'Auth\Desb2bController@prueba')->name('prueba');
-    Route::get('desb2b/', 'Auth\Desb2bController@backb2b')->name('backb2b');
+    Route::get('WebAdmLog', 'Auth\Desb2bController@actionWebAdmLog')->name('WebAdmLog');
+    Route::get('Index/', 'Auth\Desb2bController@actionIndex')->name('Index');
 
 //DESB2-FERRCASH REVISAR
-    Route::get('desb2b-Ferrcash/prueba', 'Auth\Desb2bFerrcashController@prueba')->name('prueba');
-    Route::get('desb2b-Ferrcash/', 'Auth\Desb2bFerrcashController@backb2b')->name('backb2b');
+   // Route::get('WebAdmLog', 'Auth\Desb2bFerrcashController@WebAdmLog')->name('WebAdmLog');
+   // Route::get('desb2b-Ferrcash/', 'Auth\Desb2bFerrcashController@backb2b')->name('backb2b');
+
+
+
 //Admin password reset routes
     Route::get('password/reset','Auth\ForgotPasswordController@showLinkRequestForm')->name('request');
     Route::post('password/reset','Auth\ForgotPasswordController@sendResetLinkEmail')->name('forgot');

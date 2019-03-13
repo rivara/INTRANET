@@ -14,9 +14,9 @@
     <title>{{ config('app.name', 'Portal-Empresa') }}</title>
     <!-- Scripts -->
     <script src="{{ asset('js/jquery.min.js') }}"></script>
-    <script src="{{ asset('js/hall.js') }}" ></script>
-    <script src="{{ asset('js/app.js') }}" ></script>
-    <script src="{{ asset('js/comafe.js') }}" ></script>
+    <script src="{{ asset('js/hall.js') }}"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/comafe.js') }}"></script>
     <script src="{{ asset('js/jquery-1.12.4.js')}}"></script>
     <script src="{{ asset('js/jquery-ui.js')}}"></script>
 
@@ -33,71 +33,6 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 </head>
 <body>
-<div id="app">
-    <nav class="navbar navbar-expand-md navbar-light navbar-laravel headerC">
-        <div class="container ">
-
-           <span class="logoComafe"></span>
-
-            <div class="collapse navbar-collapse ">
-                <ul class="navbar-nav  ml-auto">
-                    <li class="nav-item active">
-                        <form action="{{ route('backHome') }}" method="GET">
-                        <button class="btn btn-link colorC"><i class="fa fa-home fa-lg"></i>home</button>
-                        </form>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <nav class="navbar navbar-expand-lg navbar-light colorC">
-        <a class="navbar-brand" href="#">Navbar</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav">
-
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Features</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Pricing</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Dropdown link
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                </li>
-            </ul>
-            <?php
-                //Grupos del usuraio id
-                $paginas_id = DB::table('usuarios_grupos')->where('id_usuario',$id_usuario)->value('id_grupo');
 
 
-                //Paginas GRUPOS
-                $paginas_id = DB::table('grupos_b2b')->where('id_grupo',$id_grupo)->value('nombre');
 
-                //PAGINAS
-                $paginas = DB::table('archivos')->where('id',$id_grupo)->value('nombre');
-            ?>
-              //foreach($paginas  $pagina)
-            <ul>
-                <li>
-                  {#$pagina#}
-                </li>
-            </ul>
-            //endfor
-        </div>
-    </nav>
-    <main class="py-4">
-        @yield('content')
-    </main>
-</div>
-</body>
-</html>

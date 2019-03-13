@@ -1,11 +1,8 @@
 
 @extends('layouts.desb2b')
-@section('content')
-
-<h1>PRUEBAs</h1>
+@include('desb2b.bar')
 @if($oAccion=="inicio")
-<?php //isset($llExpExcel)}} ?>
-<form action="{{ route('prueba') }}" method="GET">
+<form action="{{ route('WebAdmLog') }}" method="get">
         <div id="dvContenido" class="separacion-vertical-arriba" align="center">
             <table width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
@@ -94,17 +91,12 @@
                 </button>
                 <input type="hidden" name="oAccion" value="listado">
                 <input type="hidden" name="page" value="1">
+            <input type="hidden" name="id_usuario" value="{{$id_usuario}}">
 
 </form>
 @endif
 
 @if($oAccion=="listado")
-    <form action="{{route('backb2b')}}" method="GET">
-        @csrf
-        <button type="submit" name="submit" value="Edit" class="btn btn-light btnE ">
-            <i class="fa fa-arrow-left fa-lg"></i>
-        </button>
-    </form>
             <div class="center">
                 <table class="table table-striped table-bordered" border="1px solid black">
                     <thead>
@@ -115,7 +107,6 @@
                     <th>SECCION</th>
                     <th>TEXTO</th>
                     </thead>
-
                     <?php $descontador=9 ?>
                     @foreach($logs as $log)
                         <tr>
@@ -138,10 +129,7 @@
                         {{$logs->appends(['fechaDesde' => $fechaDesde,'fechaHasta'=>$fechaHasta,'empresa'=>$empresa,'cdclien'=>$cdclien,'cdsucur'=>$cdsucur,'des'=>$des,'userMag'=>$userMag])->links()}}
                     </div>
                 </div>
-
-
             </div>
 
 @endif
 
-@endsection
