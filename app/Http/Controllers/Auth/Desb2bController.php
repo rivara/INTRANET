@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Auth;
 use App\Library\WebAdmLog;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use DB;
 
 class desb2BController
 {
@@ -39,6 +40,49 @@ class desb2BController
     {
        return view('/desb2b/Index',['oAccion' => 'inicio','id_usuario'=>$request['id_usuario']]);
     }
+
+    public function actionGoMenu(Request $request)
+    {
+        return view("/management/menu/menu");
+    }
+
+    public function actionCreateMenu(Request $request)
+    {
+        return view("/management/menu/create");
+    }
+
+    public function actionUpdateMenu(Request $request)
+    {
+        return view("/management/menu/update",['id'=>$request['id']]);
+    }
+
+
+
+    public function actionRecordMenu(Request $request)
+    {
+        if (is_null($request['nombre'])) {
+            $nombreError = array('nombre' => 'No debe ser vacio');
+        }
+        if (is_null($request['nombre'])) {
+            return redirect()->back()->withErrors(array_merge($nombreError));
+        }
+
+        $nombreError = array('nombre' => 'Existe este grupo');
+        //Si el nombre ya existe no se podara grabar por lo que reenviara un mensaje de error
+        $dato = DB::table('menu')->where('nombre', strtoupper($request['nombre']))->get();
+
+
+
+        if (count($dato) == 0) {
+            DB::table('menu')->insert(array('nombre' => strtoupper($request['nombre'])));
+            return view("/management/menu/menu", ['nombre' => $request['nombre']]);
+        } else {
+            return redirect()->back()->withErrors(array_merge($nombreError));
+        }
+    }
+
+
+
 
 
 

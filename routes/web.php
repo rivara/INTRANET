@@ -12,7 +12,6 @@
 
 Auth::routes();
 
-// Página de inicio
 Route::group(['middleware' => 'revalidate'], function() {
     Route::get('/', function () {
         return view('auth/login');
@@ -22,13 +21,24 @@ Route::group(['middleware' => 'revalidate'], function() {
 
 
 
-
-//Logueo
+//////////////////////
+///////Logueo/////////
+//////////////////////
     Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
     Route::post('logout', 'Auth\LoginController@logout')->name('logout');
     Route::post('redirect', 'Auth\LoginController@redirect')->name('redirect');
+    //Admin password reset routes
+    Route::get('password/reset','Auth\ForgotPasswordController@showLinkRequestForm')->name('request');
+    Route::post('password/reset','Auth\ForgotPasswordController@sendResetLinkEmail')->name('forgot');
+    Route::post('password/forgot','Auth\ResetPasswordController@reset');
+    Route::get('password/back/{token}','Auth\ResetPasswordController@showResetForm')->name('reset');
+    Route::post('password/back','Auth\ResetPasswordController@actionModificaPassword')->name('modificaPassword');
 
-//Administracion usuarios
+
+
+////////////////////////////////
+/////Administracion usuarios////
+////////////////////////////////
     Route::get('management/admin', 'Auth\AdminController@actionAdmin');
     Route::get('management/users', 'Auth\AdminController@actionSearch')->name('SearchUser');
     Route::get('management/users/admin', 'Auth\AdminController@actionCreateUser')->name('createUser');
@@ -46,40 +56,58 @@ Route::group(['middleware' => 'revalidate'], function() {
     Route::get('back/home', 'Auth\LoginController@backHome')->name('backHome');
 
 
-//Administracion grupos
-    Route::get('management/groups/groups', 'Auth\GroupsController@actionAdminGroups')->name('groups');
-    Route::get('management/groups/createGroup', 'Auth\GroupsController@actionCreateGroup')->name('createGroup');
-    Route::get('management/groups/editGroup', 'Auth\GroupsController@actionGoUpdateGroup')->name('goUpdateGroup');
+
+//////////////////////////////
+/////Administracion grupos////
+//////////////////////////////
+    Route::get('groups/groups', 'Auth\GroupsController@actionAdminGroups')->name('groups');
+    Route::get('groups/createGroup', 'Auth\GroupsController@actionCreateGroup')->name('createGroup');
+    Route::get('groups/editGroup', 'Auth\GroupsController@actionGoUpdateGroup')->name('goUpdateGroup');
 //create
-    Route::post('management/groups', 'Auth\GroupsController@actionRecordGroup')->name('recordGroup');
+    Route::post('groups', 'Auth\GroupsController@actionRecordGroup')->name('recordGroup');
 //update
-    Route::get('management/groups/update', 'Auth\GroupsController@actionUpdateGroups')->name('updateGroups');
-    Route::get('management/groups/portalAdd', 'Auth\GroupsController@actionGoAddPortalGroup')->name('goAddGrupoPortal');
-    Route::get('management/groups/portalAdd/Add', 'Auth\GroupsController@actionAddPortalGroup')->name('addGrupoPortal');
-    Route::get('management/groups/portalAdd/Delete',
-        'Auth\GroupsController@actionDeleteGroupPortal')->name('deleteGroupPortal');
+    Route::get('groups/update', 'Auth\GroupsController@actionUpdateGroups')->name('updateGroups');
+    Route::get('groups/portalAdd', 'Auth\GroupsController@actionGoAddPortalGroup')->name('goAddGrupoPortal');
+    Route::get('groups/portalAdd/Add', 'Auth\GroupsController@actionAddPortalGroup')->name('addGrupoPortal');
+    Route::get('groups/portalAdd/Delete', 'Auth\GroupsController@actionDeleteGroupPortal')->name('deleteGroupPortal');
 //delete
     Route::get('management/groups/delete', 'Auth\GroupsController@actionDeleteGroup')->name('deleteGroup');
 //back
     Route::get('back/admin', 'Auth\LoginController@actionBackAdmin')->name('backAdmin');
 
-
-//Administracion portales
-    Route::get('management/portals', 'Auth\PortalsController@admin')->name('portals');
-    Route::get('management/portals/create', 'Auth\PortalsController@actionCreatePortal')->name('createPortal');
-    Route::get('management/portals/editPortals', 'Auth\PortalsController@actionGoUpdatePortal')->name('goUpdatePortal');
+///////////////////////////////
+/////Administracion portales///
+///////////////////////////////
+    Route::get('portals', 'Auth\PortalsController@admin')->name('goPortals');
+    Route::get('portals/create', 'Auth\PortalsController@actionCreatePortal')->name('createPortal');
+    Route::get('portals/editPortals', 'Auth\PortalsController@actionGoUpdatePortal')->name('goUpdatePortal');
 //create
-    Route::get('management/portals/createGroup/Add', 'Auth\PortalsController@actionRecord')->name('recordPortal');
+    Route::get('portals/createGroup/Add', 'Auth\PortalsController@actionRecord')->name('recordPortal');
 //update
-    Route::get('management/portals/editPortal/update','Auth\PortalsController@actionUpdatePortal')->name('updatePortal');
+    Route::get('portals/editPortal/update','Auth\PortalsController@actionUpdatePortal')->name('updatePortal');
 //delete
-    Route::get('management/update/portalAdd/Delete', 'Auth\PortalsController@actionDeletePortal')->name('deletePortal');
+    Route::get('portals/update/portalAdd/Delete', 'Auth\PortalsController@actionDeletePortal')->name('deletePortal');
+
+
+///////////////////////////////
+/////Administracion menus///
+///////////////////////////////
+
+    Route::get('menu/', 'Auth\Desb2bController@actionGoMenu')->name('goMenu');
+    Route::get('menu/create', 'Auth\Desb2bController@actionCreateMenu')->name('createMenu');
+    Route::get('menu/update', 'Auth\Desb2bController@actionUpdateMenu')->name('updateMenu');
+    Route::get('menu/create/record', 'Auth\Desb2bController@actionRecordMenu')->name('recordMenu');
+//DESB2
+    Route::get('WebAdmLog', 'Auth\Desb2bController@actionWebAdmLog')->name('WebAdmLog');
+    Route::get('Index/', 'Auth\Desb2bController@actionIndex')->name('Index');
 
 
 
-//Agora
+
+/////////////////////////
+//////Biblioteca////////
+////////////////////////
 //addFile  renombrar
-
     Route::get('add/file', 'Auth\BibliotecaController@actionGoAddFile')->name('goAddFile');
     Route::get('subgroup', 'Auth\BibliotecaController@actionGoAddSubGroup')->name('goAddSubGroup');
     Route::get('subgroup/go_record', 'Auth\BibliotecaController@actionGoSubGroup')->name('goSubGroup');
@@ -87,7 +115,6 @@ Route::group(['middleware' => 'revalidate'], function() {
     Route::get('subgroup/delete', 'Auth\BibliotecaController@actionSubGroupDelete')->name('subGroupDelete');
     Route::get('subCarpeta', 'Auth\BibliotecaController@actionGoSubCarpeta')->name('goSubCarpeta');
     Route::get('carpeta', 'Auth\BibliotecaController@actionBackCarpeta')->name('backCarpeta');
-
 //record file
     Route::post('upload', 'Auth\BibliotecaController@upload')->name('upload');
     Route::get('download', 'Auth\BibliotecaController@actionDownload')->name('download');
@@ -98,21 +125,12 @@ Route::group(['middleware' => 'revalidate'], function() {
     Route::get('back', 'Auth\AgoraController@actionBackAgora')->name('backAgora');
 
 
-//DESB2
-    Route::get('WebAdmLog', 'Auth\Desb2bController@actionWebAdmLog')->name('WebAdmLog');
-    Route::get('Index/', 'Auth\Desb2bController@actionIndex')->name('Index');
-
 //DESB2-FERRCASH REVISAR
    // Route::get('WebAdmLog', 'Auth\Desb2bFerrcashController@WebAdmLog')->name('WebAdmLog');
    // Route::get('desb2b-Ferrcash/', 'Auth\Desb2bFerrcashController@backb2b')->name('backb2b');
 
 
 
-//Admin password reset routes
-    Route::get('password/reset','Auth\ForgotPasswordController@showLinkRequestForm')->name('request');
-    Route::post('password/reset','Auth\ForgotPasswordController@sendResetLinkEmail')->name('forgot');
-    Route::post('password/forgot','Auth\ResetPasswordController@reset');
-    Route::get('password/back/{token}','Auth\ResetPasswordController@showResetForm')->name('reset');
-    Route::post('password/back','Auth\ResetPasswordController@actionModificaPassword')->name('modificaPassword');
+
 
 });

@@ -3,7 +3,7 @@
 
     <div class="row">
         <div  class="col-md-2 paddingLeft50px" >
-            <form   action="{{ route('redirect') }}" method="POST">
+            <form   action="{{ route('goPortals') }}" method="GET">
                 @csrf
                 <button type="submit" name="submit" value="Edit" class="btn btn-outline-primary  btnE ">
                     <i class="fa fa-arrow-left fa-lg"></i></button>

@@ -23,7 +23,7 @@
                 </form>
             </div>
             <div class="col-sm-2">
-                <form class="floatLeft" action="{{route('portals')}}" method="GET">
+                <form class="floatLeft" action="{{route('goPortals')}}" method="GET">
                     <button type="submit" class="btn btn-primary btn-sm">
                         <i class="fa  fa-desktop"></i>
                         <span>editar Portales</span>
@@ -32,11 +32,12 @@
 
             </div>
             <div class="col-sm-4">
-                <form class="floatLeft"  method="GET">
+                <form class="floatLeft" action="{{route('goMenu')}}" method="GET">
                     <button type="submit" class="btn btn-primary btn-sm">
                         <i class="fa fa-th-list"></i>
-                        <span>menub2b</span>
+                        <span>menus b2b</span>
                     </button>
+                    <input type="hidden" name="nombre" value="{{$nombre}}">
                 </form>
             </div>
         </div>
@@ -47,6 +48,7 @@
                 <th>Nombre</th>
                 <th>Grupos</th>
                 <th>E-mail</th>
+                <th>Menu</th>
                 <th>
                     <form class="floatRight" method="GET" action="{{ route('createUser') }}">
                         <button type="submit" name="submit" value="Edit" class="btn btn-light btnE floatRight"><i
@@ -74,7 +76,7 @@
                                 ?>
                             </td>
                             <td>{{$value->email}}</td>
-
+                             <td></td>
                             <td>
                                 <button type="submit" name="submit" value="Edit" class="btn btn-light btnE "><i
                                             class="fa fa-pencil fa-lg"></i></button>

@@ -3,16 +3,11 @@
 
 
 
-    <!--<form class="floatLeft" method="GET" action=">
-        <button type="submit" class="btn btn-outline-primary  btnE ">
-            <i class="fa fa-arrow-left fa-lg"></i>
-        </button>
-    </form>
-    <div class="title paddingtop10px">&nbsp;nuevo grupo</div>-->
+
 
     <div class="row">
         <div  class="col-md-2 paddingLeft50px" >
-            <form   action="{{ route('redirect') }}" method="POST">
+            <form class="floatLeft" action="{{route('groups')}}" method="GET">
                 @csrf
                 <button type="submit" name="submit" value="Edit" class="btn btn-outline-primary  btnE ">
                     <i class="fa fa-arrow-left fa-lg"></i></button>
