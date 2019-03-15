@@ -30,7 +30,7 @@
                 </th>
                 </thead>
                 <tbody>
-                <?php   $menus = DB::table('menu')->get(); ?>
+                <?php   $menus = DB::table('menus')->get(); ?>
                 @foreach($menus as $menu)
                     <tr>
                         <form method="GET" action="{{ route('updateMenu') }}">

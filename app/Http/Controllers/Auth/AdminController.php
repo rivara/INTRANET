@@ -46,7 +46,7 @@ class AdminController
                 $grupos[$i] = DB::table('portales')->where('id', $grupoId)->get();
                 $i++;
             }
-            return view("management/users/update", ['usuarios' => $usuario, 'grupos' => $grupos]);
+            return view("management/users/update", ['usuarios' => $usuario, 'grupos' => $grupos,'id'=> $request['id']]);
         }
 
     }
@@ -99,7 +99,8 @@ class AdminController
                 'nombre' => $request['usuario'],
                 'email' => $request['email'],
                 'clave' => $clave,
-                'id_empresa' => $request['idEmpresa']
+                'id_empresa' => $request['idEmpresa'],
+                'id_menu' => null
             ));
         }
         // aqui pagino
@@ -122,6 +123,7 @@ class AdminController
 
     public function actionUpdateUser(Request $request)
     {
+
         //Controlar que no entran vacios
         $nombreError = array('nombre' => ' ');
         $emailError = array('email' => ' ');
@@ -150,18 +152,8 @@ class AdminController
         //Update lo que hay en la caja de texto
         DB::table('usuarios')->where('id', $request['usuarioId'])->update(['nombre' => $request['nombre']]);
         DB::table('usuarios')->where('id', $request['usuarioId'])->update(['email' => $request['email']]);
-
-
-
-
-
-
-
-
+        DB::table('usuarios')->where('id', $request['usuarioId'])->update(['id_menu' => $request['id_menu']]);
         $usuarios = DB::table('usuarios')->get();
-
-
-
         $nombre = DB::table('usuarios')->where('email', session('mail'))->pluck('nombre');
         //Aqui pagino
         $request['oAccion'] = "listado";

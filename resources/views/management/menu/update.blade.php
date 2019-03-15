@@ -13,7 +13,7 @@
 
             <div  class="col-md-2" ></div>
             <div  class="col-md-3" >
-                <h2 class="paddingtop10px"> Administración del menu <?php echo DB::table('menu')->where('id', $id)->pluck('nombre'); ?></h2>
+                <h2 class="paddingtop10px"> Administración del menu <?php echo DB::table('menus')->where('id', $id)->pluck('nombre'); ?></h2>
             </div>
             <div   class="col-md-5"></div>
         </div>
@@ -30,7 +30,7 @@
             </li>
             <?php $categorias = DB::table('b2bcategorias')->where(['subcategoria1' => NULL])->get();?>
             @foreach($categorias as $categoria)
-                <li class="list-group-item bg-light">
+                <li class="list-group-item bg-lightBlue">
                     <div class="row ">
                         <div class="col-md-2"></div>
                         <div class="col-md-4"><h4>{{$categoria->texto}}</h4></div>
@@ -41,7 +41,7 @@
                 <?php $subcategorias = DB::table('b2bcategorias')->where('subcategoria1', '!=',
                     '')->where(['categoria' => $categoria->categoria])->get();?>
                 @foreach($subcategorias as $subcategoria)
-                    <li class="list-group-item">
+                    <li class="list-group-item bg-lightBlue2">
                         <div class="row">
                             <div class="col-md-4"></div>
                             <div class="col-md-4"><h5>{{$subcategoria->texto}}</h5></div>

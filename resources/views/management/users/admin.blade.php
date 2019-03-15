@@ -76,7 +76,12 @@
                                 ?>
                             </td>
                             <td>{{$value->email}}</td>
-                             <td></td>
+                            <td><b> <?php
+                                    $menu = DB::table('menus')->where('id', $value->id_menu)->pluck('nombre');
+                                    $menu = substr($menu, 2, strlen($menu) - 4);
+                                    echo $menu;
+                                    ?>
+                                </b></td>
                             <td>
                                 <button type="submit" name="submit" value="Edit" class="btn btn-light btnE "><i
                                             class="fa fa-pencil fa-lg"></i></button>

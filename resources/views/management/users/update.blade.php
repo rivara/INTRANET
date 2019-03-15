@@ -12,8 +12,8 @@
     ?>
 
     <div class="row">
-        <div  class="col-md-2 paddingLeft50px" >
-            <form   action="{{ route('redirect') }}" method="POST">
+        <div class="col-md-2 paddingLeft50px">
+            <form action="{{ route('redirect') }}" method="POST">
                 @csrf
                 <button type="submit" name="submit" value="Edit" class="btn btn-outline-primary  btnE ">
                     <i class="fa fa-arrow-left fa-lg"></i></button>
@@ -21,26 +21,24 @@
                 <input type="hidden" name="name" value="" style="display:none;">
             </form>
         </div>
-        <div  class="col-md-2" ></div>
-        <div  class="col-md-3" >
+        <div class="col-md-2"></div>
+        <div class="col-md-3">
             <h1 class="paddingtop10px">&nbsp;Modificación usuarios</h1>
         </div>
-        <div   class="col-md-5"></div>
+        <div class="col-md-5"></div>
     </div>
-
     <br/>
     <div class="container wrapper">
         <h1>USUARIO</h1>
-        <div class="row greyC">
+        <div class="row greyBlueC">
             <div class="col-md-4">
                 <div class="title2">
                     <h5><u>DATOS</u></h5>
                 </div>
                 <form id="logout-form" action="{{ route('updateUser') }}" method="GET">
                     <label for="nombre">Nombre</label>
-                    <input type="text" class="form-control width300px" name="nombre" placeholder="Introduce Nombre"
+                    <input type="text" class="form-control " name="nombre" placeholder="Introduce Nombre"
                            value="<?php echo $nombre ?>">
-
                     @if ($errors->has('nombre'))
                         <span class="error">
                                         <strong>{{ $errors->first('nombre') }}</strong>
@@ -48,7 +46,7 @@
                     @endif
                     <br>
                     <label for="Email">E-mail</label>
-                    <input type="email" class="form-control width300px" name="email" placeholder="Introduce E-mail"
+                    <input type="email" class="form-control " name="email" placeholder="Introduce E-mail"
                            value={{$email}}>
                     @if ($errors->has('email'))
                         <span class="error">
@@ -57,11 +55,11 @@
                     @endif
                     <br>
                     <label for="Password">Contraseña</label>
-                    <input type="password" class="form-control width300px" name="password" placeholder="Contrseña">
+                    <input type="password" class="form-control " name="password" placeholder="Contrseña">
 
                     <br>
                     <label for="PasswordRep">Repite Contraseña</label>
-                    <input type="password" class="form-control width300px" name="passwordR"
+                    <input type="password" class="form-control " name="passwordR"
                            placeholder="Repite contrseña">
                     @if ($errors->has('passwordR'))
                         <span class="error">
@@ -69,7 +67,35 @@
                                     </span>
                     @endif
                     <br>
+                    <label>Menu</label>
+                    <div>
+                        <select class="form-control" name="id_menu">
+                            <?php
 
+
+                            $menu_id = DB::table('usuarios')->where(['id' => $id])->pluck('id_menu');
+
+
+                            if ($menu_id == "[null]") {
+                                $menus = DB::table('menus')->get();
+                                $selected = DB::table('menus')->first();
+                            } else {
+                                $menus = DB::table('menus')->where('id', '!=', $menu_id)->get();
+                                $selected = DB::table('menus')->where('id', "=", $menu_id)->first();
+                            }
+                            ?>
+                            <option value="{{$selected->id}}" selected="selected">{{$selected->nombre}}</option>
+                            @foreach($menus as $menu)
+                                <option value="{{$menu->id}}">{{$menu->nombre}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    @if ($errors->has('passwordR'))
+                        <span class="error">
+                                        <strong>{{ $errors->first('passwordR') }}</strong>
+                                    </span>
+                    @endif
+                    <br>
                     <button class="btn btn-primary floatRight"><i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i>
                         grabar
                     </button>
@@ -77,8 +103,7 @@
                 </form>
             </div>
 
-            <div class="col-md-1"></div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <form action="{{ route('goAddUserGroup') }}" method="GET">
                     <div class="title2">
                         <button type="submit" class="btn btn-link floatLeft">
@@ -100,10 +125,10 @@
                                         <input type="hidden" name="grupoId" value={{$grupo->id_grupo}} >
                                     </td>
                                     <td>
-                                            <button type="submit" name="submit" value="Delete"
-                                                    class="btn btn-link btnE ">
-                                                <i class="fa fa-trash fa-lg"></i>
-                                            </button>
+                                        <button type="submit" name="submit" value="Delete"
+                                                class="btn btn-link btnE ">
+                                            <i class="fa fa-trash fa-lg"></i>
+                                        </button>
                                     </td>
                                 </tr>
                             </form>
@@ -111,8 +136,7 @@
                     </table>
                 </div>
             </div>
-            <div class="col-md-1"></div>
-            <div class="col-md-3">
+            <div class="col-md-4" >
                 <div class="title2">
                     <h5>PORTALES CON ACCESO </h5>
                 </div>

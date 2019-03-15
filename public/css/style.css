@@ -212,8 +212,8 @@ th {
     padding: 15px;
 }
 
-.greyC {
-    background-color: #edf2f7;
+.greyBlueC {
+    background-color: #bcdbf6 ;
     border: 1px solid #cad9e8;
     padding: 10px;
 }
@@ -350,6 +350,12 @@ th {
     margin-top: 10px !important;
 }
 
+.marginRight30px {
+    margin-right: 30px !important;
+}
+
+
+
 /**float**/
 
 .floatLeft {
@@ -366,6 +372,20 @@ th {
     top: 0px;
     z-index: 1;
 }
+
+.bg-lightBlue{
+    background-color:#e6f2ff;
+}
+
+.bg-lightBlue2{
+    background-color:#e6f9ff;
+}
+
+.bg-lightBlue3{
+    background-color:#ccebff;
+}
+
+
 
 /*******************************************************/
 /****************BIBLIOTECA *****************************/
