@@ -56,6 +56,35 @@ class desb2BController
         return view("/management/menu/update",['id'=>$request['id']]);
     }
 
+    public function actionGoMenuAdd(Request $request)
+    {
+        return view("/management/menu/menuAdd",['id'=>$request['id']]);
+    }
+
+    /*BORRAR grupo*/
+    public function actionDeleteMenu (Request $request)
+    {
+        return "borra el elemento ".$request["id"];
+        //Borrar grupos
+       // DB::table('portales')->where('id',$request["portalId"])->delete();
+        //Borrar usuarios-grupos
+       // DB::table('grupos_portales')->where('id_portal',$request["portalId"])->delete();
+       // return view("/management/portals/portals");
+    }
+
+    /*BORRAR categoria*/
+    public function actionDeleteMenuCategoria (Request $request)
+    {
+        return "borra el elemento " . $request["id"];
+    }
+
+    /*BORRAR subcategoria*/
+    public function actionDeleteMenuSubCategoria (Request $request)
+    {
+        return "borra el elemento " . $request["id"];
+    }
+
+
 
 
     public function actionRecordMenu(Request $request)

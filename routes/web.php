@@ -96,7 +96,15 @@ Route::group(['middleware' => 'revalidate'], function() {
     Route::get('menu/', 'Auth\Desb2bController@actionGoMenu')->name('goMenu');
     Route::get('menu/create', 'Auth\Desb2bController@actionCreateMenu')->name('createMenu');
     Route::get('menu/update', 'Auth\Desb2bController@actionUpdateMenu')->name('updateMenu');
+    //borra menu
+    Route::get('menu/delete', 'Auth\Desb2bController@actionDeleteMenu')->name('deleteMenu');
+    //borra categoria y subcategoria
+    Route::get('menu/delete/categoria', 'Auth\Desb2bController@actionDeleteMenuCategoria')->name('deleteMenuCategoria');
+    Route::get('menu/delete/subcategoria', 'Auth\Desb2bController@actionDeleteMenuSubCategoria')->name('deleteMenuSubCategoria');
+
     Route::get('menu/create/record', 'Auth\Desb2bController@actionRecordMenu')->name('recordMenu');
+    Route::get('menu/add', 'Auth\Desb2bController@actionGoMenuAdd')->name('goMenuAdd');
+
 //DESB2
     Route::get('WebAdmLog', 'Auth\Desb2bController@actionWebAdmLog')->name('WebAdmLog');
     Route::get('Index/', 'Auth\Desb2bController@actionIndex')->name('Index');

@@ -266,6 +266,10 @@ th {
     padding-left: 50px;
 }
 
+.paddingLeft100px {
+    padding-left: 100px;
+}
+
 .paddingLeft20px {
     padding-left: 20px;
 }
@@ -282,6 +286,10 @@ th {
 
 .paddingLeft40px {
     padding-left: 40px;
+}
+
+.paddingLeft60px {
+    padding-left: 60px;
 }
 
 
