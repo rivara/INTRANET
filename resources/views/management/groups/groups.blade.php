@@ -36,7 +36,7 @@
                 <th>portales</th>
                 <th>
                     <form class="floatRight" method="GET" action="{{ route('createGroup') }}">
-                        <button type="submit" name="submit" value="Edit" class="btn btn-light btnE floatRight"><i
+                        <button type="submit" name="submit" value="Edit" class="btn btn-link btnE floatRight"><i
                                     class="fa fa-plus fa-lg"></i></button>
                         <input type="hidden" value="">
                     </form>
@@ -74,10 +74,10 @@
                                 ?>
                             </td>
                             <td>
-                                <button type="submit" name="submit" value="Edit" class="btn btn-light btnE "><i
+                                <button type="submit" name="submit" value="Edit" class="btn btn-link btnE "><i
                                             class="fa fa-pencil fa-lg"></i></button>
 
-                                <button type="button" class="delete btn btn-light btnE " data-toggle="modal"
+                                <button type="button" class="delete btn btn-link btnE " data-toggle="modal"
                                         data-target="#confirm" value="{{$grupo->id}}">
                                     <i class="fa fa-trash fa-lg"></i>
                                 </button>

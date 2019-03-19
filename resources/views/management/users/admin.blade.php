@@ -51,7 +51,7 @@
                 <th>Menu</th>
                 <th>
                     <form class="floatRight" method="GET" action="{{ route('createUser') }}">
-                        <button type="submit" name="submit" value="Edit" class="btn btn-light btnE floatRight"><i
+                        <button type="submit" name="submit" value="Edit" class="btn btn-link btnE floatRight"><i
                                     class="fa fa-plus fa-lg"></i></button>
                         <input type="hidden" value="">
                     </form>
@@ -83,11 +83,11 @@
                                     ?>
                                 </b></td>
                             <td>
-                                <button type="submit" name="submit" value="Edit" class="btn btn-light btnE "><i
+                                <button type="submit" name="submit" value="Edit" class="btn btn-link btnE "><i
                                             class="fa fa-pencil fa-lg"></i></button>
 
 
-                                <button type="button" class="delete btn btn-light btnE " data-toggle="modal"
+                                <button type="button" class="delete btn btn-link btnE " data-toggle="modal"
                                         data-target="#confirm" value="{{$value->id}}">
                                     <i class="fa fa-trash fa-lg"></i>
                                 </button>
@@ -109,7 +109,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body">
-                    <p>¿Desea borrar este usuario?</p>
+                    <p>¿Desea borrar este menu?</p>
+                   <small>Afectara a todos los miembros de este grupo</small>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
@@ -119,7 +120,7 @@
                             borrar
                         </button>
                         <input type="hidden" name="usuarioId" id="id">
-                        <input type="hidden" name="nombre" value="{{$nombre}}">
+                        <input type="hidden" name="grupo_id" value="{{$nombre}}">
                     </form>
                 </div>
             </div>

@@ -101,9 +101,12 @@ Route::group(['middleware' => 'revalidate'], function() {
     //borra categoria y subcategoria
     Route::get('menu/delete/categoria', 'Auth\Desb2bController@actionDeleteMenuCategoria')->name('deleteMenuCategoria');
     Route::get('menu/delete/subcategoria', 'Auth\Desb2bController@actionDeleteMenuSubCategoria')->name('deleteMenuSubCategoria');
-
+    //graba menu
     Route::get('menu/create/record', 'Auth\Desb2bController@actionRecordMenu')->name('recordMenu');
     Route::get('menu/add', 'Auth\Desb2bController@actionGoMenuAdd')->name('goMenuAdd');
+    //graba categoria
+    Route::get('menu/add/categoria', 'Auth\Desb2bController@actionAddCategorias')->name('sddCategorias');
+
 
 //DESB2
     Route::get('WebAdmLog', 'Auth\Desb2bController@actionWebAdmLog')->name('WebAdmLog');

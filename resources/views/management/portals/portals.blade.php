@@ -36,7 +36,7 @@
                 <th>Target</th>
                 <th>
                     <form class="floatRight" method="GET" action="{{ route('createPortal') }}">
-                        <button type="submit" name="submit" value="Edit" class="btn btn-light btnE floatRight"><i
+                        <button type="submit" name="submit" value="Edit" class="btn btn-link btnE floatRight"><i
                                     class="fa fa-plus fa-lg"></i></button>
                         <input type="hidden" value="">
                     </form>
@@ -68,11 +68,11 @@
                             @endif
                         </td>
                         <td>
-                            <button type="submit" name="submit" value="Edit" class="btn btn-light btnE "><i
+                            <button type="submit" name="submit" value="Edit" class="btn btn-link btnE "><i
                                         class="fa fa-pencil fa-lg"></i>
                             </button>
 
-                            <button class="delete btn btn-light btnE " type="button" data-toggle="modal"
+                            <button class="delete btn btn-link btnE " type="button" data-toggle="modal"
                                     data-target="#confirm" value="{{$portal->id}}">
                                 <i class="fa fa-trash fa-lg"></i>
                             </button>

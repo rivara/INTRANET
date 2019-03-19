@@ -8,7 +8,7 @@
         <form   action="{{ route('goMenu') }}" method="GET">
             @csrf
             <button type="submit" name="submit" value="Edit" class="btn btn-outline-primary  btnE ">
-                <i class="fa fa-arrow-left fa-lg"></i></button>
+                <i class="fa fa-arrow-left fa-lg "></i></button>
             <input type="hidden" name="id" value=1>
             <input type="hidden" name="name" value="" style="display:none;">
         </form>
