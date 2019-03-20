@@ -41,6 +41,7 @@
                     @endforeach
                 </tbody>
                     <input type="hidden" name="usuarioId" value="{{$usuarioId}}">
+                    <input type="hidden" name="id" value="{{$id}}">
                 </form>
             </table>
         </div>

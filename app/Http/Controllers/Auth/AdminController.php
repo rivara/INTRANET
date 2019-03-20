@@ -168,15 +168,18 @@ class AdminController
 
     public function actionGoAddUserGroup(Request $request)
     {
+
         //Añade grupo a un usuario
         $gruposId = DB::table('usuarios_grupos')->where('id_usuario', $request['usuarioId'])->pluck('id_grupo');
         //Grupos en los que NO estan
         $grupoTotales = DB::table('grupos')->whereNotIn('id', $gruposId)->get();
-        return view("management/users/groupAdd", ['grupos' => $grupoTotales, 'usuarioId' => $request['usuarioId']]);
+        return view("management/users/groupAdd", ['grupos' => $grupoTotales, 'usuarioId' => $request['usuarioId'],'id' => $request['id']]);
     }
 
     public function actionAddUserGroup(Request $request)
     {
+
+
         //Vinculo el grupo del usuario
         $id_usuario = $request['usuarioId'];
         $gruposC = $request->input('grupo');
@@ -204,7 +207,7 @@ class AdminController
             $i++;
         }
 
-        return view("management/users/update", ['usuarios' => $usuarios, 'grupos' => $grupos]);
+        return view("management/users/update", ['usuarios' => $usuarios, 'grupos' => $grupos,'id' => $request['id']]);
     }
 
 
@@ -224,7 +227,7 @@ class AdminController
             $grupos[$i] = DB::table('portales')->where('id', $grupoId)->get();
             $i++;
         }
-        return view("management/users/update", ['usuarios' => $usuarios, 'grupos' => $grupos]);
+        return view("management/users/update", ['usuarios' => $usuarios, 'grupos' => $grupos,'id' => $request['id']]);
     }
 
 

@@ -98,6 +98,11 @@
 
 @if($oAccion=="listado")
             <div class="center">
+                <form action="{{ route("WebAdmLog")}}" method="get">
+                    <button class="btn colorC" type="submit" ><i class="fa fa-arrow-left"></i></button>
+                    <input type="hidden" name="oAccion" value="inicio">
+                    <input type="hidden" name="id_usuario" value="[{{$id_usuario}}]">
+                </form>
                 <table class="table table-striped table-bordered" border="1px solid black">
                     <thead>
                     <th>ID</th>
@@ -121,11 +126,11 @@
                     @endforeach
                 </table>
 
-                <div class="row floatLeft">
+                <div class="row floatLeft ">
                     <div class="col-md-12">
                         <small>{{$logs->total()}} registros</small>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-12 colorC">
                         {{$logs->appends(['fechaDesde' => $fechaDesde,'fechaHasta'=>$fechaHasta,'empresa'=>$empresa,'cdclien'=>$cdclien,'cdsucur'=>$cdsucur,'des'=>$des,'userMag'=>$userMag])->links()}}
                     </div>
                 </div>

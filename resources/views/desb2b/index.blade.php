@@ -1,20 +1,29 @@
-
 @extends('layouts.desb2b')
 
 @include('desb2b.bar')
 
-<div id="dvContenido" class="separacion-vertical-arriba" align="center">
-    <table width="100%" border="0" cellspacing="0" cellpadding="0">
-        <tr>
-            <td height="100" align="center" valign="middle">
-                <table width="90%" border="0" cellspacing="0" cellpadding="0">
 
-                        <td>
-                            <H1>Ferreterias X</H1>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <h4>
+            Hola,<b>...</b>
+
+            Desde Mi Cuenta usted puede ver un resumen de sus actividades recientes y actualizar la información de su
+            cuenta. Seleccione un enlace inferior para ver o editar información.
+        </h4>
+        <h5> editar
+
+            Información de contacto
+            Editar
+
+            Demo .
+            demosocio@comafe.es
+            Cambiar la contraseña de la cuenta
+
+        </h5>
+        <img src="{{URL::asset('img/index.png')}}" alt="profile Pic">
+
+    </div>
+    <div class="col-md-2"></div>
 </div>

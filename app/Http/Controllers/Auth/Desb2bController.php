@@ -36,6 +36,11 @@ class desb2BController
 
     }
 
+    public function actionEjemplo(Request $request)
+    {
+        return view('/desb2b/Ejemplo',['oAccion' => 'inicio','id_usuario'=>$request['id_usuario']]);
+    }
+
     public function actionindex(Request $request)
     {
        return view('/desb2b/Index',['oAccion' => 'inicio','id_usuario'=>$request['id_usuario']]);

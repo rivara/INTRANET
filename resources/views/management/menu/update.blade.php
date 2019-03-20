@@ -17,7 +17,7 @@
                 <?php
                 $title = DB::table('menus')->where('id', $id)->pluck('nombre');
                 $title = substr($title, 2, strlen($title) - 4);
-                echo $title;
+
                 ?></h2>
         </div>
         <div class="col-md-5"></div>

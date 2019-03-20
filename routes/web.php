@@ -109,6 +109,7 @@ Route::group(['middleware' => 'revalidate'], function() {
 
 
 //DESB2
+    Route::get('Ejemplo', 'Auth\Desb2bController@actionEjemplo')->name('Ejemplo');
     Route::get('WebAdmLog', 'Auth\Desb2bController@actionWebAdmLog')->name('WebAdmLog');
     Route::get('Index/', 'Auth\Desb2bController@actionIndex')->name('Index');
 

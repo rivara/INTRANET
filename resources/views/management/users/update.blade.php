@@ -73,7 +73,7 @@
                             <?php
 
 
-                            $menu_id = DB::table('usuarios')->where(['id' => $id])->pluck('id_menu');
+                            $menu_id = DB::table('usuarios')->where('id', $id)->pluck('id_menu');
 
 
                             if ($menu_id == "[null]") {
@@ -112,6 +112,7 @@
                         <h5 class="floatLeft">GRUPOS</h5>
                         <input type="hidden" name="usuarioId" value={{$usuario->id}} >
                     </div>
+                    <input type="hidden" name="id" value="{{$id}}">
                 </form>
                 <div class="row justify-content-center">
                     <table class="table table-striped table-bordered" border="1px solid black">
@@ -123,6 +124,7 @@
                                         {{ str_replace(array('["','"]'), '',DB::table('grupos')->where('id',$grupo->id_grupo)->pluck('nombre'))}}
                                         <input type="hidden" name="usuarioId" value={{$usuario->id}} >
                                         <input type="hidden" name="grupoId" value={{$grupo->id_grupo}} >
+                                        <input type="hidden" name="id" value="{{$id}}">
                                     </td>
                                     <td>
                                         <button type="submit" name="submit" value="Delete"
