@@ -71,6 +71,33 @@
                 <label for="Password">idEmpresa</label>
                 <input type="text" class="form-control width400px" name="idEmpresa" placeholder="id Empresa">
 
+                @if ($errors->has('idEmpresa'))
+                    <span class="error">
+                                        <strong>{{ $errors->first('idEmpresa') }}</strong>
+                                    </span>
+                @endif
+
+
+                <br>
+                <label>Menu</label>
+                <div>
+                    <select class="form-control width400px" name="id_menu">
+                        <?php
+
+
+                        $menu_id = DB::table('usuarios')->pluck('id_menu');
+
+
+
+                            $menus = DB::table('menus')->get();
+                            $selected = DB::table('menus')->first();
+                        ?>
+                        <option value="{{$selected->id}}" selected="selected">{{$selected->nombre}}</option>
+                        @foreach($menus as $menu)
+                            <option value="{{$menu->id}}">{{$menu->nombre}}</option>
+                        @endforeach
+                    </select>
+                </div>
 
 
                 <br><br />

@@ -13,12 +13,13 @@
 
         <div class="col-md-2"></div>
         <div class="col-md-3">
-            <h2 class="paddingLeft100px width600px"> Administración de
-                <?php
+            <h4 class="paddingLeft100px width600px"> Administración de
+            <?php
                 $title = DB::table('menus')->where('id', $id)->pluck('nombre');
                 $title = substr($title, 2, strlen($title) - 4);
-
-                ?></h2>
+                echo   $title;
+                ?>
+            </h4>
         </div>
         <div class="col-md-5"></div>
     </div>

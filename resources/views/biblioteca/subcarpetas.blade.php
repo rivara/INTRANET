@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-md-1">
                 <form action="{{ route('backCarpeta') }}" method="GET">
-                    <button class="btn btn-info btnE "><i class=" fa fa-arrow-left  fa-lg"></i></button>
+                    <button class="btn btn-primary btnE "><i class=" fa fa-arrow-left  fa-lg"></i></button>
                     <input type="hidden" name="id_usuario" value={{$id_usuario}} >
                 </form>
             </div>
@@ -23,8 +23,8 @@
     <br><br/>
     <div class="agora container wrapper">
         <form class="float-right" method="GET" action="{{route('goAddSubGroup')}}">
-            <button type="submit" class="btn btn-info btnE ">
-                <span class="fa fa-plus fa-2x"></span>
+            <button type="submit" class="btn btn-link floatRight" >
+                <span class="fa fa-plus fa-3x"></span>
             </button>
             <input type="hidden" name="id_usuario" value={{$id_usuario}} >
             <input type="hidden" name="id_grupo" value={{$id_grupo}}>

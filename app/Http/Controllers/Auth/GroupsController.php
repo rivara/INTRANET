@@ -54,6 +54,7 @@ class GroupsController
     {
         //Añade portales
         $portalesId = DB::table('grupos_portales')->where('id_grupo', $request['grupoId'])->pluck('id_portal');
+
         //Portales en los que NO estan
         $portalTotales = DB::table('portales')->whereNotIn('id', $portalesId)->get();
         return view("/management/groups/portalAdd", ['portales' => $portalTotales, 'grupoId' => $request['grupoId'], 'nombre' => $request['nombre']]);
@@ -62,10 +63,11 @@ class GroupsController
 
     public function actionAddPortalGroup(Request $request)
     {
-
         //Vinculo los portales a los grupos
-        foreach ($request['portal'] as $portalId) {
-            DB::table('grupos_portales')->insert(['id_grupo' => $request["grupoId"], 'id_portal' => $portalId]);
+        if ($request['portal']!=null){
+            foreach ($request['portal'] as $portalId) {
+                DB::table('grupos_portales')->insert(['id_grupo' => $request["grupoId"], 'id_portal' => $portalId]);
+            }
         }
         return view("/management/groups/updateGroups", ['grupoId' => $request['grupoId']]);
 

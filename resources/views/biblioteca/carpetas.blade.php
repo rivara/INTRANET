@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-md-1">
                 <form action="{{ route('backHome') }}" method="GET">
-                    <button class="btn btn-info btnE "><i class=" fa fa-home  fa-lg"></i></button>
+                    <button class="btn btn-primary btnE "><i class=" fa fa-home  fa-lg"></i></button>
                 </form>
             </div>
             <div class="col-md-11 paddingLeft30">
@@ -16,7 +16,8 @@
     <div class="agora container wrapper">
         <div class="center">
             <div class="row table">
-                <?php   $id = substr($id_usuario, 1, 1);
+                <?php
+                $id = substr($id_usuario, 1, 1);
                 $gruposId = DB::table('usuarios_grupos')->where('id_usuario', $id)->pluck('id_grupo');
                 $grupos = [];
                 foreach ($gruposId as $grupoId) {

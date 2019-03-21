@@ -5,7 +5,7 @@
         <div class="col-md-1" >
             <form  method="GET" action="{{route('goSubCarpeta')}}" >
                 @csrf
-                <button type="submit" name="submit" value="Edit" class="btn btn-info btnE ">
+                <button type="submit" name="submit" value="Edit" class="btn btn-primary btnE ">
                     <i class="fa fa-arrow-left fa-lg"></i></button>
                 <input type="hidden" name="id_usuario" value={{$id_usuario}} >
                 <input type="hidden" name="id_grupo" value={{$id_grupo}}>
@@ -22,17 +22,31 @@
                 ?>
             </h1>
 
+
         </div>
         <div  class="col-md-1">
             <form class="floatRight" method="GET">
-                <button class="delete btn btn-info btnE  " type="button" data-toggle="modal"
+                <button class="delete btn btn-primary btnE  " type="button" data-toggle="modal"
                         data-target="#confirm" value="1">
                     <i class="fa fa-minus fa-lg"></i>
                 </button>
             </form>
         </div>
+        <div class="col-md-6">
+                <form>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Busca fichero" aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="button">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+        </div>
+        <div class="col-md-6"></div>
     </div>
-        <br><br />
+
                 <table class="table-bordered table bg-white">
                     <thead>
                     <th></th>

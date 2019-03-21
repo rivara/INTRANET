@@ -30,9 +30,10 @@ class desb2BController
         $collection = collect($logs);
         $page = $request['page'];
         $perPage = 10;
-        $paginate = new LengthAwarePaginator($collection->forPage($page, $perPage), $collection->count(), $perPage, $page, ['path'=>url('/WebAdmLog?oAccion=listado&id_usuario=[1]')]);
+        $paginate = new LengthAwarePaginator($collection->forPage($page, $perPage), $collection->count(), $perPage, $page, ['path'=>url('/WebAdmLog?oAccion=listado&id_usuario='.$request['id_usuario'])]);
         return view('/desb2b/WebAdmLog', ['oAccion' =>  $request['oAccion'],'logs'=>$paginate,'email'=>$request['email'],'fechaDesde'=>$fechaDesde,
-            'fechaHasta'=>$fechaHasta,'empresa'=>$empresa,'cdclien'=>$cdclien,'cdsucur'=>$cdsucur,'seccion'=>$seccion,'des'=>$des,'userMag'=>$userMag,'id_usuario'=>$request['id_usuario']]);
+            'fechaHasta'=>$fechaHasta,'empresa'=>$empresa,'cdclien'=>$cdclien,'cdsucur'=>$cdsucur,'seccion'=>$seccion,'des'=>$des,'userMag'=>$userMag,'id_usuario'=>$request['id_usuario']
+        ,'id'=>$request['id']]);
 
     }
 
@@ -94,9 +95,10 @@ class desb2BController
 
     public function actionAddCategorias(Request $request)
     {
-
-        foreach ($request['categoria'] as $categorialId) {
-          DB::table('menus_b2b')->insert(['id_menu' => $request["id"], 'id_b2b' => $categorialId]);
+        if($request['categoria']!=null){
+            foreach ($request['categoria'] as $categorialId) {
+            DB::table('menus_b2b')->insert(['id_menu' => $request["id"], 'id_b2b' => $categorialId]);
+            }
         }
         return view("/management/menu/update",['id'=>$request['id']]);
 

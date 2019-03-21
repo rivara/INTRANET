@@ -28,7 +28,7 @@
                     <th>Nombre</th>
                     <th>Url</th>
                     <th style="width: 150px;">
-                        <button type="submit" name="submit" value="New" class="btn btn-light btnE floatRight"><i
+                        <button type="submit" name="submit" value="New" class="btn  btnE floatRight"><i
                                     class="fa fa-floppy-o fa-lg"></i></button>
                     </th>
                     </thead>

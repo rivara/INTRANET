@@ -128,7 +128,7 @@ Route::group(['middleware' => 'revalidate'], function() {
     Route::get('subCarpeta', 'Auth\BibliotecaController@actionGoSubCarpeta')->name('goSubCarpeta');
     Route::get('carpeta', 'Auth\BibliotecaController@actionBackCarpeta')->name('backCarpeta');
 //record file
-    Route::post('upload', 'Auth\BibliotecaController@upload')->name('upload');
+    Route::post('upload', 'Auth\BibliotecaController@actionUpload')->name('upload');
     Route::get('download', 'Auth\BibliotecaController@actionDownload')->name('download');
 
 //deleteFile

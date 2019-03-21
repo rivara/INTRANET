@@ -104,9 +104,9 @@ class LoginController extends Controller
     {
         $nombre = $request['nombre'];
         $url = DB::table('portales')->where('id', $request['id'])->pluck('url');
+
         $usuarios = DB::table('usuarios')->get();
         if ($url[0] == "admin") {
-
             $nombre = DB::table('usuarios')->where('email', session('mail'))->pluck('nombre');
             //Aqui pagino
             $request['oAccion'] = "listado";

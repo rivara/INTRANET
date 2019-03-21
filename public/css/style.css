@@ -585,6 +585,23 @@ input[type="file"] {
 }
 
 .bar button{
-    font-size:1rem;
-    font-family: Questrial, serif !important;
+    font-size:1.02rem;
+  /*  font-family: Questrial, serif !important;*/
 }
+
+.comafe .page-item .page-link {
+
+    z-index: 1;
+    color: #B5BF00;
+    background-color: #fff  !important;
+}
+
+
+.comafe .page-item.active .page-link {
+
+    z-index: 1;
+    color: #fff;
+    background-color: #B5BF00  !important;
+    border-color: #B5BF00  !important;
+}
+

@@ -20,6 +20,7 @@ class AdminController
 
     public function actionAdmin(Request $request)
     {
+
         $nombre = DB::table('usuarios')->where('email', session('mail'))->pluck('nombre');
         $request['oAccion'] = "listado";
         $usuarios = DB::table('usuarios')->get();
@@ -66,6 +67,7 @@ class AdminController
     public function actionRecordUser(Request $request)
     {
 
+
         $nombreError = array('usuario' => ' ');
         $emailError = array('email' => ' ');
 
@@ -75,6 +77,12 @@ class AdminController
         if (is_null($request['email'])) {
             $emailError = array('email' => 'No debe ser vacio');
         }
+
+        if (is_null($request['idEmpresa'])) {
+            $emailError = array('idEmpresa' => 'No debe ser vacio');
+        }
+
+
         $id = $request['id'];
         if (is_null($request['usuario']) || is_null($request['email'])) {
             return redirect()->back()->withErrors(array_merge($nombreError, $emailError));
@@ -100,7 +108,7 @@ class AdminController
                 'email' => $request['email'],
                 'clave' => $clave,
                 'id_empresa' => $request['idEmpresa'],
-                'id_menu' => null
+                'id_menu' => $request["id_menu"]
             ));
         }
         // aqui pagino
@@ -123,7 +131,6 @@ class AdminController
 
     public function actionUpdateUser(Request $request)
     {
-
         //Controlar que no entran vacios
         $nombreError = array('nombre' => ' ');
         $emailError = array('email' => ' ');

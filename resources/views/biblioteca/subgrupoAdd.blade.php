@@ -5,7 +5,7 @@
             <div class="col-md-2 paddingTop10px">
                 <form method="GET" action="{{route('goSubCarpeta')}}">
                     @csrf
-                    <button type="submit" name="submit" value="Edit" class="btn btn-info  btnE ">
+                    <button type="submit" name="submit" value="Edit" class="btn btn-primary  btnE ">
                         <i class="fa fa-arrow-left fa-lg"></i></button>
                     <input type="hidden" name="id_usuario" value="{{$id_usuario}}">
                     <input type="hidden" name="id_grupo" value="{{$id_grupo}}">
@@ -34,7 +34,7 @@
                 </span>
                 @endif
                 <br>
-                <button class="btn btn-info floatRight"><i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i>
+                <button class="btn btn-primary floatRight"><i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i>
                     grabar
                 </button>
                 <input type="hidden" name="id_usuario" value="{{$id_usuario}}">

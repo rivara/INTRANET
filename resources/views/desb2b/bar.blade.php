@@ -19,11 +19,13 @@
 <div class="submenu2">
 
 <?php
+
     $id_usuario= substr($id_usuario,1,strlen($id_usuario)-2);
     $id_menu = DB::table('usuarios')->where('id', $id_usuario)->pluck('id_menu');
     $id_menu= substr($id_menu,1,strlen($id_menu)-2);
     $ids = DB::table('menus_b2b')->where('id_menu', $id_menu)->pluck('id_b2b');
     $categorias = DB::table('b2bcategorias')->where(['subcategoria1' => NULL])->whereIn('id', $ids)->get();
+
     ?>
     @foreach($categorias as $categoria)
         <div class="floatLeft bar" >
@@ -33,10 +35,9 @@
                 $ids = DB::table('menus_b2b')->where('id_menu', $id_menu)->pluck('id_b2b');
                 $subcategorias = DB::table('b2bcategorias')->where('subcategoria1', '!=',null)->where(['categoria' => $categoria->categoria])->whereIn('id', $ids)->get();
                 ?>
-                @if((count($subcategorias))>1)
+                @if((count($subcategorias))>0)
                 <ul class="dropdown-menu">
                 @foreach($subcategorias as $subcategoria)
-
 
                         <li class="dropdown-submenu">
                             <form action="{{ route($subcategoria->accion)}}" method="get">

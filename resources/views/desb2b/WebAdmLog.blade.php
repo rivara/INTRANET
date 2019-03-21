@@ -130,8 +130,8 @@
                     <div class="col-md-12">
                         <small>{{$logs->total()}} registros</small>
                     </div>
-                    <div class="col-md-12 colorC">
-                        {{$logs->appends(['fechaDesde' => $fechaDesde,'fechaHasta'=>$fechaHasta,'empresa'=>$empresa,'cdclien'=>$cdclien,'cdsucur'=>$cdsucur,'des'=>$des,'userMag'=>$userMag])->links()}}
+                    <div class="col-md-12 comafe">
+                        {{$logs->appends(['fechaDesde' => $fechaDesde,'fechaHasta'=>$fechaHasta,'empresa'=>$empresa,'cdclien'=>$cdclien,'cdsucur'=>$cdsucur,'des'=>$des,'userMag'=>$userMag,'id'=>$id])->links()}}
                     </div>
                 </div>
             </div>
