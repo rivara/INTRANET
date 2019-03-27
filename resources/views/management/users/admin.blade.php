@@ -99,14 +99,19 @@
                 @endforeach
                 </tbody>
             </table>
-            <!--<div class="row floatLeft ">
+
+            <div class="row floatLeft ">
                 <div class="col-md-12">
-                    <small>{#$logs->total()#} registros</small>
+                    <small>{{$paginado->total()}} registros</small>
                 </div>
                 <div class="col-md-12 comafe">
-                    {#$logs->appends(['fechaDesde' => $fechaDesde,'fechaHasta'=>$fechaHasta,'empresa'=>$empresa,'cdclien'=>$cdclien,'cdsucur'=>$cdsucur,'des'=>$des,'userMag'=>$userMag,'id'=>$id])->links()}}
+                    {{$paginado->appends(['nombre'=>$nombre])->links()}}
+                    {{ $paginado }}
                 </div>
-            </div> -->
+            </div>
+
+
+
         </div>
     </div>
 

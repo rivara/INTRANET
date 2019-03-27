@@ -3,6 +3,7 @@
     <div class="title">
         <h1>Hola <?php echo $nombre[0] ?></h1>
     </div>
+
     <div class="center">
         <div class="row table">
             @if(! empty($portales))

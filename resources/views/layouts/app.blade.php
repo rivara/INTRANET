@@ -10,6 +10,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Portal-Empresa') }}</title>
     <!-- Scripts -->
+
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/hall.js') }}" ></script>
     <script src="{{ asset('js/app.js') }}" ></script>
@@ -69,6 +70,7 @@
                     </ul>
                 </div>
             </div>
+            <p>version marzo 2019 </p>
         </nav>
         <main class="py-4">
             @yield('content')

@@ -107,15 +107,38 @@ class LoginController extends Controller
 
         $usuarios = DB::table('usuarios')->get();
         if ($url[0] == "admin") {
-            $nombre = DB::table('usuarios')->where('email', session('mail'))->pluck('nombre');
+           /* $nombre = DB::table('usuarios')->where('email', session('mail'))->pluck('nombre');
             //Aqui pagino
             $request['oAccion'] = "listado";
             $collection = collect($usuarios);
             $page = $request['page'];
-            $perPage = 10;
+            $perPage = 5;
             $paginate = new LengthAwarePaginator($collection->forPage($page, $perPage), $collection->count(), $perPage,
                 $page, ['path' => url('admin')]);
-            return view('management/users/admin', ['nombre' => $nombre, 'usuarios' => $paginate]);
+            return view('management/users/admin', ['nombre' => $nombre, 'paginado' => $paginate]);*/
+           ////////////////////////////////////////////////////////
+            /// ///////////////////////////////////////////////////////////
+            ///
+            $nombre = DB::table('usuarios')->where('email', session('mail'))->pluck('nombre');
+            /* $request['oAccion'] = "listado";
+             $usuarios = DB::table('usuarios')->get();
+             $collection = collect($usuarios);
+             $page = $request['page'];
+             $perPage = 5;
+             $paginate = new LengthAwarePaginator($collection->forPage($page, $perPage), $collection->count(), $perPage,
+                 $page, ['path' => url('admin')]);
+             return view('management/users/admin', ['nombre' => $nombre, 'paginado' => $paginate]);*/
+            ///////////////////////////////////////////////////////////
+            /// ////////////////////////////////////////////////////////
+            ///
+             url('redirect');
+            $usuarios = DB::table('usuarios')->get();
+            $collection = collect($usuarios);
+            $page = $request['page'];
+            $perPage = 1;
+            $paginate = new LengthAwarePaginator($collection->forPage($page, $perPage), $collection->count(), $perPage,
+                $page, ['path' => url('redirect')]);
+            return view('management/users/admin', ['nombre' => $nombre, 'paginado' => $paginate]);
         }
         if ($url[0] == "desb2b") {
             return view('/desb2b/index',['oAccion' => $request['oAccion'],'id_usuario' => $request['id_usuario']]);
@@ -161,14 +184,28 @@ class LoginController extends Controller
     public function actionBackAdmin(Request $request)
     {
         $nombre = DB::table('usuarios')->where('email', session('mail'))->pluck('nombre');
-        $request['oAccion'] = "listado";
+       /* $request['oAccion'] = "listado";
         $usuarios = DB::table('usuarios')->get();
         $collection = collect($usuarios);
         $page = $request['page'];
-        $perPage = 10;
+        $perPage = 5;
         $paginate = new LengthAwarePaginator($collection->forPage($page, $perPage), $collection->count(), $perPage,
             $page, ['path' => url('admin')]);
-        return view('management/users/admin', ['nombre' => $nombre, 'usuarios' => $paginate]);
+        return view('management/users/admin', ['nombre' => $nombre, 'paginado' => $paginate]);*/
+       ///////////////////////////////////////////////////////////
+        /// ////////////////////////////////////////////////////////
+        ///
+        $usuarios = DB::table('usuarios')->get();
+        $collection = collect($usuarios);
+        $page = $request['page'];
+        $perPage = 1;
+        $paginate = new LengthAwarePaginator($collection->forPage($page, $perPage), $collection->count(), $perPage,
+            $page, ['path' => url('/WebAdmLog?oAccion=listado&id_usuario=' . $request['id_usuario'])]);
+        return view('management/users/admin', ['nombre' => $nombre, 'paginado' => $paginate]);
+
+
+
+
     }
 
 

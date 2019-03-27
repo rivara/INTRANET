@@ -2,8 +2,13 @@
 @extends('layouts.desb2b')
 @include('desb2b.bar')
 @if($oAccion=="inicio")
+<p class="breadcrumb-item sp">logs</p>
+<div class="headerComafe">
+        <h6>Logs</h6>
+    </div>
 <form action="{{ route('WebAdmLog') }}" method="get">
-        <div id="dvContenido" class="separacion-vertical-arriba" align="center">
+        <div id="dvContenido"  align="center">
+
             <table width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
                     <td height="100" align="center" valign="middle">
@@ -87,8 +92,9 @@
                     </td>
                 </tr>
             </table>
-                <button class="btn colorC margintop10px"><b>enviar</b>
-                </button>
+               <div class="wrapperComafe">
+                    <button class="btn colorC margintop10px"><b>buscar</b></button>
+               </div>
                 <input type="hidden" name="oAccion" value="listado">
                 <input type="hidden" name="page" value="1">
             <input type="hidden" name="id_usuario" value="{{$id_usuario}}">
@@ -97,13 +103,29 @@
 @endif
 
 @if($oAccion=="listado")
-            <div class="center">
-                <form action="{{ route("WebAdmLog")}}" method="get">
-                    <button class="btn colorC" type="submit" ><i class="fa fa-arrow-left"></i></button>
-                    <input type="hidden" name="oAccion" value="inicio">
-                    <input type="hidden" name="id_usuario" value="[{{$id_usuario}}]">
-                </form>
-                <table class="table table-striped table-bordered" border="1px solid black">
+    <p class="breadcrumb-item sp">logs >> listado</p>
+    <div class="headerComafe">
+        <div class="row">
+            <div class="col-md-8">
+                <h6>Logs</h6>
+            </div>
+            <div class="col-md-4">
+                <div class="floatRight">
+                    <form action="{{ route("WebAdmLog")}}" method="get">
+                        <button class="btn colorC " type="submit"><i class="fa fa-arrow-left fa-xl"></i></button>
+                        <input type="hidden" name="oAccion" value="inicio">
+                        <input type="hidden" name="id_usuario" value="{{$id_usuario}}">
+                    </form>
+                </div>
+                <button class="btn colorC floatRight" type="submit"><i class="fa fa-question fa-xl"></i></button>
+            </div>
+
+            </div>
+        </div>
+
+            <div class="wrapperComafeListado">
+
+                <table class="table table-stripedComafe table-comafe borderComafe" >
                     <thead>
                     <th>ID</th>
                     <th>EMPRESA</th>

@@ -4,15 +4,45 @@
         <h4>Administración de menus</h4>
     </div>
 
-    <div class="container">
-        <form action="{{ route('redirect') }}" method="POST">
-            @csrf
-            <button type="submit" name="submit" value="Edit" class="btn btn-outline-primary  btnE ">
-                <i class="fa fa-arrow-left fa-lg"></i></button>
-            <input type="hidden" name="id" value=1>
-        </form>
-        <br>
+    <div class="container" >
+        <div class="row">
+        <div class="col-md-4">
+            <form action="{{ route('redirect') }}" method="POST">
+                @csrf
+                <button type="submit" name="submit" value="Edit" class="btn btn-outline-primary  btnE ">
+                    <i class="fa fa-arrow-left fa-lg"></i></button>
+                    <input type="hidden" name="id" value=1>
+            </form>
+        </div>
+            <div class="col-md-8"></div>
+            <div class="col-md-6"></div>
 
+            <div class="col-md-2">
+                <form  method="GET" action="{{ route('goCreateCategoria') }}">
+                    <button class="btn btn-primary"><i class="fa fa-list" aria-hidden="true"></i>
+                        crear categoria</button>
+                    <input type="hidden" name="id" value=1>
+                </form>
+            </div>
+            <div class="col-md-2">
+                <form  method="GET" action="{{ route('goCreateSubcategoria') }}">
+                    <button class="btn btn-primary">
+
+                        crear subcategoria</button>
+                    <input type="hidden" name="id" value=1>
+                </form>
+            </div>
+            <div class="col-md-2">
+                <form  method="GET"  action="{{ route('goDeleteCategoria') }}">
+                    <button class="btn btn-primary">
+                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                        borrar categoria</button>
+                    <input type="hidden" name="id" value=1>
+                </form>
+            </div>
+
+        </div>
+        <br>
         <div class="row justify-content-center">
             <table class="table table-striped table-bordered table-info" border="1px solid black">
                 <thead>
@@ -27,6 +57,8 @@
                 </th>
                 </thead>
                 <tbody>
+                <?php   $cuenta = DB::table('menus')->count(); ?>
+                @if($cuenta>0)
                 <?php   $menus = DB::table('menus')->get(); ?>
                 @foreach($menus as $menu)
                     <tr>
@@ -48,6 +80,7 @@
                     </tr>
                 @endforeach
                 </tbody>
+
             </table>
         </div>
     </div>
@@ -76,4 +109,5 @@
             </div>
         </div>
     </div>
+    @endif
 @endsection

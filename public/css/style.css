@@ -122,11 +122,6 @@ th {
     background-color: blue;
 }
 
-.list {
-    float: left;
-    padding-left: 20px;
-    font-size: 14px;
-}
 
 .coverDrag {
     border-width: 1px;
@@ -227,7 +222,12 @@ th {
     margin: 10px;
 }
 
+
+
 /**** partes ****/
+.height60px{
+    height: 60px;
+}
 
 .width100 {
     width: 100% !important;
@@ -510,6 +510,17 @@ input[type="file"] {
 /*********************GENERAL*****************************/
 /*******************************************************/
 
+
+.centro {
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 10%;
+    right: 0;
+    top:20%;
+}
+
+
 .btn-circle {
     width: 30px;
     height: 30px;
@@ -546,9 +557,87 @@ input[type="file"] {
 }
 
 
-/*******************************************************/
-/******************* DESB2B ****************************/
-/*******************************************************/
+
+/*********************************************/
+/****************COMAFE***********************/
+/*********************************************/
+
+/*html tag*/
+html body{
+    background-color:#fff;
+}
+
+/*header*/
+.headerC{
+    background: rgb(255,255,255);
+    background: linear-gradient(50deg, rgba(255,255,255,1) 0%, rgba(181,191,0,1) 100%, rgba(0,212,255,1) 100%);
+    -webkit-box-shadow: -1px 5px 5px 1px rgba(0,0,0,0.25);
+    -moz-box-shadow: -1px 5px 5px 1px rgba(0,0,0,0.25);
+    box-shadow: -1px 5px 5px 1px rgba(0,0,0,0.25);
+}
+
+.header .btn-link{
+    color:grey !important;
+    text-decoration: none;
+}
+.header a{
+    color:grey !important;
+}
+
+
+.logoComafe{
+    background-image:url("/img/logoComafe.png");
+    background-repeat: no-repeat;
+    height: 70px;
+    width: 230px;
+}
+
+
+body {margin: 0}
+
+.navbar {
+    display: flex; /* displays flex-items (children) inline */
+    justify-content: space-between; /* children are evenly distributed, first child is on the left and last child on the right side */
+}
+
+ul {
+    list-style: none;
+}
+
+/*color*/
+.colorC{
+    background-color:#B5BF00 !important;
+    color:#fff !important;
+}
+
+.colorC .page-link{
+    background-color:#B5BF00 !important;
+    color:#fff !important;
+}
+
+
+
+.dropdown-submenu{
+    /*background-color: GREEN !important;*/
+
+}
+
+.dropdown-submenu button{
+    background-color: transparent;
+    width: 90%;
+    margin: -3px;
+    cursor: pointer;
+    border: none;
+    border: 0;
+    min-width: 11rem;
+
+}
+
+.dropdown-submenu button p{
+    padding: 5px;
+    margin: 3px;
+    font-size: 14px;
+}
 
 
 .dropdown-submenu:hover {
@@ -561,11 +650,7 @@ input[type="file"] {
 .dropdown-submenu>.dropdown-menu {
     top: 0;
     left: 100%;
-    margin-top: 10px;
-    margin-left: -1px;
-    -webkit-border-radius: 0 6px 6px 6px;
-    -moz-border-radius: 0 6px 6px;
-    border-radius: 6px 6px 6px 6px;
+    margin-top: 1px;
 }
 
 
@@ -586,7 +671,7 @@ input[type="file"] {
 
 .bar button{
     font-size:1.02rem;
-  /*  font-family: Questrial, serif !important;*/
+    /*  font-family: Questrial, serif !important;*/
 }
 
 .comafe .page-item .page-link {
@@ -603,5 +688,124 @@ input[type="file"] {
     color: #fff;
     background-color: #B5BF00  !important;
     border-color: #B5BF00  !important;
+}
+
+.badge {
+    font-weight: normal !important;
+    font-size: 0.97rem;
+    padding-left: 20px;
+    padding-right: 20px;
+    cursor:pointer;
+}
+
+
+
+.list {
+    float: left;
+    padding-left: 20px;
+    font-size: 10px;
+}
+
+
+.headerComafe{
+    background-color: #B5BF00;
+    padding-top: 10px;
+    padding-bottom: 2px;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+
+}
+
+.headerComafe h6{
+    font-size: 133.33%;
+    color:#fff;
+    padding-left: 20px;
+    padding-top: 5px;
+}
+
+
+
+.wrapperComafe{
+    border: 2px solid  #B5BF00;
+    padding-top: 2px;
+    padding-bottom: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+
+.wrapperComafeListado{
+    padding-top: 2px;
+    padding-bottom: 5px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+
+.fa-xl{
+    font-size: 2em !important;
+    padding-top: -5px !important;
+    padding-bottom: -15px !important;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-top: -5px !important;
+    margin-bottom: -10px !important;
+}
+
+
+
+
+/* tablas*/
+.borderComafe {
+    border: 1.5px solid #B5BF00 !important;
+}
+
+
+.table-comafe td {
+    color: grey !important;
+}
+
+.table-comafe, .table-comafe > th, .table-comafe > td {
+    background-color: #FEFFC3;
+
+}
+
+.table-comafe thead {
+    background-color: #B5BF00;
+
+}
+
+.table-comafe thead th {
+    color:#fff;
+}
+
+.table-stripedComafe tbody tr:nth-of-type(2n+1) {
+    background-color:#fff;
+}
+
+.sp {
+   padding-left: 10px;
+}
+
+/*********************************************/
+/*************FERRCASH************************/
+/*********************************************/
+
+.logoFerrcash{
+    background-image:url("/img/logoFerrcash.png");
+    background-repeat: no-repeat;
+    height: 70px;
+    width: 230px;
+}
+
+/*header*/
+.headerF{
+    background: rgb(236, 115, 44);
+}
+
+.colorF{
+    background-color:#ec732c  !important;
+    color:#fff !important;
 }
 

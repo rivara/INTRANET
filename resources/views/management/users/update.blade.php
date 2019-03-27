@@ -72,7 +72,6 @@
                         <select class="form-control" name="id_menu">
                             <?php
 
-
                             $menu_id = DB::table('usuarios')->where('id', $id)->pluck('id_menu');
 
 
