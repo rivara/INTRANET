@@ -41,6 +41,10 @@
                 <ul class="dropdown-menu">
                 @foreach($subcategorias as $subcategoria)
 
+                        <?php
+                        echo "prueba11";
+                        die();
+                        ?>
 
                         <li class="dropdown-submenu">
                             <form action="{{ route($subcategoria->accion)}}" method="get">
