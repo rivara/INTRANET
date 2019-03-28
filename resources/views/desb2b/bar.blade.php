@@ -17,6 +17,7 @@
     </nav>
 </div>
 <div class="submenu2">
+    <?php die(); ?>
 
 <?php
     $id_usuario= substr($id_usuario,1,strlen($id_usuario)-2);
