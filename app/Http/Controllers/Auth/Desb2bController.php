@@ -146,6 +146,7 @@ class desb2BController
 
     public function actionRecordMenu(Request $request)
     {
+
         if (is_null($request['nombre'])) {
             $nombreError = array('nombre' => 'No debe ser vacio');
         }
@@ -155,12 +156,16 @@ class desb2BController
 
         $nombreError = array('nombre' => 'Existe este grupo');
         //Si el nombre ya existe no se podara grabar por lo que reenviara un mensaje de error
+
         $dato = DB::table('menus')->where('nombre', strtoupper($request['nombre']))->get();
 
         if (count($dato) == 0) {
+
             DB::table('menus')->insert(array('nombre' => strtoupper($request['nombre'])));
             // asociar todos las categorias al nuevo grupo
+
             $id_grupo = DB::table('menus')->where('nombre', strtoupper($request['nombre']))->pluck('id');
+
             $categorias = DB::table('b2bcategorias')->pluck('id');
             $id_grupo = substr($id_grupo, 1, strlen($id_grupo) - 2);
             foreach ($categorias as $categoria) {
