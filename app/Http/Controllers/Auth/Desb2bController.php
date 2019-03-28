@@ -187,7 +187,13 @@ class desb2BController
         }
         $categoria = DB::table('b2bcategorias')->orderBy('categoria', 'DESC')->take(1)->pluck('categoria');
         $categoria = substr($categoria, 1, strlen($categoria) - 2);
-        $cat = $categoria + 1;
+        if ($categoria==""){
+            $cat = 1;
+        }else{
+            $cat = $categoria + 1;
+        }
+
+
         $dato = DB::table('b2bcategorias')->where([
             'texto' => $request['texto'],
             'subcategoria1' => null

@@ -113,7 +113,7 @@ class LoginController extends Controller
             $usuarios = DB::table('usuarios')->get();
             $collection = collect($usuarios);
             $page = $request['page'];
-            $perPage = 3;
+            $perPage = 10;
             $paginat = new LengthAwarePaginator($collection->forPage($page, $perPage), $collection->count(), $perPage, $page, ['path' => url('management/users')]);
             return view('management/users/admin', ['nombre' => $nombre, 'paginado' => $paginat]);
         }
@@ -166,7 +166,7 @@ class LoginController extends Controller
         $collection = collect($usuarios);
         $page = $request['page'];
         //Aqui pagino
-        $perPage = 3;
+        $perPage = 10;
         $paginat = new LengthAwarePaginator($collection->forPage($page, $perPage), $collection->count(), $perPage, $page, ['path' => url('management/users')]);
         return view('management/users/admin', ['nombre' => $nombre, 'paginado' => $paginat]);
     }
