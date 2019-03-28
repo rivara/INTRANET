@@ -27,10 +27,7 @@
     $categorias = DB::table('b2bcategorias')->where(['subcategoria1' => NULL])->whereIn('id', $ids)->get();
     ?>
 
-    <?php
-    echo "prueba";
-    die();
-    ?>
+
 
     @foreach($categorias as $categoria)
         <div class="floatLeft bar" >
@@ -70,6 +67,10 @@
             @endforeach
                 </ul>
             @else
+                    <?php
+                    echo "prueba";
+                    die();
+                    ?>
                     <ul class="dropdown-menu">
                         <li class="dropdown-submenu">
                     <form action="{{ route($categoria->accion)}}" method="get">
