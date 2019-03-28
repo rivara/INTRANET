@@ -58,8 +58,7 @@
                 </th>
                 </thead>
                 <tbody>
-                <?php   $usuarios = DB::table('usuarios')->get(); ?>
-                @foreach($usuarios as $value)
+                    @foreach($paginado as $value)
                     <tr>
                         <form action="{{ route('goUpdateUser') }}" method="GET">
                             @csrf
@@ -100,13 +99,14 @@
                 </tbody>
             </table>
 
+
+
             <div class="row floatLeft ">
                 <div class="col-md-12">
                     <small>{{$paginado->total()}} registros</small>
                 </div>
-                <div class="col-md-12 comafe">
+                <div class="col-md-12">
                     {{$paginado->appends(['nombre'=>$nombre])->links()}}
-                    {{ $paginado }}
                 </div>
             </div>
 

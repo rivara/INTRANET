@@ -26,10 +26,9 @@ class AdminController
         $usuarios = DB::table('usuarios')->get();
         $collection = collect($usuarios);
         $page = $request['page'];
-        $perPage = 1;
-        $paginate = new LengthAwarePaginator($collection->forPage($page, $perPage), $collection->count(), $perPage,
-            $page, ['path' => url('admin')]);
-        return view('management\users\admin', ['nombre' => $nombre, 'paginado' => $paginate]);
+        $perPage = 3;
+        $paginat = new LengthAwarePaginator($collection->forPage($page, $perPage), $collection->count(), $perPage, $page, ['path' => url('management/users')]);
+        return view('management\users\admin', ['nombre' => $nombre, 'paginado' => $paginat]);
     }
 
 
@@ -118,10 +117,9 @@ class AdminController
         $request['oAccion'] = "listado";
         $collection = collect($usuarios);
         $page = $request['page'];
-        $perPage = 10;
-        $paginate = new LengthAwarePaginator($collection->forPage($page, $perPage), $collection->count(), $perPage,
-            $page, ['path' => url('admin')]);
-        return view('management/users/admin', ['nombre' => $nombre, 'paginado' => $paginate]);
+        $perPage = 3;
+        $paginat = new LengthAwarePaginator($collection->forPage($page, $perPage), $collection->count(), $perPage, $page, ['path' => url('management/users')]);
+        return view('management/users/admin', ['nombre' => $nombre, 'paginado' => $paginat]);
 
 
 
@@ -166,10 +164,9 @@ class AdminController
         $request['oAccion'] = "listado";
         $collection = collect($usuarios);
         $page = $request['page'];
-        $perPage = 10;
-        $paginate = new LengthAwarePaginator($collection->forPage($page, $perPage), $collection->count(), $perPage,
-            $page, ['path' => url('admin')]);
-        return view('management/users/admin', ['nombre' => $nombre, 'paginado' => $paginate]);
+        $perPage = 3;
+        $paginat = new LengthAwarePaginator($collection->forPage($page, $perPage), $collection->count(), $perPage, $page, ['path' => url('management/users')]);
+        return view('management/users/admin', ['nombre' => $nombre, 'paginado' => $paginat]);
     }
 
 
@@ -251,11 +248,10 @@ class AdminController
         $usuarios = DB::table('usuarios')->get();
         $collection = collect($usuarios);
         $page = $request['page'];
-        $perPage = 5;
-        $paginate = new LengthAwarePaginator($collection->forPage($page, $perPage), $collection->count(), $perPage,
-            $page, ['path' => url('admin')]);
+        $perPage = 3;
+        $paginat = new LengthAwarePaginator($collection->forPage($page, $perPage), $collection->count(), $perPage, $page, ['path' => url('management/users')]);
         //$usuarios = DB::table('usuarios')->get();
-        return view('management/users/admin', ['nombre' => $nombre, 'paginado' => $paginate]);
+        return view('management/users/admin', ['nombre' => $nombre, 'paginado' => $paginat]);
     }
 
     public function actionSearch(Request $request)
@@ -266,10 +262,9 @@ class AdminController
             'like', '%' . $request['search'] . '%')->orWhere('id', 'like', '%' . $request['search'] . '%')->get();
         $collection = collect($usuarios);
         $page = $request['page'];
-        $perPage = 5;
-        $paginate = new LengthAwarePaginator($collection->forPage($page, $perPage), $collection->count(), $perPage,
-            $page, ['path' => url('admin')]);
-        return view('management/users/admin', ['nombre' => $nombre, 'paginado' => $paginate]);
+        $perPage = 3;
+        $paginat = new LengthAwarePaginator($collection->forPage($page, $perPage), $collection->count(), $perPage, $page, ['path' => url('management/users')]);
+        return view('management/users/admin', ['nombre' => $nombre, 'paginado' => $paginat]);
     }
 
 
