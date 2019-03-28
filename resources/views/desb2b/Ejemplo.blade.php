@@ -9,7 +9,7 @@
             <td height="100" align="center" valign="middle">
                 <table width="90%" border="0" cellspacing="0" cellpadding="0">
 
-                        ejemplo
+                        ejemplos
                 </table>
             </td>
         </tr>
