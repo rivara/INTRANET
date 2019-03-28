@@ -44,15 +44,12 @@
 
 
                         <li class="dropdown-submenu">
-                            <form action="{{ route($subcategoria->accion)}}" method="get">
+                            <!--<form action="{{ route($subcategoria->accion)}}" method="get">
                                 <button class="" type="submit"><p>{{$subcategoria->texto}}</p></button>
                                 <input type="hidden" name="oAccion" value="inicio">
                                 <input type="hidden" name="id_usuario" value="[{{$id_usuario}}]">
-                            </form>
-                        <?php
-                        echo "prueba-----";
-                        die();
-                        ?>
+                            </form>-->
+
                        <!-- <form>
                             <input class="btn" type="submit" value=""/>
                             <input type="hidden" name="oAccion" value="inicio">
