@@ -37,8 +37,11 @@
 
             </li>
             <?php
+
             $ids = DB::table('menus_b2b')->where('id_menu', $id)->pluck('id_b2b');
             $categorias = DB::table('b2bcategorias')->where(['subcategoria1' => NULL])->whereIn('id', $ids)->get();
+
+
             ?>
             @foreach($categorias as $categoria)
                 <li class="list-group-item bg-lightBlue">

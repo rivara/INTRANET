@@ -187,7 +187,7 @@ class desb2BController
         }
         $categoria = DB::table('b2bcategorias')->orderBy('categoria', 'DESC')->take(1)->pluck('categoria');
         $categoria = substr($categoria, 1, strlen($categoria) - 2);
-        if ($categoria==""){
+        if (is_null($categoria)){
             $cat = 1;
         }else{
             $cat = $categoria + 1;
@@ -206,13 +206,14 @@ class desb2BController
                 'texto' => $request['texto'],
                 'accion' => $accion
             ));
-
             //asociacion a todos los menus creados
             $id = DB::table('b2bcategorias')->where(['categoria' => $cat, 'subcategoria1' => null])->pluck('id');
             $id = substr($id, 1, strlen($id) - 2);
-            $id_grupos = DB::table('grupos')->pluck('id');
-            foreach ($id_grupos as $id_grupo) {
-                DB::table('menus_b2b')->insert(array('id_menu' => $id_grupo, 'id_b2b' => $id));
+            $id_menus = DB::table('menus')->pluck('id');
+
+
+            foreach ($id_menus as $id_menu) {
+                DB::table('menus_b2b')->insert(array('id_menu' => $id_menu, 'id_b2b' => $id));
             }
             return view("/management/menu/menu");
 
