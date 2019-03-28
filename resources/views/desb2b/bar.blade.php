@@ -17,7 +17,7 @@
     </nav>
 </div>
 <div class="submenu2">
-    <?php die(); ?>
+
 
 <?php
     $id_usuario= substr($id_usuario,1,strlen($id_usuario)-2);
@@ -26,6 +26,12 @@
     $ids = DB::table('menus_b2b')->where('id_menu', $id_menu)->pluck('id_b2b');
     $categorias = DB::table('b2bcategorias')->where(['subcategoria1' => NULL])->whereIn('id', $ids)->get();
     ?>
+
+    <?php
+    echo "prueba";
+    die();
+    ?>
+
     @foreach($categorias as $categoria)
         <div class="floatLeft bar" >
             <li class="dropdown">
