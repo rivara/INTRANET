@@ -171,8 +171,6 @@ class desb2BController
             foreach ($categorias as $categoria) {
                 DB::table('menus_b2b')->insert(array('id_menu' => $id_grupo, 'id_b2b' => $categoria));
             }
-
-
             return view("/management/menu/menu", ['nombre' => $request['nombre']]);
         } else {
             $nombreError = array('nombre' => 'Nombre repetido');
@@ -192,10 +190,11 @@ class desb2BController
         }
         $categoria = DB::table('b2bcategorias')->orderBy('categoria', 'DESC')->take(1)->pluck('categoria');
         $categoria = substr($categoria, 1, strlen($categoria) - 2);
-        if (is_null($categoria)){
-            $cat = 1;
-        }else{
+        if (is_numeric($categoria)){
+
             $cat = $categoria + 1;
+        }else{
+            $cat = 1;
         }
 
 
