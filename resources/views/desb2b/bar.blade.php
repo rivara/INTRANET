@@ -67,10 +67,7 @@
             @endforeach
                 </ul>
             @else
-                    <?php
-                    echo "prueba";
-                    die();
-                    ?>
+
                     <ul class="dropdown-menu">
                         <li class="dropdown-submenu">
                     <form action="{{ route($categoria->accion)}}" method="get">
@@ -88,7 +85,10 @@
 <br>
 
 
-
+<?php
+echo "prueba";
+die();
+?>
 
 
 
