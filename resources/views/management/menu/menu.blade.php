@@ -14,32 +14,43 @@
                     <input type="hidden" name="id" value=1>
             </form>
         </div>
+            <div class="col-md-8" > </div>
+
             <div class="col-md-8"></div>
-            <div class="col-md-6"></div>
-
-            <div class="col-md-2">
+            <div class="col-md-1">
                 <form  method="GET" action="{{ route('goCreateCategoria') }}">
-                    <button class="btn btn-primary"><i class="fa fa-list" aria-hidden="true"></i>
-                        crear categoria</button>
+                    <button class="btn btn-primary"><i class="fa fa-plus fa-lg" aria-hidden="true"></i>
+                         categoria</button>
                     <input type="hidden" name="id" value=1>
                 </form>
             </div>
-            <div class="col-md-2">
-                <form  method="GET" action="{{ route('goCreateSubcategoria') }}">
-                    <button class="btn btn-primary">
-
-                        crear subcategoria</button>
-                    <input type="hidden" name="id" value=1>
-                </form>
-            </div>
-            <div class="col-md-2">
+            <div class="col-md-1">
                 <form  method="GET"  action="{{ route('goDeleteCategoria') }}">
                     <button class="btn btn-primary">
-                        <i class="fa fa-trash-o" aria-hidden="true"></i>
-                        borrar categoria</button>
+                        <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i>
+                        categoria</button>
                     <input type="hidden" name="id" value=1>
                 </form>
             </div>
+
+            <div class="col-md-1">
+                <form  method="GET" action="{{ route('goCreateSubcategoria') }}">
+                    <button class="btn btn-info"><i class="fa fa-plus fa-lg" aria-hidden="true"></i>
+
+                         subcateg</button>
+                    <input type="hidden" name="id" value=1>
+                </form>
+            </div>
+            <div class="col-md-1">
+                <form  method="GET"  action="{{ route('goDeleteSubCategoria') }}">
+                    <button class="btn btn-info">
+                        <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i>
+                         subcateg</button>
+                    <input type="hidden" name="id" value=1>
+                </form>
+            </div>
+
+
 
         </div>
         <br>

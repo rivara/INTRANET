@@ -68,26 +68,45 @@
                     @endif
                     <br>
                     <label>Menu</label>
+                    <?php
+                    $menu_id = DB::table('usuarios')->where('id', $id)->pluck('id_menu');
+                    $selected = DB::table('menus')->where('id', "=", $menu_id)->first();
+                    ?>
                     <div>
-                        <select class="form-control" name="id_menu">
-                            <?php
+                        @if(!is_null($selected))
+                            <select class="form-control" name="id_menu">
+                                <?php
 
-                            $menu_id = DB::table('usuarios')->where('id', $id)->pluck('id_menu');
+                                $menu_id = DB::table('usuarios')->where('id', $id)->pluck('id_menu');
 
 
-                            if ($menu_id == "[null]") {
+                                if ($menu_id == "[null]") {
+                                    $menus = DB::table('menus')->get();
+                                    $selected = DB::table('menus')->first();
+                                } else {
+                                    $menus = DB::table('menus')->where('id', '!=', $menu_id)->get();
+                                    $selected = DB::table('menus')->where('id', "=", $menu_id)->first();
+                                }
+
+                                ?>
+                                <option value="{{$selected->id}}" selected="selected">{{$selected->nombre}}</option>
+                                @foreach($menus as $menu)
+                                    <option value="{{$menu->id}}">{{$menu->nombre}}</option>
+                                @endforeach
+                            </select>
+                        @else
+                            <select class="form-control" name="id_menu">
+                                <?php
+                                $menu_id = DB::table('usuarios')->where('id', $id)->pluck('id_menu');
                                 $menus = DB::table('menus')->get();
                                 $selected = DB::table('menus')->first();
-                            } else {
-                                $menus = DB::table('menus')->where('id', '!=', $menu_id)->get();
-                                $selected = DB::table('menus')->where('id', "=", $menu_id)->first();
-                            }
-                            ?>
-                            <option value="{{$selected->id}}" selected="selected">{{$selected->nombre}}</option>
-                            @foreach($menus as $menu)
-                                <option value="{{$menu->id}}">{{$menu->nombre}}</option>
-                            @endforeach
-                        </select>
+                                ?>
+                                <option value="{{$selected->id}}" selected="selected">{{$selected->nombre}}</option>
+                                @foreach($menus as $menu)
+                                    <option value="{{$menu->id}}">{{$menu->nombre}}</option>
+                                @endforeach
+                            </select>
+                        @endif
                     </div>
                     @if ($errors->has('passwordR'))
                         <span class="error">
@@ -137,7 +156,7 @@
                     </table>
                 </div>
             </div>
-            <div class="col-md-4" >
+            <div class="col-md-4">
                 <div class="title2">
                     <h5>PORTALES CON ACCESO </h5>
                 </div>

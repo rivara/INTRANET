@@ -101,19 +101,27 @@ Route::group(['middleware' => 'revalidate'], function() {
     Route::get('menu/categoria', 'Auth\Desb2bController@actionGoCreateCategoria')->name('goCreateCategoria');
     Route::get('menu/subcategoria', 'Auth\Desb2bController@actionGoCreateSubcategoria')->name('goCreateSubcategoria');
     Route::get('menu/drop/categoria', 'Auth\Desb2bController@actiongoDeleteCategoria')->name('goDeleteCategoria');
+    Route::get('menu/drop/subcategoria', 'Auth\Desb2bController@actiongoDeleteSubCategoria')->name('goDeleteSubCategoria');
+
+    Route::post('menu/categorias', 'Auth\Desb2bController@actiongoChargeCategoria')->name('chargeCategoria');
+
+
+
+
 
     //crea y borra menu y crea subcategoria
     Route::get('menu/create/categoria', 'Auth\Desb2bController@actionSaveCategoria')->name('saveCategoria');
     Route::get('menu/create/subcategoria', 'Auth\Desb2bController@actionSaveSubCategoria')->name('saveSubCategoria');
 
     Route::get('menu/drop/drop/categoria', 'Auth\Desb2bController@actionDeleteCategoria')->name('deleteCategoria');
-
+    Route::get('menu/drop/drop/subcategoria', 'Auth\Desb2bController@actionDeleteSubCategoria')->name('deleteSubCategoria');
 
 
     //borra menu
     Route::get('menu/delete', 'Auth\Desb2bController@actionDeleteMenu')->name('deleteMenu');
     //borra categoria y subcategoria
-    Route::get('menu/delete/categoria', 'Auth\Desb2bController@actionDeleteMenuCategoria')->name('deleteMenuCategoria');
+    Route::get('menu/delete/subcategoria', 'Auth\Desb2bController@actionDeleteCategoria')->name('deleteCategoria');
+    Route::get('menu/delete/categoria', 'Auth\Desb2bController@actionDeleteSubCategoria')->name('deleteSubCategoria');
 
 
 

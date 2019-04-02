@@ -13,25 +13,26 @@
             </div>
 
             <div class="col-md-7">
-                <h4>Subcategoria</h4>
+                <h4>categoria</h4>
             </div>
-            <div class="col-md-2"></div>
-            <div class="col-md-8">
-                <div class="container wrapper ">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <div class="wrapper ">
 
                     <form action="{{ route('deleteCategoria') }}" method="GET">
-                        <div class="row">
-                            <div class="col-md-4">
+
                                 <label>categoria</label>
-                                <?php  $categorias = DB::table('b2bcategorias')->where(['subcategoria1'=>null])->get();  ?>
-                                <select class="form-control" name="categoria">
+                                <?php  $categorias = DB::table('b2bcategorias')->where(['subcategoria1'=>null])->get();
+
+                                ?>
+                                <select class="form-control " name="categoria">
                                     @foreach($categorias as $categoria)
                                     <option value="{{$categoria->categoria}}">{{$categoria->texto}}</option>
                                     @endforeach
                                 </select>
-                            </div>
-                            <div class="col-md-8"></div>
-                        </div>
+
+
+
 
                         <br>
                         <button class="btn btn-primary floatRight"><i class="fa fa-trash fa-lg" aria-hidden="true"></i>
@@ -40,7 +41,7 @@
                     </form>
                 </div>
             </div>
-            <div class="col-md-2"></div>
+            <div class="col-md-4"></div>
         </div>
     </div>
 @endsection

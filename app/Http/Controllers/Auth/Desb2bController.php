@@ -51,6 +51,25 @@ class desb2BController
 
     }
 
+//rvr
+    public function actiongoChargeCategoria(Request $request)
+    {
+        $id = $request['value'];
+
+        $subcategorias = DB::table('b2bcategorias')->where('categoria', $id)->where('subcategoria1', '<>', null)->get();
+        $output="<option></option>";
+       if(count($subcategorias)!=0) {
+           for ($i = 0; $i <= count($subcategorias)-1; $i++) {
+               $output .= '<option value="'.$subcategorias[$i]->id.'">'.$subcategorias[$i]->texto.'</option>';
+           }
+        }
+        echo $output;
+    }
+
+
+
+
+
     public function actionEjemplo(Request $request)
     {
         return view('/desb2b/Ejemplo', ['oAccion' => 'inicio', 'id_usuario' => $request['id_usuario']]);
@@ -102,6 +121,10 @@ class desb2BController
     public function actiongoDeleteCategoria(Request $request)
     {
         return view("/management/menu/deleteCategoria", ['id' => $request['id']]);
+    }
+    public function actiongoDeleteSubCategoria(Request $request)
+    {
+        return view("/management/menu/deleteSubCategoria", ['id' => $request['id']]);
     }
 
 
@@ -274,6 +297,15 @@ class desb2BController
             DB::table('menus_b2b')->where('id_b2b', $id)->delete();
         }
         DB::table('b2bcategorias')->where(['categoria' => $request["categoria"]])->delete();
+        return view("/management/menu/menu");
+    }
+
+
+    public function actionDeleteSubCategoria(Request $request)
+    {
+        //se borran vinculaciones a menu
+        DB::table('menus_b2b')->where('id_b2b', $request["subcategoria"])->delete();
+        DB::table('b2bcategorias')->where(['id' => $request["subcategoria"]])->delete();
         return view("/management/menu/menu");
     }
 
