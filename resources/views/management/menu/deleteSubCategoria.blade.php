@@ -12,12 +12,14 @@
                 </form>
 
             </div>
-            <div class="col-md-7"></div>
+            <div class="col-md-7">
+                <h4>subcategoria</h4>
+            </div>
             <div class="col-md-4"></div>
             <div class="col-md-4 wrapper">
                 <form action="{{ route('deleteSubCategoria') }}" method="GET">
                     <div class="form-group">
-
+                        <label>categoria</label>
                         <?php  $categorias = DB::table('b2bcategorias')->where(['subcategoria1' => null])->get();  ?>
                         <select name="categoria" class="form-control input-lg dynamic width200px" data-dependent="subcategoria">
                             @foreach($categorias as $categoria)
@@ -27,8 +29,8 @@
                     </div>
                     <br/>
                     <div class="form-group">
-                        <select name="subcategoria" id="subcategoria" class="form-control input-lg dynamic width200px"
-                                data-dependent="city">
+                        <label>subcategoria</label>
+                        <select name="subcategoria" id="subcategoria" class="form-control input-lg dynamic width200px">
                             <option value="">Subcategoria</option>
                         </select>
                     </div>
