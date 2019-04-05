@@ -15,6 +15,12 @@ use DB;
 
 class desb2BController
 {
+
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////// CLASES DESB2B //////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////
+
+
     public function actionWebAdmLog(Request $request)
     {
 
@@ -50,23 +56,66 @@ class desb2BController
         ]);
 
     }
-
-//rvr
-    public function actiongoChargeCategoria(Request $request)
+    public function actionWebClientesCart(Request $request)
     {
-        $id = $request['value'];
-
-        $subcategorias = DB::table('b2bcategorias')->where('categoria', $id)->where('subcategoria1', '<>', null)->get();
-        $output="<option></option>";
-       if(count($subcategorias)!=0) {
-           for ($i = 0; $i <= count($subcategorias)-1; $i++) {
-               $output .= '<option value="'.$subcategorias[$i]->id.'">'.$subcategorias[$i]->texto.'</option>';
-           }
-        }
-        echo $output;
+        return view('/desb2b/movimientos/WebClientesCart',['id_usuario' => $request['id_usuario']]);
     }
 
 
+    public function actionWebProveedorTarifaCabecera(Request $request)
+    {
+        return view('/desb2b/movimientos/WebProveedorTarifaCabecera',['id_usuario' => $request['id_usuario']]);
+    }
+
+
+    public function actionWebSociosAcum(Request $request)
+    {
+        return view('/desb2b/movimientos/WebSociosAcum',['id_usuario' => $request['id_usuario']]);
+    }
+
+
+    public function actionWebProveedorRap(Request $request)
+    {
+        return view('/desb2b/movimientos/WebProveedorRap',['id_usuario' => $request['id_usuario']]);
+    }
+
+    public function actionWebRiesgo(Request $request)
+    {
+        return view('/desb2b/movimientos/WebRiesgo',['id_usuario' => $request['id_usuario']]);
+    }
+
+    public function actionWebConformidad(Request $request)
+    {
+        return view('/desb2b/movimientos/WebConformidad',['id_usuario' => $request['id_usuario']]);
+    }
+
+    public function actionWebSociosAven(Request $request)
+    {
+        return view('/desb2b/movimientos/WebSociosAven',['id_usuario' => $request['id_usuario']]);
+    }
+
+    public function actionWebArticulosPres(Request $request)
+    {
+        return view('/desb2b/movimientos/WebArticulosPres',['id_usuario' => $request['id_usuario']]);
+    }
+
+
+    public function actionWebAdmConfUsu(Request $request)
+    {
+        return view('/desb2b/movimientos/WebAdmConfUsu',['id_usuario' => $request['id_usuario']]);
+    }
+
+
+
+
+
+
+
+
+
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////// GESTION DE DB2B  (MENU INFORMATICA) ///////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -308,6 +357,22 @@ class desb2BController
         DB::table('b2bcategorias')->where(['id' => $request["subcategoria"]])->delete();
         return view("/management/menu/menu");
     }
+
+    public function actiongoChargeCategoria(Request $request)
+    {
+        $id = $request['value'];
+
+        $subcategorias = DB::table('b2bcategorias')->where('categoria', $id)->where('subcategoria1', '<>', null)->get();
+        $output="<option></option>";
+        if(count($subcategorias)!=0) {
+            for ($i = 0; $i <= count($subcategorias)-1; $i++) {
+                $output .= '<option value="'.$subcategorias[$i]->id.'">'.$subcategorias[$i]->texto.'</option>';
+            }
+        }
+        echo $output;
+    }
+
+
 
 
 }

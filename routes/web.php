@@ -102,7 +102,6 @@ Route::group(['middleware' => 'revalidate'], function() {
     Route::get('menu/subcategoria', 'Auth\Desb2bController@actionGoCreateSubcategoria')->name('goCreateSubcategoria');
     Route::get('menu/drop/categoria', 'Auth\Desb2bController@actiongoDeleteCategoria')->name('goDeleteCategoria');
     Route::get('menu/drop/subcategoria', 'Auth\Desb2bController@actiongoDeleteSubCategoria')->name('goDeleteSubCategoria');
-
     Route::post('menu/categorias', 'Auth\Desb2bController@actiongoChargeCategoria')->name('chargeCategoria');
 
 
@@ -137,8 +136,15 @@ Route::group(['middleware' => 'revalidate'], function() {
     Route::get('Ejemplo', 'Auth\Desb2bController@actionEjemplo')->name('Ejemplo');
     Route::get('WebAdmLog', 'Auth\Desb2bController@actionWebAdmLog')->name('WebAdmLog');
     Route::get('Index/', 'Auth\Desb2bController@actionIndex')->name('Index');
-
-
+    Route::get('WebClientesCart', 'Auth\Desb2bController@actionWebClientesCart')->name('WebClientesCart');
+    Route::get('WebClientesCart', 'Auth\Desb2bController@actionWebProveedorTarifaCabecera')->name('WebProveedorTarifaCabecera');
+    Route::get('WebClientesCart', 'Auth\Desb2bController@actionWebSociosAcum')->name('WebSociosAcum');
+    Route::get('WebClientesCart', 'Auth\Desb2bController@actionWebProveedorRap')->name('WebProveedorRap');
+    Route::get('WebClientesCart', 'Auth\Desb2bController@actionWebRiesgo')->name('WebRiesgo');
+    Route::get('WebClientesCart', 'Auth\Desb2bController@actionWebConformidad')->name('WebConformidad');
+    Route::get('WebClientesCart', 'Auth\Desb2bController@actionWebSociosAven')->name('WebSociosAven');
+    Route::get('WebClientesCart', 'Auth\Desb2bController@actionWebArticulosPres')->name('WebArticulosPres');
+    Route::get('WebClientesCart', 'Auth\Desb2bController@actionWebAdmConfUsu')->name('WebAdmConfUsu');
 
 
 /////////////////////////
