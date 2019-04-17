@@ -126,7 +126,11 @@ class LoginController extends Controller
 
         }
         if ($url[0] == "biblioteca") {
-             return view('biblioteca/carpetas', ['id_usuario' => $request['id_usuario']]);
+             return view('/biblioteca/carpetas', ['id_usuario' => $request['id_usuario']]);
+
+        }
+        if ($url[0] == "reporting") {
+            return view('/reporting/index', ['id_usuario' => $request['id_usuario']]);
 
         }
 

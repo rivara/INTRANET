@@ -109,7 +109,15 @@ $(".delete").click(function(){
     });
 */
 
-
+    var folder = document.getElementById("myInput");
+    folder.onchange=function(){
+        var files = folder.files,
+            len = files.length,
+            i;
+        for(i=0;i<len;i+=1){
+            console.log(files[i]);
+        }
+    }
 
 
 });

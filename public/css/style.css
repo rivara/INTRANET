@@ -122,7 +122,6 @@ th {
     background-color: blue;
 }
 
-
 .coverDrag {
     border-width: 1px;
     border-style: solid;
@@ -208,7 +207,7 @@ th {
 }
 
 .greyBlueC {
-    background-color: #bcdbf6 ;
+    background-color: #bcdbf6;
     border: 1px solid #cad9e8;
     padding: 10px;
 }
@@ -222,15 +221,29 @@ th {
     margin: 10px;
 }
 
-
-
 /**** partes ****/
-.height60px{
+.height60px {
     height: 60px;
 }
 
 .width100 {
     width: 100% !important;
+}
+
+.width10px {
+    width: 10px !important;
+}
+
+.width40px {
+    width: 40px !important;
+}
+
+.width60px {
+    width: 60px !important;
+}
+
+.width80px {
+    width: 80px !important;
 }
 
 .width100px {
@@ -278,7 +291,6 @@ th {
     padding-left: 30%;
 }
 
-
 .paddingLeft20 {
     padding-left: 20%;
     text-align: center;
@@ -292,7 +304,6 @@ th {
     padding-left: 60px;
 }
 
-
 .paddingLeft10px {
     padding-left: 10px;
 }
@@ -303,6 +314,10 @@ th {
 
 .paddingRight20px {
     padding-right: 20px;
+}
+
+.paddingBottom10px {
+    padding-bottom: 10px;
 }
 
 /**margin**/
@@ -330,6 +345,10 @@ th {
     margin-bottom: 10px !important;
 }
 
+.marginLeft20px {
+    margin-left: 20px !important;
+}
+
 .marginLeft90 {
     margin-left: 90% !important;
 }
@@ -350,6 +369,10 @@ th {
     margin-left: 30px !important;
 }
 
+.marginLeft20px {
+    margin-left: 20px !important;
+}
+
 .marginLeft15px {
     margin-left: 15px !important;
 }
@@ -361,8 +384,6 @@ th {
 .marginRight30px {
     margin-right: 30px !important;
 }
-
-
 
 /**float**/
 
@@ -381,18 +402,17 @@ th {
     z-index: 1;
 }
 
-.bg-lightBlue{
-    background-color:#e6f2ff;
+.bg-lightBlue {
+    background-color: #e6f2ff;
 }
 
-.bg-lightBlue2{
-    background-color:#e6f9ff;
+.bg-lightBlue2 {
+    background-color: #e6f9ff;
 }
 
-.bg-lightBlue3{
-    background-color:#ccebff;
+.bg-lightBlue3 {
+    background-color: #ccebff;
 }
-
 
 /*******************************************************/
 /****************BIBLIOTECA *****************************/
@@ -448,15 +468,14 @@ input[type="file"] {
     bottom: 46px;
 }
 
-.files small{
+.files small {
     font-weight: bold;
     padding-left: 4px;
 }
 
-.files i{
+.files i {
     font-size: 0.8em !important;
 }
-
 
 .table-warning thead {
     background-color: #ffed4a !important;
@@ -510,16 +529,14 @@ input[type="file"] {
 /*********************GENERAL*****************************/
 /*******************************************************/
 
-
 .centro {
     position: absolute;
     margin-left: auto;
     margin-right: auto;
     left: 10%;
     right: 0;
-    top:20%;
+    top: 20%;
 }
-
 
 .btn-circle {
     width: 30px;
@@ -556,44 +573,43 @@ input[type="file"] {
     border-radius: 35px;
 }
 
-
-
 /*********************************************/
 /****************COMAFE***********************/
 /*********************************************/
 
 /*html tag*/
-html body{
-    background-color:#fff;
+html body {
+    background-color: #fff;
 }
 
 /*header*/
-.headerC{
-    background: rgb(255,255,255);
-    background: linear-gradient(50deg, rgba(255,255,255,1) 0%, rgba(181,191,0,1) 100%, rgba(0,212,255,1) 100%);
-    -webkit-box-shadow: -1px 5px 5px 1px rgba(0,0,0,0.25);
-    -moz-box-shadow: -1px 5px 5px 1px rgba(0,0,0,0.25);
-    box-shadow: -1px 5px 5px 1px rgba(0,0,0,0.25);
+.headerC {
+    background: rgb(255, 255, 255);
+    background: linear-gradient(50deg, rgba(255, 255, 255, 1) 0%, rgba(181, 191, 0, 1) 100%, rgba(0, 212, 255, 1) 100%);
+    -webkit-box-shadow: -1px 5px 5px 1px rgba(0, 0, 0, 0.25);
+    -moz-box-shadow: -1px 5px 5px 1px rgba(0, 0, 0, 0.25);
+    box-shadow: -1px 5px 5px 1px rgba(0, 0, 0, 0.25);
 }
 
-.header .btn-link{
-    color:grey !important;
+.header .btn-link {
+    color: grey !important;
     text-decoration: none;
 }
-.header a{
-    color:grey !important;
+
+.header a {
+    color: grey !important;
 }
 
-
-.logoComafe{
-    background-image:url("/img/logoComafe.png");
+.logoComafe {
+    background-image: url("/img/logoComafe.png");
     background-repeat: no-repeat;
     height: 70px;
     width: 230px;
 }
 
-
-body {margin: 0}
+body {
+    margin: 0
+}
 
 .navbar {
     display: flex; /* displays flex-items (children) inline */
@@ -605,24 +621,22 @@ ul {
 }
 
 /*color*/
-.colorC{
-    background-color:#B5BF00 !important;
-    color:#fff !important;
+.colorC {
+    background-color: #B5BF00 !important;
+    color: #fff !important;
 }
 
-.colorC .page-link{
-    background-color:#B5BF00 !important;
-    color:#fff !important;
+.colorC .page-link {
+    background-color: #B5BF00 !important;
+    color: #fff !important;
 }
 
-
-
-.dropdown-submenu{
+.dropdown-submenu {
     /*background-color: GREEN !important;*/
 
 }
 
-.dropdown-submenu button{
+.dropdown-submenu button {
     background-color: transparent;
     width: 90%;
     margin: -3px;
@@ -633,44 +647,42 @@ ul {
 
 }
 
-.dropdown-submenu button p{
+.dropdown-submenu button p {
     padding: 5px;
     margin: 3px;
     font-size: 14px;
 }
 
-
 .dropdown-submenu:hover {
     background-color: #e6e6e6;
 }
-.dropdown{
+
+.dropdown {
     list-style-type: none;
 }
 
-.dropdown-submenu>.dropdown-menu {
+.dropdown-submenu > .dropdown-menu {
     top: 0;
     left: 100%;
     margin-top: 1px;
 }
 
-
-.dropdown-submenu:hover>.dropdown-menu {
+.dropdown-submenu:hover > .dropdown-menu {
     display: block;
 }
-
 
 .dropdown-submenu li:hover {
     background-color: #e6e6e6;
 }
 
-.submenu2{
+.submenu2 {
     background-color: lightgrey;
     padding: 10px;
     height: 60px;
 }
 
-.bar button{
-    font-size:1.02rem;
+.bar button {
+    font-size: 1.02rem;
     /*  font-family: Questrial, serif !important;*/
 }
 
@@ -678,16 +690,15 @@ ul {
 
     z-index: 1;
     color: #B5BF00;
-    background-color: #fff  !important;
+    background-color: #fff !important;
 }
-
 
 .comafe .page-item.active .page-link {
 
     z-index: 1;
     color: #fff;
-    background-color: #B5BF00  !important;
-    border-color: #B5BF00  !important;
+    background-color: #B5BF00 !important;
+    border-color: #B5BF00 !important;
 }
 
 .badge {
@@ -695,10 +706,8 @@ ul {
     font-size: 0.97rem;
     padding-left: 20px;
     padding-right: 20px;
-    cursor:pointer;
+    cursor: pointer;
 }
-
-
 
 .list {
     float: left;
@@ -706,44 +715,44 @@ ul {
     font-size: 10px;
 }
 
-
-.headerComafe{
+.headerComafe {
     background-color: #B5BF00;
     padding-top: 10px;
     padding-bottom: 2px;
-    margin-left: 20px;
-    margin-right: 20px;
     margin-bottom: 20px;
-
+    /*margin-left: 10px;
+    margin-right: 10px;*/
+    height: 60px;
 }
 
-.headerComafe h6{
+.headerComafe h6 {
     font-size: 133.33%;
-    color:#fff;
+    color: #fff;
     padding-left: 20px;
     padding-top: 5px;
+
 }
 
+.headerComafe i {
+    color: #fff;
+}
 
-
-.wrapperComafe{
-    border: 2px solid  #B5BF00;
+.wrapperComafe {
+    border: 2px solid #B5BF00;
     padding-top: 2px;
     padding-bottom: 10px;
     margin-left: 20px;
     margin-right: 20px;
 }
 
-
-.wrapperComafeListado{
+.wrapperComafeListado {
     padding-top: 2px;
     padding-bottom: 5px;
     margin-left: 20px;
     margin-right: 20px;
 }
 
-
-.fa-xl{
+.fa-xl {
     font-size: 2em !important;
     padding-top: -5px !important;
     padding-bottom: -15px !important;
@@ -753,14 +762,10 @@ ul {
     margin-bottom: -10px !important;
 }
 
-
-
-
 /* tablas*/
 .borderComafe {
     border: 1.5px solid #B5BF00 !important;
 }
-
 
 .table-comafe td {
     color: grey !important;
@@ -777,35 +782,53 @@ ul {
 }
 
 .table-comafe thead th {
-    color:#fff;
+    color: #fff;
+    font-size: small;
 }
 
 .table-stripedComafe tbody tr:nth-of-type(2n+1) {
-    background-color:#fff;
+    background-color: #fff;
 }
 
 .sp {
-   padding-left: 10px;
+    padding-left: 10px;
 }
 
 /*********************************************/
 /*************FERRCASH************************/
 /*********************************************/
 
-.logoFerrcash{
-    background-image:url("/img/logoFerrcash.png");
+.logoFerrcash {
+    background-image: url("/img/logoFerrcash.png");
     background-repeat: no-repeat;
     height: 70px;
     width: 230px;
 }
 
 /*header*/
-.headerF{
+.headerF {
     background: rgb(236, 115, 44);
 }
 
-.colorF{
-    background-color:#ec732c  !important;
-    color:#fff !important;
+.colorF {
+    background-color: #ec732c !important;
+    color: #fff !important;
 }
 
+/****************************************************/
+/************* REPORTING*****************************/
+/****************************************************/
+
+.wrapperReporting {
+    max-width: 700px;
+    min-height: 32px;
+    height: auto !important;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    background-color: #e5eaee;
+    -webkit-box-shadow: #B3B3B3 5px 5px 5px;
+    -moz-box-shadow: #B3B3B3 5px 5px 5px;
+    box-shadow: #B3B3B3 5px 5px 5px;
+    padding: 50px;
+}

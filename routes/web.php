@@ -136,15 +136,32 @@ Route::group(['middleware' => 'revalidate'], function() {
     Route::get('Ejemplo', 'Auth\Desb2bController@actionEjemplo')->name('Ejemplo');
     Route::get('WebAdmLog', 'Auth\Desb2bController@actionWebAdmLog')->name('WebAdmLog');
     Route::get('Index/', 'Auth\Desb2bController@actionIndex')->name('Index');
-    Route::get('WebClientesCart', 'Auth\Desb2bController@actionWebClientesCart')->name('WebClientesCart');
-    Route::get('WebClientesCart', 'Auth\Desb2bController@actionWebProveedorTarifaCabecera')->name('WebProveedorTarifaCabecera');
-    Route::get('WebClientesCart', 'Auth\Desb2bController@actionWebSociosAcum')->name('WebSociosAcum');
-    Route::get('WebClientesCart', 'Auth\Desb2bController@actionWebProveedorRap')->name('WebProveedorRap');
-    Route::get('WebClientesCart', 'Auth\Desb2bController@actionWebRiesgo')->name('WebRiesgo');
-    Route::get('WebClientesCart', 'Auth\Desb2bController@actionWebConformidad')->name('WebConformidad');
-    Route::get('WebClientesCart', 'Auth\Desb2bController@actionWebSociosAven')->name('WebSociosAven');
-    Route::get('WebClientesCart', 'Auth\Desb2bController@actionWebArticulosPres')->name('WebArticulosPres');
-    Route::get('WebClientesCart', 'Auth\Desb2bController@actionWebAdmConfUsu')->name('WebAdmConfUsu');
+    Route::get('WebClientesCart/', 'Auth\Desb2bController@actionWebClientesCart')->name('WebClientesCart');
+    Route::get('WebProveedorTarifaCabecera', 'Auth\Desb2bController@actionWebProveedorTarifaCabecera')->name('WebProveedorTarifaCabecera');
+    Route::get('WebSociosAcum', 'Auth\Desb2bController@actionWebSociosAcum')->name('WebSociosAcum');
+    Route::get('WebProveedorRap', 'Auth\Desb2bController@actionWebProveedorRap')->name('WebProveedorRap');
+    Route::get('WebRiesgo', 'Auth\Desb2bController@actionWebRiesgo')->name('WebRiesgo');
+    Route::get('WebConformidad', 'Auth\Desb2bController@actionWebConformidad')->name('WebConformidad');
+    Route::get('WebSociosAven', 'Auth\Desb2bController@actionWebSociosAven')->name('WebSociosAven');
+    Route::get('WebArticulosPres', 'Auth\Desb2bController@actionWebArticulosPres')->name('WebArticulosPres');
+    Route::get('WebAdmConfUsu', 'Auth\Desb2bController@actionWebAdmConfUsu')->name('WebAdmConfUsu');
+
+
+    Route::get('WebProveedorTarifaCabecera', 'Auth\Desb2bController@actionWebProveedorTarifaCabecera')->name('WebProveedorTarifaCabecera');
+    Route::get('WebProveedorRap', 'Auth\Desb2bController@actionWebProveedorRap')->name('WebProveedorRap');
+    Route::get('WebArticulos', 'Auth\Desb2bController@actionWebArticulos')->name('WebArticulos');
+    Route::get('WebSociosCart', 'Auth\Desb2bController@actionWebSociosCart')->name('WebSociosCart');
+    // conversion PHP (prndiente)
+    Route::get('toExcell', 'Auth\Desb2bController@actionToExcell')->name('ToExcel');
+    // generico se indica la tabla
+    Route::get('drop', 'Auth\Desb2bController@actionToExcell')->name('drop');
+/////////////////////////
+//////Rerporting////////
+////////////////////////
+    Route::get('reporting', 'Auth\ReportingController@actionReportingRedirect')->name('reportingRedirect');
+    Route::get('indiceDeRotacion', 'Auth\ReportingController@actionindiceDeRotacion')->name('indiceDeRotacion');
+    Route::get('obsoletos', 'Auth\ReportingController@actionObsoletos')->name('obsoletos');
+
 
 
 /////////////////////////

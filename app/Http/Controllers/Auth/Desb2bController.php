@@ -8,10 +8,13 @@
 
 namespace App\Http\Controllers\Auth;
 
+
 use App\Library\WebAdmLog;
+use App\Library\Conexion;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use DB;
+use App\Library\WebClientesCart;
 
 class desb2BController
 {
@@ -24,90 +27,135 @@ class desb2BController
     public function actionWebAdmLog(Request $request)
     {
 
-        $admLog = new WebAdmLog();
-        $fechaDesde = $request['fechaDesde'];
-        $fechaHasta = $request['fechaHasta'];
-        $empresa = $admLog->empresa($request['empresa']);
-        $cdclien = $admLog->cdclien($request['cdclien']);
-        $cdsucur = $admLog->cdsucur($request['cdsucur']);
-        $seccion = $admLog->seccion($request['seccion']);
-        $des = $admLog->des($request['des']);
-        $userMag = $admLog->userMag($request['userMag']);
-        $logs = $admLog->getRegistros($fechaDesde, $fechaHasta, null, null);
-        $collection = collect($logs);
-        $page = $request['page'];
-        $perPage = 10;
-        $paginate = new LengthAwarePaginator($collection->forPage($page, $perPage), $collection->count(), $perPage,
-            $page, ['path' => url('/WebAdmLog?oAccion=listado&id_usuario=' . $request['id_usuario'])]);
-        return view('/desb2b/WebAdmLog', [
-            'oAccion' => $request['oAccion'],
-            'logs' => $paginate,
-            'email' => $request['email'],
-            'fechaDesde' => $fechaDesde,
-            'fechaHasta' => $fechaHasta,
-            'empresa' => $empresa,
-            'cdclien' => $cdclien,
-            'cdsucur' => $cdsucur,
-            'seccion' => $seccion,
-            'des' => $des,
-            'userMag' => $userMag,
-            'id_usuario' => $request['id_usuario'],
-            'id' => $request['id']
-        ]);
 
+        if ($request['oAccion'] == 'inicio') {
+
+            return view('/desb2b/WebAdmLog',
+                ['oAccion' => $request['oAccion'], 'id_usuario' => '['.$request['id_usuario'].']']);
+
+        } else {
+            $admLog = new WebAdmLog();
+            $fechaDesde = $request['fechaDesde'];
+            $fechaHasta = $request['fechaHasta'];
+            $empresa = $admLog->empresa($request['empresa']);
+            $cdclien = $admLog->cdclien($request['cdclien']);
+            $cdsucur = $admLog->cdsucur($request['cdsucur']);
+            $seccion = $admLog->seccion($request['seccion']);
+            $des = $admLog->des($request['des']);
+            $userMag = $admLog->userMag($request['userMag']);
+            $logs = $admLog->getRegistros($fechaDesde, $fechaHasta, null, null);
+            $collection = collect($logs);
+            $page = $request['page'];
+            $perPage = 10;
+            $paginate = new LengthAwarePaginator($collection->forPage($page, $perPage), $collection->count(), $perPage,
+                $page, ['path' => url('/WebAdmLog?oAccion=listado&id_usuario=' . $request['id_usuario'])]);
+            return view('/desb2b/WebAdmLog', [
+                'oAccion' => $request['oAccion'],
+                'logs' => $paginate,
+                'email' => $request['email'],
+                'fechaDesde' => $fechaDesde,
+                'fechaHasta' => $fechaHasta,
+                'empresa' => $empresa,
+                'cdclien' => $cdclien,
+                'cdsucur' => $cdsucur,
+                'seccion' => $seccion,
+                'des' => $des,
+                'userMag' => $userMag,
+                'id_usuario' => $request['id_usuario'],
+                'id' => $request['id']
+            ]);
+        }
     }
+
+
     public function actionWebClientesCart(Request $request)
     {
-        return view('/desb2b/movimientos/WebClientesCart',['id_usuario' => $request['id_usuario']]);
-    }
+        //si no exsite el campo de busqueda entra por primera vez
+        if ($request['oAccion'] == 'inicio') {
+            return view('/desb2b/movimientos/WebClientesCart',
+                ['id_usuario' => $request['id_usuario'], 'oAccion' => $request['oAccion']]);
+        } else {
+            // Faltan la sucursal -->  $lcBuscar_Suc
+            // no instancia bien
 
+            $oCliente = new WebClientesCart();
+
+            $socio = $request['socio'];
+            //echo $socio;
+
+            $ClienteCardArray = $oCliente->obtenerColeccion(
+                Conexion::getInstancia(),
+                // "CDCLIEN={$socio} AND CDSUCUR={$lcBuscar_Suc} AND IND_ADAIA = 0",
+                "CDCLIEN={$socio} AND IND_ADAIA = 0",
+                "CDARTI, FECHA"
+            );
+            // RTEVISART
+            $ArticuloArray = new WebArticulos();
+            $ProveedorArray = new WebProveedor();
+
+            return view('/desb2b/movimientos/WebClientesCart', [
+                'oAccion' => 'listado',
+                'datosClientesCart' => $ClienteCardArray,
+                'datosArticulos' => $ArticuloArray,
+                'datosProveedor' => $ProveedorArray,
+                'id_usuario' => $request['id_usuario']
+            ]);
+
+
+        }
+    }
 
     public function actionWebProveedorTarifaCabecera(Request $request)
     {
-        return view('/desb2b/movimientos/WebProveedorTarifaCabecera',['id_usuario' => $request['id_usuario']]);
+        return view('/desb2b/movimientos/WebProveedorTarifaCabecera',
+            ['id_usuario' => $request['id_usuario'], 'oAccion' => $request['oAccion ']]);
     }
 
 
     public function actionWebSociosAcum(Request $request)
     {
-        return view('/desb2b/movimientos/WebSociosAcum',['id_usuario' => $request['id_usuario']]);
+        return view('/desb2b/movimientos/WebSociosAcum', ['id_usuario' => $request['id_usuario']]);
     }
 
 
     public function actionWebProveedorRap(Request $request)
     {
-        return view('/desb2b/movimientos/WebProveedorRap',['id_usuario' => $request['id_usuario']]);
+        return view('/desb2b/movimientos/WebProveedorRap', ['id_usuario' => $request['id_usuario']]);
     }
 
     public function actionWebRiesgo(Request $request)
     {
-        return view('/desb2b/movimientos/WebRiesgo',['id_usuario' => $request['id_usuario']]);
+        return view('/desb2b/movimientos/WebRiesgo', ['id_usuario' => $request['id_usuario']]);
     }
 
     public function actionWebConformidad(Request $request)
     {
-        return view('/desb2b/movimientos/WebConformidad',['id_usuario' => $request['id_usuario']]);
+        return view('/desb2b/movimientos/WebConformidad', ['id_usuario' => $request['id_usuario']]);
     }
 
     public function actionWebSociosAven(Request $request)
     {
-        return view('/desb2b/movimientos/WebSociosAven',['id_usuario' => $request['id_usuario']]);
+        return view('/desb2b/movimientos/WebSociosAven', ['id_usuario' => $request['id_usuario']]);
     }
 
     public function actionWebArticulosPres(Request $request)
     {
-        return view('/desb2b/movimientos/WebArticulosPres',['id_usuario' => $request['id_usuario']]);
+        return view('/desb2b/movimientos/WebArticulosPres', ['id_usuario' => $request['id_usuario']]);
     }
 
 
     public function actionWebAdmConfUsu(Request $request)
     {
-        return view('/desb2b/movimientos/WebAdmConfUsu',['id_usuario' => $request['id_usuario']]);
+        return view('/desb2b/movimientos/WebAdmConfUsu', ['id_usuario' => $request['id_usuario']]);
     }
 
 
 
 
+    public function actionWebSociosCart(Request $request)
+    {
+        //return view('/desb2b/movimientos/WebAdmConfUsu', ['id_usuario' => $request['id_usuario']]);
+    }
 
 
 
@@ -116,7 +164,6 @@ class desb2BController
     /////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////// GESTION DE DB2B  (MENU INFORMATICA) ///////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////
-
 
 
     public function actionEjemplo(Request $request)
@@ -171,6 +218,7 @@ class desb2BController
     {
         return view("/management/menu/deleteCategoria", ['id' => $request['id']]);
     }
+
     public function actiongoDeleteSubCategoria(Request $request)
     {
         return view("/management/menu/deleteSubCategoria", ['id' => $request['id']]);
@@ -262,10 +310,10 @@ class desb2BController
         }
         $categoria = DB::table('b2bcategorias')->orderBy('categoria', 'DESC')->take(1)->pluck('categoria');
         $categoria = substr($categoria, 1, strlen($categoria) - 2);
-        if (is_numeric($categoria)){
+        if (is_numeric($categoria)) {
 
             $cat = $categoria + 1;
-        }else{
+        } else {
             $cat = 1;
         }
 
@@ -363,16 +411,14 @@ class desb2BController
         $id = $request['value'];
 
         $subcategorias = DB::table('b2bcategorias')->where('categoria', $id)->where('subcategoria1', '<>', null)->get();
-        $output="<option></option>";
-        if(count($subcategorias)!=0) {
-            for ($i = 0; $i <= count($subcategorias)-1; $i++) {
-                $output .= '<option value="'.$subcategorias[$i]->id.'">'.$subcategorias[$i]->texto.'</option>';
+        $output = "<option></option>";
+        if (count($subcategorias) != 0) {
+            for ($i = 0; $i <= count($subcategorias) - 1; $i++) {
+                $output .= '<option value="' . $subcategorias[$i]->id . '">' . $subcategorias[$i]->texto . '</option>';
             }
         }
         echo $output;
     }
-
-
 
 
 }

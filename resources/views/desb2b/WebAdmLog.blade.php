@@ -2,6 +2,7 @@
 @extends('layouts.desb2b')
 @include('desb2b.bar')
 @if($oAccion=="inicio")
+    <div class="container">
 <p class="breadcrumb-item sp">logs</p>
 <div class="headerComafe">
         <h6>Logs</h6>
@@ -11,36 +12,36 @@
 
             <table width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                    <td height="100" align="center" valign="middle">
+                    <td height="100" align="center">
                         <table width="90%" border="0" cellspacing="0" cellpadding="0">
                             <tr>
                                 <td width="25%" height="25" align="left">Id Magento</td>
                                 <td width="75%" align="left"><label for="oBus_IdMag"><input name="empresa"
                                                                                             type="text"
-                                                                                            class="form-control"
-                                                                                            style="width:80px" /></label>
+                                                                                            class="form-control width80px"
+                                                                                            /></label>
                                 </td>
                             </tr>
                             <tr>
                                 <td width="25%" height="25" align="left">Cliente</td>
                                 <td width="75%" align="left"><label for="oBus_Cli"><input name="cdclien"
                                                                                           type="text"
-                                                                                          class="form-control"
-                                                                                          style="width:60px" /></label>
+                                                                                          class="form-control width60px"
+                                                                                          /></label>
                                 </td>
                             </tr>
                             <tr>
                                 <td width="25%" height="25" align="left">Sucursal</td>
                                 <td width="75%" align="left"><label for="oBus_Suc"><input name="cdsucur"
                                                                                           type="text"
-                                                                                          class="form-control"
-                                                                                          style="width:40px" /></label>
+                                                                                          class="form-control width40px"
+                                                                                        /></label>
                                 </td>
                             </tr>
                             <tr>
                                 <td width="25%" height="25" align="left">Empresa</td>
                                 <td width="75%" align="left" style="padding-bottom:10px;">
-                                        <select class="form-control" name="empresa" style="width:80px;">
+                                        <select class="form-control width80px" name="empresa">
                                             <option value="COM">COM</option>
                                             <option value="FER">FER</option>
                                         </select>
@@ -50,16 +51,16 @@
                                 <td width="25%" height="25" align="left">Seccion</td>
                                 <td width="75%" align="left"><label for="oBus_Sec"><input name="seccion"
                                                                                           type="text"
-                                                                                          class="form-control"
-                                                                                          style="width:200px" /></label>
+                                                                                          class="form-control width200px"
+                                                                                          /></label>
                                 </td>
                             </tr>
                             <tr>
                                 <td width="25%" height="25" align="left">Fechas</td>
 
-                                <td width="75%" align="left" style="padding-bottom:10px;">
-                                        <input class="form-control floatLeft" type="date"  name="fechaDesde"  style="width:200px; margin-right:20px;" >
-                                        <input class="form-control floatLeft" type="date" name="fechaHasta" style="width:200px" >
+                                <td width="75%" align="left" class="width10px paddingBottom10px">
+                                        <input class="form-control floatLeft width200px marginLeft20px" type="date"  name="fechaDesde">
+                                        <input class="form-control floatLeft width200px" type="date" name="fechaHasta"  >
                                 </td>
                             </tr>
                             <tr>
@@ -67,8 +68,8 @@
                                 <td width="25%" height="25" align="left">Text log</td>
                                 <td align="left"  width="75%"><label for="oBus_Txt"><input name="des"
                                                                               type="text"
-                                                                              class="form-control"
-                                                                              style="width:200px" /></label></td>
+                                                                              class="form-control width200px"
+                                                                              /></label></td>
                             </tr>
                             <tr>
                                 <td height="5" colspan="2" align="right">
@@ -100,9 +101,11 @@
             <input type="hidden" name="id_usuario" value="{{$id_usuario}}">
 
 </form>
+    </div>
 @endif
 
 @if($oAccion=="listado")
+    <div class="container">
     <p class="breadcrumb-item sp">logs >> listado</p>
     <div class="headerComafe">
         <div class="row">
@@ -157,6 +160,6 @@
                     </div>
                 </div>
             </div>
-
+    </div>
 @endif
 
