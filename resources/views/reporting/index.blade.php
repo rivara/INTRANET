@@ -1,6 +1,5 @@
 
 @include('reporting.bar')
-
             @if(isset($option))
                 @if($option =="IndiceDeRotacion")
                     <form action="{{ route('indiceDeRotacion')}}" method="get">
@@ -13,7 +12,6 @@
                 @elseif ($option=="otros")
                     <h3>en construccion</h3>
                     <i class="fa fa-user-circle-o" aria-hidden="true"></i>
-
                 @endif
             @endif
 
