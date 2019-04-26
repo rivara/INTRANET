@@ -82,6 +82,20 @@ return [
             'prefix_indexes' => true,
         ],
 
+
+        'reporting' => [
+            'driver'     => 'mysql',
+            'host' => '127.0.0.1',
+            'port' => '3306',
+            'database'   =>'reporting',
+            'username'   => 'paco',
+            'password'   => 'qwerty',
+            'charset'    => 'utf8',
+            'collation'  => 'utf8_unicode_ci',
+            'prefix'     => '',
+            'strict'     => false,
+        ],
+
     ],
 
     /*

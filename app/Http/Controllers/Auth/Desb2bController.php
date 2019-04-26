@@ -23,6 +23,7 @@ class desb2BController
     //////////////////////////////// CLASES DESB2B //////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////
 
+    //////////////////////////////////  OTROS /////////////////////////////////////////////////////
 
     public function actionWebAdmLog(Request $request)
     {
@@ -68,6 +69,70 @@ class desb2BController
     }
 
 
+    //////////////////////////////////  CONSULTAS  /////////////////////////////////////////////////////
+
+    public function actionWebSociosCart(Request $request)
+    {
+        return view('/desb2b/consultas/WebSociosCart', ['id_usuario' => $request['id_usuario']]);
+    }
+
+
+    public function actionWebProveedorTarifaCabecera(Request $request)
+    {
+        return view('/desb2b/consultas/WebProveedorTarifaCabecera',
+            ['id_usuario' => $request['id_usuario'], 'oAccion' => $request['oAccion ']]);
+    }
+
+
+    public function actionWebSociosAcum(Request $request)
+    {
+        return view('/desb2b/consultas/WebSociosAcum', ['id_usuario' => $request['id_usuario']]);
+    }
+
+
+    public function actionWebProveedorRap(Request $request)
+    {
+        return view('/desb2b/consultas/WebProveedorRap', ['id_usuario' => $request['id_usuario']]);
+    }
+
+
+    public function actionWebRiesgo(Request $request)
+    {
+        return view('/desb2b/consultas/WebRiesgo', ['id_usuario' => $request['id_usuario']]);
+    }
+
+
+
+    public function actionWebConformidad(Request $request)
+    {
+        return view('/desb2b/consultas/WebConformidad', ['id_usuario' => $request['id_usuario']]);
+    }
+
+
+    public function actionWebArticulos(Request $request)
+    {
+        return view('/desb2b/consultas/WebArticulos', ['id_usuario' => $request['id_usuario']]);
+    }
+
+
+
+    public function actionWebArticulosPres(Request $request)
+    {
+        return view('/desb2b/consultas/WebArticulosPres', ['id_usuario' => $request['id_usuario']]);
+    }
+
+
+    public function actionWebAdmConfUsu(Request $request)
+    {
+        return view('/desb2b/consultas/WebAdmConfUsu', ['id_usuario' => $request['id_usuario']]);
+    }
+
+
+
+
+///////////////////////////////////// MOVIMIENTOS /////////////////////////////////////////////////////////
+
+
     public function actionWebClientesCart(Request $request)
     {
         //si no exsite el campo de busqueda entra por primera vez
@@ -104,33 +169,9 @@ class desb2BController
 
         }
     }
-
-    public function actionWebProveedorTarifaCabecera(Request $request)
+    public function actionWebSociosSuc(Request $request)
     {
-        return view('/desb2b/movimientos/WebProveedorTarifaCabecera',
-            ['id_usuario' => $request['id_usuario'], 'oAccion' => $request['oAccion ']]);
-    }
-
-
-    public function actionWebSociosAcum(Request $request)
-    {
-        return view('/desb2b/movimientos/WebSociosAcum', ['id_usuario' => $request['id_usuario']]);
-    }
-
-
-    public function actionWebProveedorRap(Request $request)
-    {
-        return view('/desb2b/movimientos/WebProveedorRap', ['id_usuario' => $request['id_usuario']]);
-    }
-
-    public function actionWebRiesgo(Request $request)
-    {
-        return view('/desb2b/movimientos/WebRiesgo', ['id_usuario' => $request['id_usuario']]);
-    }
-
-    public function actionWebConformidad(Request $request)
-    {
-        return view('/desb2b/movimientos/WebConformidad', ['id_usuario' => $request['id_usuario']]);
+        return view('/desb2b/movimientos/WebSociosSuc', ['id_usuario' => $request['id_usuario']]);
     }
 
     public function actionWebSociosAven(Request $request)
@@ -138,25 +179,20 @@ class desb2BController
         return view('/desb2b/movimientos/WebSociosAven', ['id_usuario' => $request['id_usuario']]);
     }
 
-    public function actionWebArticulosPres(Request $request)
+    public function actionWebSociosCfac(Request $request)
     {
-        return view('/desb2b/movimientos/WebArticulosPres', ['id_usuario' => $request['id_usuario']]);
+        return view('/desb2b/movimientos/WebSociosCfac', ['id_usuario' => $request['id_usuario']]);
     }
 
-
-    public function actionWebAdmConfUsu(Request $request)
+    public function actionWebSociosPagPen(Request $request)
     {
-        return view('/desb2b/movimientos/WebAdmConfUsu', ['id_usuario' => $request['id_usuario']]);
+        return view('/desb2b/movimientos/WebSociosPagPen', ['id_usuario' => $request['id_usuario']]);
     }
 
-
-
-
-    public function actionWebSociosCart(Request $request)
+    public function actionWebSociosCfac2(Request $request)
     {
-        //return view('/desb2b/movimientos/WebAdmConfUsu', ['id_usuario' => $request['id_usuario']]);
+        return view('/desb2b/movimientos/WebSociosCfac2', ['id_usuario' => $request['id_usuario']]);
     }
-
 
 
 

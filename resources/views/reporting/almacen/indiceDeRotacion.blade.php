@@ -1,5 +1,5 @@
 @csrf
-<div class="row wrapperReporting center">
+<div class="row wrapperReporting center marginBottom20px">
     <div class="col-md-8">
         <u><h3>Indice de rotacion</h3></u>
     </div>

@@ -72,6 +72,7 @@ class Sheet implements FromCollection, WithHeadings, WithEvents, WithTitle
                     $event->sheet->getDelegate()->getStyle($tramo)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB($background[$i]);
                     $i++;
                 }
+
             },
         );
     }

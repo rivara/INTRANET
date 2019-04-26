@@ -13,7 +13,7 @@ use App\Exports\SheetLeyenda;
 use App\Exports\SheetsExports;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
+
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 
@@ -34,8 +34,8 @@ class reportingController
         $almacen = $request["almacen"];
         $fechaDesde = $request["fechaDesde"];
         $fechaHasta = $request["fechaHasta"];
-        $proveedor = $request["proveedor"];
-        $familia = $request["familia"];
+        $proveedor_id = $request["proveedor"];
+        $familia_id = $request["familia"];
         $filename = "indiceDeRotacion";
         $niveles = $request["niveles"];
         $calculo = $request["calculo"];
@@ -43,19 +43,21 @@ class reportingController
         //INFORME
         $precabecera = array(
             array(date("F j, Y, g:i a")),
-            array(""),
+            array(date("H:i:s")),
             array("Indice De Rotacion"),
             array(""),
             array("*PERIODO", $fechaDesde, "a", $fechaHasta),
             array("*ALMACEN", $almacen),
-            array("*PROVEEDOR", $proveedor),
+            array("*PROVEEDOR", $proveedor_id),
             array("*LISTAS ARTICULOS ENVASES", "?"),
             array("*EN FUENTE DE COLOR ROJO VIENEN LOS ARTICULOS EN BAJA. LOS ARTICULOS MERCHANDISING NO DEBEN SALIR."),
             array("*ACTUALIZACION DE STOCK MEDIO:", " 01/06/2013" . "al", date("d:m:y")),
             array(" ")
         );
-
-        //cambiarlo por el nombre de la tabla
+        //BBDD
+        //usar otra bbdd
+        $db = DB::connection('reporting');
+        //$cabecera = $db->table('familias')->get();
         $cabecera = array(
             "ARTICULO",
             "DESCRIPCION",
@@ -65,30 +67,74 @@ class reportingController
             "TIPO ROT.",
             "PROVEEDOR",
             "RAZON SOCIAL",
-            "REFERENCIA",
+            "REFERENCIA"
+        ,
             "COMPRADOR",
             "MARCA",
-            "CAT.FERROKEY",
+            "CAT.FERROKEY?",
             "PRECIO MEDIO",
-            "FAMILIA",
-            "DES",
-            "COMPLETA",
-            "FAM-1-	DESCRIPCION",
-            "FAM-2-",
-            "DESCRIPCION",
-            "FAM-3- DESCRIPCION",
+            "FAMILIA	DES COMPLETA",
+            "FAM-1-DESCRIPCION",
+            "FAM-2-DESCRIPCION",
+            "FAM-3-DESCRIPCION"
+        ,
             "EXTINGUIR",
             "VENTAS (UDS)",
             "VENTAS (PVP)",
-            "VENTAS (PMEDIO)",
+            "VENTAS(PMEDIO)",
             "STOCK ACTUAL",
             "MARGEN BRUTO",
             "STOCK MEDIO (UDS)",
             "INDICE ROTACION",
-            "MARGEN POR ROTACIONSURTIDO"
+            "MARGEN POR ROTACION",
+            "SURTIDO"
         );
-        //datos
-        $data = DB::table('portales')->get();
+
+        //$cabecera=$db->getSchemaBuilder()->getColumnListing('articulos')->select('nombre','proveedor_id');
+        //consulta
+
+        $where = array();;
+        if (!empty($familia_id)) {
+            if ($niveles) {
+                $where[] = array('familia_id', 'like', $familia_id . '%');
+            } else {
+                $where[] = array('familia_id', '=', $familia_id);
+            }
+
+        } else {
+            $where[] = array('familia_id', 'like', '%');
+        }
+
+
+        if (!empty($proveedor_id)) {
+            $where[] = array_push($where, ['proveedor_id', '=', $proveedor_id]);
+        } else {
+            $where[] = array_push($where, ['proveedor_id', 'like', '%']);
+        }
+
+
+        //$a=$db->table('articulos')->select('familia_id')->
+        //here($where[0][0], $where[0][1], $where[0][2])->where($where[1][0], $where[1][1], $where[1][2])->get();
+
+
+        //Recojer varias llamadas
+        //  REVISAR QUERY
+        $data = $db->table('articulos')
+            ->join('familias', 'articulos.familia_id', '=', 'familias.id')
+
+            ->select('articulos.id as idArticulos', 'articulos.nombre', 'articulos.fecha_alta', 'articulos.fecha_baja',
+                'articulos.tipo_producto', 'articulos.tipo_rotacion',
+                'articulos.proveedor_id', 'articulos.marca', 'articulos.descripcion as Falta',
+                'articulos.familia_id', 'familias.nombre as nombreFamilias'
+            )
+            //->selectRaw( "substring(articulos.familia_id,1,2) as fam1,
+              //                      substring(articulos.nombre,1,".explode('-','articulos.nombre')[0].") as desc1")
+            ->where($where[0][0], $where[0][1], $where[0][2])
+            ->where($where[1][0], $where[1][1], $where[1][2])
+            ->get();
+
+
+//        echo strpos("aaa-aaa", "-");
 
 
         //color cabecera
@@ -109,9 +155,8 @@ class reportingController
 
         //LEYENDA
         $precabeceraL = array();
-        $cabeceraL = Schema::getColumnListing('leyenda');
-        $dataL = DB::table('leyenda')->get();
-        $titleL = "LEYENDA";
+
+
         $tramo1 = "A2:A" . ($fin1 + 2);
         $tramo2 = "A" . ($fin1 + 3) . ":A" . ($fin1 + $fin2 + 3);
         $tramo3 = "A" . ($fin2 + 2) . ":A" . ($fin2 + $fin3 + 3);
@@ -119,12 +164,14 @@ class reportingController
 
         if ($request["type"] == "xls") {
             $page1 = new Sheet($precabecera, $data, $cabecera, $bg, $title, $tramos);
-            $page2 = new SheetLeyenda($precabeceraL, $dataL, $cabeceraL, $bg, $titleL, $tramosLeyenda);
+            // $page2 = new SheetLeyenda($precabeceraL, $dataL2, $cabecera, $bg, $title, $tramosLeyenda);
+            $page2 = null;
             return Excel::download(new SheetsExports($page1, $page2), $filename . '.xls');
         }
         if ($request["type"] == "csv") {
             $page1 = new Sheet($precabecera, $data, $cabecera, $bg, $title, $tramos);
-            $page2 = new SheetLeyenda($precabeceraL, $dataL, $cabeceraL, $bg, $titleL, $tramosLeyenda);
+            //$page2 = new SheetLeyenda($precabeceraL, $dataL2, $cabecera, $bg, $title, $tramosLeyenda);
+            $page2 = null;
             return Excel::download(new SheetsExports($page1, $page2), $filename . '.csv');
         }
 

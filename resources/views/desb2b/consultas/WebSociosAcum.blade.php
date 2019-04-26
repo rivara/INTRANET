@@ -42,7 +42,8 @@ $lcFechaActualizacion = 'N/D';
 
 
 //+REQUIRES POR DEFECTO y PSESSIONS
-include_once $lcDirBase . 'jed_paratube.php';
+//rvr
+//include_once $lcDirBase . 'jed_paratube.php';
 //-REQUIRES POR DEFECTO y PSESSIONS
 
 
