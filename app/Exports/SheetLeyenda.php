@@ -24,8 +24,9 @@ class SheetLeyenda implements FromCollection, WithHeadings, WithEvents, WithTitl
     protected $background;
     protected $pagename;
     protected $tramos;
+    protected $title;
 
-    public function __construct($precabecera, $data, $cabecera, $background, $pagename, $tramos)
+    public function __construct($precabecera, $data, $cabecera, $background, $pagename, $tramos,$title)
     {
         $this->precabecera = $precabecera;
         $this->cabecera = $cabecera;
@@ -33,6 +34,7 @@ class SheetLeyenda implements FromCollection, WithHeadings, WithEvents, WithTitl
         $this->background = $background;
         $this->pagename = $pagename;
         $this->tramos = $tramos;
+        $this->title = $title;
     }
 
 
@@ -85,9 +87,9 @@ class SheetLeyenda implements FromCollection, WithHeadings, WithEvents, WithTitl
     /**
      * @return string
      */
-    public function title(): string
+    public function title(): String
     {
-        return $this->pagename;
+        return $this->title;
     }
 
 }

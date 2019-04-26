@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('content')
+<?php echo phpinfo(); ?>
 <div class="container">
     @if(!empty($successMsg))
         <div id="alert" class="alert alert-success"> {{ $successMsg }}</div>

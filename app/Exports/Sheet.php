@@ -27,13 +27,13 @@ class Sheet implements FromCollection, WithHeadings, WithEvents, WithTitle
     protected $pagename;
     protected $tramos;
 
-    public function __construct($precabecera, $data, $cabecera, $background, $pagename, $tramos)
+    public function __construct($precabecera, $data, $cabecera, $background, $title, $tramos)
     {
         $this->precabecera = $precabecera;
         $this->cabecera = $cabecera;
         $this->data = $data;
         $this->background = $background;
-        $this->pagename = $pagename;
+        $this->title = $title;
         $this->tramos = $tramos;
     }
 
@@ -83,7 +83,6 @@ class Sheet implements FromCollection, WithHeadings, WithEvents, WithTitle
      */
     public function headings(): array
     {
-
         return [$this->cabecera];
     }
 
@@ -92,7 +91,7 @@ class Sheet implements FromCollection, WithHeadings, WithEvents, WithTitle
      */
     public function title(): string
     {
-        return $this->pagename;
+        return $this->title;
     }
 
 
