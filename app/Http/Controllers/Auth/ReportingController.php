@@ -164,14 +164,14 @@ class reportingController
 
         if ($request["type"] == "xls") {
             $page1 = new Sheet($precabecera, $data, $cabecera, $bg, $title, $tramos);
-            // $page2 = new SheetLeyenda($precabeceraL, $dataL2, $cabecera, $bg, $title, $tramosLeyenda);
-            $page2 = null;
+            $page2 = new SheetLeyenda($precabeceraL, $cabecera, $precabeceraL, $bg, $title, $tramosLeyenda);
+            //$page2 = null;
             return Excel::download(new SheetsExports($page1, $page2), $filename . '.xls');
         }
         if ($request["type"] == "csv") {
             $page1 = new Sheet($precabecera, $data, $cabecera, $bg, $title, $tramos);
-            //$page2 = new SheetLeyenda($precabeceraL, $dataL2, $cabecera, $bg, $title, $tramosLeyenda);
-            $page2 = null;
+            $page2 = new SheetLeyenda($precabeceraL, $cabecera, $precabeceraL, $bg, $title, $tramosLeyenda);
+            //$page2 = null;
             return Excel::download(new SheetsExports($page1, $page2), $filename . '.csv');
         }
 
