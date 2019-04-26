@@ -161,7 +161,7 @@ class reportingController
         $tramosLeyenda = array($tramo1, $tramo2, $tramo3);
         $titleL = "LEYENDA";
         //$dataL = $cabecera;
-        $dataL = Collection::make([1, 2, 3]);
+        $dataL =$data;
 
 
         if ($request["type"] == "xls") {
