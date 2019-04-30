@@ -141,8 +141,8 @@ from articulos a left outer join familias f on a.familia_id = f.id
                     'articulos.coste_medio',
                     'familias.id as familiaId',
                     'familias.nombre as familiaNombre',
-                    $db->raw("(select substring(id,1,2) as f from familias where id=".'familiaId'.")  as fam1") ,
-                    $db->raw("(select familias.nombre from familias where id=fam1 ) as desc1")
+                   // $db->raw("(select substring(id,1,2) as f from familias where id=".'familiaId'.")  as fam1") ,
+                    //$db->raw("(select familias.nombre from familias where id=fam1 ) as desc1")
                     /*$db->raw("(select substring(id,1,4) as f from familias where id=".'familiaId'.")  as fam2") ,
                     $db->raw("(select familias.nombre from familias where id=fam2 ) as desc2"),
                     $db->raw("(select substring(id,1,6) as f from familias where id=".'familiaId'.")  as fam3") ,
