@@ -138,10 +138,10 @@ from articulos a left outer join familias f on a.familia_id = f.id
                     'proveedores.comprador_id',
                     'articulos.marca',
                     'articulos.es_merch_ferrokey',
-                    'articulos.coste_medio',
-                    'familias.id as familiaId',
-                    'familias.nombre as familiaNombre',
-                    $db->raw("(select substring(id,1,2) as f from familias where id=".'familiaId'.")  as fam1") ,
+                    'articulos.coste_medio'
+                  //  'familias.id as familiaId',
+                  //  'familias.nombre as familiaNombre',
+                   /* $db->raw("(select substring(id,1,2) as f from familias where id=".'familiaId'.")  as fam1") ,
                     $db->raw("(select familias.nombre from familias where id=fam1 ) as desc1"),
                     $db->raw("(select substring(id,1,4) as f from familias where id=".'familiaId'.")  as fam2") ,
                     $db->raw("(select familias.nombre from familias where id=fam2 ) as desc2"),
@@ -150,7 +150,7 @@ from articulos a left outer join familias f on a.familia_id = f.id
                     'articulos_almacen.es_extinguir as Extinguir',
                     $db->raw("(select count(*) from historico_ventas_detalle where articulo_id=articulos.id ) as ventasUds"),
                     $db->raw("(select sum(precio) from historico_ventas_detalle where articulo_id=articulos.id ) as ventasPvp"),
-                    $db->raw("(select sum(precio/coste_medio) from historico_ventas_detalle where articulo_id=articulos.id ) as ventasPMedio")
+                    $db->raw("(select sum(precio/coste_medio) from historico_ventas_detalle where articulo_id=articulos.id ) as ventasPMedio")*/
                 )
                 ->join('proveedores', 'proveedores.id', '=', 'articulos.proveedor_id')
                 ->join('familias', 'familias.id', '=', 'articulos.familia_id')
@@ -158,7 +158,7 @@ from articulos a left outer join familias f on a.familia_id = f.id
              ->where($where[0][0], $where[0][1], $where[0][2])
                 ->where($where[1][0], $where[1][1], $where[1][2])
                 ->get();
-            die();
+           // die();
         //color cabecera
         $bg = array("808080", "0000ff", "B5BF00");
 
