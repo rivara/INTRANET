@@ -158,7 +158,7 @@ from articulos a left outer join familias f on a.familia_id = f.id
              ->where($where[0][0], $where[0][1], $where[0][2])
                 ->where($where[1][0], $where[1][1], $where[1][2])
                 ->get();
-
+            die();
         //color cabecera
         $bg = array("808080", "0000ff", "B5BF00");
 
