@@ -147,14 +147,14 @@ from articulos a left outer join familias f on a.familia_id = f.id
                      $db->raw("(select familias.nombre from familias where id=fam2 ) as desc2"),
                      $db->raw("(select substring(id,1,6) as f from familias where id=".'familiaId'.")  as fam3") ,
                      $db->raw("(select familias.nombre from familias where id=fam3 ) as desc3"),
-                     //'articulos_almacen.es_extinguir as Extinguir'
+                      'articulos_almacen.es_extinguir as Extinguir',
                      $db->raw("(select count(*) from historico_ventas_detalle where articulo_id=".'idArticulos'.") as ventasUds"),
                      $db->raw("(select sum(precio) from historico_ventas_detalle where articulo_id=".'idArticulos'.") as ventasPvp"),
                      $db->raw("(select sum(precio/coste_medio) from historico_ventas_detalle where articulo_id=".'idArticulos'.") as ventasPMedio")
                 )
                 ->join('proveedores', 'proveedores.id', '=', 'articulos.proveedor_id')
                 ->join('familias', 'familias.id', '=', 'articulos.familia_id')
-              //  ->join('articulos_almacen', 'articulos_almacen.articulo_id', '=', 'articulos.id')
+                ->join('articulos_almacen', 'articulos_almacen.articulo_id', '=', 'articulos.id')
              ->where($where[0][0], $where[0][1], $where[0][2])
                 ->where($where[1][0], $where[1][1], $where[1][2])
                 ->get();
