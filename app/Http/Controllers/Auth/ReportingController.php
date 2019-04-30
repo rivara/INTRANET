@@ -160,8 +160,8 @@ from articulos a left outer join familias f on a.familia_id = f.id
                 ->get();
 
         //$data = $db->table('articulos')->limit('10')->get();
-        var_dump($data);
-         die();
+       // var_dump($data);
+        // die();
         //color cabecera
         $bg = array("808080", "0000ff", "B5BF00");
 
