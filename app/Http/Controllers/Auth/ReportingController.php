@@ -149,7 +149,7 @@ from articulos a left outer join familias f on a.familia_id = f.id
                     $db->raw("(select familias.nombre from familias where id=fam3 ) as desc3"),
                     'articulos_almacen.es_extinguir as Extinguir',
                     $db->raw("(select count(*) from historico_ventas_detalle where articulo_id=articulos.id ) as ventasUds"),
-                    $db->raw("(select sum(precio) from historico_ventas_detalle where articulo_id=articulos.id ) as ventasPvp")
+                    //$db->raw("(select sum(precio) from historico_ventas_detalle where articulo_id=articulos.id ) as ventasPvp")
                     //$db->raw("(select sum(precio/coste_medio) from historico_ventas_detalle where articulo_id=articulos.id ) as ventasPMedio")
                 )
                 ->join('proveedores', 'proveedores.id', '=', 'articulos.proveedor_id')
