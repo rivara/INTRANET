@@ -43,6 +43,7 @@ class Sheet implements FromCollection, WithHeadings, WithEvents, WithTitle
      */
     public function collection()
     {
+
         return $this->data;
     }
 
