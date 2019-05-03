@@ -8,6 +8,7 @@
 
 namespace App\Exports;
 
+use Illuminate\Console\OutputStyle;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithEvents;
@@ -15,9 +16,11 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Events\BeforeSheet;
+use Maatwebsite\Excel\Concerns\WithProgressBar;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
-
-class Sheet implements FromCollection, WithHeadings, WithEvents, WithTitle
+class Sheet implements FromCollection, WithHeadings, WithEvents, WithTitle ,WithProgressBar
 {
 
     protected $precabecera;
@@ -26,6 +29,7 @@ class Sheet implements FromCollection, WithHeadings, WithEvents, WithTitle
     protected $background;
     protected $pagename;
     protected $tramos;
+    protected $columna_roja;
 
     public function __construct($precabecera, $data, $cabecera, $background, $title, $tramos)
     {
@@ -54,11 +58,14 @@ class Sheet implements FromCollection, WithHeadings, WithEvents, WithTitle
     public function registerEvents(): array
     {
         $background = $this->background;
+
+
         return array(
 
             BeforeSheet::class => function (BeforeSheet $event) {
 
                 $event->sheet->append($this->precabecera);
+                //$event->sheet->fromArray($this->data, null, 'A1', true);
                 $event->sheet->getDelegate()->getStyle("A1")->getFont()->setBold(true);
                 $event->sheet->getDelegate()->getStyle("A3")->getFont()->setBold(true);
 
@@ -74,8 +81,16 @@ class Sheet implements FromCollection, WithHeadings, WithEvents, WithTitle
                     $i++;
                 }
 
+                $event->sheet->getDelegate()->getStyle("A1:W1")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->
+                getStartColor()->setRGB($background[3]);
+
             },
         );
+
+
+
+
+
     }
 
 
@@ -96,4 +111,16 @@ class Sheet implements FromCollection, WithHeadings, WithEvents, WithTitle
     }
 
 
+    /**
+     * @return OutputStyle
+     */
+
+
+    /**RVR PENDIENTE BARRA DE PROGRESO*/
+
+    public function getConsoleOutput(): OutputStyle
+    {
+        // TODO: Implement getConsoleOutput() method.
+        return $this->createProgressBar(2);
+    }
 }

@@ -14,7 +14,6 @@ use App\Exports\SheetsExports;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 
@@ -111,14 +110,14 @@ class reportingController
         } else {
             $where[] = array_push($where, ['proveedor_id', 'like', '%']);
         }
-        //$a=$db->table('articulos')->select('familia_id')->
-        //here($where[0][0], $where[0][1], $where[0][2])->where($where[1][0], $where[1][1], $where[1][2])->get();
-        /*select a.id, a.familia_id, f.ampliada, f2.nombre, f3.nombre, f4.nombre
-        from articulos a left outer join familias f on a.familia_id = f.id
-        left outer join familias f2 on substring(a.familia_id,1,2) = f2.id
-        left outer join familias f3 on substring(a.familia_id,1,4) = f3.id
-        left outer join familias f4 on substring(a.familia_id,1,6) = f4.id*/
-        //Recojer varias llamadas
+
+        //Recojer varias llamadas//$a=$db->table('articulos')->select('familia_id')->
+        //        //here($where[0][0], $where[0][1], $where[0][2])->where($where[1][0], $where[1][1], $where[1][2])->get();
+        //        /*select a.id, a.familia_id, f.ampliada, f2.nombre, f3.nombre, f4.nombre
+        //        from articulos a left outer join familias f on a.familia_id = f.id
+        //        left outer join familias f2 on substring(a.familia_id,1,2) = f2.id
+        //        left outer join familias f3 on substring(a.familia_id,1,4) = f3.id
+        //        left outer join familias f4 on substring(a.familia_id,1,6) = f4.id*/
         //  REVISAR QUERY
         $data = $db->table('articulos')
             ->select(
@@ -162,15 +161,19 @@ class reportingController
             ->where($where[1][0], $where[1][1], $where[1][2])
             ->get();
 
-        //$data = $db->table('articulos')->limit('10')->get();
-        // var_dump($data);
-        // die();
-        //color cabecera
-        $bg = array("808080", "0000ff", "B5BF00");
+          // base de datos
+          // LOCALIZAR LAS LENEAS QUE SE APLIQUEN LAS CONDICIONES
+            /* $array_eliminados=db->table('articulos')
+               ->select(
+               'articulos.id as idArticulos',
+            */
 
+
+        //$data = $db->table('articulos')->limit('10')->get();
+        //color cabecera
+        $bg = array("808080", "0000ff", "B5BF00","f5cbcb");
         // nombre de pestaña
         $title = "INFORME";
-
         //Parametrizar en funcion de la tabla
         $fin1 = 12;
         $fin2 = $fin1 + 10;
@@ -179,8 +182,6 @@ class reportingController
         $tramo2 = Coordinate::stringFromColumnIndex($fin1 + 1) . "12:" . Coordinate::stringFromColumnIndex($fin2) . "12";
         $tramo3 = Coordinate::stringFromColumnIndex($fin2 + 1) . "12:" . Coordinate::stringFromColumnIndex($fin3) . "12";
         $tramos = array($tramo1, $tramo2, $tramo3);
-
-
         //LEYENDA
         $precabeceraL = array();
         $tramo1 = "A2:A" . ($fin1 + 2);
@@ -196,12 +197,14 @@ class reportingController
 
         if ($request["type"] == "xls") {
             $page1 = new Sheet($precabecera, $data, $cabecera, $bg, $title, $tramos);
+
             //   $page2 = new SheetLeyenda($precabeceraL, $collection, $cabecera, $bg, $titleL, $tramosLeyenda,$titleL);
             $page2 = null;
             return Excel::download(new SheetsExports($page1, $page2), $filename . '.xls');
         }
         if ($request["type"] == "csv") {
             $page1 = new Sheet($precabecera, $data, $cabecera, $bg, $title, $tramos);
+
             //$page2 = new SheetLeyenda($precabeceraL, $collection, $cabecera, $bg, $titleL, $tramosLeyenda,$titleL);
             $page2 = null;
             return Excel::download(new SheetsExports($page1, $page2), $filename . '.csv');
