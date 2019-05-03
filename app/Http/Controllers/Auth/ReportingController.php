@@ -111,17 +111,13 @@ class reportingController
         } else {
             $where[] = array_push($where, ['proveedor_id', 'like', '%']);
         }
-
-
         //$a=$db->table('articulos')->select('familia_id')->
         //here($where[0][0], $where[0][1], $where[0][2])->where($where[1][0], $where[1][1], $where[1][2])->get();
-
         /*select a.id, a.familia_id, f.ampliada, f2.nombre, f3.nombre, f4.nombre
         from articulos a left outer join familias f on a.familia_id = f.id
-         left outer join familias f2 on substring(a.familia_id,1,2) = f2.id
-          left outer join familias f3 on substring(a.familia_id,1,4) = f3.id
-            left outer join familias f4 on substring(a.familia_id,1,6) = f4.id*/
-
+        left outer join familias f2 on substring(a.familia_id,1,2) = f2.id
+        left outer join familias f3 on substring(a.familia_id,1,4) = f3.id
+        left outer join familias f4 on substring(a.familia_id,1,6) = f4.id*/
         //Recojer varias llamadas
         //  REVISAR QUERY
         $data = $db->table('articulos')
@@ -157,10 +153,11 @@ class reportingController
                 $db->raw("(select avg(mad_stock) from stock_medio where articulo_id =articulos.id) as stockMedio"),
                 $db->raw("(select (count(articulo_id)/stock_actual) from historico_ventas_detalle where articulo_id =articulos.id group by articulo_id) as indice"),
                 $db->raw("(select (sum(articulo_id)/indice) from historico_ventas_detalle where articulo_id =articulos.id group by articulo_id) as MargenPorRotacion"),
-                $db->raw("(select es_surtido_alicante from articulos_almacen where articulo_id =articulos.id group by articulo_id) as surtido")
+                'articulos_almacen.es_surtido_alicante as surtido'
             )
             ->join('proveedores', 'proveedores.id', '=', 'articulos.proveedor_id')
             ->join('familias', 'familias.id', '=', 'articulos.familia_id')
+            ->join('articulos_almacen', 'articulos_almacen.articulo_id', '=', 'articulos.id')
             ->where($where[0][0], $where[0][1], $where[0][2])
             ->where($where[1][0], $where[1][1], $where[1][2])
             ->get();
