@@ -147,11 +147,11 @@ class reportingController
                 $db->raw("(select familias.nombre from familias where id=fam2 ) as desc2"),
                 $db->raw("(select substring(id,1,6) as f from familias where id=" . 'familiaId' . ")  as fam3"),
                 $db->raw("(select familias.nombre from familias where id=fam3 ) as desc3"),
-                'articulos_almacen.es_extinguir as es_extinguir'
-               /* $db->raw("(select count(articulo_id) from historico_ventas_detalle where idArticulos =articulos.id group by articulo_id) as ventasUds"),
+                'articulos_almacen.es_extinguir as es_extinguir',
+                $db->raw("(select count(articulo_id) from historico_ventas_detalle where idArticulos =articulos.id group by articulo_id) as ventasUds"),
                 $db->raw("(select sum(articulo_id) from historico_ventas_detalle where idArticulos =articulos.id group by articulo_id) as ventasPvp"),
-                $db->raw("(select sum(precio*coste_medio) from historico_ventas_detalle where idArticulos =articulos.id) as ventasPMedio"),
-                'articulos_almacen.stock_actual as stock_actual',
+                $db->raw("(select sum(precio*coste_medio) from historico_ventas_detalle where idArticulos =articulos.id) as ventasPMedio")
+               /* 'articulos_almacen.stock_actual as stock_actual',
                 $db->raw("(select sum(articulo_id) from historico_ventas_detalle where idArticulos =articulos.id group by articulo_id) as MargenBruto"),
                 //MARGEN BRUTO de momento sin margen
                 $db->raw("(select avg(mad_stock) from stock_medio where articulo_id =articulos.id) as stockMedio"),
