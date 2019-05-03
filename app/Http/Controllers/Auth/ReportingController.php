@@ -116,50 +116,58 @@ class reportingController
         //$a=$db->table('articulos')->select('familia_id')->
         //here($where[0][0], $where[0][1], $where[0][2])->where($where[1][0], $where[1][1], $where[1][2])->get();
 
-/*select a.id, a.familia_id, f.ampliada, f2.nombre, f3.nombre, f4.nombre
-from articulos a left outer join familias f on a.familia_id = f.id
- left outer join familias f2 on substring(a.familia_id,1,2) = f2.id
-  left outer join familias f3 on substring(a.familia_id,1,4) = f3.id
-    left outer join familias f4 on substring(a.familia_id,1,6) = f4.id*/
+        /*select a.id, a.familia_id, f.ampliada, f2.nombre, f3.nombre, f4.nombre
+        from articulos a left outer join familias f on a.familia_id = f.id
+         left outer join familias f2 on substring(a.familia_id,1,2) = f2.id
+          left outer join familias f3 on substring(a.familia_id,1,4) = f3.id
+            left outer join familias f4 on substring(a.familia_id,1,6) = f4.id*/
 
         //Recojer varias llamadas
         //  REVISAR QUERY
-         $data = $db->table('articulos')
-              ->select(
-                  'articulos.id as idArticulos',
-                    'articulos.nombre',
-                    'articulos.fecha_alta',
-                    'articulos.fecha_baja',
-                    'articulos.tipo_producto',
-                    'articulos.tipo_rotacion',
-                    'articulos.proveedor_id',
-                    'proveedores.nombre as razon_social',
-                    'articulos.referencia_proveedor',
-                    'proveedores.comprador_id',
-                    'articulos.marca',
-                    'articulos.es_merch_ferrokey',
-                    'articulos.coste_medio',
-                    'familias.id as familiaId',
-                    'familias.nombre as familiaNombre',
-                     $db->raw("(select substring(id,1,2) as f from familias where id=".'familiaId'.")  as fam1"),
-                     $db->raw("(select familias.nombre from familias where id=fam1 ) as desc1"),
-                     $db->raw("(select substring(id,1,4) as f from familias where id=".'familiaId'.")  as fam2") ,
-                     $db->raw("(select familias.nombre from familias where id=fam2 ) as desc2"),
-                     $db->raw("(select substring(id,1,6) as f from familias where id=".'familiaId'.")  as fam3") ,
-                     $db->raw("(select familias.nombre from familias where id=fam3 ) as desc3"),
-                     //$db->raw("(select es_extinguir from articulos_almacen where articulo_id=1) as Extinguir"),
-                     $db->raw("(select count(*) from historico_ventas_detalle where articulo_id=".'idArticulos'.") as ventasUds"),
-                     $db->raw("(select sum(precio) from historico_ventas_detalle where articulo_id=".'idArticulos'.") as ventasPvp"),
-                     $db->raw("(select sum(precio/coste_medio) from historico_ventas_detalle where articulo_id=".'idArticulos'.") as ventasPMedio")
-                )
-                ->join('proveedores', 'proveedores.id', '=', 'articulos.proveedor_id')
-                ->join('familias', 'familias.id', '=', 'articulos.familia_id')
-             ->where($where[0][0], $where[0][1], $where[0][2])
-                ->where($where[1][0], $where[1][1], $where[1][2])
-                ->get();
+        $data = $db->table('articulos')
+            ->select(
+                'articulos.id as idArticulos',
+                'articulos.nombre',
+                'articulos.fecha_alta',
+                'articulos.fecha_baja',
+                'articulos.tipo_producto',
+                'articulos.tipo_rotacion',
+                'articulos.proveedor_id',
+                'proveedores.nombre as razon_social',
+                'articulos.referencia_proveedor',
+                'proveedores.comprador_id',
+                'articulos.marca',
+                'articulos.es_merch_ferrokey',
+                'articulos.coste_medio',
+                'familias.id as familiaId',
+                'familias.nombre as familiaNombre',
+                $db->raw("(select substring(id,1,2) as f from familias where id=" . 'familiaId' . ")  as fam1"),
+                $db->raw("(select familias.nombre from familias where id=fam1 ) as desc1"),
+                $db->raw("(select substring(id,1,4) as f from familias where id=" . 'familiaId' . ")  as fam2"),
+                $db->raw("(select familias.nombre from familias where id=fam2 ) as desc2"),
+                $db->raw("(select substring(id,1,6) as f from familias where id=" . 'familiaId' . ")  as fam3"),
+                $db->raw("(select familias.nombre from familias where id=fam3 ) as desc3"),
+                'articulos_almacen.es_extinguir as es_extinguir',
+                $db->raw("(select count(articulo_id) from historico_ventas_detalle where idArticulos =articulos.id group by articulo_id) as ventasUds"),
+                $db->raw("(select sum(articulo_id) from historico_ventas_detalle where idArticulos =articulos.id group by articulo_id) as ventasPvp"),
+                $db->raw("(select sum(precio*coste_medio) from historico_ventas_detalle where idArticulos =articulos.id) as ventasPMedio"),
+                'articulos_almacen.stock_actual as stock_actual',
+                $db->raw("(select sum(articulo_id) from historico_ventas_detalle where idArticulos =articulos.id group by articulo_id) as MargenBruto"),
+                //MARGEN BRUTO de momento sin margen
+                $db->raw("(select avg(mad_stock) from stock_medio where articulo_id =articulos.id) as stockMedio"),
+                $db->raw("(select (count(articulo_id)/stock_actual) from historico_ventas_detalle where idArticulos =articulos.id group by articulo_id) as indice"),
+                $db->raw("(select sum(articulo_id)/indice from historico_ventas_detalle where idArticulos =articulos.id group by articulo_id) as MargenPorRotacion"),
+                'articulos_almacen.es_surtido_alicante as surtido'
+            )
+            ->join('proveedores', 'proveedores.id', '=', 'articulos.proveedor_id')
+            ->join('familias', 'familias.id', '=', 'articulos.familia_id')
+            ->join('articulos_almacen', 'articulos_almacen.articulo_id', '=', 'articulos.id')
+            ->where($where[0][0], $where[0][1], $where[0][2])
+            ->where($where[1][0], $where[1][1], $where[1][2])
+            ->get();
 
         //$data = $db->table('articulos')->limit('10')->get();
-       // var_dump($data);
+        // var_dump($data);
         // die();
         //color cabecera
         $bg = array("808080", "0000ff", "B5BF00");
@@ -185,14 +193,14 @@ from articulos a left outer join familias f on a.familia_id = f.id
         $tramosLeyenda = array($tramo1, $tramo2, $tramo3);
         $titleL = "LEYENDA";
         //$dataL = $cabecera;
-        $dataL =$data;
+        $dataL = $data;
         $arr = [19, 21, 46];
         $collection = collect($arr);
 
 
         if ($request["type"] == "xls") {
             $page1 = new Sheet($precabecera, $data, $cabecera, $bg, $title, $tramos);
-         //   $page2 = new SheetLeyenda($precabeceraL, $collection, $cabecera, $bg, $titleL, $tramosLeyenda,$titleL);
+            //   $page2 = new SheetLeyenda($precabeceraL, $collection, $cabecera, $bg, $titleL, $tramosLeyenda,$titleL);
             $page2 = null;
             return Excel::download(new SheetsExports($page1, $page2), $filename . '.xls');
         }
