@@ -4,7 +4,7 @@
         <b>Explicación del proceso</b>
     </div>
     <div class="col-md-10">
-        <i>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</i>
+        <i>Saca el informe</i>
     </div>
 
     <div class="col-md-12"><hr></div>
