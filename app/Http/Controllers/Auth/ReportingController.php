@@ -148,7 +148,7 @@ class reportingController
                 $db->raw("(select sum(articulo_id) from historico_ventas_detalle where articulo_id =articulos.id group by articulo_id) as ventasPvp"),
                 $db->raw("(select sum(precio*coste_medio) from historico_ventas_detalle where articulo_id =articulos.id) as ventasPMedio"),
                 'articulos_almacen.stock_actual as stock_actual',
-                $db->raw("(select sum(articulo_id) from historico_ventas_detalle where articulo_id =articulos.id group by articulo_id) as MargenBruto"),
+                $db->raw("(select sum(articulo_id) from historico_ventas_detalle where articulo_id =articulos.id group by articulo_id) as MargenBruto")
                 //MARGEN BRUTO de momento sin margen
               //  $db->raw("(select avg(mad_stock) from stock_medio where articulo_id =articulos.id) as stockMedio"),
              //   $db->raw("(select (count(articulo_id)/stock_actual) from historico_ventas_detalle where articulo_id =articulos.id group by articulo_id) as indice")
