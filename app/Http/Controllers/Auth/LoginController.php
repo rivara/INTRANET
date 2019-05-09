@@ -104,13 +104,13 @@ class LoginController extends Controller
     {
         $nombre = $request['nombre'];
         $url = DB::table('portales')->where('id', $request['id'])->pluck('url');
-
+        $claveDB = DB::table('usuarios')->where('nombre', $request['nombre'])->pluck('clave');
         $usuarios = DB::table('usuarios')->get();
         if ($url[0] == "admin") {
             //Aqui pagino
             $request['oAccion'] = "listado";
             $nombre = DB::table('usuarios')->where('email', session('mail'))->pluck('nombre');
-            $usuarios = DB::table('usuarios')->get();
+            //$usuarios = DB::table('usuarios')->get();
             $collection = collect($usuarios);
             $page = $request['page'];
             $perPage = 10;
@@ -133,8 +133,14 @@ class LoginController extends Controller
             return view('/reporting/index', ['id_usuario' => $request['id_usuario']]);
 
         }
+        if ($url[0] == "sat") {
+            return redirect('http://www.anydomain.com')
+                ->header('nombre',  $request['nombre'])
+                ->header('password', decrypt($claveDB));
 
-        $claveDB = DB::table('usuarios')->where('nombre', $request['nombre'])->pluck('clave');
+        }
+
+
         return redirect()->away($url[0]."?nombre=".$nombre."&password=".decrypt($claveDB));
 
     }
