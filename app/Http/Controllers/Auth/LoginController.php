@@ -138,7 +138,7 @@ class LoginController extends Controller
                 ->header('nombre',  $request['nombre'])
                 ->header('password', decrypt($claveDB));*/
 
-            return redirect()->route('sat.comafe.es'."?nombre=".$nombre."&password=".decrypt($claveDB));
+            return redirect('sat.comafe.es'."?nombre=".$nombre."&password=".decrypt($claveDB));
 
         }
 
