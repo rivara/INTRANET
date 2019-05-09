@@ -36,7 +36,7 @@
 
             <form  id="logout-form" action="{{ route('recordUser') }}" method="GET">
                 <h3>USUARIO</h3>
-                <label for="Name">Nombre</label>
+                <label for="Name" title="En usuarios comafe deber ser el mismo que le del mail (sin @comafe.es)">Nombre(*)</label>
                 <input type="text" class="form-control width400px" name="usuario" placeholder="Introduce Nombre" value={{$usuario}}>
 
                     @if ($errors->has('usuario'))
@@ -55,12 +55,12 @@
                                     </span>
                     @endif
                 <br>
-                <label for="Password">Contraseña(*)</label>
-                <input type="password" class="form-control width400px" name="password" placeholder="Contrseña">
+                <label for="Password"  title="En usuarios comafe deber ser la misma password">Contraseña(*)</label>
+                <input type="password" class="form-control width400px" name="password" placeholder="Contraseña">
 
                 <br>
                 <label for="PasswordRep">Repite Contraseña</label>
-                <input type="password" class="form-control width400px" name="passwordR" placeholder="Repite contrseña">
+                <input type="password" class="form-control width400px" name="passwordR" placeholder="Repite contraseña">
                     @if ($errors->has('passwordR'))
                         <span class="error">
                                         <strong>{{ $errors->first('passwordR') }}</strong>
