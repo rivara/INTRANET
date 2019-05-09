@@ -134,9 +134,11 @@ class LoginController extends Controller
 
         }
         if ($url[0] == "sat") {
-            return redirect('../../sat.comafe.es')
+            /*return url('../../sat.comafe.es')
                 ->header('nombre',  $request['nombre'])
-                ->header('password', decrypt($claveDB));
+                ->header('password', decrypt($claveDB));*/
+
+            return redirect()->away('sat.comafe.es'."?nombre=".$nombre."&password=".decrypt($claveDB));
 
         }
 
