@@ -110,7 +110,7 @@ class LoginController extends Controller
             //Aqui pagino
             $request['oAccion'] = "listado";
             $nombre = DB::table('usuarios')->where('email', session('mail'))->pluck('nombre');
-            //$usuarios = DB::table('usuarios')->get();
+            $usuarios = DB::table('usuarios')->get();
             $collection = collect($usuarios);
             $page = $request['page'];
             $perPage = 10;
@@ -134,7 +134,7 @@ class LoginController extends Controller
 
         }
         if ($url[0] == "sat") {
-            return redirect('sat.comafe.es')
+            return redirect('../sat.comafe.es')
                 ->header('nombre',  $request['nombre'])
                 ->header('password', decrypt($claveDB));
 
