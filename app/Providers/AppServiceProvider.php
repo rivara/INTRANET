@@ -17,15 +17,15 @@ class AppServiceProvider extends ServiceProvider
     {
         if(env('APP_DEBUG')) {
             DB::listen(function($query) {
-                /*File::append(
+                File::append(
                     storage_path('/logs/query.log'),
                     $query->sql . ' [' . implode(', ', $query->bindings) . ']' . PHP_EOL
-                );*/
-                Log::info(
+                );
+                /*Log::info(
                     $query->sql,
                     $query->bindings,
                     $query->time
-                );
+                );*/
             });
         }
     }

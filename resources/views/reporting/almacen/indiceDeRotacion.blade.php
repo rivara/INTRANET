@@ -7,7 +7,17 @@
     </div>
     <div class="col-md-4">
         <small><b>stock medio actualizado a</b></small>
-        <small>01/06/2013 al 27/02/2019</small>
+        <small>
+            <?php
+                // rvr formnatear la fecha
+            use Illuminate\Support\Facades\DB;
+            $primerafecha=DB::connection('reporting')->table('articulos')->orderBy('fecha_actualizacion','asc')->value("fecha_actualizacion");
+            $ultimafecha=DB::connection('reporting')->table('articulos')->orderBy('fecha_actualizacion','desc')->value("fecha_actualizacion");
+            echo ($primerafecha);
+            echo("<br>");
+            echo($primerafecha);
+            ?>
+        </small>
     </div>
     <!--- -->
     <div class="col-md-12"><br></div>
@@ -17,7 +27,7 @@
     </div>
     <div class="col-md-4">
         <select name="almacen" class="form-control">
-            <option value="MADRID">MADRID</option>
+            <option value="PRINCIPAL">MADRID</option>
             <option value="ALICANTE">ALICANTE</option>
         </select>
     </div>
@@ -28,11 +38,11 @@
     </div>
     <div class="col-md-4">
          <small>Desde</small>
-        <input class="form-control floatLeft" type="date"  name="fechaDesde" required  value="<?php echo date("Y-m-d");?>">
+        <input class="form-control floatLeft" type="date"  name="fechaDesde" required  value="<?php echo  date('Y-m-d', strtotime( ' - 1 year'));?>">
     </div>
     <div class="col-md-4">
         <small>Hasta</small>
-        <input class="form-control floatLeft" type="date" name="fechaHasta" required value="<?php echo  date('Y-m-d', strtotime( ' - 1 year'));?>">
+        <input class="form-control floatLeft" type="date" name="fechaHasta" required  value="<?php echo date("Y-m-d",strtotime( ' - 1 day'));?>">
     </div>
     <!--- -->
     <div class="col-md-4">
@@ -89,21 +99,55 @@
 
 
 <!-- Modal
-<div class="modal fade" id="myModal" role="dialog">
+<div class="modal fade" id="progressDialog" role="dialog">
     @csrf
     <div  class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
                 <div id="myProgress"   class="progress-bar progress-bar-striped progress-bar-animated" >
-                    <div  id="myBar">0%</div>
+                    <div  id="myBar"></div>
                 </div>
             </div>
-            <button class="boton">algo</button>
         </div>
     </div>
 </div>
 <script>
--->
+
+
+    $("#saveButton").click(function() {
+        $('#progressDialog').modal('show');
+
+        var updateForm =document.querySelector('form');
+        var request = new XMLHttpRequest();
+
+        request.upload.addEventListener('progress', function(e){
+            var percent = Math.round((e.loaded / e.total) * 100);
+
+            $('.progress-bar').css('width', percent+'%');
+            $('.sr-only').html(percent+'%');
+
+
+        }, false);
+
+        request.addEventListener('load', function(e){
+            var jsonResponse = JSON.parse(e.target.responseText);
+            if(jsonResponse.errors) {
+                console.log(jsonResponse.errors);
+            }
+            else {
+                $('#progressDialog').modal('hide');
+            }
+        }, false);
+
+        updateForm.addEventListener('submit', function(e){
+            e.preventDefault();
+            var formData = new FormData(updateForm);
+            request.open('post',updateForm['action']);
+            request.send(formData);
+        }, false);
+    });
+--->
+
 
 
 
