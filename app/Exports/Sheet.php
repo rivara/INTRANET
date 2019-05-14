@@ -17,10 +17,12 @@ use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Events\BeforeSheet;
 use Maatwebsite\Excel\Concerns\WithProgressBar;
-use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Console\Output\ConsoleOutput;
 
-class Sheet implements FromCollection, WithHeadings, WithEvents, WithTitle ,WithProgressBar
+
+/**
+ * @property  output
+ */
+class Sheet implements FromCollection, WithHeadings, WithEvents, WithTitle , WithProgressBar
 {
 
     protected $precabecera;
@@ -82,7 +84,7 @@ class Sheet implements FromCollection, WithHeadings, WithEvents, WithTitle ,With
                 }
 
                 $event->sheet->getDelegate()->getStyle("A1:W1")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->
-                getStartColor()->setRGB($background[3]);
+                getStartColor()->setRGB($background[2]);
 
             },
         );
@@ -111,16 +113,16 @@ class Sheet implements FromCollection, WithHeadings, WithEvents, WithTitle ,With
     }
 
 
+    /**RVR PENDIENTE BARRA DE PROGRESO*/
+
+
     /**
      * @return OutputStyle
      */
-
-
-    /**RVR PENDIENTE BARRA DE PROGRESO*/
-
     public function getConsoleOutput(): OutputStyle
     {
         // TODO: Implement getConsoleOutput() method.
-        return $this->createProgressBar(2);
+        // $this->output->createProgressBar(2);
     }
+
 }

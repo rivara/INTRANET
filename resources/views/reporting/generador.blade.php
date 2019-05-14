@@ -33,21 +33,21 @@
     </div>
     <div class="col-md-2"></div>
     <div class="col-md-2"  >
-        <input class="form-check-input" type="checkbox" >
+        <input class="form-check-input" type="checkbox" name="compresion" >
         <small>comprimir</small>
     </div>
     <!-- -->
     <div class="col-md-12">&nbsp;</div>
 
     <div class="col-md-6">
-        <input type="checkbox">
+        <input type="checkbox" name="enviaMail">
         <small><b>Enviar por mail a:</b></small>
-        <input  type="text" class="form-control"  >
+        <input  type="text" class="form-control"  name="email" >
     </div>
 
     <div class="col-md-6">
         <small><b>Con el asunto:</b></small>
-        <input  type="text" class="form-control"  >
+        <input  type="text" class="form-control"  name="asunto" >
     </div>
     <!-- -->
     <div class="col-md-12">&nbsp;</div>

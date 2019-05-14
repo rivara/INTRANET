@@ -198,6 +198,10 @@ Route::group(['middleware' => 'revalidate'], function() {
 
 
 
-
+    \DB::listen(function($sql) {
+        \Log::info($sql->sql);
+        \Log::info($sql->bindings);
+        \Log::info($sql->time);
+    });
 
 });

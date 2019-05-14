@@ -687,8 +687,11 @@ ul {
 
 .submenu2 {
     background-color: lightgrey;
-    padding: 10px;
+    padding: 12px;
     height: 60px;
+}
+.bar p{
+    text-align: left;
 }
 
 .bar button {
