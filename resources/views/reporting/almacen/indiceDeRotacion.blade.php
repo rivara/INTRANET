@@ -6,16 +6,17 @@
         <u><h3>Indice de rotacion</h3></u>
     </div>
     <div class="col-md-4">
-        <small><b>stock medio actualizado a</b></small>
+        <small><b>stock medio actualizado desde</b></small>
         <small>
             <?php
                 // rvr formnatear la fecha
             use Illuminate\Support\Facades\DB;
             $primerafecha=DB::connection('reporting')->table('articulos')->orderBy('fecha_actualizacion','asc')->value("fecha_actualizacion");
             $ultimafecha=DB::connection('reporting')->table('articulos')->orderBy('fecha_actualizacion','desc')->value("fecha_actualizacion");
-            echo ($primerafecha);
-            echo("<br>");
-            echo($primerafecha);
+           // echo ($primerafecha);
+            echo(date("d-m-Y", strtotime($primerafecha)));
+            echo ("&nbsp;&nbsp;<b>a</b>&nbsp;&nbsp;");
+            echo(date("d-m-Y", strtotime($ultimafecha)));
             ?>
         </small>
     </div>
