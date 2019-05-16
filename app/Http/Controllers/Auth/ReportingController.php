@@ -205,6 +205,7 @@ class reportingController
                 ->where($where[0][0], $where[0][1], $where[0][2])
                 ->where($where[1][0], $where[1][1], $where[1][2])
                 ->where("articulos_almacen.es_surtido_alicante","=",1)
+                ->limit(90000)
                 ->get();
         }
 
