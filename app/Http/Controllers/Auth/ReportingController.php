@@ -168,12 +168,10 @@ from articulos a left outer join familias f on a.familia_id = f.id
                // ->whereBetween('articulos.fecha_actualizacion', array($fechaDesde, $fechaHasta))
                // ->where($where[0][0], $where[0][1], $where[0][2])
                // ->where($where[1][0], $where[1][1], $where[1][2])
-               // ->get();
-               ->toSql();
-
-           echo($data);
-
-            die();
+                ->get();
+              // ->toSql();
+            //echo($data);
+            //die();
 
         }else{
 
