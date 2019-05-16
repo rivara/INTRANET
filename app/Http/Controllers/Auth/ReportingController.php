@@ -142,25 +142,34 @@ class reportingController
                     $db->raw("(select substring(id,1,6) as f from familias where id=" . 'familiaId' . ")  as fam3"),
                     $db->raw("(select familias.nombre from familias where id=fam3 ) as desc3"),
                     'articulos_almacen.es_extinguir as es_extinguir',
-                    $db->raw("(select count(articulo_id) from historico_ventas_detalle where articulo_id =articulos.id group by articulo_id) as ventasUds"),
-                    $db->raw("(select sum(articulo_id) from historico_ventas_detalle where articulo_id =articulos.id group by articulo_id) as ventasPvp"),
-                    $db->raw("(select sum(precio*coste_medio) from historico_ventas_detalle where articulo_id =articulos.id) as ventasPMedio"),
-                    'articulos_almacen.stock_actual as stock_actual',
-                    $db->raw("(select sum(articulo_id) from historico_ventas_detalle where articulo_id =articulos.id group by articulo_id) as MargenBruto"),
+                    //Articulos de almacen INNER JOIN
+                    // en historico_ventas_detalle
+                    //$db->raw("(select count(articulo_id) from historico_ventas_detalle where articulo_id =articulos.id group by articulo_id) as ventasUds"),
+
+                   /* $db->raw("(select sum(historico_ventas_detalle.precio) from historico_ventas_detalle
+                                     where articulo_id =articulos.id 
+                                     join articulos on articulos_almacen.almacen='PRINCIPAL'
+                                     group by articulo_id) as ventasPvp"),*/
+
+                    //$db->raw("(select sum(precio*coste_medio) from historico_ventas_detalle where articulo_id =articulos.id) as ventasPMedio"),
+                    //'articulos_almacen.stock_actual as stock_actual',
+                    //$db->raw("(select sum(articulo_id) from historico_ventas_detalle where articulo_id =articulos.id group by articulo_id) as MargenBruto"),
                     //MARGEN BRUTO de momento sin margen
-                    $db->raw("(select avg(mad_stock) from stock_medio where articulo_id =articulos.id) as stockMedio"),
-                    $db->raw("(select (count(articulo_id)/stock_actual) from historico_ventas_detalle where articulo_id =articulos.id group by articulo_id) as indice"),
-                    $db->raw("(select (sum(articulo_id)/indice) from historico_ventas_detalle where articulo_id =articulos.id group by articulo_id) as MargenPorRotacion"),
-                    'articulos_almacen.es_surtido_alicante as surtido',
+                    //$db->raw("(select avg(mad_stock) from stock_medio where articulo_id =articulos.id) as stockMedio"),
+                    //$db->raw("(select (count(articulo_id)/stock_actual) from historico_ventas_detalle where articulo_id =articulos.id group by articulo_id) as indice"),
+                    //$db->raw("(select (sum(articulo_id)/indice) from historico_ventas_detalle where articulo_id =articulos.id group by articulo_id) as MargenPorRotacion"),
+                    //'articulos_almacen.es_surtido_alicante as surtido',
                     $db->raw("now()"))
-                ->join('proveedores', 'proveedores.id', '=', 'articulos.proveedor_id')
-                ->join('familias', 'familias.id', '=', 'articulos.familia_id')
-                ->join('articulos_almacen', 'articulos_almacen.articulo_id', '=', 'articulos.id')
-                ->whereBetween('articulos.fecha_actualizacion', array($fechaDesde, $fechaHasta))
-                ->where($where[0][0], $where[0][1], $where[0][2])
-                ->where($where[1][0], $where[1][1], $where[1][2])
-                ->limit(90000)
-                ->get();
+                    ->join('proveedores', 'proveedores.id', '=', 'articulos.proveedor_id')
+                    ->join('familias', 'familias.id', '=', 'articulos.familia_id')
+                    ->join('articulos_almacen', 'articulos_almacen.articulo_id', '=', 'articulos.id')
+                   // ->join('historico_ventas_detalle', 'historico_ventas_detalle.articulo_id', '=', 'articulos.id')
+                    ->whereBetween('articulos.fecha_actualizacion', array($fechaDesde, $fechaHasta))
+                    ->where($where[0][0], $where[0][1], $where[0][2])
+                    ->where($where[1][0], $where[1][1], $where[1][2])
+                    ->where("articulos_almacen.almacen","like","PRINCIPAL")
+                    ->get();
+
 
         }else{
             $data = $db->table('articulos')
@@ -282,18 +291,6 @@ class reportingController
              header('Content-disposition: attachment; filename=files.zip');
              header('Content-type: application/zip');
         }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         if ($request["type"] == "xls") {

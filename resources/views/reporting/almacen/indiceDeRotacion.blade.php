@@ -99,7 +99,7 @@
 </form>
 
 
-<!-- Modal
+<!-- Modal -->
 <div class="modal fade" id="progressDialog" role="dialog">
     @csrf
     <div  class="modal-dialog">
@@ -147,7 +147,6 @@
             request.send(formData);
         }, false);
     });
---->
 
 
 
