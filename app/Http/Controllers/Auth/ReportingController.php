@@ -32,7 +32,7 @@ class reportingController
      */
     public function actionindiceDeRotacion(Request $request)
     {
-        die();
+
         //VARIABLES
         $almacen = $request["almacen"];
         $fechaDesde = $request["fechaDesde"];
@@ -163,8 +163,6 @@ class reportingController
                 ->get();
 
         }else{
-            die();
-
             $data = $db->table('articulos')
                 ->select(
                     'articulos.id as idArticulos',
