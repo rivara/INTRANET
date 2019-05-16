@@ -162,6 +162,7 @@ class reportingController
                 ->get();
 
         }else{
+            die();
 
             $data = $db->table('articulos')
                 ->select(
