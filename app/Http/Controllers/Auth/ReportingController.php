@@ -32,6 +32,7 @@ class reportingController
      */
     public function actionindiceDeRotacion(Request $request)
     {
+        die();
         //VARIABLES
         $almacen = $request["almacen"];
         $fechaDesde = $request["fechaDesde"];
