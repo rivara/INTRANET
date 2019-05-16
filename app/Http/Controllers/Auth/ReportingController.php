@@ -115,17 +115,7 @@ class reportingController
         }
 
 
-        //$a=$db->table('articulos')->select('familia_id')->
-        //here($where[0][0], $where[0][1], $where[0][2])->where($where[1][0], $where[1][1], $where[1][2])->get();
-
-/*select a.id, a.familia_id, f.ampliada, f2.nombre, f3.nombre, f4.nombre
-from articulos a left outer join familias f on a.familia_id = f.id
- left outer join familias f2 on substring(a.familia_id,1,2) = f2.id
-  left outer join familias f3 on substring(a.familia_id,1,4) = f3.id
-    left outer join familias f4 on substring(a.familia_id,1,6) = f4.id*/
-
         //MADRID
-
         if($almacen=="PRINCIPAL") {
             $data = $db->table('articulos')
                 ->select(
@@ -170,9 +160,6 @@ from articulos a left outer join familias f on a.familia_id = f.id
                 ->where($where[1][0], $where[1][1], $where[1][2])
                 ->limit(90000)
                 ->get();
-
-
-
 
         }else{
 
