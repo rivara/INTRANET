@@ -165,7 +165,7 @@ from articulos a left outer join familias f on a.familia_id = f.id
                 ->join('proveedores', 'proveedores.id', '=', 'articulos.proveedor_id')
                 ->join('familias', 'familias.id', '=', 'articulos.familia_id')
                 ->join('articulos_almacen', 'articulos_almacen.articulo_id', '=', 'articulos.id')
-                ->whereBetween('articulos.fecha_actualizacion', array($fechaDesde, $fechaHasta))
+               // ->whereBetween('articulos.fecha_actualizacion', array($fechaDesde, $fechaHasta))
                 //->where($where[0][0], $where[0][1], $where[0][2])
                 //->where($where[1][0], $where[1][1], $where[1][2])
                 // ->where("almacen",$almacen)
