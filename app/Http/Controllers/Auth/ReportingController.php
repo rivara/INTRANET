@@ -117,9 +117,9 @@ class reportingController
 
 
         //MADRID
-        if($almacen=="PRINCIPAL") {
             $data = $db->table('articulos')
                 ->select(
+
                     'articulos.id as idArticulos',
                     'articulos.nombre',
                     'articulos.fecha_alta',
@@ -142,96 +142,47 @@ class reportingController
                     $db->raw("(select substring(id,1,6) as f from familias where id=" . 'familiaId' . ")  as fam3"),
                     $db->raw("(select familias.nombre from familias where id=fam3 ) as desc3"),
                     'articulos_almacen.es_extinguir as es_extinguir',
-                    //REVISAR QUERY
-                   /* $db->raw("(select sum(cantidad) from historico_ventas_detalle
-                                      where articulo_id =articulos.id and almacen = 'PRINCIPAL' 
-                                      ) as ventasUds"),
+                    // QUERY SANTI
+                    $db->raw("(select SUM(det.cantidad)
+                     from historico_ventas_detalle det inner join historico_ventas cab ON det.empresa = cab.empresa AND det.tipo_documento = cab.tipo_documento AND det.documento = cab.documento
+                     WHERE cab.almacen ='".$almacen."' AND det.articulo_id = articulos.id group by articulo_id) as sumcantidad"),
 
-                    $db->raw("(select sum(historico_ventas_detalle.precio) from historico_ventas_detalle
-                                     where articulo_id
-                                     group by articulo_id) as ventasPvp"),
+                    $db->raw("(select SUM(det.importe)
+                     from historico_ventas_detalle det inner join historico_ventas cab ON det.empresa = cab.empresa AND det.tipo_documento = cab.tipo_documento AND det.documento = cab.documento
+                     WHERE cab.almacen = '".$almacen."' AND det.articulo_id = articulos.id group by articulo_id) as sumcantidad"),
+                    //VENTAS(PMEDIO)
 
-                    $db->raw("(select sum(precio*coste_medio) from historico_ventas_detalle
-                                     where articulo_id =articulos.id and
-                                        articulo_id  in (select articulo_id from articulos_almacen where articulos_almacen.almacen='PRINCIPAL')
-                                     ) as ventasPMedio"),
-                    'articulos_almacen.stock_actual as stock_actual',
-
-                    $db->raw("(select sum(articulo_id) from historico_ventas_detalle
-                    where articulo_id =articulos.id and almacen_id = 'PRINCIPAL' 
+                    //STOCK ACTUAL
+                  /*  $db->raw("(select sum(articulo_id) from historico_ventas_detalle
+                    where articulo_id =articulos.id and almacen_id = '".$almacen."' 
                     group by articulo_id) as MargenBruto"),*/
 
-
-                    //MARGEN BRUTO de momento sin margen
+                    //MARGEN BRUTO
                     $db->raw("(select avg(mad_stock) from stock_medio where articulo_id =articulos.id) as stockMedio"),
-                    $db->raw("(select (count(articulo_id)/stock_actual) from historico_ventas_detalle 
+
+                    //STOCK MEDIO (UDS)
+                    /*$db->raw("(select (count(articulo_id)/stock_actual) from historico_ventas_detalle
                     where articulo_id =articulos.id 
                     and articulos_almacen.almacen='PRINCIPAL'
-                    group by articulo_id) as indice"),
-                    $db->raw("(select (sum(articulo_id)/indice) from historico_ventas_detalle 
-                    where articulo_id =articulos.id 
-                    and articulos_almacen.almacen='PRINCIPAL'
-                    group by articulo_id) as MargenPorRotacion"),
+                    group by articulo_id) as indice"),*/
+
+                    //SURTIDO
+                    //$db->raw("(select (sum(articulo_id)/indice) from historico_ventas_detalle where articulo_id =articulos.id and articulos_almacen.almacen='PRINCIPAL' group by articulo_id) as MargenPorRotacion"),
 
                     //'articulos_almacen.es_surtido_alicante as surtido',
                     $db->raw("now()"))
                     ->join('proveedores', 'proveedores.id', '=', 'articulos.proveedor_id')
                     ->join('familias', 'familias.id', '=', 'articulos.familia_id')
                     ->join('articulos_almacen', 'articulos_almacen.articulo_id', '=', 'articulos.id')
-                   // ->join('historico_ventas_detalle', 'historico_ventas_detalle.articulo_id', '=', 'articulos.id')
+
                     ->whereBetween('articulos.fecha_actualizacion', array($fechaDesde, $fechaHasta))
                     ->where($where[0][0], $where[0][1], $where[0][2])
                     ->where($where[1][0], $where[1][1], $where[1][2])
-                    ->where("articulos_almacen.almacen","like","PRINCIPAL")
+                    ->where("articulos_almacen.almacen","like",$almacen)
                     ->get();
 
 
-        }else{
-            $data = $db->table('articulos')
-                ->select(
-                    'articulos.id as idArticulos',
-                    'articulos.nombre',
-                    'articulos.fecha_alta',
-                    'articulos.fecha_baja',
-                    'articulos.tipo_producto',
-                    'articulos.tipo_rotacion',
-                    'articulos.proveedor_id',
-                    'proveedores.nombre as razon_social',
-                    'articulos.referencia_proveedor',
-                    'proveedores.comprador_id',
-                    'articulos.marca',
-                    'articulos.es_merch_ferrokey',
-                    'articulos.coste_medio',
-                    'familias.id as familiaId',
-                    'familias.nombre as familiaNombre',
-                    $db->raw("(select substring(id,1,2) as f from familias where id=" . 'familiaId' . ")  as fam1"),
-                    $db->raw("(select familias.nombre from familias where id=fam1 ) as desc1"),
-                    $db->raw("(select substring(id,1,4) as f from familias where id=" . 'familiaId' . ")  as fam2"),
-                    $db->raw("(select familias.nombre from familias where id=fam2 ) as desc2"),
-                    $db->raw("(select substring(id,1,6) as f from familias where id=" . 'familiaId' . ")  as fam3"),
-                    $db->raw("(select familias.nombre from familias where id=fam3 ) as desc3"),
-                    'articulos_almacen.es_extinguir as es_extinguir',
-                    $db->raw("(select count(articulo_id) from historico_ventas_detalle where articulo_id =articulos.id group by articulo_id) as ventasUds"),
-                    $db->raw("(select sum(articulo_id) from historico_ventas_detalle where articulo_id =articulos.id group by articulo_id) as ventasPvp"),
-                    $db->raw("(select sum(precio*coste_medio) from historico_ventas_detalle where articulo_id =articulos.id) as ventasPMedio"),
-                    'articulos_almacen.stock_actual as stock_actual',
-                    $db->raw("(select sum(articulo_id) from historico_ventas_detalle where articulo_id =articulos.id group by articulo_id) as MargenBruto"),
-                    //MARGEN BRUTO de momento sin margen
-                    $db->raw("(select avg(mad_stock) from stock_medio where articulo_id =articulos.id) as stockMedio"),
-                    $db->raw("(select (count(articulo_id)/stock_actual) from historico_ventas_detalle where articulo_id =articulos.id group by articulo_id) as indice"),
-                    $db->raw("(select (sum(articulo_id)/indice) from historico_ventas_detalle where articulo_id =articulos.id group by articulo_id) as MargenPorRotacion"),
-                    'articulos_almacen.es_surtido_alicante as surtido',
-                    $db->raw("now()"))
-                ->join('proveedores', 'proveedores.id', '=', 'articulos.proveedor_id')
-                ->join('familias', 'familias.id', '=', 'articulos.familia_id')
-                ->join('articulos_almacen', 'articulos_almacen.articulo_id', '=', 'articulos.id')
-                ->whereBetween('articulos.fecha_actualizacion', array($fechaDesde, $fechaHasta))
-                ->where($where[0][0], $where[0][1], $where[0][2])
-                ->where($where[1][0], $where[1][1], $where[1][2])
-                ->where("articulos_almacen.es_surtido_alicante","=",1)
-                ->limit(90000)
-                ->get();
-        }
+
 
         $bg = array("808080", "0000ff", "B5BF00");
 
