@@ -142,14 +142,16 @@ class reportingController
                     $db->raw("(select substring(id,1,6) as f from familias where id=" . 'familiaId' . ")  as fam3"),
                     $db->raw("(select familias.nombre from familias where id=fam3 ) as desc3"),
                     'articulos_almacen.es_extinguir as es_extinguir',
-                    //Articulos de almacen INNER JOIN
-                    // en historico_ventas_detalle
-                    //$db->raw("(select count(articulo_id) from historico_ventas_detalle where articulo_id =articulos.id group by articulo_id) as ventasUds"),
+                    //REVISAR QUERY
+                    $db->raw("(select count(articulo_id) from historico_ventas_detalle 
+                                      where articulo_id =articulos.id and 
+                                      articulos_almacen.almacen like 'PRINCIPAL' 
+                                      group by articulo_id) as ventasUds"),
 
-                   /* $db->raw("(select sum(historico_ventas_detalle.precio) from historico_ventas_detalle
-                                     where articulo_id =articulos.id 
-                                     join articulos on articulos_almacen.almacen='PRINCIPAL'
-                                     group by articulo_id) as ventasPvp"),*/
+                    //$db->raw("(select sum(historico_ventas_detalle.precio) from historico_ventas_detalle
+                    //                 where articulo_id =articulos.id
+                    //                 join articulos on articulos_almacen.almacen='PRINCIPAL'
+                     //                group by articulo_id) as ventasPvp"),
 
                     //$db->raw("(select sum(precio*coste_medio) from historico_ventas_detalle where articulo_id =articulos.id) as ventasPMedio"),
                     //'articulos_almacen.stock_actual as stock_actual',
