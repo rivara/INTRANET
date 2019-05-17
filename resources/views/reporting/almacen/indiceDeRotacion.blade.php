@@ -1,4 +1,4 @@
-
+<? php ini_set('MAX_EXECUTION_TIME', '-1'); ?>
 @csrf
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <div class="row wrapperReporting center marginBottom20px">
@@ -112,42 +112,4 @@
         </div>
     </div>
 </div>
-<script>
-
-
-    $("#saveButton").click(function() {
-        $('#progressDialog').modal('show');
-
-        var updateForm =document.querySelector('form');
-        var request = new XMLHttpRequest();
-
-        request.upload.addEventListener('progress', function(e){
-            var percent = Math.round((e.loaded / e.total) * 100);
-
-            $('.progress-bar').css('width', percent+'%');
-            $('.sr-only').html(percent+'%');
-
-
-        }, false);
-
-        request.addEventListener('load', function(e){
-            var jsonResponse = JSON.parse(e.target.responseText);
-            if(jsonResponse.errors) {
-                console.log(jsonResponse.errors);
-            }
-            else {
-                $('#progressDialog').modal('hide');
-            }
-        }, false);
-
-        updateForm.addEventListener('submit', function(e){
-            e.preventDefault();
-            var formData = new FormData(updateForm);
-            request.open('post',updateForm['action']);
-            request.send(formData);
-        }, false);
-    });
-
-
-
 
