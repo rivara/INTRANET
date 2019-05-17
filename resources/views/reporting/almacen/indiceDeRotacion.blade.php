@@ -11,8 +11,8 @@
             <?php
                 // rvr formnatear la fecha
             use Illuminate\Support\Facades\DB;
-            $primerafecha=DB::connection('reporting')->table('articulos')->orderBy('fecha_actualizacion','asc')->value("fecha_actualizacion");
-            $ultimafecha=DB::connection('reporting')->table('articulos')->orderBy('fecha_actualizacion','desc')->value("fecha_actualizacion");
+            $primerafecha=DB::connection('reporting')->table('historico_ventas')->orderBy('fecha_actualizacion','asc')->value("fecha_actualizacion");
+            $ultimafecha=DB::connection('reporting')->table('historico_ventas')->orderBy('fecha_actualizacion','desc')->value("fecha_actualizacion");
            // echo ($primerafecha);
             echo(date("d-m-Y", strtotime($primerafecha)));
             echo ("&nbsp;&nbsp;<b>a</b>&nbsp;&nbsp;");
