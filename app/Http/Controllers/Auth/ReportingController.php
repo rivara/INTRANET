@@ -116,7 +116,19 @@ class reportingController
         }
 
 
-        //MADRID
+        // FALTA AÑADIR FECHA  RVR
+        //STOCK MEDIO (UDS)
+        if($almacen=='PRINCIPAL'){
+            $query="(select avg(ali_stock) from stock_medio  where articulo_id =articulos.id  GROUP BY articulo_id)as stockMedio";
+
+        }else{
+            $query="(select avg(mad_stock) from stock_medio  where articulo_id =articulos.id  GROUP BY articulo_id) as stockMedio";
+        }
+
+
+
+
+
             $data = $db->table('articulos')
                 ->select(
 
@@ -132,7 +144,7 @@ class reportingController
                     'proveedores.comprador_id',
                     'articulos.marca',
                     'articulos.es_merch_ferrokey',
-                    'articulos.coste_medio',
+                    'articulos.coste_medio as costeMedio',
                     'familias.id as familiaId',
                     'familias.nombre as familiaNombre',
                     $db->raw("(select substring(id,1,2) as f from familias where id=" . 'familiaId' . ")  as fam1"),
@@ -149,26 +161,21 @@ class reportingController
 
                     $db->raw("(select SUM(det.importe)
                      from historico_ventas_detalle det inner join historico_ventas cab ON det.empresa = cab.empresa AND det.tipo_documento = cab.tipo_documento AND det.documento = cab.documento
-                     WHERE cab.almacen = '".$almacen."' AND det.articulo_id = articulos.id group by articulo_id) as sumcantidad"),
+                     WHERE cab.almacen = '".$almacen."' AND det.articulo_id = articulos.id group by articulo_id) as sumimporte"),
                     //VENTAS(PMEDIO)
-
+                   // '(sumcantidad*costeMedio) as ventas',
                     //STOCK ACTUAL
-                    /*$db->raw("(select sum(cantidad) from historico_ventas_detalle
-                    where articulo_id =articulos.id and almacen_id = '".$almacen."' 
-                    group by articulo_id) as MargenBruto"),*/
+                    $db->raw("(select stock_actual from articulos_almacen where almacen like '".$almacen."') as stockActual"),
 
                     //MARGEN BRUTO
-                    $db->raw("(select avg(mad_stock) from stock_medio where articulo_id =articulos.id) as stockMedio"),
-
+                        //[PENDIENTE]
                     //STOCK MEDIO (UDS)
-                    /*$db->raw("(select (count(articulo_id)/stock_actual) from historico_ventas_detalle  where articulo_id =articulos.id
-                    and articulos_almacen.almacen='PRINCIPAL'
-                    group by articulo_id) as indice"),*/
+                    $db->raw($query),
+
+
 
                     //SURTIDO
-                    //$db->raw("(select (sum(articulo_id)/indice) from historico_ventas_detalle where articulo_id =articulos.id and articulos_almacen.almacen='PRINCIPAL' group by articulo_id) as MargenPorRotacion"),
-
-                    //'articulos_almacen.es_surtido_alicante as surtido',
+                     'articulos_almacen.es_surtido_alicante as surtido',
                     $db->raw("now()"))
                     ->join('proveedores', 'proveedores.id', '=', 'articulos.proveedor_id')
                     ->join('familias', 'familias.id', '=', 'articulos.familia_id')
