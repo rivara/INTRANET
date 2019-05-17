@@ -153,7 +153,7 @@ class reportingController
                     //VENTAS(PMEDIO)
 
                     //STOCK ACTUAL
-                  /*  $db->raw("(select sum(articulo_id) from historico_ventas_detalle
+                    /*$db->raw("(select sum(cantidad) from historico_ventas_detalle
                     where articulo_id =articulos.id and almacen_id = '".$almacen."' 
                     group by articulo_id) as MargenBruto"),*/
 
@@ -161,8 +161,7 @@ class reportingController
                     $db->raw("(select avg(mad_stock) from stock_medio where articulo_id =articulos.id) as stockMedio"),
 
                     //STOCK MEDIO (UDS)
-                    /*$db->raw("(select (count(articulo_id)/stock_actual) from historico_ventas_detalle
-                    where articulo_id =articulos.id 
+                    /*$db->raw("(select (count(articulo_id)/stock_actual) from historico_ventas_detalle  where articulo_id =articulos.id
                     and articulos_almacen.almacen='PRINCIPAL'
                     group by articulo_id) as indice"),*/
 
@@ -174,15 +173,12 @@ class reportingController
                     ->join('proveedores', 'proveedores.id', '=', 'articulos.proveedor_id')
                     ->join('familias', 'familias.id', '=', 'articulos.familia_id')
                     ->join('articulos_almacen', 'articulos_almacen.articulo_id', '=', 'articulos.id')
-
                     ->whereBetween('articulos.fecha_actualizacion', array($fechaDesde, $fechaHasta))
                     ->where($where[0][0], $where[0][1], $where[0][2])
                     ->where($where[1][0], $where[1][1], $where[1][2])
                     ->where("articulos_almacen.almacen","like",$almacen)
+                    ->limit(20000)
                     ->get();
-
-
-
 
         $bg = array("808080", "0000ff", "B5BF00");
 
