@@ -143,25 +143,23 @@ class reportingController
                     $db->raw("(select familias.nombre from familias where id=fam3 ) as desc3"),
                     'articulos_almacen.es_extinguir as es_extinguir',
                     //REVISAR QUERY
-                    $db->raw("(select count(articulo_id) from historico_ventas_detalle 
-                                      where articulo_id =articulos.id and 
-                                      articulos_almacen.almacen like 'PRINCIPAL' 
-                                      group by articulo_id) as ventasUds"),
+                   /* $db->raw("(select sum(cantidad) from historico_ventas_detalle
+                                      where articulo_id =articulos.id and almacen = 'PRINCIPAL' 
+                                      ) as ventasUds"),
 
                     $db->raw("(select sum(historico_ventas_detalle.precio) from historico_ventas_detalle
-                                     where articulo_id =articulos.id
-                                     and articulos_almacen.almacen='PRINCIPAL'
+                                     where articulo_id
                                      group by articulo_id) as ventasPvp"),
 
-                    $db->raw("(select sum(precio*coste_medio) from historico_ventas_detalle 
-                                     where articulo_id =articulos.id
-                                      and articulos_almacen.almacen='PRINCIPAL'
+                    $db->raw("(select sum(precio*coste_medio) from historico_ventas_detalle
+                                     where articulo_id =articulos.id and
+                                        articulo_id  in (select articulo_id from articulos_almacen where articulos_almacen.almacen='PRINCIPAL')
                                      ) as ventasPMedio"),
                     'articulos_almacen.stock_actual as stock_actual',
-                    $db->raw("(select sum(articulo_id) from historico_ventas_detalle 
-                    where articulo_id =articulos.id 
-                    and articulos_almacen.almacen='PRINCIPAL'
-                    group by articulo_id) as MargenBruto"),
+
+                    $db->raw("(select sum(articulo_id) from historico_ventas_detalle
+                    where articulo_id =articulos.id and almacen_id = 'PRINCIPAL' 
+                    group by articulo_id) as MargenBruto"),*/
 
 
                     //MARGEN BRUTO de momento sin margen
