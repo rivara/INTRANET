@@ -155,25 +155,22 @@ class reportingController
                     $db->raw("(select familias.nombre from familias where id=fam3 ) as desc3"),
                     'articulos_almacen.es_extinguir as es_extinguir',
                     // QUERY SANTI
-                    $db->raw("(select SUM(det.cantidad)
+                    $db->raw("(select SUM(det.cantidad) as cantidad
                      from historico_ventas_detalle det inner join historico_ventas cab ON det.empresa = cab.empresa AND det.tipo_documento = cab.tipo_documento AND det.documento = cab.documento
                      WHERE cab.almacen ='".$almacen."' AND det.articulo_id = articulos.id group by articulo_id) as sumcantidad"),
-
                     $db->raw("(select SUM(det.importe)
                      from historico_ventas_detalle det inner join historico_ventas cab ON det.empresa = cab.empresa AND det.tipo_documento = cab.tipo_documento AND det.documento = cab.documento
                      WHERE cab.almacen = '".$almacen."' AND det.articulo_id = articulos.id group by articulo_id) as sumimporte"),
                     //VENTAS(PMEDIO)
-                   // '(sumcantidad*costeMedio) as ventas',
+                    // NO LO PINTA
+                     'articulos.coste_medio as costeMedio * cantidad ',
                     //STOCK ACTUAL
-                    $db->raw("(select stock_actual from articulos_almacen where almacen like '".$almacen."') as stockActual"),
-
+                    // [PENDIENTE REVISAR]
+                 ///$db->raw("(select stock_actual from articulos_almacen where almacen like '".$almacen."') as stock"),
                     //MARGEN BRUTO
                         //[PENDIENTE]
                     //STOCK MEDIO (UDS)
                     $db->raw($query),
-
-
-
                     //SURTIDO
                      'articulos_almacen.es_surtido_alicante as surtido',
                     $db->raw("now()"))
@@ -184,7 +181,6 @@ class reportingController
                     ->where($where[0][0], $where[0][1], $where[0][2])
                     ->where($where[1][0], $where[1][1], $where[1][2])
                     ->where("articulos_almacen.almacen","like",$almacen)
-                    ->limit(20000)
                     ->get();
 
         $bg = array("808080", "0000ff", "B5BF00");
