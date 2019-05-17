@@ -158,11 +158,23 @@ class reportingController
                                       and articulos_almacen.almacen='PRINCIPAL'
                                      ) as ventasPMedio"),
                     'articulos_almacen.stock_actual as stock_actual',
-                    //$db->raw("(select sum(articulo_id) from historico_ventas_detalle where articulo_id =articulos.id group by articulo_id) as MargenBruto"),
+                    $db->raw("(select sum(articulo_id) from historico_ventas_detalle 
+                    where articulo_id =articulos.id 
+                    and articulos_almacen.almacen='PRINCIPAL'
+                    group by articulo_id) as MargenBruto"),
+
+
                     //MARGEN BRUTO de momento sin margen
-                    //$db->raw("(select avg(mad_stock) from stock_medio where articulo_id =articulos.id) as stockMedio"),
-                    //$db->raw("(select (count(articulo_id)/stock_actual) from historico_ventas_detalle where articulo_id =articulos.id group by articulo_id) as indice"),
-                    //$db->raw("(select (sum(articulo_id)/indice) from historico_ventas_detalle where articulo_id =articulos.id group by articulo_id) as MargenPorRotacion"),
+                    $db->raw("(select avg(mad_stock) from stock_medio where articulo_id =articulos.id) as stockMedio"),
+                    $db->raw("(select (count(articulo_id)/stock_actual) from historico_ventas_detalle 
+                    where articulo_id =articulos.id 
+                    and articulos_almacen.almacen='PRINCIPAL'
+                    group by articulo_id) as indice"),
+                    $db->raw("(select (sum(articulo_id)/indice) from historico_ventas_detalle 
+                    where articulo_id =articulos.id 
+                    and articulos_almacen.almacen='PRINCIPAL'
+                    group by articulo_id) as MargenPorRotacion"),
+
                     //'articulos_almacen.es_surtido_alicante as surtido',
                     $db->raw("now()"))
                     ->join('proveedores', 'proveedores.id', '=', 'articulos.proveedor_id')
