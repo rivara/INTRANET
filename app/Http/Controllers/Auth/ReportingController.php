@@ -173,9 +173,6 @@ class reportingController
 
 /////////////////////////////////////////////////VENTAS
 
-        echo "llega";
-        die();
-
         //$data = $db->select($db->raw( "(select articulo_id ID,SUM(cantidad) CANSUM  from historico_ventas_detalle  WHERE empresa=1 AND year(fecha)=2018 AND es_directo=0 GROUP BY articulo_id)"));
         $data = $db->select($db->raw("(SELECT art.id, ifnull(ven.CANSUM,0) as VENTA, alm.almacen
                                                 FROM articulos art
