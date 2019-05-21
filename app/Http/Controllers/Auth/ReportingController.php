@@ -169,24 +169,78 @@ class reportingController
 */
 
 
+        //consulta
+        $where = array();;
+        if (!empty($familia_id)) {
+            if ($niveles) {
+                $where[] = array('familia_id', 'like', $familia_id . '%');
+            } else {
+                $where[] = array('familia_id', '=', $familia_id);
+            }
+
+        } else {
+            $where[] = array('familia_id', 'like', '%');
+        }
+
+
+        if (!empty($proveedor_id)) {
+            $proveedor="and a.proveedor_id = '".$proveedor_id."'";
+        } else {
+            $proveedor=" ";
+        }
+
+
+        /**
+        'articulos.id as idArticulos',
+        'articulos.nombre',
+        'articulos.fecha_alta',
+        'articulos.fecha_baja',
+        'articulos.tipo_producto',
+        'articulos.tipo_rotacion',
+        'articulos.proveedor_id',
+        'proveedores.nombre as razon_social'
+        'articulos.referencia_proveedor',
+        'proveedores.comprador_id'
+        'articulos.marca'
+        'articulos.es_merch_ferrokey',
+
+         * 'articulos.coste_medio as costeMedio',
+        'familias.id as familiaId',
+        'familias.nombre as familiaNombre',
+
+
+         */
+
+
+
 
 
 /////////////////////////////////////////////////VENTAS
 
         //$data = $db->select($db->raw( "(select articulo_id ID,SUM(cantidad) CANSUM  from historico_ventas_detalle  WHERE empresa=1 AND year(fecha)=2018 AND es_directo=0 GROUP BY articulo_id)"));
-        $data = $db->select($db->raw("(SELECT art.id, ifnull(ven.CANSUM,0) as VENTA, alm.almacen
-                                                FROM articulos art
+        $data = $db->select($db->raw("(SELECT a.id,a.nombre,a.fecha_alta,a.fecha_baja,a.tipo_producto,a.tipo_rotacion,a.proveedor_id,pro.nombre,a.referencia_proveedor,
+        pro.comprador_id,a.marca,a.es_merch_ferrokey,a.coste_medio,fam.id,fam.nombre
+        ,ifnull(ven.CANSUM,0) as VENTA, alm.almacen
+        
+                                                FROM articulos a
                                                 LEFT OUTER JOIN (
-                                                select articulo_id art,SUM(cantidad) CANSUM
-                                                from historico_ventas_detalle v LEFT OUTER JOIN articulos a ON v.articulo_id = a.id
-                                                WHERE empresa=1 AND year(fecha)=2018 AND es_directo=0 AND a.fecha_baja is null
-                                                GROUP BY articulo_id
-                                                ) ven ON art.id = ven.art
-                                                LEFT OUTER JOIN articulos_almacen alm ON art.id = alm.articulo_id AND alm.almacen = 'PRINCIPAL'
-                                                WHERE art.fecha_baja is null
-                                                ORDER BY art.id)"));
-        var_dump($data);
-        die;
+                                                    select articulo_id art,SUM(cantidad) CANSUM
+                                                    from historico_ventas_detalle v LEFT OUTER JOIN articulos a ON v.articulo_id = a.id
+                                                    WHERE empresa=1 
+                                                    AND year(fecha)=2018 
+                                                    AND es_directo=0 
+                                                    AND a.fecha_baja is null
+                                                 ".$proveedor."
+                                                    GROUP BY articulo_id
+                                                ) ven ON a.id = ven.art
+                                                LEFT OUTER JOIN articulos_almacen alm ON a.id = alm.articulo_id AND alm.almacen = 'PRINCIPAL'
+                                                LEFT JOIN proveedores pro ON a.proveedor_id = pro.id 
+                                                LEFT JOIN familias fam ON a.familia_id = fam.id
+                                                WHERE a.fecha_baja is null
+                                                   ".$proveedor."
+                                                ORDER BY a.id)"));
+        //ar_dump($data);
+        //die;
 
 
          //select articulo_id ID,SUM(cantidad) CANSUM  from historico_ventas_detalle  WHERE empresa=1 AND year(fecha)=2018 AND es_directo=0 GROUP BY articulo_id

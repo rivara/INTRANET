@@ -50,7 +50,9 @@ class Sheet implements FromCollection, WithHeadings, WithEvents, WithTitle , Wit
     public function collection()
     {
 
-        return $this->data;
+        $a= collect($this->data);
+
+        return $a;
     }
 
 
