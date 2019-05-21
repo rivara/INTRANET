@@ -36,7 +36,10 @@ class reportingController
         //VARIABLES
         $almacen = $request["almacen"];
         $fechaDesde = $request["fechaDesde"];
+        $fechaDesd=date('d-m-y',strtotime($fechaDesde));
         $fechaHasta = $request["fechaHasta"];
+        $fechaHast =date('d-m-y',strtotime($fechaHasta));
+
         $proveedor_id = $request["proveedor"];
         $familia_id = $request["familia"];
         $filename = "indiceDeRotacion";
@@ -129,59 +132,77 @@ class reportingController
 
 
 
-            $data = $db->table('articulos')
-                ->select(
+        $data = $db->table('articulos')
+            ->select(
+                'articulos.id as idArticulos',
+                'articulos.nombre',
+                'articulos.fecha_alta',
+                'articulos.fecha_baja',
+                'articulos.tipo_producto',
+                'articulos.tipo_rotacion',
+                'articulos.proveedor_id',
+                'proveedores.nombre as razon_social',
+                'articulos.referencia_proveedor',
+                'proveedores.comprador_id',
+                'articulos.marca',
+                'articulos.es_merch_ferrokey',
+                'articulos.coste_medio as costeMedio',
+                'familias.id as familiaId',
+                'familias.nombre as familiaNombre',
+                $db->raw("(select substring(id,1,2) as f from familias where id=" . 'familiaId' . ")  as fam1"),
+                $db->raw("(select familias.nombre from familias where id=fam1 ) as desc1"),
+                $db->raw("(select substring(id,1,4) as f from familias where id=" . 'familiaId' . ")  as fam2"),
+                $db->raw("(select familias.nombre from familias where id=fam2 ) as desc2"),
+                $db->raw("(select substring(id,1,6) as f from familias where id=" . 'familiaId' . ")  as fam3"),
+                $db->raw("(select familias.nombre from familias where id=fam3 ) as desc3"),
+                'articulos_almacen.es_extinguir as es_extinguir',
+                $db->raw("now()"))
+                ->join('proveedores', 'proveedores.id', '=', 'articulos.proveedor_id')
+                ->join('familias', 'familias.id', '=', 'articulos.familia_id')
+                ->join('articulos_almacen', 'articulos_almacen.articulo_id', '=', 'articulos.id')
+                ->whereBetween('articulos.fecha_actualizacion', array($fechaDesde, $fechaHasta))
+                ->where($where[0][0], $where[0][1], $where[0][2])
+                ->where($where[1][0], $where[1][1], $where[1][2])
+                ->where("articulos_almacen.almacen","like",$almacen)
+                ->get();
 
-                    'articulos.id as idArticulos',
-                    'articulos.nombre',
-                    'articulos.fecha_alta',
-                    'articulos.fecha_baja',
-                    'articulos.tipo_producto',
-                    'articulos.tipo_rotacion',
-                    'articulos.proveedor_id',
-                    'proveedores.nombre as razon_social',
-                    'articulos.referencia_proveedor',
-                    'proveedores.comprador_id',
-                    'articulos.marca',
-                    'articulos.es_merch_ferrokey',
-                    'articulos.coste_medio as costeMedio',
-                    'familias.id as familiaId',
-                    'familias.nombre as familiaNombre',
-                    $db->raw("(select substring(id,1,2) as f from familias where id=" . 'familiaId' . ")  as fam1"),
-                    $db->raw("(select familias.nombre from familias where id=fam1 ) as desc1"),
-                    $db->raw("(select substring(id,1,4) as f from familias where id=" . 'familiaId' . ")  as fam2"),
-                    $db->raw("(select familias.nombre from familias where id=fam2 ) as desc2"),
-                    $db->raw("(select substring(id,1,6) as f from familias where id=" . 'familiaId' . ")  as fam3"),
-                    $db->raw("(select familias.nombre from familias where id=fam3 ) as desc3"),
-                    'articulos_almacen.es_extinguir as es_extinguir',
-                    // QUERY SANTI
-                    $db->raw("(select SUM(det.cantidad) as cantidad
-                     from historico_ventas_detalle det inner join historico_ventas cab ON det.empresa = cab.empresa AND det.tipo_documento = cab.tipo_documento AND det.documento = cab.documento
-                     WHERE cab.almacen ='".$almacen."' AND det.articulo_id = articulos.id group by articulo_id) as sumcantidad"),
-                    $db->raw("(select SUM(det.importe)
-                     from historico_ventas_detalle det inner join historico_ventas cab ON det.empresa = cab.empresa AND det.tipo_documento = cab.tipo_documento AND det.documento = cab.documento
-                     WHERE cab.almacen = '".$almacen."' AND det.articulo_id = articulos.id group by articulo_id) as sumimporte"),
-                    //VENTAS(PMEDIO)
-                    // NO LO PINTA
-                     'articulos.coste_medio as costeMedio * cantidad ',
-                    //STOCK ACTUAL
-                    // [PENDIENTE REVISAR]
-                 ///$db->raw("(select stock_actual from articulos_almacen where almacen like '".$almacen."') as stock"),
-                    //MARGEN BRUTO
-                        //[PENDIENTE]
-                    //STOCK MEDIO (UDS)
-                    $db->raw($query),
-                    //SURTIDO
-                     'articulos_almacen.es_surtido_alicante as surtido',
-                    $db->raw("now()"))
-                    ->join('proveedores', 'proveedores.id', '=', 'articulos.proveedor_id')
-                    ->join('familias', 'familias.id', '=', 'articulos.familia_id')
-                    ->join('articulos_almacen', 'articulos_almacen.articulo_id', '=', 'articulos.id')
-                    ->whereBetween('articulos.fecha_actualizacion', array($fechaDesde, $fechaHasta))
-                    ->where($where[0][0], $where[0][1], $where[0][2])
-                    ->where($where[1][0], $where[1][1], $where[1][2])
-                    ->where("articulos_almacen.almacen","like",$almacen)
-                    ->get();
+
+
+
+
+
+/////////////////////////////////////////////////ventas
+
+
+        $data = $db->select($db->raw( "(select articulo_id ID,SUM(cantidad) CANSUM  from historico_ventas_detalle  WHERE empresa=1 AND year(fecha)=2018 AND es_directo=0 GROUP BY articulo_id)"));
+        var_dump($data);
+        die;
+
+
+
+//                select articulo_id ID,SUM(cantidad) CANSUM  from historico_ventas_detalle  WHERE empresa=1 AND year(fecha)=2018 AND es_directo=0 GROUP BY articulo_id;
+
+
+        // QUERY SANTI
+        /*    $db->raw("(select SUM(det.cantidad) as cantidad
+                 from historico_ventas_detalle det inner join historico_ventas cab ON det.empresa = cab.empresa AND det.tipo_documento = cab.tipo_documento AND det.documento = cab.documento
+                 WHERE cab.almacen ='".$almacen."' AND det.articulo_id = articulos.id group by articulo_id) as sumcantidad"),
+            $db->raw("(select SUM(det.importe)
+                 from historico_ventas_detalle det inner join historico_ventas cab ON det.empresa = cab.empresa AND det.tipo_documento = cab.tipo_documento AND det.documento = cab.documento
+                 WHERE cab.almacen = '".$almacen."' AND det.articulo_id = articulos.id group by articulo_id) as sumimporte"),*/
+        //VENTAS(PMEDIO)
+        // NO LO PINTA
+       //'articulos.coste_medio as costeMedio * cantidad ',
+                //STOCK ACTUAL
+                // [PENDIENTE REVISAR]
+                ///$db->raw("(select stock_actual from articulos_almacen where almacen like '".$almacen."') as stock"),
+                //MARGEN BRUTO
+                //[PENDIENTE]
+                //STOCK MEDIO (UDS)
+               // $db->raw($query),
+            //SURTIDO
+            //'articulos_almacen.es_surtido_alicante as surtido',
+
 
         $bg = array("808080", "0000ff", "B5BF00");
 

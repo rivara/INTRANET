@@ -6,7 +6,7 @@
         <u><h3>Indice de rotacion</h3></u>
     </div>
     <div class="col-md-4">
-        <small><b>stock medio actualizado desde</b></small>
+        <small><b>datos actualizados</b></small>
         <small>
             <?php
                 // rvr formnatear la fecha
