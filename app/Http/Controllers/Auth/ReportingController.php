@@ -149,12 +149,16 @@ class reportingController
                 'articulos.coste_medio as costeMedio',
                 'familias.id as familiaId',
                 'familias.nombre as familiaNombre',
-                $db->raw("(select substring(id,1,2) as f from familias where id=" . 'familiaId' . ")  as fam1"),
+
+
+                $db->raw("( select substring(id,1,2) as f from familias where id=" . 'familiaId' . ")  as fam1"),
                 $db->raw("(select familias.nombre from familias where id=fam1 ) as desc1"),
                 $db->raw("(select substring(id,1,4) as f from familias where id=" . 'familiaId' . ")  as fam2"),
                 $db->raw("(select familias.nombre from familias where id=fam2 ) as desc2"),
                 $db->raw("(select substring(id,1,6) as f from familias where id=" . 'familiaId' . ")  as fam3"),
                 $db->raw("(select familias.nombre from familias where id=fam3 ) as desc3"),
+
+
                 'articulos_almacen.es_extinguir as es_extinguir',
                 $db->raw("now()"))
                 ->join('proveedores', 'proveedores.id', '=', 'articulos.proveedor_id')
@@ -190,27 +194,6 @@ class reportingController
         }
 
 
-        /**
-        'articulos.id as idArticulos',
-        'articulos.nombre',
-        'articulos.fecha_alta',
-        'articulos.fecha_baja',
-        'articulos.tipo_producto',
-        'articulos.tipo_rotacion',
-        'articulos.proveedor_id',
-        'proveedores.nombre as razon_social'
-        'articulos.referencia_proveedor',
-        'proveedores.comprador_id'
-        'articulos.marca'
-        'articulos.es_merch_ferrokey',
-
-         * 'articulos.coste_medio as costeMedio',
-        'familias.id as familiaId',
-        'familias.nombre as familiaNombre',
-
-
-         */
-
 
 
 
@@ -218,11 +201,33 @@ class reportingController
 /////////////////////////////////////////////////VENTAS
 
         //$data = $db->select($db->raw( "(select articulo_id ID,SUM(cantidad) CANSUM  from historico_ventas_detalle  WHERE empresa=1 AND year(fecha)=2018 AND es_directo=0 GROUP BY articulo_id)"));
-        $data = $db->select($db->raw("(SELECT a.id,a.nombre,a.fecha_alta,a.fecha_baja,a.tipo_producto,a.tipo_rotacion,a.proveedor_id,pro.nombre,a.referencia_proveedor,
-        pro.comprador_id,a.marca,a.es_merch_ferrokey,a.coste_medio,fam.id,fam.nombre
-        ,ifnull(ven.CANSUM,0) as VENTA, alm.almacen
-        
-                                                FROM articulos a
+        $data = $db->select($db->raw("(SELECT 
+        a.id,
+        a.nombre,
+        a.fecha_alta,
+        a.fecha_baja,
+        a.tipo_producto,
+        a.tipo_rotacion,
+        a.proveedor_id,
+        pro.nombre,
+        a.referencia_proveedor,
+        pro.comprador_id,
+        a.marca,
+        a.es_merch_ferrokey,
+        a.coste_medio,
+        a.familia_id,
+        fam.ampliada, 
+		substring(a.familia_id,1,2) n1,
+		fam1.nombre,
+		substring(a.familia_id,1,4) n2,
+		fam2.nombre,
+	    substring(a.familia_id,1,6) n6,
+		fam3.nombre,
+		ae.es_extinguir,
+		substring(fam.nombre,1,2) familias,
+        ifnull(ven.CANSUM,0) as VENTA, 
+                
+                        alm.almacen FROM articulos a
                                                 LEFT OUTER JOIN (
                                                     select articulo_id art,SUM(cantidad) CANSUM
                                                     from historico_ventas_detalle v LEFT OUTER JOIN articulos a ON v.articulo_id = a.id
@@ -230,12 +235,18 @@ class reportingController
                                                     AND year(fecha)=2018 
                                                     AND es_directo=0 
                                                     AND a.fecha_baja is null
-                                                 ".$proveedor."
+                                                    ".$proveedor."
                                                     GROUP BY articulo_id
                                                 ) ven ON a.id = ven.art
                                                 LEFT OUTER JOIN articulos_almacen alm ON a.id = alm.articulo_id AND alm.almacen = 'PRINCIPAL'
                                                 LEFT JOIN proveedores pro ON a.proveedor_id = pro.id 
-                                                LEFT JOIN familias fam ON a.familia_id = fam.id
+                                                LEFT JOIN familias fam ON a.familia_id = fam.id 
+                                                LEFT JOIN familias fam1 ON substring(a.familia_id,1,2) = fam1.id 
+										        LEFT JOIN familias fam2 ON substring(a.familia_id,1,4) = fam2.id 
+										        LEFT JOIN familias fam3 ON substring(a.familia_id,1,6) = fam3.id 
+										        
+										        LEFT JOIN articulos_almacen ae ON a.id = ae.articulo_id 
+										        
                                                 WHERE a.fecha_baja is null
                                                    ".$proveedor."
                                                 ORDER BY a.id)"));
