@@ -131,7 +131,7 @@ class reportingController
 
 
 
-
+/*
         $data = $db->table('articulos')
             ->select(
                 'articulos.id as idArticulos',
@@ -166,46 +166,45 @@ class reportingController
                 ->where("articulos_almacen.almacen","like",$almacen)
                 ->get();
 
+*/
 
 
 
 
+/////////////////////////////////////////////////VENTAS
 
-/////////////////////////////////////////////////ventas
 
-
-        $data = $db->select($db->raw( "(select articulo_id ID,SUM(cantidad) CANSUM  from historico_ventas_detalle  WHERE empresa=1 AND year(fecha)=2018 AND es_directo=0 GROUP BY articulo_id)"));
+        //$data = $db->select($db->raw( "(select articulo_id ID,SUM(cantidad) CANSUM  from historico_ventas_detalle  WHERE empresa=1 AND year(fecha)=2018 AND es_directo=0 GROUP BY articulo_id)"));
+        $data = $db->select($db->raw("(SELECT art.id, ifnull(ven.CANSUM,0) as VENTA, alm.almacen
+                                                FROM articulos art
+                                                LEFT OUTER JOIN (
+                                                select articulo_id art,SUM(cantidad) CANSUM
+                                                from historico_ventas_detalle v LEFT OUTER JOIN articulos a ON v.articulo_id = a.id
+                                                WHERE empresa=1 AND year(fecha)=2018 AND es_directo=0 AND a.fecha_baja is null
+                                                GROUP BY articulo_id
+                                                ) ven ON art.id = ven.art
+                                                LEFT OUTER JOIN articulos_almacen alm ON art.id = alm.articulo_id AND alm.almacen = 'PRINCIPAL'
+                                                WHERE art.fecha_baja is null
+                                                ORDER BY art.id)"));
         var_dump($data);
         die;
 
 
-
-//                select articulo_id ID,SUM(cantidad) CANSUM  from historico_ventas_detalle  WHERE empresa=1 AND year(fecha)=2018 AND es_directo=0 GROUP BY articulo_id;
-
+         //select articulo_id ID,SUM(cantidad) CANSUM  from historico_ventas_detalle  WHERE empresa=1 AND year(fecha)=2018 AND es_directo=0 GROUP BY articulo_id
 
         // QUERY SANTI
-        /*    $db->raw("(select SUM(det.cantidad) as cantidad
+        /*$data = $db->select($db->raw("(select SUM(det.cantidad) as cantidad
                  from historico_ventas_detalle det inner join historico_ventas cab ON det.empresa = cab.empresa AND det.tipo_documento = cab.tipo_documento AND det.documento = cab.documento
-                 WHERE cab.almacen ='".$almacen."' AND det.articulo_id = articulos.id group by articulo_id) as sumcantidad"),
+                 WHERE cab.almacen ='".$almacen."' AND det.articulo_id = articulos.id group by articulo_id) as sumcantidad"));
+            /*
             $db->raw("(select SUM(det.importe)
                  from historico_ventas_detalle det inner join historico_ventas cab ON det.empresa = cab.empresa AND det.tipo_documento = cab.tipo_documento AND det.documento = cab.documento
-                 WHERE cab.almacen = '".$almacen."' AND det.articulo_id = articulos.id group by articulo_id) as sumimporte"),*/
-        //VENTAS(PMEDIO)
-        // NO LO PINTA
-       //'articulos.coste_medio as costeMedio * cantidad ',
-                //STOCK ACTUAL
-                // [PENDIENTE REVISAR]
-                ///$db->raw("(select stock_actual from articulos_almacen where almacen like '".$almacen."') as stock"),
-                //MARGEN BRUTO
-                //[PENDIENTE]
-                //STOCK MEDIO (UDS)
-               // $db->raw($query),
-            //SURTIDO
-            //'articulos_almacen.es_surtido_alicante as surtido',
+                 WHERE cab.almacen = '".$almacen."' AND det.articulo_id = articulos.id group by articulo_id) as sumimporte")
+            */
+
 
 
         $bg = array("808080", "0000ff", "B5BF00");
-
         // nombre de pestaña
         $title = "INFORME";
 
