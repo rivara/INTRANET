@@ -141,10 +141,10 @@ class reportingController
         //$data = $db->select($db->raw( "(select articulo_id ID,SUM(cantidad) CANSUM  from historico_ventas_detalle  WHERE empresa=1 AND year(fecha)=2018 AND es_directo=0 GROUP BY articulo_id)"));
         $data = $db->select($db->raw("(SELECT 
         a.id,
-        a.nombre,
-        a.fecha_alta,
-        a.fecha_baja,
-        a.tipo_producto,
+        a.nombre as NombreArticulo,
+        DATE_FORMAT(a.fecha_alta,'%d/%m/%Y')  as FechaAlta,
+        DATE_FORMAT(a.fecha_baja ,'%d/%m/%Y') as FechaBaja,
+        a.tipo_producto as tipoProcuto,
         a.tipo_rotacion,
         a.proveedor_id,
         pro.nombre,
