@@ -130,10 +130,10 @@ class reportingController
         ///////////////////////////////////////////
 
         if($almacen=='PRINCIPAL'){
-            $stockMedio="sm.mad_stock as StockMedio";
+            $stockMedio="mad_stock as stock";
 
         }else {
-            $stockMedio = "sm.ali_stock as StockMedio";
+            $stockMedio = "ali_stock as stock";
         }
 
 
@@ -167,7 +167,7 @@ class reportingController
         ifnull(ven.CANSUM,0) as VENTA, 
         ifnull(ven.CANIMP,0) as IMPORTE,
         a.coste_medio * ven.CANSUM as costeMedio,
-        sm.ali_stock as StockMedio,
+        stock,
         ae.es_surtido_alicante as surtido
                                 FROM articulos a
                                 LEFT OUTER JOIN (
@@ -189,7 +189,11 @@ class reportingController
                                 LEFT JOIN familias fam2 ON substring(a.familia_id,1,4) = fam2.id 
                                 LEFT JOIN familias fam3 ON substring(a.familia_id,1,6) = fam3.id 
                                 LEFT JOIN articulos_almacen ae ON a.id = ae.articulo_id 
-                                LEFT JOIN stock_medio sm ON a.id = sm.articulo_id 
+                                LEFT JOIN ( select articulo_id ,".$stockMedio."
+				                            from stock_medio sm LEFT OUTER JOIN articulos a ON sm.articulo_id = a.id
+				                            WHERE a.fecha_baja is null
+				                            GROUP BY articulo_id
+                                ) sm ON a.id = sm.articulo_id 
         WHERE a.fecha_baja is null ".$proveedor." ".$familia."  ORDER BY a.id)"));
         // var_dump($data);
         // die;
