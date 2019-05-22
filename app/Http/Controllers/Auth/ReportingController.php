@@ -167,7 +167,7 @@ class reportingController
         ifnull(ven.CANSUM,0) as VENTA, 
         ifnull(ven.CANIMP,0) as IMPORTE,
         a.coste_medio * ven.CANSUM as costeMedio,
-        ".$stockMedio.",
+        sm.mad_stock as StockMedio,
         ae.es_surtido_alicante as surtido
                                 FROM articulos a
                                 LEFT OUTER JOIN (
