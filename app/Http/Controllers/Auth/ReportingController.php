@@ -37,7 +37,6 @@ class reportingController
         $almacen = $request["almacen"];
         $fechaDesde = $request["fechaDesde"];
         $fechaHasta = $request["fechaHasta"];
-
         $proveedor_id = $request["proveedor"];
         $familia_id = $request["familia"];
         $filename = "indiceDeRotacion";
@@ -83,7 +82,7 @@ class reportingController
             "DESCRIPCION FAM2",
             "FAM-3-",
             "DESCRIPCION FAM3",
-            "EXTINGUIR",
+            "DATOS ALMACEN EXTINGUIR",
             "VENTAS (UDS)",
             "VENTAS (PVP)",
             "VENTAS(PMEDIO)", //FALTA
@@ -99,12 +98,7 @@ class reportingController
 
 
 
-        if($almacen=='PRINCIPAL'){
-            $query="(select avg(ali_stock) from stock_medio  where articulo_id =articulos.id  GROUP BY articulo_id)as stockMedio";
 
-        }else{
-            $query="(select avg(mad_stock) from stock_medio  where articulo_id =articulos.id  GROUP BY articulo_id) as stockMedio";
-        }
 
 
 
@@ -133,13 +127,21 @@ class reportingController
 
         $fecha="AND v.fecha  BETWEEN '".$fechaDesde."' AND '".$fechaHasta."'";
 
+        ///////////////////////////////////////////
+
+        if($almacen=='PRINCIPAL'){
+            $stockMedio="sm.mad_stock as StockMedio";
+
+        }else {
+            $stockMedio = "sm.ali_stock as StockMedio";
+        }
+
 
 
 
 /////////////////////////////////////////////////VENTAS
 
-        //$data = $db->select($db->raw( "(select articulo_id ID,SUM(cantidad) CANSUM  from historico_ventas_detalle  WHERE empresa=1 AND year(fecha)=2018 AND es_directo=0 GROUP BY articulo_id)"));
-        $data = $db->select($db->raw("(SELECT 
+ $data = $db->select($db->raw("(SELECT 
         a.id,
         a.nombre as NombreArticulo,
         DATE_FORMAT(a.fecha_alta,'%d/%m/%Y')  as FechaAlta,
@@ -165,6 +167,7 @@ class reportingController
         ifnull(ven.CANSUM,0) as VENTA, 
         ifnull(ven.CANIMP,0) as IMPORTE,
         a.coste_medio * ven.CANSUM as costeMedio,
+        ".$stockMedio.",
         ae.es_surtido_alicante as surtido
                                 FROM articulos a
                                 LEFT OUTER JOIN (
@@ -186,17 +189,17 @@ class reportingController
                                 LEFT JOIN familias fam2 ON substring(a.familia_id,1,4) = fam2.id 
                                 LEFT JOIN familias fam3 ON substring(a.familia_id,1,6) = fam3.id 
                                 LEFT JOIN articulos_almacen ae ON a.id = ae.articulo_id 
-                                
+                                LEFT JOIN stock_medio sm ON a.id = sm.articulo_id 
         WHERE a.fecha_baja is null ".$proveedor." ".$familia."  ORDER BY a.id)"));
-      //  var_dump($data);
-       // die;
+        // var_dump($data);
+        // die;
 
         $bg = array("808080", "0000ff", "B5BF00");
         // nombre de pestaña
         $title = "INFORME";
 
         //Parametrizar en funcion de la tabla
-        $fin1 = 12;
+        $fin1 = 13;
         $fin2 = $fin1 + 10;
         $fin3 = $fin2 + 10;
         $tramo1 = Coordinate::stringFromColumnIndex(1) . "12:" . Coordinate::stringFromColumnIndex($fin1) . "12";
