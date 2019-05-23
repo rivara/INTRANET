@@ -197,9 +197,10 @@ class reportingController
 				                            GROUP BY articulo_id
                                 ) sm ON a.id = sm.articulo_id 
                               
-                                
-                               
-        WHERE a.fecha_baja is null ".$proveedor." ".$familia."    ORDER BY a.id)"));
+        WHERE a.fecha_baja is null ".$proveedor." ".$familia."   GROUP BY a.id ORDER BY a.id)"));
+
+        // preguntar a santi por  GROUP BY del final
+
         // var_dump($data);
         // die;
 
