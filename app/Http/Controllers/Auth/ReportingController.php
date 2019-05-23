@@ -165,10 +165,10 @@ class reportingController
 		ae.es_extinguir as ext,
         ifnull(ven.CANSUM,0) as VENTA, 
         ifnull(ven.CANIMP,0) as IMPORTE,
-         null as nulo,
         a.coste_medio * ven.CANSUM as costeMedio,
         stock,
-        stockMedia
+        stockMedia,
+        null as nulo
        
                                 FROM articulos a
                                 LEFT OUTER JOIN (
@@ -199,7 +199,7 @@ class reportingController
                               
                                 
                                
-        WHERE a.fecha_baja is null ".$proveedor." ".$familia."   GROUP BY a.id ORDER BY a.id)"));
+        WHERE a.fecha_baja is null ".$proveedor." ".$familia."    ORDER BY a.id)"));
         // var_dump($data);
         // die;
 
