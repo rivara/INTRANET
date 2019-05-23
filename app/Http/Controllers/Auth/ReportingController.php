@@ -167,10 +167,12 @@ class reportingController
 		ae.es_extinguir as ext,
         ifnull(ven.CANSUM,0) as VENTA, 
         ifnull(ven.CANIMP,0) as IMPORTE,
+        
         a.coste_medio * ven.CANSUM as costeMedio,
         stock,
         stockMedia,
-        ae.es_surtido_alicante as surtido
+        ae.es_surtido_alicante as surtido,
+        null as nulo
                                 FROM articulos a
                                 LEFT OUTER JOIN (
                                     select articulo_id art,SUM(cantidad) CANSUM ,SUM(importe) CANIMP
