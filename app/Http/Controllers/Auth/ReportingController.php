@@ -33,6 +33,9 @@ class reportingController
     public function actionindiceDeRotacion(Request $request)
     {
 
+
+
+
         //VARIABLES
         $almacen = $request["almacen"];
         $fechaDesde = $request["fechaDesde"];
@@ -85,11 +88,11 @@ class reportingController
             "DATOS ALMACEN EXTINGUIR",
             "VENTAS (UDS)",
             "VENTAS (PVP)",
-            "VENTAS(PMEDIO)", //FALTA
+            "VENTAS(PMEDIO)",
             "STOCK ACTUAL",
-            "MARGEN BRUTO",   // FALTA
+            "MARGEN BRUTO",
             "STOCK MEDIO (UDS)",
-            "INDICE ROTACION", // FALTA
+            "INDICE ROTACION",
             "MARGEN POR ROTACION",
             "SURTIDO",
             "EJECUCUION"
@@ -111,8 +114,6 @@ class reportingController
             $familia = "";
             }
 
-
-
         if (!empty($proveedor_id)) {
             $proveedor="and a.proveedor_id = '".$proveedor_id."'";
         } else {
@@ -127,7 +128,6 @@ class reportingController
 
         $fecha="AND v.fecha  BETWEEN '".$fechaDesde."' AND '".$fechaHasta."'";
 
-        ///////////////////////////////////////////
 
         if($almacen=='PRINCIPAL'){
             $stock= "mad_stock as stock";
@@ -136,8 +136,6 @@ class reportingController
             $stock = "ali_stock as stock";
             $stockMedio= "AVG(ali_stock) as stockMedia";
         }
-
-
 
 
 /////////////////////////////////////////////////VENTAS
@@ -167,7 +165,6 @@ class reportingController
 		ae.es_extinguir as ext,
         ifnull(ven.CANSUM,0) as VENTA, 
         ifnull(ven.CANIMP,0) as IMPORTE,
-        
         a.coste_medio * ven.CANSUM as costeMedio,
         stock,
         stockMedia,
@@ -201,9 +198,8 @@ class reportingController
                                 ) sm ON a.id = sm.articulo_id 
                               
                                 
-                                
                                
-        WHERE a.fecha_baja is null ".$proveedor." ".$familia."  ORDER BY a.id)"));
+        WHERE a.fecha_baja is null ".$proveedor." ".$familia."   GROUP BY a.id ORDER BY a.id)"));
         // var_dump($data);
         // die;
 
