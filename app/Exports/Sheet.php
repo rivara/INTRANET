@@ -115,8 +115,6 @@ class Sheet implements FromCollection, WithHeadings, WithEvents, WithTitle , Wit
     }
 
 
-    /**RVR PENDIENTE BARRA DE PROGRESO*/
-
 
     /**
      * @return OutputStyle

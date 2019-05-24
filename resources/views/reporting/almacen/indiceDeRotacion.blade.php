@@ -9,11 +9,11 @@
         <small><b>datos actualizados</b></small>
         <small>
             <?php
-                // rvr formnatear la fecha
+            // rvr formnatear la fecha
             use Illuminate\Support\Facades\DB;
             $primerafecha=DB::connection('reporting')->table('historico_ventas')->orderBy('fecha','asc')->value("fecha");
             $ultimafecha=DB::connection('reporting')->table('historico_ventas')->orderBy('fecha','desc')->value("fecha");
-           // echo ($primerafecha);
+            // echo ($primerafecha);
             echo(date("d-m-Y", strtotime($primerafecha)));
             echo ("&nbsp;&nbsp;<b>a</b>&nbsp;&nbsp;");
             echo(date("d-m-Y", strtotime($ultimafecha)));
@@ -38,7 +38,7 @@
         <p>Periodo a analizar</p>
     </div>
     <div class="col-md-4">
-         <small>Desde</small>
+        <small>Desde</small>
         <input class="form-control floatLeft" type="date"  name="fechaDesde" required  value="<?php echo  date("Y-m-01",strtotime( ' - 1 year'));?>">
     </div>
     <div class="col-md-4">
@@ -81,35 +81,15 @@
     <!-- -->
     <div class="col-md-12 paddingLeft40">
 
-            <button type="submit" name="submit" value="informe" id="submit"
-                    data-toggle="modal"
-                    data-target="#myModal"
-                    class="btn btn-light">
-                Realizar informe
-            </button>
-
+        <button type="submit" name="submit" value="informe" id="submit"
+                data-toggle="modal"
+                data-target="#myModal"
+                class="btn btn-light">
+            Realizar informe
+        </button>
         <br>
-
     </div>
-
-    </div>
-
-    <!-- -->
+  </div>
 </div>
 </form>
-
-
-<!-- Modal -->
-<div class="modal fade" id="progressDialog" role="dialog">
-    @csrf
-    <div  class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div id="myProgress"   class="progress-bar progress-bar-striped progress-bar-animated" >
-                    <div  id="myBar"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 

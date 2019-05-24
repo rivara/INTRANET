@@ -126,8 +126,8 @@ class reportingController
             $proveedor=" ";
         }
 
-        $fecha="AND v.fecha  BETWEEN '".$fechaDesde."' AND '".$fechaHasta."'";
-
+        $fecha1="AND v.fecha  BETWEEN '".$fechaDesde."' AND '".$fechaHasta."'";
+        $fecha2="AND sm.fecha  BETWEEN '".$fechaDesde."' AND '".$fechaHasta."'";
 
         if($almacen=='PRINCIPAL'){
             $stock= "mad_stock as stock";
@@ -166,9 +166,12 @@ class reportingController
         ifnull(ven.CANSUM,0) as VENTA, 
         ifnull(ven.CANIMP,0) as IMPORTE,
         a.coste_medio * ven.CANSUM as costeMedio,
-        stock,
+        alm.stock_actual,
         stockMedia,
-        null as nulo
+        null as indiceRotacion,
+        null as margenPorRotacion,
+        ae.es_surtido_alicante as surtido
+        
        
                                 FROM articulos a
                                 LEFT OUTER JOIN (
@@ -179,7 +182,7 @@ class reportingController
                                     AND a.fecha_baja is null
                                     ".$proveedor."
                                     ".$familia."  
-                                    ".$fecha."  
+                                    ".$fecha1."  
                                     GROUP BY articulo_id
                                 ) ven ON a.id = ven.art
                                 
@@ -190,16 +193,16 @@ class reportingController
                                 LEFT JOIN familias fam2 ON substring(a.familia_id,1,4) = fam2.id 
                                 LEFT JOIN familias fam3 ON substring(a.familia_id,1,6) = fam3.id 
                                 LEFT JOIN articulos_almacen ae ON a.id = ae.articulo_id 
-                                
-                                LEFT JOIN ( select articulo_id ,".$stock.",".$stockMedio."
-				                            from stock_medio sm LEFT OUTER JOIN articulos a ON sm.articulo_id = a.id
-				                            WHERE a.fecha_baja is null
-				                            GROUP BY articulo_id
-                                ) sm ON a.id = sm.articulo_id 
-                              
-        WHERE a.fecha_baja is null ".$proveedor." ".$familia."   GROUP BY a.id ORDER BY a.id)"));
-
-        // preguntar a santi por  GROUP BY del final
+                                LEFT JOIN (
+                                    SELECT articulo_id ,AVG(mad_stock) as stockMedia
+                                    FROM stock_medio sm
+                                    LEFT JOIN articulos a ON sm.articulo_id = a.id
+                                    WHERE a.fecha_baja is null
+                                    ".$proveedor."
+                                    ".$fecha2."  
+                                  GROUP BY articulo_id
+                                ) sm ON a.id = sm.articulo_id
+        WHERE a.fecha_baja is null ".$proveedor." ".$familia."   ORDER BY a.id)"));
 
         // var_dump($data);
         // die;
@@ -280,10 +283,10 @@ class reportingController
 
         if ($request["type"] == "xls") {
 
-            return Excel::download(new SheetsExports($page1, $page2), $filename . '.xls');
+           return(Excel::download(new SheetsExports($page1, $page2), $filename . '.xls'));
         }
         if ($request["type"] == "csv") {
-            return Excel::download(new SheetsExports($page1, $page2), $filename . '.csv');
+            return(Excel::download(new SheetsExports($page1, $page2), $filename . '.csv'));
         }
 
     }
