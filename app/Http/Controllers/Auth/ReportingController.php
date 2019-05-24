@@ -205,7 +205,7 @@ class reportingController
         // nombre de pestaña
         $title = "INFORME";
         //Parametrizar en funcion de la tabla
-        $fin1 = 12;
+        $fin1 = 11;
         $fin2 = $fin1 + 10;
         $fin3 = $fin2 + 10;
         $tramo1 = Coordinate::stringFromColumnIndex(1) . "12:" . Coordinate::stringFromColumnIndex($fin1) . "12";
