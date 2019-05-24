@@ -1,4 +1,4 @@
-<?php ini_set('MAX_EXECUTION_TIME',0); ?>
+<?php ini_set('MAX_EXECUTION_TIME',1000); ?>
 @csrf
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <div class="row wrapperReporting center marginBottom20px">
