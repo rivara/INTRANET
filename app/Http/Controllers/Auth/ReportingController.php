@@ -14,7 +14,6 @@ use App\Exports\SheetsExports;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-
 use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
@@ -172,8 +171,6 @@ class reportingController
         null as indicePorMargeDeRotacion,
         null as margenPorRotacion,
         alm.es_surtido_alicante as surtido
-        
-       
                                 FROM articulos a
                                 LEFT OUTER JOIN (
                                     select articulo_id art,SUM(cantidad) CANSUM ,SUM(importe) CANIMP
@@ -193,7 +190,6 @@ class reportingController
                                 LEFT JOIN familias fam1 ON substring(a.familia_id,1,2) = fam1.id 
                                 LEFT JOIN familias fam2 ON substring(a.familia_id,1,4) = fam2.id 
                                 LEFT JOIN familias fam3 ON substring(a.familia_id,1,6) = fam3.id 
-                                
                                 LEFT JOIN (
                                     SELECT articulo_id ,AVG(mad_stock) as stockMedia
                                     FROM stock_medio sm
@@ -204,14 +200,9 @@ class reportingController
                                   GROUP BY articulo_id
                                 ) sm ON a.id = sm.articulo_id
         WHERE a.fecha_baja is null ".$proveedor." ".$familia."   ORDER BY a.id )"));
-
-        // var_dump($data);
-        // die;
-
         $bg = array("808080", "0000ff", "B5BF00");
         // nombre de pestaña
         $title = "INFORME";
-
         //Parametrizar en funcion de la tabla
         $fin1 = 13;
         $fin2 = $fin1 + 10;
@@ -250,11 +241,10 @@ class reportingController
             }else{
                 $messageBody=$request["asunto"];
             }
-
             $email=$request["email"];
             $message="Este mail contiene el informe de rotacion";
             Mail::raw($messageBody,function ($message) use ($email,$page1) {
-                $message->from('rvalle@comafe.es', '---');
+                    $message->from('rvalle@comafe.es', 'Informe de Indice de rotación');
                 $message->to($email);
                 $message->subject('indice de rotacion');
                 $message->attach(
