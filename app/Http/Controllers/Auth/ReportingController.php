@@ -94,8 +94,7 @@ class reportingController
             "STOCK MEDIO (UDS)",
             "INDICE ROTACION",
             "MARGEN POR ROTACION",
-            "SURTIDO",
-            "EJECUCUION"
+            "SURTIDO"
         );
 
 
@@ -167,8 +166,9 @@ class reportingController
         ifnull(ven.CANIMP,0) as IMPORTE,
         a.coste_medio * ven.CANSUM as costeMedio,
         alm.stock_actual,
+        null as margenBruto,
         stockMedia,
-        null as indiceRotacion,
+        null as indicePorMargeDeRotacion,
         null as margenPorRotacion,
         ae.es_surtido_alicante as surtido
         
