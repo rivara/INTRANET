@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
+use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use ZipArchive;
@@ -161,7 +162,7 @@ class reportingController
 		fam2.nombre as nombreFam2,
 	    substring(a.familia_id,1,6) as n6,
 		fam3.nombre as nombreFam3,
-		ae.es_extinguir as ext,
+		alm.es_extinguir as ext,
         ifnull(ven.CANSUM,0) as VENTA, 
         ifnull(ven.CANIMP,0) as IMPORTE,
         a.coste_medio * ven.CANSUM as costeMedio,
@@ -170,7 +171,7 @@ class reportingController
         stockMedia,
         null as indicePorMargeDeRotacion,
         null as margenPorRotacion,
-        ae.es_surtido_alicante as surtido
+        alm.es_surtido_alicante as surtido
         
        
                                 FROM articulos a
@@ -192,7 +193,7 @@ class reportingController
                                 LEFT JOIN familias fam1 ON substring(a.familia_id,1,2) = fam1.id 
                                 LEFT JOIN familias fam2 ON substring(a.familia_id,1,4) = fam2.id 
                                 LEFT JOIN familias fam3 ON substring(a.familia_id,1,6) = fam3.id 
-                                LEFT JOIN articulos_almacen ae ON a.id = ae.articulo_id 
+                                
                                 LEFT JOIN (
                                     SELECT articulo_id ,AVG(mad_stock) as stockMedia
                                     FROM stock_medio sm
@@ -202,7 +203,7 @@ class reportingController
                                     ".$fecha2."  
                                   GROUP BY articulo_id
                                 ) sm ON a.id = sm.articulo_id
-        WHERE a.fecha_baja is null ".$proveedor." ".$familia."   ORDER BY a.id)"));
+        WHERE a.fecha_baja is null ".$proveedor." ".$familia."   ORDER BY a.id )"));
 
         // var_dump($data);
         // die;
