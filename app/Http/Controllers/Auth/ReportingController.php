@@ -11,6 +11,7 @@ namespace App\Http\Controllers\Auth;
 use App\Exports\Sheet;
 use App\Exports\SheetLeyenda;
 use App\Exports\SheetsExports;
+use Cblink\ExcelZip\ExcelZip;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -161,16 +162,16 @@ class reportingController
 		fam2.nombre as nombreFam2,
 	    substring(a.familia_id,1,6) as n6,
 		fam3.nombre as nombreFam3,
-		alm.es_extinguir as ext,
+		if(alm.es_extinguir=1,'SI',' ') as ext,
         ifnull(ven.CANSUM,0) as VENTA, 
         ifnull(ven.CANIMP,0) as IMPORTE,
         a.coste_medio * ven.CANSUM as costeMedio,
         alm.stock_actual,
-        null as margenBruto,
-        stockMedia,
-        null as indicePorMargeDeRotacion,
-        null as margenPorRotacion,
-        alm.es_surtido_alicante as surtido
+        (ifnull(ven.CANSUM,0) - ( a.coste_medio * ven.CANSUM )) as margenBruto,
+        ROUND(stockMedia) as stockM,
+        (ifnull(ven.CANSUM,0)/ROUND(stockMedia))  as indicePorMargeDeRotacion,
+        (ifnull(ven.CANSUM,0) - ( a.coste_medio * ven.CANSUM )/(ifnull(ven.CANSUM,0)/ROUND(stockMedia))) as margenPorRotacion,
+        if(alm.es_surtido_alicante,'SI',' ') as surtido
                                 FROM articulos a
                                 LEFT OUTER JOIN (
                                     select articulo_id art,SUM(cantidad) CANSUM ,SUM(importe) CANIMP
@@ -204,7 +205,7 @@ class reportingController
         // nombre de pestaña
         $title = "INFORME";
         //Parametrizar en funcion de la tabla
-        $fin1 = 13;
+        $fin1 = 12;
         $fin2 = $fin1 + 10;
         $fin3 = $fin2 + 10;
         $tramo1 = Coordinate::stringFromColumnIndex(1) . "12:" . Coordinate::stringFromColumnIndex($fin1) . "12";
@@ -259,16 +260,13 @@ class reportingController
         }
 
         if($request["compresion"]==true){
-            // PENDIENTE
-            //$files = array('readme.txt', 'test.html', 'image.gif');
-             $zipname = 'file.zip';
-             $zip = new ZipArchive;
-             $zip->open($zipname, ZipArchive::CREATE);
-             $zip->addFile(Excel::download(new SheetsExports($page1, $page2), $filename . '.xls'));
-             $zip->close();
-             echo 'Archive created!';
-             header('Content-disposition: attachment; filename=files.zip');
-             header('Content-type: application/zip');
+            // PENDIENTE DE TESTEAR
+            // https://github.com/cblink/laravel-excel-zip
+                //$excelZip ="";
+                //$excelZip = $excelZip->setExport($export);
+                //$excelZip->Excel::download(new SheetsExports($page1, $page2), $filename . '.xls');
+                //return $excelZip->zip();
+                //return $excelZip->download(Member::all(), $export)
         }
 
 
