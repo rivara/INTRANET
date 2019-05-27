@@ -17,6 +17,7 @@ use Illuminate\Routing\Route;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use Zend\Diactoros\Response;
@@ -204,8 +205,10 @@ class reportingController
                                 ) sm ON a.id = sm.articulo_id
         WHERE a.fecha_baja is null ".$proveedor." ".$familia."   ORDER BY a.id )"));
 
-        var_dump($data);
-        die();
+        //parametrizado
+
+
+        return response()->attachment($data);
 
 
         $bg = array("808080", "0000ff", "B5BF00");
@@ -277,7 +280,7 @@ class reportingController
         }
 
 /////////////////////////////////////////////////////////////////////////////////////
-        ob_clean();
+      /*  ob_clean();
         header('Pragma: public');
         header('Expires: 0');
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
@@ -292,7 +295,7 @@ class reportingController
             }
             fclose($fp);
         }
-        ob_flush();
+        ob_flush();*/
 /////////////////////////////////////////////////////////////////////////////////
 
 

@@ -5,6 +5,8 @@ namespace App\Providers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\File;
+use Response;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -28,6 +30,18 @@ class AppServiceProvider extends ServiceProvider
                 );*/
             });
         }
+
+        Response::macro('attachment', function ($content) {
+
+            $headers = [
+                'Content-type'        => 'text/csv',
+                'Content-Disposition' => 'attachment; filename="download.csv"',
+            ];
+
+            return Response::make($content, 200, $headers);
+
+        });
+
     }
 
     /**
