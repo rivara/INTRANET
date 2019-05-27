@@ -11,13 +11,9 @@ namespace App\Http\Controllers\Auth;
 use App\Exports\Sheet;
 use App\Exports\SheetLeyenda;
 use App\Exports\SheetsExports;
-use Cblink\ExcelZip\ExcelZip;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Route;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use Zend\Diactoros\Response;
@@ -36,10 +32,6 @@ class reportingController
      */
     public function actionindiceDeRotacion(Request $request)
     {
-
-
-
-
         //VARIABLES
         $almacen = $request["almacen"];
         $fechaDesde = $request["fechaDesde"];
@@ -101,14 +93,6 @@ class reportingController
             "SURTIDO"
         );
 
-
-
-
-
-
-
-
-
         //consultas
 
         if (!empty($familia_id)) {
@@ -141,7 +125,6 @@ class reportingController
         }
 
 
-/////////////////////////////////////////////////VENTAS
 
  $data = $db->select($db->raw("(SELECT 
         a.id,
@@ -204,9 +187,6 @@ class reportingController
                                   GROUP BY articulo_id
                                 ) sm ON a.id = sm.articulo_id
         WHERE a.fecha_baja is null ".$proveedor." ".$familia."   ORDER BY a.id )"));
-
-
-
 
 
 
@@ -280,13 +260,12 @@ class reportingController
 
 
 
-
-
         if ($request["type"] == "xls") {
 
            return(Excel::download(new SheetsExports($page1, $page2), $filename . '.xls'));
         }
         if ($request["type"] == "csv") {
+            set_time_limit(20000);
             //return(Excel::download(new SheetsExports($page1, $page2), $filename . '.csv'));
             //parametrizar
             $cabecera ="ARTICULO;DESCRIPCION;F.ALTA;F.BAJA;TIPO ART.;TIPO ROT.;PROVEEDOR;RAZON SOCIAL;REFERENCIA;COMPRADOR;MARCA;CAT.FERROKEY;PRECIO MEDIO;FAMILIA;DESC COMPLETA;FAM-1-;DESCRIPCION;FAM-2-;DESCRIPCION;FAM-3-;DESCRIPCION;DATOS ALMACEN EXTINGUIR;VENTAS (UDS);VENTAS (PVP);VENTAS(PMEDIO);STOCK ACTUAL;MARGEN BRUTO;STOCK MEDIO (UDS);INDICE ROTACON;MARGEN POR ROTACION;SURTIDO";
