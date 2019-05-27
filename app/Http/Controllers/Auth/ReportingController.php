@@ -13,11 +13,13 @@ use App\Exports\SheetLeyenda;
 use App\Exports\SheetsExports;
 use Cblink\ExcelZip\ExcelZip;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Route;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
+use Zend\Diactoros\Response;
 use ZipArchive;
 
 
@@ -201,6 +203,11 @@ class reportingController
                                   GROUP BY articulo_id
                                 ) sm ON a.id = sm.articulo_id
         WHERE a.fecha_baja is null ".$proveedor." ".$familia."   ORDER BY a.id )"));
+
+        var_dump($data);
+        die();
+
+
         $bg = array("808080", "0000ff", "B5BF00");
         // nombre de pestaña
         $title = "INFORME";
@@ -269,14 +276,35 @@ class reportingController
                 //return $excelZip->download(Member::all(), $export)
         }
 
+/////////////////////////////////////////////////////////////////////////////////////
+        ob_clean();
+        header('Pragma: public');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Cache-Control: private', false);
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment;filename=prueba.csv');
+        if(isset($assocDataArray['0'])){
+            $fp = fopen('php://output', 'w');
+           //
+            foreach($data AS $values){
+                fputcsv($fp, $values);
+            }
+            fclose($fp);
+        }
+        ob_flush();
+/////////////////////////////////////////////////////////////////////////////////
 
-        if ($request["type"] == "xls") {
+
+
+        return view('/reporting/index', ['option' => $request['option']]);
+     /*   if ($request["type"] == "xls") {
 
            return(Excel::download(new SheetsExports($page1, $page2), $filename . '.xls'));
         }
         if ($request["type"] == "csv") {
             return(Excel::download(new SheetsExports($page1, $page2), $filename . '.csv'));
-        }
+        }*/
 
     }
 
