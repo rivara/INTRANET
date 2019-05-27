@@ -30,12 +30,12 @@ class AppServiceProvider extends ServiceProvider
                 );*/
             });
         }
-
-        Response::macro('attachment', function ($content) {
+        //rvr 27/5/2019
+        Response::macro('attachmentCSV', function ($content,$name) {
 
             $headers = [
                 'Content-type'        => 'text/csv',
-                'Content-Disposition' => 'attachment; filename="download.csv"',
+                'Content-Disposition' => 'attachment; filename="'.$name,
             ];
 
             return Response::make($content, 200, $headers);

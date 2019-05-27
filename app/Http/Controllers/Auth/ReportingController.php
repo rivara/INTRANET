@@ -205,10 +205,9 @@ class reportingController
                                 ) sm ON a.id = sm.articulo_id
         WHERE a.fecha_baja is null ".$proveedor." ".$familia."   ORDER BY a.id )"));
 
-        //parametrizado
 
 
-        return response()->attachment($data);
+
 
 
         $bg = array("808080", "0000ff", "B5BF00");
@@ -266,7 +265,7 @@ class reportingController
 
                 );
             });
-            return view('/reporting/index', ['option' =>'IndiceDeRotacion']);
+
         }
 
         if($request["compresion"]==true){
@@ -279,35 +278,29 @@ class reportingController
                 //return $excelZip->download(Member::all(), $export)
         }
 
-/////////////////////////////////////////////////////////////////////////////////////
-      /*  ob_clean();
-        header('Pragma: public');
-        header('Expires: 0');
-        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-        header('Cache-Control: private', false);
-        header('Content-Type: text/csv');
-        header('Content-Disposition: attachment;filename=prueba.csv');
-        if(isset($assocDataArray['0'])){
-            $fp = fopen('php://output', 'w');
-           //
-            foreach($data AS $values){
-                fputcsv($fp, $values);
-            }
-            fclose($fp);
-        }
-        ob_flush();*/
-/////////////////////////////////////////////////////////////////////////////////
 
 
 
-        return view('/reporting/index', ['option' => $request['option']]);
-     /*   if ($request["type"] == "xls") {
+
+        if ($request["type"] == "xls") {
 
            return(Excel::download(new SheetsExports($page1, $page2), $filename . '.xls'));
         }
         if ($request["type"] == "csv") {
-            return(Excel::download(new SheetsExports($page1, $page2), $filename . '.csv'));
-        }*/
+            //return(Excel::download(new SheetsExports($page1, $page2), $filename . '.csv'));
+            //parametrizar
+            $cabecera ="ARTICULO;DESCRIPCION;F.ALTA;F.BAJA;TIPO ART.;TIPO ROT.;PROVEEDOR;RAZON SOCIAL;REFERENCIA;COMPRADOR;MARCA;CAT.FERROKEY;PRECIO MEDIO;FAMILIA;DESC COMPLETA;FAM-1-;DESCRIPCION;FAM-2-;DESCRIPCION;FAM-3-;DESCRIPCION;DATOS ALMACEN EXTINGUIR;VENTAS (UDS);VENTAS (PVP);VENTAS(PMEDIO);STOCK ACTUAL;MARGEN BRUTO;STOCK MEDIO (UDS);INDICE ROTACON;MARGEN POR ROTACION;SURTIDO";
+            $cabeza=date("d-m-Y h:i:sa")."\n Indice De Rotacion \n PERIODO, ".$fechaDesde." a ".$fechaHasta."  \n ALMACEN ".$almacen." \n PROVEEDOR ".$proveedor_id." \nLISTAS ARTICULOS ENVASES";
+           //cabecera
+            $array=$cabeza."\n\n".$cabecera."\n";
+            foreach ($data as $list) {
+                foreach ($list as $dat) {
+                    $array=$array.$dat.";";
+                }
+                $array=$array."\n";
+            }
+            return response()->attachmentCSV($array,"indiceDeRotacion.csv");
+        }
 
     }
 
