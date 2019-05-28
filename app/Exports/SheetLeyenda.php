@@ -7,16 +7,13 @@
  */
 
 namespace App\Exports;
-
-use Illuminate\Console\OutputStyle;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Events\AfterSheet;
-use Maatwebsite\Excel\Events\BeforeSheet;
-use Maatwebsite\Excel\Concerns\WithProgressBar;
+
 
 
 /**
@@ -33,14 +30,14 @@ class SheetLeyenda implements FromCollection, WithHeadings, WithEvents, WithTitl
     protected $tramos;
     protected $columna_roja;
 
-    public function __construct($precabecera, $data, $cabecera, $background, $title)
+    public function __construct($precabecera, $data, $cabecera, $background, $title,$tramos)
     {
         $this->precabecera = $precabecera;
         $this->cabecera = $cabecera;
         $this->data = $data;
         $this->background = $background;
         $this->title = $title;
-
+        $this->tramos = $tramos;
     }
 
 
@@ -49,9 +46,7 @@ class SheetLeyenda implements FromCollection, WithHeadings, WithEvents, WithTitl
      */
     public function collection()
     {
-
         $a= collect($this->data);
-
         return $a;
     }
 
@@ -61,26 +56,27 @@ class SheetLeyenda implements FromCollection, WithHeadings, WithEvents, WithTitl
      */
     public function registerEvents(): array
     {
-
+        $background = $this->background;
         return [
-            AfterSheet::class => function (AfterSheet $event) {
-                //TRAMOS
-                //GRIS
-                $event->sheet->getDelegate()->getStyle("A2")->getFont()->setSize(12);
-                $event->sheet->getDelegate()->getStyle("A2")->getFont()->setBold(true);
-                $event->sheet->getDelegate()->getStyle("A2")->getFont()->getColor()->setRGB('ffffff');
-                $event->sheet->getDelegate()->getStyle("A2")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB($this->background[0]);
-                //AZUL
-                $event->sheet->getDelegate()->getStyle("A3")->getFont()->setSize(12);
-                $event->sheet->getDelegate()->getStyle("A3")->getFont()->setBold(true);
-                $event->sheet->getDelegate()->getStyle("A3")->getFont()->getColor()->setRGB('ffffff');
-                $event->sheet->getDelegate()->getStyle("A3")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB($this->background[1]);
-                //VERDE
-                $event->sheet->getDelegate()->getStyle("A4")->getFont()->setSize(12);
-                $event->sheet->getDelegate()->getStyle("A4")->getFont()->setBold(true);
-                $event->sheet->getDelegate()->getStyle("A4")->getFont()->getColor()->setRGB('ffffff');
-                $event->sheet->getDelegate()->getStyle("A4")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB($this->background[2]);
+            AfterSheet::class => function (AfterSheet $event) use ($background) {
+                $event->sheet->getDelegate()->getStyle("A1")->getFont()->setSize(12);
+                $event->sheet->getDelegate()->getStyle("A1")->getFont()->setBold(true);
+                $event->sheet->getDelegate()->getStyle("A1")->getFont()->getColor()->setRGB('ffffff');
+                $event->sheet->getDelegate()->getStyle("A1")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB('000000');
 
+                $event->sheet->getDelegate()->getStyle("B1")->getFont()->setSize(12);
+                $event->sheet->getDelegate()->getStyle("B1")->getFont()->setBold(true);
+                $event->sheet->getDelegate()->getStyle("B1")->getFont()->getColor()->setRGB('ffffff');
+                $event->sheet->getDelegate()->getStyle("B1")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB('000000');
+
+                $i = 0;
+                foreach ($this->tramos as $tramo) {
+                    $event->sheet->getDelegate()->getStyle($tramo)->getFont()->setSize(12);
+                    $event->sheet->getDelegate()->getStyle($tramo)->getFont()->setBold(true);
+                    $event->sheet->getDelegate()->getStyle($tramo)->getFont()->getColor()->setRGB('ffffff');
+                    $event->sheet->getDelegate()->getStyle($tramo)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB($background[$i]);
+                    $i++;
+                }
 
             }
         ];

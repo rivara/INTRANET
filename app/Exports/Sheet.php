@@ -8,7 +8,7 @@
 
 namespace App\Exports;
 
-use Illuminate\Console\OutputStyle;
+
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithEvents;
@@ -16,7 +16,7 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Events\BeforeSheet;
-use Maatwebsite\Excel\Concerns\WithProgressBar;
+
 
 
 /**

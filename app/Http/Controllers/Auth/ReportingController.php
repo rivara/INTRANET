@@ -95,37 +95,36 @@ class reportingController
         //consultas
 
         if (!empty($familia_id)) {
-            $familia="and a.proveedor_id = '".$familia_id."'";
-            } else {
+            $familia = "and a.proveedor_id = '" . $familia_id . "'";
+        } else {
             $familia = "";
-            }
-
-        if (!empty($proveedor_id)) {
-            $proveedor="and a.proveedor_id = '".$proveedor_id."'";
-        } else {
-            $proveedor=" ";
         }
 
         if (!empty($proveedor_id)) {
-            $proveedor="and a.proveedor_id = '".$proveedor_id."'";
+            $proveedor = "and a.proveedor_id = '" . $proveedor_id . "'";
         } else {
-            $proveedor=" ";
+            $proveedor = " ";
         }
 
-        $fecha1="AND v.fecha  BETWEEN '".$fechaDesde."' AND '".$fechaHasta."'";
-        $fecha2="AND sm.fecha  BETWEEN '".$fechaDesde."' AND '".$fechaHasta."'";
+        if (!empty($proveedor_id)) {
+            $proveedor = "and a.proveedor_id = '" . $proveedor_id . "'";
+        } else {
+            $proveedor = " ";
+        }
 
-        if($almacen=='PRINCIPAL'){
-            $stock= "mad_stock as stock";
-            $stockMedio= "AVG(mad_stock) as stockMedia";
-        }else {
+        $fecha1 = "AND v.fecha  BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "'";
+        $fecha2 = "AND sm.fecha  BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "'";
+
+        if ($almacen == 'PRINCIPAL') {
+            $stock = "mad_stock as stock";
+            $stockMedio = "AVG(mad_stock) as stockMedia";
+        } else {
             $stock = "ali_stock as stock";
-            $stockMedio= "AVG(ali_stock) as stockMedia";
+            $stockMedio = "AVG(ali_stock) as stockMedia";
         }
 
 
-
- $data = $db->select($db->raw("(SELECT 
+        $data = $db->select($db->raw("(SELECT 
         a.id,
         a.nombre as NombreArticulo,
         DATE_FORMAT(a.fecha_alta,'%d/%m/%Y')  as FechaAlta,
@@ -153,9 +152,11 @@ class reportingController
         a.coste_medio * ven.CANSUM as costeMedio,
         alm.stock_actual,
         (ifnull(ven.CANSUM,0) - ( a.coste_medio * ven.CANSUM )) as margenBruto,
+      
         ROUND(stockMedia) as stockM,
         (ifnull(ven.CANSUM,0)/ROUND(stockMedia))  as indicePorMargeDeRotacion,
         (ifnull(ven.CANSUM,0) - ( a.coste_medio * ven.CANSUM )/(ifnull(ven.CANSUM,0)/ROUND(stockMedia))) as margenPorRotacion,
+       
         if(alm.es_surtido_alicante,'SI',' ') as surtido,
         SYSDATE()  as tiempo
                                 FROM articulos a
@@ -165,13 +166,13 @@ class reportingController
                                     WHERE empresa=1 
                                     AND es_directo=0 
                                     AND a.fecha_baja is null
-                                    ".$proveedor."
-                                    ".$familia."  
-                                    ".$fecha1."  
+                                    " . $proveedor . "
+                                    " . $familia . "  
+                                    " . $fecha1 . "  
                                     GROUP BY articulo_id
                                 ) ven ON a.id = ven.art
                                 
-                                LEFT OUTER JOIN articulos_almacen alm ON a.id = alm.articulo_id AND alm.almacen = '".$almacen."'
+                                LEFT OUTER JOIN articulos_almacen alm ON a.id = alm.articulo_id AND alm.almacen = '" . $almacen . "'
                                 LEFT JOIN proveedores pro ON a.proveedor_id = pro.id 
                                 LEFT JOIN familias fam ON a.familia_id = fam.id 
                                 LEFT JOIN familias fam1 ON substring(a.familia_id,1,2) = fam1.id 
@@ -182,56 +183,90 @@ class reportingController
                                     FROM stock_medio sm
                                     LEFT JOIN articulos a ON sm.articulo_id = a.id
                                     WHERE a.fecha_baja is null
-                                    ".$proveedor."
-                                    ".$fecha2."  
+                                    " . $proveedor . "
+                                    " . $fecha2 . "  
                                   GROUP BY articulo_id
                                 ) sm ON a.id = sm.articulo_id
-        WHERE a.fecha_baja is null ".$proveedor." ".$familia."   ORDER BY a.id  *)"));
-
-
+        WHERE a.fecha_baja is null " . $proveedor . " " . $familia . "   ORDER BY a.id )"));
 
         $bg = array("808080", "0000ff", "B5BF00");
-        // nombre de pestaña
         $title = "INFORME";
-        //Parametrizar en funcion de la tabla
-        $fin1 = 11;
-        $fin2 = $fin1 + 10;
-        $fin3 = $fin2 + 10;
+        //LEYENDA
+        $fin1 = 12;
+        $fin2 = $fin1 + 9;
+        $fin3 = $fin2 + 11;
         $tramo1 = Coordinate::stringFromColumnIndex(1) . "12:" . Coordinate::stringFromColumnIndex($fin1) . "12";
         $tramo2 = Coordinate::stringFromColumnIndex($fin1 + 1) . "12:" . Coordinate::stringFromColumnIndex($fin2) . "12";
         $tramo3 = Coordinate::stringFromColumnIndex($fin2 + 1) . "12:" . Coordinate::stringFromColumnIndex($fin3) . "12";
         $tramos = array($tramo1, $tramo2, $tramo3);
-        //LEYENDA
-        $precabeceraL = $precabecera;
-        $tramo1 = "A2:A" . ($fin1 + 2);
-        $tramo2 = "A" . ($fin1 + 3) . ":A" . ($fin1 + $fin2 + 3);
-        $tramo3 = "A" . ($fin2 + 2) . ":A" . ($fin2 + $fin3 + 3);
+        $precabeceraL = array("CAMPO INFORME", "DESCRIPCION COMENTARIOS");
+        $tramo1 = "A2:A" . ($fin1);
+        $tramo2 = "A" . ($fin1) . ":A" . ($fin2);
+        $tramo3 = "A" . ($fin2) . ":A" . ($fin3);
         $tramosLeyenda = array($tramo1, $tramo2, $tramo3);
         $titleL = "LEYENDA";
-        $dataL = array($cabecera);
-        //$dataL =$data;
-        $arr = array(19, 21, 46);
-        $collection = array($arr);
-        $page1 = new Sheet($precabecera, $data, $cabecera, $bg, $title, $tramos);
-        // corrgir
-        $page2 = new SheetLeyenda($precabeceraL, $dataL, $cabecera, $bg, $titleL, $tramos);
-        //$page2 = null;
+        $comentarios = array(
+            "Codigo de articulo",
+            "Descripcion del articulo",
+            "Fecha de alta",
+            "Fecha de baja",
+            "Tipo de articulo (NAC,UE o IMP)",
+            "Tipo Rotacion (Este campo es un campo de Navision, que no sé si alguien lo actualiza)",
+            "Proveedor",
+            "Razon social del proveedor",
+            "Referencia del articulo",
+            "Comprador asociado al proveedor del articulo",
+            "Marca asociada al articulo",
+            "Esta en el surtido basico de ferrokey",
+            "Precio medio de la ficha del articulo en Navision",
+            "Familia",
+            "Descripcion completa de la familia",
+            "Nivel 1 de la familia",
+            "Descripcion del nivel 1 de la familia",
+            "Nivel 2 de la familia",
+            "Descripcion del nivel 2 de la familia",
+            "Nivel 3 de la familia",
+            "Descripcion del nivel 3 de la familia",
+            "¿Esta a extinguir?",
+            "Unidades vendidas",
+            "Importe de las unidades",
+            "Importe de las unidades vendidas (valoradas al coste)",
+            "Stock a la fecha que se genera el informe",
+            "La suma de los importes de la ventas menos el coste de estas ventas.",
+            "Stock medio del producto (En unidades)",
+            "Son las unidades vendidas divididas por el stock medio",
+            "Es la division del margen bruto, por el indice de rotacion",
+            "¿Tiene marcado la casilla surtido de alicante?",
+            "",
+            ""
+        );
 
+
+        $i = 0;
+        foreach ($cabecera as $cab) {
+            $array[$i][1] = $cab;
+            $array[$i][2] = $comentarios[$i];
+            $i++;
+        }
+
+        $cabeceraL = array();
+        $page1 = new Sheet($precabecera, $data, $cabecera, $bg, $title, $tramos);
+        $page2 = new SheetLeyenda($precabeceraL, $array, $precabeceraL, $bg, $titleL, $tramosLeyenda);
 
 
         // Envio del mail
-        if((!is_null($request["email"]))&&($request["enviaMail"]==true)){
+        if ((!is_null($request["email"])) && ($request["enviaMail"] == true)) {
             set_time_limit(20000);
             $excelFile = Excel::download(new SheetsExports($page1, $page2), $filename . '.xls');
-            if(is_null($request["asunto"])){
-                $messageBody ="Informe de Indice de rotacion";
-            }else{
-                $messageBody=$request["asunto"];
+            if (is_null($request["asunto"])) {
+                $messageBody = "Informe de Indice de rotacion";
+            } else {
+                $messageBody = $request["asunto"];
             }
-            $email=$request["email"];
-            $message="Este mail contiene el informe de rotacion";
-            Mail::raw($messageBody,function ($message) use ($email,$page1) {
-                    $message->from('rvalle@comafe.es', 'Informe de Indice de rotación');
+            $email = $request["email"];
+            $message = "Este mail contiene el informe de rotacion";
+            Mail::raw($messageBody, function ($message) use ($email, $page1) {
+                $message->from('rvalle@comafe.es', 'Informe de Indice de rotación');
                 $message->to($email);
                 $message->subject('indice de rotacion');
                 $message->attach(
@@ -245,36 +280,35 @@ class reportingController
 
         }
 
-        if($request["compresion"]==true){
+        if ($request["compresion"] == true) {
             // PENDIENTE DE TESTEAR
             // https://github.com/cblink/laravel-excel-zip
-                //$excelZip ="";
-                //$excelZip = $excelZip->setExport($export);
-                //$excelZip->Excel::download(new SheetsExports($page1, $page2), $filename . '.xls');
-                //return $excelZip->zip();
-                //return $excelZip->download(Member::all(), $export)
+            //$excelZip ="";
+            //$excelZip = $excelZip->setExport($export);
+            //$excelZip->Excel::download(new SheetsExports($page1, $page2), $filename . '.xls');
+            //return $excelZip->zip();
+            //return $excelZip->download(Member::all(), $export)
         }
-
 
 
         if ($request["type"] == "xls") {
             set_time_limit(20000);
-           return(Excel::download(new SheetsExports($page1, $page2), $filename . '.xls'));
+            return (Excel::download(new SheetsExports($page1, $page2), $filename . '.xls'));
         }
         if ($request["type"] == "csv") {
             set_time_limit(20000);
             //return(Excel::download(new SheetsExports($page1, $page2), $filename . '.csv'));
             //parametrizacion
-            $cabecera ="ARTICULO;DESCRIPCION;F.ALTA;F.BAJA;TIPO ART.;TIPO ROT.;PROVEEDOR;RAZON SOCIAL;REFERENCIA;COMPRADOR;MARCA;CAT.FERROKEY;PRECIO MEDIO;FAMILIA;DESC COMPLETA;FAM-1-;DESCRIPCION;FAM-2-;DESCRIPCION;FAM-3-;DESCRIPCION;DATOS ALMACEN EXTINGUIR;VENTAS (UDS);VENTAS (PVP);VENTAS(PMEDIO);STOCK ACTUAL;MARGEN BRUTO;STOCK MEDIO (UDS);INDICE ROTACON;MARGEN POR ROTACION;SURTIDO";
-            $cabeza=date("d-m-Y h:i:sa")."\n Indice De Rotacion \n PERIODO, ".$fechaDesde." a ".$fechaHasta."  \n ALMACEN ".$almacen." \n PROVEEDOR ".$proveedor_id." \nLISTAS ARTICULOS ENVASES";
-            $array=$cabeza."\n\n".$cabecera."\n";
+            $cabecera = "ARTICULO;DESCRIPCION;F.ALTA;F.BAJA;TIPO ART.;TIPO ROT.;PROVEEDOR;RAZON SOCIAL;REFERENCIA;COMPRADOR;MARCA;CAT.FERROKEY;PRECIO MEDIO;FAMILIA;DESC COMPLETA;FAM-1-;DESCRIPCION;FAM-2-;DESCRIPCION;FAM-3-;DESCRIPCION;DATOS ALMACEN EXTINGUIR;VENTAS (UDS);VENTAS (PVP);VENTAS(PMEDIO);STOCK ACTUAL;MARGEN BRUTO;STOCK MEDIO (UDS);INDICE ROTACON;MARGEN POR ROTACION;SURTIDO";
+            $cabeza = date("d-m-Y h:i:sa") . "\n Indice De Rotacion \n PERIODO, " . $fechaDesde . " a " . $fechaHasta . "  \n ALMACEN " . $almacen . " \n PROVEEDOR " . $proveedor_id . " \nLISTAS ARTICULOS ENVASES";
+            $array = $cabeza . "\n\n" . $cabecera . "\n";
             foreach ($data as $list) {
                 foreach ($list as $dat) {
-                    $array=$array.$dat.";";
+                    $array = $array . $dat . ";";
                 }
-                $array=$array."\n";
+                $array = $array . "\n";
             }
-            return response()->attachmentCSV($array,"indiceDeRotacion.csv");
+            return response()->attachmentCSV($array, "indiceDeRotacion.csv");
         }
     }
 
