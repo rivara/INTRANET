@@ -52,26 +52,27 @@ class SheetLeyenda implements FromCollection, WithHeadings, WithEvents
      */
     public function registerEvents(): array
     {
+        $background = $this->background;
 
-        return [
-            AfterSheet::class => function (AfterSheet $event) {
-                //TRAMOS
-                $event->sheet->getDelegate()->getStyle("A1:C1")->getFont()->setSize(12);
-                $event->sheet->getDelegate()->getStyle("A1:C1")->getFont()->setBold(true);
-                $event->sheet->getDelegate()->getStyle("A1:C1")->getFont()->getColor()->setRGB('ffffff');
-                $event->sheet->getDelegate()->getStyle("A1:C1")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB("373737");
+        return array(
 
+            AfterSheet::class => function (AfterSheet $event) use ($background) {
 
                 $i = 0;
                 foreach ($this->tramos as $tramo) {
                     $event->sheet->getDelegate()->getStyle($tramo)->getFont()->setSize(12);
                     $event->sheet->getDelegate()->getStyle($tramo)->getFont()->setBold(true);
                     $event->sheet->getDelegate()->getStyle($tramo)->getFont()->getColor()->setRGB('ffffff');
-                    $event->sheet->getDelegate()->getStyle($tramo)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB($this->background[$i]);
+                    $event->sheet->getDelegate()->getStyle($tramo)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB($background[$i]);
                     $i++;
                 }
+
+                $event->sheet->getDelegate()->getStyle("A1:W1")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->
+                getStartColor()->setRGB($background[2]);
+
             }
-        ];
+        );
+
     }
 
 

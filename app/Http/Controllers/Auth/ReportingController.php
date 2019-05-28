@@ -156,7 +156,8 @@ class reportingController
         ROUND(stockMedia) as stockM,
         (ifnull(ven.CANSUM,0)/ROUND(stockMedia))  as indicePorMargeDeRotacion,
         (ifnull(ven.CANSUM,0) - ( a.coste_medio * ven.CANSUM )/(ifnull(ven.CANSUM,0)/ROUND(stockMedia))) as margenPorRotacion,
-        if(alm.es_surtido_alicante,'SI',' ') as surtido
+        if(alm.es_surtido_alicante,'SI',' ') as surtido,
+        SYSDATE()  as tiempo
                                 FROM articulos a
                                 LEFT OUTER JOIN (
                                     select articulo_id art,SUM(cantidad) CANSUM ,SUM(importe) CANIMP
@@ -185,7 +186,7 @@ class reportingController
                                     ".$fecha2."  
                                   GROUP BY articulo_id
                                 ) sm ON a.id = sm.articulo_id
-        WHERE a.fecha_baja is null ".$proveedor." ".$familia."   ORDER BY a.id )"));
+        WHERE a.fecha_baja is null ".$proveedor." ".$familia."   ORDER BY a.id  )"));
 
 
 
@@ -200,8 +201,6 @@ class reportingController
         $tramo2 = Coordinate::stringFromColumnIndex($fin1 + 1) . "12:" . Coordinate::stringFromColumnIndex($fin2) . "12";
         $tramo3 = Coordinate::stringFromColumnIndex($fin2 + 1) . "12:" . Coordinate::stringFromColumnIndex($fin3) . "12";
         $tramos = array($tramo1, $tramo2, $tramo3);
-
-
         //LEYENDA
         $precabeceraL = array();
         $tramo1 = "A2:A" . ($fin1 + 2);
@@ -209,26 +208,20 @@ class reportingController
         $tramo3 = "A" . ($fin2 + 2) . ":A" . ($fin2 + $fin3 + 3);
         $tramosLeyenda = array($tramo1, $tramo2, $tramo3);
         $titleL = "LEYENDA";
-        //$dataL = $cabecera;
-        $dataL =$data;
+        $dataL = $cabecera;
+        //$dataL =$data;
         $arr = array(19, 21, 46);
         $collection = array($arr);
-        $time = array
-        (
-            array("time",date('Y-m-d H:i:s'))
-        );
-       $data= array_merge($data,$time);
-
-
         $page1 = new Sheet($precabecera, $data, $cabecera, $bg, $title, $tramos);
-      //  $page2 = new SheetLeyenda   ($precabecera, $data, $cabecera, $bg, $title, $tramos);
+        // corrgir
+        //$page2 = new SheetLeyenda($precabeceraL, $collection, $cabecera, $bg, $titleL, $tramosLeyenda);
         $page2 = null;
 
 
 
         // Envio del mail
         if((!is_null($request["email"]))&&($request["enviaMail"]==true)){
-
+            set_time_limit(20000);
             $excelFile = Excel::download(new SheetsExports($page1, $page2), $filename . '.xls');
             if(is_null($request["asunto"])){
                 $messageBody ="Informe de Indice de rotacion";
@@ -271,10 +264,9 @@ class reportingController
         if ($request["type"] == "csv") {
             set_time_limit(20000);
             //return(Excel::download(new SheetsExports($page1, $page2), $filename . '.csv'));
-            //parametrizar
+            //parametrizacion
             $cabecera ="ARTICULO;DESCRIPCION;F.ALTA;F.BAJA;TIPO ART.;TIPO ROT.;PROVEEDOR;RAZON SOCIAL;REFERENCIA;COMPRADOR;MARCA;CAT.FERROKEY;PRECIO MEDIO;FAMILIA;DESC COMPLETA;FAM-1-;DESCRIPCION;FAM-2-;DESCRIPCION;FAM-3-;DESCRIPCION;DATOS ALMACEN EXTINGUIR;VENTAS (UDS);VENTAS (PVP);VENTAS(PMEDIO);STOCK ACTUAL;MARGEN BRUTO;STOCK MEDIO (UDS);INDICE ROTACON;MARGEN POR ROTACION;SURTIDO";
             $cabeza=date("d-m-Y h:i:sa")."\n Indice De Rotacion \n PERIODO, ".$fechaDesde." a ".$fechaHasta."  \n ALMACEN ".$almacen." \n PROVEEDOR ".$proveedor_id." \nLISTAS ARTICULOS ENVASES";
-           //cabecera
             $array=$cabeza."\n\n".$cabecera."\n";
             foreach ($data as $list) {
                 foreach ($list as $dat) {
@@ -283,9 +275,7 @@ class reportingController
                 $array=$array."\n";
             }
             return response()->attachmentCSV($array,"indiceDeRotacion.csv");
-
         }
-
     }
 
     public function actionObsoletos(Request $request)
