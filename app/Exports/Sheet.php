@@ -17,7 +17,6 @@ use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Events\BeforeSheet;
 use Maatwebsite\Excel\Concerns\WithProgressBar;
-use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 
 
 /**
@@ -91,6 +90,11 @@ class Sheet implements FromCollection, WithHeadings, WithEvents, WithTitle
 
             },
         );
+
+
+
+
+
     }
 
 
@@ -110,13 +114,9 @@ class Sheet implements FromCollection, WithHeadings, WithEvents, WithTitle
         return $this->title;
     }
 
-    public function columnFormats(): array
-    {
-        return [
-            'M' => NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1,
-            'N' => NumberFormat::FORMAT_TEXT
-        ];
-    }
+
+
+
 
 
 }

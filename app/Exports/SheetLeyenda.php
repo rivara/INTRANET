@@ -8,14 +8,21 @@
 
 namespace App\Exports;
 
+use Illuminate\Console\OutputStyle;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Events\AfterSheet;
+use Maatwebsite\Excel\Events\BeforeSheet;
+use Maatwebsite\Excel\Concerns\WithProgressBar;
 
-class SheetLeyenda implements FromCollection, WithHeadings, WithEvents
+
+/**
+ * @property  output
+ */
+class SheetLeyenda implements FromCollection, WithHeadings, WithEvents, WithTitle
 {
 
     protected $precabecera;
@@ -24,16 +31,15 @@ class SheetLeyenda implements FromCollection, WithHeadings, WithEvents
     protected $background;
     protected $pagename;
     protected $tramos;
-    protected $title;
+    protected $columna_roja;
 
-    public function __construct($precabecera, $data, $cabecera, $background, $pagename, $tramos)
+    public function __construct($precabecera, $data, $cabecera, $background, $title)
     {
         $this->precabecera = $precabecera;
         $this->cabecera = $cabecera;
         $this->data = $data;
         $this->background = $background;
-        $this->pagename = $pagename;
-        $this->tramos = $tramos;
+        $this->title = $title;
 
     }
 
@@ -43,7 +49,10 @@ class SheetLeyenda implements FromCollection, WithHeadings, WithEvents
      */
     public function collection()
     {
-        return $this->data;
+
+        $a= collect($this->data);
+
+        return $a;
     }
 
 
@@ -52,28 +61,31 @@ class SheetLeyenda implements FromCollection, WithHeadings, WithEvents
      */
     public function registerEvents(): array
     {
-        $background = $this->background;
 
-        return array(
+        return [
+            AfterSheet::class => function (AfterSheet $event) {
+                //TRAMOS
+                //GRIS
+                $event->sheet->getDelegate()->getStyle("A2")->getFont()->setSize(12);
+                $event->sheet->getDelegate()->getStyle("A2")->getFont()->setBold(true);
+                $event->sheet->getDelegate()->getStyle("A2")->getFont()->getColor()->setRGB('ffffff');
+                $event->sheet->getDelegate()->getStyle("A2")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB($this->background[0]);
+                //AZUL
+                $event->sheet->getDelegate()->getStyle("A3")->getFont()->setSize(12);
+                $event->sheet->getDelegate()->getStyle("A3")->getFont()->setBold(true);
+                $event->sheet->getDelegate()->getStyle("A3")->getFont()->getColor()->setRGB('ffffff');
+                $event->sheet->getDelegate()->getStyle("A3")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB($this->background[1]);
+                //VERDE
+                $event->sheet->getDelegate()->getStyle("A4")->getFont()->setSize(12);
+                $event->sheet->getDelegate()->getStyle("A4")->getFont()->setBold(true);
+                $event->sheet->getDelegate()->getStyle("A4")->getFont()->getColor()->setRGB('ffffff');
+                $event->sheet->getDelegate()->getStyle("A4")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB($this->background[2]);
 
-            AfterSheet::class => function (AfterSheet $event) use ($background) {
-
-                $i = 0;
-                foreach ($this->tramos as $tramo) {
-                    $event->sheet->getDelegate()->getStyle($tramo)->getFont()->setSize(12);
-                    $event->sheet->getDelegate()->getStyle($tramo)->getFont()->setBold(true);
-                    $event->sheet->getDelegate()->getStyle($tramo)->getFont()->getColor()->setRGB('ffffff');
-                    $event->sheet->getDelegate()->getStyle($tramo)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB($background[$i]);
-                    $i++;
-                }
-
-                $event->sheet->getDelegate()->getStyle("A1:W1")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->
-                getStartColor()->setRGB($background[2]);
 
             }
-        );
-
+        ];
     }
+
 
 
     /**
@@ -81,9 +93,21 @@ class SheetLeyenda implements FromCollection, WithHeadings, WithEvents
      */
     public function headings(): array
     {
-
         return [$this->cabecera];
     }
+
+    /**
+     * @return string
+     */
+    public function title(): string
+    {
+        return $this->title;
+    }
+
+
+
+
+
 
 
 }

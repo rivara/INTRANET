@@ -186,7 +186,7 @@ class reportingController
                                     ".$fecha2."  
                                   GROUP BY articulo_id
                                 ) sm ON a.id = sm.articulo_id
-        WHERE a.fecha_baja is null ".$proveedor." ".$familia."   ORDER BY a.id  )"));
+        WHERE a.fecha_baja is null ".$proveedor." ".$familia."   ORDER BY a.id  *)"));
 
 
 
@@ -202,20 +202,20 @@ class reportingController
         $tramo3 = Coordinate::stringFromColumnIndex($fin2 + 1) . "12:" . Coordinate::stringFromColumnIndex($fin3) . "12";
         $tramos = array($tramo1, $tramo2, $tramo3);
         //LEYENDA
-        $precabeceraL = array();
+        $precabeceraL = $precabecera;
         $tramo1 = "A2:A" . ($fin1 + 2);
         $tramo2 = "A" . ($fin1 + 3) . ":A" . ($fin1 + $fin2 + 3);
         $tramo3 = "A" . ($fin2 + 2) . ":A" . ($fin2 + $fin3 + 3);
         $tramosLeyenda = array($tramo1, $tramo2, $tramo3);
         $titleL = "LEYENDA";
-        $dataL = $cabecera;
+        $dataL = array($cabecera);
         //$dataL =$data;
         $arr = array(19, 21, 46);
         $collection = array($arr);
         $page1 = new Sheet($precabecera, $data, $cabecera, $bg, $title, $tramos);
         // corrgir
-        //$page2 = new SheetLeyenda($precabeceraL, $collection, $cabecera, $bg, $titleL, $tramosLeyenda);
-        $page2 = null;
+        $page2 = new SheetLeyenda($precabeceraL, $dataL, $cabecera, $bg, $titleL, $tramos);
+        //$page2 = null;
 
 
 
