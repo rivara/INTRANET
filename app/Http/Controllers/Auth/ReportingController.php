@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
-use Zend\Diactoros\Response;
 use ZipArchive;
 
 
@@ -212,12 +211,17 @@ class reportingController
         $titleL = "LEYENDA";
         //$dataL = $cabecera;
         $dataL =$data;
-        $arr = [19, 21, 46];
-        $collection = collect($arr);
+        $arr = array(19, 21, 46);
+        $collection = array($arr);
+        $time = array
+        (
+            array("time",date('Y-m-d H:i:s'))
+        );
+       $data= array_merge($data,$time);
 
 
         $page1 = new Sheet($precabecera, $data, $cabecera, $bg, $title, $tramos);
-        //   $page2 = new SheetLeyenda($precabeceraL, $collection, $cabecera, $bg, $titleL, $tramosLeyenda,$titleL);
+      //  $page2 = new SheetLeyenda   ($precabecera, $data, $cabecera, $bg, $title, $tramos);
         $page2 = null;
 
 
@@ -266,19 +270,20 @@ class reportingController
         }
         if ($request["type"] == "csv") {
             set_time_limit(20000);
-             return(Excel::download(new SheetsExports($page1, $page2), $filename . '.csv'));
+            //return(Excel::download(new SheetsExports($page1, $page2), $filename . '.csv'));
             //parametrizar
-           // $cabecera ="ARTICULO;DESCRIPCION;F.ALTA;F.BAJA;TIPO ART.;TIPO ROT.;PROVEEDOR;RAZON SOCIAL;REFERENCIA;COMPRADOR;MARCA;CAT.FERROKEY;PRECIO MEDIO;FAMILIA;DESC COMPLETA;FAM-1-;DESCRIPCION;FAM-2-;DESCRIPCION;FAM-3-;DESCRIPCION;DATOS ALMACEN EXTINGUIR;VENTAS (UDS);VENTAS (PVP);VENTAS(PMEDIO);STOCK ACTUAL;MARGEN BRUTO;STOCK MEDIO (UDS);INDICE ROTACON;MARGEN POR ROTACION;SURTIDO";
-            //$cabeza=date("d-m-Y h:i:sa")."\n Indice De Rotacion \n PERIODO, ".$fechaDesde." a ".$fechaHasta."  \n ALMACEN ".$almacen." \n PROVEEDOR ".$proveedor_id." \nLISTAS ARTICULOS ENVASES";
+            $cabecera ="ARTICULO;DESCRIPCION;F.ALTA;F.BAJA;TIPO ART.;TIPO ROT.;PROVEEDOR;RAZON SOCIAL;REFERENCIA;COMPRADOR;MARCA;CAT.FERROKEY;PRECIO MEDIO;FAMILIA;DESC COMPLETA;FAM-1-;DESCRIPCION;FAM-2-;DESCRIPCION;FAM-3-;DESCRIPCION;DATOS ALMACEN EXTINGUIR;VENTAS (UDS);VENTAS (PVP);VENTAS(PMEDIO);STOCK ACTUAL;MARGEN BRUTO;STOCK MEDIO (UDS);INDICE ROTACON;MARGEN POR ROTACION;SURTIDO";
+            $cabeza=date("d-m-Y h:i:sa")."\n Indice De Rotacion \n PERIODO, ".$fechaDesde." a ".$fechaHasta."  \n ALMACEN ".$almacen." \n PROVEEDOR ".$proveedor_id." \nLISTAS ARTICULOS ENVASES";
            //cabecera
-           /* $array=$cabeza."\n\n".$cabecera."\n";
+            $array=$cabeza."\n\n".$cabecera."\n";
             foreach ($data as $list) {
                 foreach ($list as $dat) {
                     $array=$array.$dat.";";
                 }
                 $array=$array."\n";
             }
-            return response()->attachmentCSV($array,"indiceDeRotacion.csv");*/
+            return response()->attachmentCSV($array,"indiceDeRotacion.csv");
+
         }
 
     }

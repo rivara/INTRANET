@@ -17,12 +17,13 @@ use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Events\BeforeSheet;
 use Maatwebsite\Excel\Concerns\WithProgressBar;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 
 
 /**
  * @property  output
  */
-class Sheet implements FromCollection, WithHeadings, WithEvents, WithTitle , WithProgressBar
+class Sheet implements FromCollection, WithHeadings, WithEvents, WithTitle
 {
 
     protected $precabecera;
@@ -90,11 +91,6 @@ class Sheet implements FromCollection, WithHeadings, WithEvents, WithTitle , Wit
 
             },
         );
-
-
-
-
-
     }
 
 
@@ -114,17 +110,13 @@ class Sheet implements FromCollection, WithHeadings, WithEvents, WithTitle , Wit
         return $this->title;
     }
 
-
-
-    /**
-     * @return OutputStyle
-     */
-    public function getConsoleOutput(): OutputStyle
+    public function columnFormats(): array
     {
-        // TODO: Implement getConsoleOutput() method.
-        // $this->output->createProgressBar(2);
+        return [
+            'M' => NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1,
+            'N' => NumberFormat::FORMAT_NUMBER
+        ];
     }
-
 
 
 }

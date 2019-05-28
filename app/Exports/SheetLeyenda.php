@@ -15,7 +15,7 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Events\AfterSheet;
 
-class SheetLeyenda implements FromCollection, WithHeadings, WithEvents, WithTitle
+class SheetLeyenda implements FromCollection, WithHeadings, WithEvents
 {
 
     protected $precabecera;
@@ -26,7 +26,7 @@ class SheetLeyenda implements FromCollection, WithHeadings, WithEvents, WithTitl
     protected $tramos;
     protected $title;
 
-    public function __construct($precabecera, $data, $cabecera, $background, $pagename, $tramos,$title)
+    public function __construct($precabecera, $data, $cabecera, $background, $pagename, $tramos)
     {
         $this->precabecera = $precabecera;
         $this->cabecera = $cabecera;
@@ -34,7 +34,7 @@ class SheetLeyenda implements FromCollection, WithHeadings, WithEvents, WithTitl
         $this->background = $background;
         $this->pagename = $pagename;
         $this->tramos = $tramos;
-        $this->title = $title;
+
     }
 
 
@@ -84,12 +84,5 @@ class SheetLeyenda implements FromCollection, WithHeadings, WithEvents, WithTitl
         return [$this->cabecera];
     }
 
-    /**
-     * @return string
-     */
-    public function title(): String
-    {
-        return $this->title;
-    }
 
 }
