@@ -266,19 +266,19 @@ class reportingController
         }
         if ($request["type"] == "csv") {
             set_time_limit(20000);
-            //return(Excel::download(new SheetsExports($page1, $page2), $filename . '.csv'));
+             return(Excel::download(new SheetsExports($page1, $page2), $filename . '.csv'));
             //parametrizar
-            $cabecera ="ARTICULO;DESCRIPCION;F.ALTA;F.BAJA;TIPO ART.;TIPO ROT.;PROVEEDOR;RAZON SOCIAL;REFERENCIA;COMPRADOR;MARCA;CAT.FERROKEY;PRECIO MEDIO;FAMILIA;DESC COMPLETA;FAM-1-;DESCRIPCION;FAM-2-;DESCRIPCION;FAM-3-;DESCRIPCION;DATOS ALMACEN EXTINGUIR;VENTAS (UDS);VENTAS (PVP);VENTAS(PMEDIO);STOCK ACTUAL;MARGEN BRUTO;STOCK MEDIO (UDS);INDICE ROTACON;MARGEN POR ROTACION;SURTIDO";
-            $cabeza=date("d-m-Y h:i:sa")."\n Indice De Rotacion \n PERIODO, ".$fechaDesde." a ".$fechaHasta."  \n ALMACEN ".$almacen." \n PROVEEDOR ".$proveedor_id." \nLISTAS ARTICULOS ENVASES";
+           // $cabecera ="ARTICULO;DESCRIPCION;F.ALTA;F.BAJA;TIPO ART.;TIPO ROT.;PROVEEDOR;RAZON SOCIAL;REFERENCIA;COMPRADOR;MARCA;CAT.FERROKEY;PRECIO MEDIO;FAMILIA;DESC COMPLETA;FAM-1-;DESCRIPCION;FAM-2-;DESCRIPCION;FAM-3-;DESCRIPCION;DATOS ALMACEN EXTINGUIR;VENTAS (UDS);VENTAS (PVP);VENTAS(PMEDIO);STOCK ACTUAL;MARGEN BRUTO;STOCK MEDIO (UDS);INDICE ROTACON;MARGEN POR ROTACION;SURTIDO";
+            //$cabeza=date("d-m-Y h:i:sa")."\n Indice De Rotacion \n PERIODO, ".$fechaDesde." a ".$fechaHasta."  \n ALMACEN ".$almacen." \n PROVEEDOR ".$proveedor_id." \nLISTAS ARTICULOS ENVASES";
            //cabecera
-            $array=$cabeza."\n\n".$cabecera."\n";
+           /* $array=$cabeza."\n\n".$cabecera."\n";
             foreach ($data as $list) {
                 foreach ($list as $dat) {
                     $array=$array.$dat.";";
                 }
                 $array=$array."\n";
             }
-            return response()->attachmentCSV($array,"indiceDeRotacion.csv");
+            return response()->attachmentCSV($array,"indiceDeRotacion.csv");*/
         }
 
     }
