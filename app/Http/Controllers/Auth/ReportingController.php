@@ -261,7 +261,7 @@ class reportingController
 
 
         if ($request["type"] == "xls") {
-
+            set_time_limit(20000);
            return(Excel::download(new SheetsExports($page1, $page2), $filename . '.xls'));
         }
         if ($request["type"] == "csv") {
