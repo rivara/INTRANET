@@ -114,7 +114,7 @@ class Sheet implements FromCollection, WithHeadings, WithEvents, WithTitle
     {
         return [
             'M' => NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1,
-            'N' => NumberFormat::FORMAT_NUMBER
+            'N' => NumberFormat::FORMAT_TEXT
         ];
     }
 
