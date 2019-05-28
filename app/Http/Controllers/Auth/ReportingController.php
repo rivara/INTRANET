@@ -156,9 +156,7 @@ class reportingController
         ROUND(stockMedia) as stockM,
         (ifnull(ven.CANSUM,0)/ROUND(stockMedia))  as indicePorMargeDeRotacion,
         (ifnull(ven.CANSUM,0) - ( a.coste_medio * ven.CANSUM )/(ifnull(ven.CANSUM,0)/ROUND(stockMedia))) as margenPorRotacion,
-       
         if(alm.es_surtido_alicante,'SI',' ') as surtido,
-        SYSDATE()  as tiempo
                                 FROM articulos a
                                 LEFT OUTER JOIN (
                                     select articulo_id art,SUM(cantidad) CANSUM ,SUM(importe) CANIMP
@@ -236,9 +234,8 @@ class reportingController
             "Stock medio del producto (En unidades)",
             "Son las unidades vendidas divididas por el stock medio",
             "Es la division del margen bruto, por el indice de rotacion",
-            "¿Tiene marcado la casilla surtido de alicante?",
-            "",
-            ""
+            "¿Tiene marcado la casilla surtido de alicante?"
+
         );
 
 
