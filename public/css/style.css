@@ -270,6 +270,13 @@ th {
     width: 600px !important;
 }
 
+/*%*/
+.width45 {
+    width: 45% !important;
+}
+
+
+
 /**padding**/
 .paddingTop10px {
     padding-top: 10px;

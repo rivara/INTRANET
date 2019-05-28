@@ -235,7 +235,6 @@ class reportingController
             "Son las unidades vendidas divididas por el stock medio",
             "Es la division del margen bruto, por el indice de rotacion",
             "¿Tiene marcado la casilla surtido de alicante?"
-
         );
 
 
@@ -249,7 +248,6 @@ class reportingController
         $cabeceraL = array();
         $page1 = new Sheet($precabecera, $data, $cabecera, $bg, $title, $tramos);
         $page2 = new SheetLeyenda($precabeceraL, $array, $precabeceraL, $bg, $titleL, $tramosLeyenda);
-
 
         // Envio del mail
         if ((!is_null($request["email"])) && ($request["enviaMail"] == true)) {
@@ -274,17 +272,14 @@ class reportingController
 
                 );
             });
-
         }
 
         if ($request["compresion"] == true) {
             // PENDIENTE DE TESTEAR
             // https://github.com/cblink/laravel-excel-zip
-            //$excelZip ="";
-            //$excelZip = $excelZip->setExport($export);
-            //$excelZip->Excel::download(new SheetsExports($page1, $page2), $filename . '.xls');
-            //return $excelZip->zip();
-            //return $excelZip->download(Member::all(), $export)
+            $excelZip ="";
+            Excel::download(new SheetsExports($page1, $page2), $filename . '.xls');
+            return $excelZip->zip();
         }
 
 

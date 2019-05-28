@@ -1,6 +1,6 @@
 @include('layouts.desb2b')
 <br>
-<div class="row container center">
+<div class="row container center width600px">
     <div class="col-md-1"></div>
 
     <div class="col-md-1">
