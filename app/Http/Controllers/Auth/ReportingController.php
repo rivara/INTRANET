@@ -40,7 +40,7 @@ class reportingController
         $filename = "indiceDeRotacion";
         $niveles = $request["niveles"];
         $calculo = $request["calculo"];
-
+        $compresion=$request["compresion"];
         //INFORME
         $precabecera = array(
             array(date("F j, Y, g:i a")),
@@ -156,7 +156,7 @@ class reportingController
         ROUND(stockMedia) as stockM,
         (ifnull(ven.CANSUM,0)/ROUND(stockMedia))  as indicePorMargeDeRotacion,
         (ifnull(ven.CANSUM,0) - ( a.coste_medio * ven.CANSUM )/(ifnull(ven.CANSUM,0)/ROUND(stockMedia))) as margenPorRotacion,
-        if(alm.es_surtido_alicante,'SI',' ') as surtido,
+        if(alm.es_surtido_alicante,'SI',' ') as surtido
                                 FROM articulos a
                                 LEFT OUTER JOIN (
                                     select articulo_id art,SUM(cantidad) CANSUM ,SUM(importe) CANIMP
@@ -252,7 +252,19 @@ class reportingController
         // Envio del mail
         if ((!is_null($request["email"])) && ($request["enviaMail"] == true)) {
             set_time_limit(20000);
-            $excelFile = Excel::download(new SheetsExports($page1, $page2), $filename . '.xls');
+            //generacion del zip
+            $zip = new ZipArchive;
+            if ($zip->open($filename.'.zip', ZipArchive::CREATE) === true) {
+                $zip->addFile(Excel::download(new SheetsExports($page1, $page2), $filename . '.xls')->getFile(),
+                    $filename.'.xls');
+                $zip->close();
+                }
+
+
+
+
+
+
             if (is_null($request["asunto"])) {
                 $messageBody = "Informe de Indice de rotacion";
             } else {
@@ -260,26 +272,33 @@ class reportingController
             }
             $email = $request["email"];
             $message = "Este mail contiene el informe de rotacion";
-            Mail::raw($messageBody, function ($message) use ($email, $page1) {
+            Mail::raw(/**
+             * @param $message
+             */
+                $messageBody, function ($message) use ($filename, $page2, $compresion, $email, $page1) {
                 $message->from('rvalle@comafe.es', 'Informe de Indice de rotación');
                 $message->to($email);
                 $message->subject('indice de rotacion');
-                $message->attach(
-                    Excel::download(
-                        new SheetsExports($page1, null),
-                        'report.xlsx'
-                    )->getFile(), ['as' => 'report.xls']
 
-                );
+                if ($compresion== true) {
+
+                    $message->attach(response()->download($filename.".zip")->getFile(), ['as' => 'report.zip']);
+                }else{
+                     $message->attach(Excel::download(new SheetsExports($page1, $page2), $filename . '.xls')->getFile(), ['as' => 'report.xls']);
+                }
             });
+            return view('/reporting/index', ['option' => 'IndiceDeRotacion']);
         }
 
-        if ($request["compresion"] == true) {
-            // PENDIENTE DE TESTEAR
-            // https://github.com/cblink/laravel-excel-zip
-            $excelZip ="";
-            Excel::download(new SheetsExports($page1, $page2), $filename . '.xls');
-            return $excelZip->zip();
+        if ($compresion == true) {
+            //generacion del zip
+            $zip = new ZipArchive;
+            if ($zip->open($filename.'.zip', ZipArchive::CREATE) === true) {
+                $zip->addFile(Excel::download(new SheetsExports($page1, $page2), $filename . '.xls')->getFile(),
+                    $filename.'.xls');
+                $zip->close();
+            }
+            return response()->download($filename.".zip");
         }
 
 
@@ -300,7 +319,7 @@ class reportingController
                 }
                 $array = $array . "\n";
             }
-            return response()->attachmentCSV($array, "indiceDeRotacion.csv");
+            return response()->attachmentCSV($array, $filename.".csv");
         }
     }
 
