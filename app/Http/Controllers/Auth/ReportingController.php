@@ -279,7 +279,7 @@ class reportingController
                     set_time_limit(20000);
                     $message->attach(response()->download($filename.".zip")->getFile(), ['as' => 'report.zip']);
                 }else{
-                    set_time_limit(20000);
+                    //set_time_limit(20000);
                      $message->attach(Excel::download(new SheetsExports($page1, $page2), $filename . '.xls')->getFile(), ['as' => 'report.xls']);
                 }
             });
