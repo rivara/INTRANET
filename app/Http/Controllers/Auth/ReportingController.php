@@ -279,14 +279,14 @@ class reportingController
                     set_time_limit(20000);
                     $message->attach(response()->download($filename.".zip")->getFile(), ['as' => 'report.zip']);
                 }else{
-                    //set_time_limit(20000);
+                     set_time_limit(20000);
                      $message->attach(Excel::download(new SheetsExports($page1, $page2), $filename . '.xls')->getFile(), ['as' => 'report.xls']);
                 }
             });
             return view('/reporting/index', ['option' => 'IndiceDeRotacion']);
         }
 
-        if ($compresion == true) {
+        if (($compresion == true)&&($request["enviaMail"] == false)) {
             //generacion del zip
             $zip = new ZipArchive;
             if ($zip->open($filename.'.zip', ZipArchive::CREATE) === true) {
