@@ -63,7 +63,6 @@ class Sheet implements FromCollection, WithHeadings, WithEvents, WithTitle
     {
         $background = $this->background;
 
-
         return array(
 
             BeforeSheet::class => function (BeforeSheet $event) {
@@ -77,6 +76,7 @@ class Sheet implements FromCollection, WithHeadings, WithEvents, WithTitle
             AfterSheet::class => function (AfterSheet $event) use ($background) {
 
                 $i = 0;
+
                 foreach ($this->tramos as $tramo) {
                     $event->sheet->getDelegate()->getStyle($tramo)->getFont()->setSize(12);
                     $event->sheet->getDelegate()->getStyle($tramo)->getFont()->setBold(true);
@@ -84,16 +84,12 @@ class Sheet implements FromCollection, WithHeadings, WithEvents, WithTitle
                     $event->sheet->getDelegate()->getStyle($tramo)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB($background[$i]);
                     $i++;
                 }
-
-                $event->sheet->getDelegate()->getStyle("A1:W1")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->
+                $len=strlen($tramo);
+                $event->sheet->getDelegate()->getStyle("A1:".substr($tramo,$len-4 , 2)."1")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->
                 getStartColor()->setRGB($background[2]);
 
             },
         );
-
-
-
-
 
     }
 

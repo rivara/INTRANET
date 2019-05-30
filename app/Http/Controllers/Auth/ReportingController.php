@@ -29,6 +29,11 @@ class reportingController
     /**
      * @param Request $request
      */
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////// INDICE DE ROTACION ///////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
     public function actionindiceDeRotacion(Request $request)
     {
         //VARIABLES
@@ -106,11 +111,6 @@ class reportingController
             $proveedor = " ";
         }
 
-        if (!empty($proveedor_id)) {
-            $proveedor = "and a.proveedor_id = '" . $proveedor_id . "'";
-        } else {
-            $proveedor = " ";
-        }
 
         $fecha1 = "AND v.fecha  BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "'";
         $fecha2 = "AND sm.fecha  BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "'";
@@ -321,9 +321,251 @@ class reportingController
         }
     }
 
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////// OBSOLETOS  ///////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
     public function actionObsoletos(Request $request)
     {
-        return view('/reporting/index', ['option' => $request['option']]);
+        //VARIABLES
+        $fechaDesde = $request["fechaDesde"];
+        $fechaHasta = $request["fechaHasta"];
+        $proveedor_id = $request["proveedor"];
+        $filename = "obsoletos";
+        $stockmedio = $request["stockmedio"];
+        $artculo = $request["articulo"];
+        $calculo = $request["calculo"];
+        $compresion=$request["compresion"];
+
+        //INFORME
+        $precabecera = array(
+            array(date("F j, Y, g:i a")),
+            array("Obsoletos"),
+            array(""),
+            array("*PERIODO ANALIZADO", $fechaDesde, "a", $fechaHasta),
+            array("*PERIODO ANALIZADO PARA ARTICULO IMP:", $fechaDesde, "a", $fechaHasta),
+            array(""),
+            array("*LOS DATOS CALCULADOS VIENEN VACIOS. PRECIOS DESDE LA FICHA ARTICULOS"),
+            array("*STOCK ACTUAL y VENTAS (Movimientos de almacenes PRINCIPAL y ALICANTE, hasta el dia:".$fechaHasta.")"),
+            array("*COMPRAS (Movimientos de almacenes PRINCIPAL / ALICANTE / IMPORTAC)"),
+            array("*EN LOS ARTICULOS DE IMPORTACION SE COGEN LAS VENTAS Y COMPRAS DE LOS ULTIMOS DOS AÑOS."),
+            array("* EN ROJO LOS ARTICULOS CON VARIOS PRECIOS ACTIVOS."),
+            array("* CODIGOS DE ARTICULOS MARCADOS COMO ENVASE: 1,2,3,4,57145,57146,57148"),
+            array(" ")
+        );
+        //BBDD
+        //usar otra bbdd
+        $db = DB::connection('reporting');
+        $cabecera = array(
+            "ARTICULO",
+            "DESCRIPCION",
+            "TIPO PROD.",
+            "F.BAJA",
+            "COMPRADOR",
+            "PROVEEDOR",
+            "RAZON SOCIAL",
+            "MARCA",
+            "FAMILIA",
+            "FAM-1- DES",
+            "FAM-2- DES",
+            "FAM-3- DES",
+            "PRESENTACION",
+            "STOCK ACTUAL",
+            "VALORACION",
+            "STOCK (CALC)",
+            "VALOR (CALC)",
+            "COMPRAS 1 AÑO",
+            "COMPRAS 2 AÑOS",
+            "CODIGO ANTERIOR",
+            "COMPRAS COD.ANT.",
+            "VENTAS 1 AÑO",
+            "VENTAS 2 AÑOS",
+            "VENTAS COD.ANT.",
+            "PRECIO COSTE",
+            "PRECIO VENTA SOCIO",
+            "PRECIO MEDIO",
+            "PRECIO MEDIO CALCULADO",
+            "COMENTARIO",
+            "AÑOS COBERTURA",
+            "% OBSOLETO",
+            "VALOR OBSOLESCENCIA",
+            "PFACTOR CONVERSION (COD.ANT)"
+        );
+
+        //consultas
+
+
+
+        if (!empty($articulo)) {
+            $articulo = "and a.articulo = '" . $articulo . "'";
+        } else {
+            $articulo = " ";
+        }
+
+        if (!empty($proveedor_id)) {
+            $proveedor = "and a.proveedor_id = '" . $proveedor_id . "'";
+        } else {
+            $proveedor = " ";
+        }
+
+        $fecha1 = "AND v.fecha  BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "'";
+        $fecha2 = "AND sm.fecha  BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "'";
+
+
+
+
+        $data = array(array(" "));
+
+        $bg = array("B5BF00","808080","B5BF00","808080","3333ff","B5BF00","ec7063");
+        $title = "INFORME";
+        //LEYENDA
+        $fin1 = 8;
+        $fin2 = $fin1 + 4;
+        $fin3 = $fin2 + 5;
+        $fin4 = $fin3 + 4;
+        $fin5 = $fin4 + 3;
+        $fin6 = $fin5 + 4;
+        $fin7 = $fin6 + 5;
+
+        $tramo1 = Coordinate::stringFromColumnIndex(1) . "14:" . Coordinate::stringFromColumnIndex($fin1) . "14";
+        $tramo2 = Coordinate::stringFromColumnIndex($fin1 + 1) . "14:" . Coordinate::stringFromColumnIndex($fin2) . "14";
+        $tramo3 = Coordinate::stringFromColumnIndex($fin2 + 1) . "14:" . Coordinate::stringFromColumnIndex($fin3) . "14";
+        $tramo4 = Coordinate::stringFromColumnIndex($fin3 + 1) . "14:" . Coordinate::stringFromColumnIndex($fin4) . "14";
+        $tramo5 = Coordinate::stringFromColumnIndex($fin4 + 1) . "14:" . Coordinate::stringFromColumnIndex($fin5) . "14";
+        $tramo6 = Coordinate::stringFromColumnIndex($fin5 + 1) . "14:" . Coordinate::stringFromColumnIndex($fin6) . "14";
+        $tramo7 = Coordinate::stringFromColumnIndex($fin6 + 1) . "14:" . Coordinate::stringFromColumnIndex($fin7) . "14";
+        $tramos = array($tramo1, $tramo2, $tramo3,$tramo4,$tramo5,$tramo6,$tramo7);
+
+        $precabeceraL = array("CAMPO INFORME", "DESCRIPCION COMENTARIOS");
+        $tramo1 = "A2:A" . ($fin1);
+        $tramo2 = "A" . ($fin1) . ":A" . ($fin2);
+        $tramo3 = "A" . ($fin2) . ":A" . ($fin3);
+        $tramo4 = "A" . ($fin3) . ":A" . ($fin4);
+        $tramo5 = "A" . ($fin4) . ":A" . ($fin5);
+        $tramo6 = "A" . ($fin5) . ":A" . ($fin6);
+        $tramo7 = "A" . ($fin6) . ":A" . ($fin7);
+        //$tramosLeyenda = array($tramo1, $tramo2, $tramo3, $tramo4, $tramo5, $tramo6, $tramo7);
+        $titleL = "LEYENDA";
+        $comentarios = array(
+            "Codigo de articulo",
+            "Descripcion del articulo",
+            "Fecha de alta",
+            "Fecha de baja",
+            "Tipo de articulo (NAC,UE o IMP)",
+            "Tipo Rotacion (Este campo es un campo de Navision, que no sé si alguien lo actualiza)",
+            "Proveedor",
+            "Razon social del proveedor",
+            "Referencia del articulo",
+            "Comprador asociado al proveedor del articulo",
+            "Marca asociada al articulo",
+            "Esta en el surtido basico de ferrokey",
+            "Precio medio de la ficha del articulo en Navision",
+            "Familia",
+            "Descripcion completa de la familia",
+            "Nivel 1 de la familia",
+            "Descripcion del nivel 1 de la familia",
+            "Nivel 2 de la familia",
+            "Descripcion del nivel 2 de la familia",
+            "Nivel 3 de la familia",
+            "Descripcion del nivel 3 de la familia",
+            "¿Esta a extinguir?",
+            "Unidades vendidas",
+            "Importe de las unidades",
+            "Importe de las unidades vendidas (valoradas al coste)",
+            "Stock a la fecha que se genera el informe",
+            "La suma de los importes de la ventas menos el coste de estas ventas.",
+            "Stock medio del producto (En unidades)",
+            "Son las unidades vendidas divididas por el stock medio",
+            "Es la division del margen bruto, por el indice de rotacion",
+            "¿Tiene marcado la casilla surtido de alicante?"
+        );
+
+
+        $i = 0;
+      /*  foreach ($cabecera as $cab) {
+            $array[$i][1] = $cab;
+            $array[$i][2] = $comentarios[$i];
+            $i++;
+        }*/
+
+        $cabeceraL = array();
+        $page1 = new Sheet($precabecera, $data, $cabecera, $bg, $title, $tramos);
+        $page2=null;
+        //$page2 = new SheetLeyenda($precabeceraL, $array, $precabeceraL, $bg, $titleL, $tramosLeyenda);
+
+        // Envio del mail
+        if ((!is_null($request["email"])) && ($request["enviaMail"] == true)) {
+            set_time_limit(20000);
+            //generacion del zip
+            $zip = new ZipArchive;
+            if ($zip->open($filename.'.zip', ZipArchive::CREATE) === true) {
+                $zip->addFile(Excel::download(new SheetsExports($page1, $page2), $filename . '.xls')->getFile(),
+                    $filename.'.xls');
+                $zip->close();
+            }
+
+            if (is_null($request["asunto"])) {
+                $messageBody = "Informe de Indice de rotacion";
+            } else {
+                $messageBody = $request["asunto"];
+            }
+            $email = $request["email"];
+            $message = "Este mail contiene el informe de rotacion";
+            Mail::raw(/**
+             * @param $message
+             */
+                $messageBody, function ($message) use ($filename, $page2, $compresion, $email, $page1) {
+                $message->from('rvalle@comafe.es', 'Informe de Indice de rotación');
+                $message->to($email);
+                $message->subject('indice de rotacion');
+
+                if ($compresion== true) {
+                    set_time_limit(20000);
+                    $message->attach(response()->download($filename.".zip")->getFile(), ['as' => 'report.zip']);
+                    return redirect()->back();
+                }else{
+                    set_time_limit(20000);
+                    $message->attach(Excel::download(new SheetsExports($page1, $page2), $filename . '.xls')->getFile(), ['as' => 'report.xls']);
+                    return redirect()->back();
+                }
+            });
+
+        }
+
+        if (($compresion == true)&&($request["enviaMail"] == false)) {
+            //generacion del zip
+            $zip = new ZipArchive;
+            if ($zip->open($filename.'.zip', ZipArchive::CREATE) === true) {
+                $zip->addFile(Excel::download(new SheetsExports($page1, $page2), $filename . '.xls')->getFile(),
+                    $filename.'.xls');
+                $zip->close();
+            }
+            return response()->download($filename.".zip");
+        }
+
+
+        if ($request["type"] == "xls") {
+            set_time_limit(20000);
+            return (Excel::download(new SheetsExports($page1, $page2), $filename . '.xls'));
+        }
+        if ($request["type"] == "csv") {
+            set_time_limit(20000);
+            //return(Excel::download(new SheetsExports($page1, $page2), $filename . '.csv'));
+            //parametrizacion
+            $cabecera = "ARTICULO;DESCRIPCION;F.ALTA;F.BAJA;TIPO ART.;TIPO ROT.;PROVEEDOR;RAZON SOCIAL;REFERENCIA;COMPRADOR;MARCA;CAT.FERROKEY;PRECIO MEDIO;FAMILIA;DESC COMPLETA;FAM-1-;DESCRIPCION;FAM-2-;DESCRIPCION;FAM-3-;DESCRIPCION;DATOS ALMACEN EXTINGUIR;VENTAS (UDS);VENTAS (PVP);VENTAS(PMEDIO);STOCK ACTUAL;MARGEN BRUTO;STOCK MEDIO (UDS);INDICE ROTACON;MARGEN POR ROTACION;SURTIDO";
+            $cabeza = date("d-m-Y h:i:sa") . "\n Indice De Rotacion \n PERIODO, " . $fechaDesde . " a " . $fechaHasta . "  \n ALMACEN " . $almacen . " \n PROVEEDOR " . $proveedor_id . " \nLISTAS ARTICULOS ENVASES";
+            $array = $cabeza . "\n\n" . $cabecera . "\n";
+            foreach ($data as $list) {
+                foreach ($list as $dat) {
+                    $array = $array . $dat . ";";
+                }
+                $array = $array . "\n";
+            }
+            return response()->attachmentCSV($array, $filename.".csv");
+        }
     }
 
 

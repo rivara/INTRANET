@@ -5,7 +5,7 @@
     </div>
     <!--- -->
     <div class="col-md-4">
-        <p>Fechas de ventasr</p>
+        <p>Fechas de ventas</p>
     </div>
     <div class="col-md-4">
         <small>Desde</small>
@@ -20,7 +20,7 @@
         <p>Código de articulo</p>
     </div>
     <div class="col-md-4">
-        <input class="form-control" type="text">
+        <input class="form-control" type="text" name="articulo">
     </div>
     <div class="col-md-4"></div>
     <!--- -->
@@ -28,12 +28,12 @@
         <p>Código de proveedor</p>
     </div>
     <div class="col-md-4">
-        <input class="form-control" type="text">
+        <input class="form-control" type="text" name="proveedor">
     </div>
     <div class="col-md-4"></div>
     <!--- -->
     <div class="col-md-5">
-        <input class="form-check-input" type="checkbox">
+        <input class="form-check-input" type="checkbox" name="stockmedio">
         <small>Realizar calculo del stock medio</small>
     </div>
     <div class="col-md-7"></div>
