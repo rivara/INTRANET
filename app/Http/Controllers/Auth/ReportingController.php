@@ -417,7 +417,69 @@ class reportingController
 
 
 
-        $data = array(array(" "));
+        $data =  $data = $db->select($db->raw("(SELECT 
+        a.id  Articulo,
+        a.nombre as Descripcion,
+        a.tipo_producto as tipoProcuto,
+        DATE_FORMAT(a.fecha_baja ,'%d/%m/%Y') as FechaBaja,
+        pro.comprador_id as comprador,
+        a.proveedor_id proveedor,
+        pro.nombre as razonSocial,
+        a.marca as marca,
+        a.familia_id as familia,
+		fam1.nombre as nombreFam1,
+		fam2.nombre as nombreFam2,
+		fam3.nombre as nombreFam3,
+        NULL as informacionStock,
+        NULL as valoracion,
+      	NULL as StockCal,
+      	NULL as  ValorCal,
+      	NULL as COMPRAS_1_AÑO,	
+        NULL as COMPRAS_2_AÑOS,	
+        NULL as CODIGO_ANTERIOR,
+        NULL as COMPRAS,
+        NULL as COD_ANT,	
+        NULL as VENTAS_1_AÑO,	
+        NULL as VENTAS_2_AÑOS,	
+        NULL as VENTAS_COD_ANT,
+        NULL as PRECIO_COSTE,	
+        NULL as PRECIO_VENTA_SOCIO,	
+        NULL as PRECIO_MEDIO,	 
+        NULL as CALCULADO,	
+        NULL as COMENTARIO,	
+        NULL as AÑOS_COBERTURA,	
+        NULL as OBSOLETO,	
+        NULL as VALOR_OBSOLESCENCIA,	
+        NULL as PFACTOR_CONVERSION
+
+                                FROM articulos a
+                                LEFT OUTER JOIN (
+                                    select articulo_id art,SUM(cantidad) CANSUM ,SUM(importe) CANIMP
+                                    from historico_ventas_detalle v LEFT OUTER JOIN articulos a ON v.articulo_id = a.id
+                                    WHERE empresa=1 
+                                    AND es_directo=0 
+                                    AND a.fecha_baja is null
+                                    ".$proveedor."
+                                    ".$fecha1."  
+                                    GROUP BY articulo_id
+                                ) ven ON a.id = ven.art
+                                
+                                LEFT JOIN proveedores pro ON a.proveedor_id = pro.id 
+                                LEFT JOIN familias fam ON a.familia_id = fam.id 
+                                LEFT JOIN familias fam1 ON substring(a.familia_id,1,2) = fam1.id 
+                                LEFT JOIN familias fam2 ON substring(a.familia_id,1,4) = fam2.id 
+                                LEFT JOIN familias fam3 ON substring(a.familia_id,1,6) = fam3.id 
+                                LEFT JOIN (
+                                    SELECT articulo_id ,AVG(mad_stock) as stockMedia
+                                    FROM stock_medio sm
+                                    LEFT JOIN articulos a ON sm.articulo_id = a.id
+                                    WHERE a.fecha_baja is null
+                                    ".$proveedor."
+                                    ".$fecha2."  
+                                  GROUP BY articulo_id
+                                ) sm ON a.id = sm.articulo_id
+        WHERE a.fecha_baja is null ".$proveedor."  ORDER BY a.id )"));
+
 
         $bg = array("B5BF00","808080","B5BF00","808080","3333ff","B5BF00","ec7063");
         $title = "INFORME";
