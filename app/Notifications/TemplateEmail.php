@@ -44,6 +44,9 @@ class TemplateEmail extends Notification
     {
 
         return (new MailMessage)
+            ->from('webadmin@comafe.es', 'webadmin@comafe.es')
+            ->subject('Notificación NO RESPONDER!!')
+            ->greeting('Hola')
             ->line('Ha recibido este correo electrónico porque recibimos una solicitud de restablecimiento de contraseña para su cuenta')
             ->action('Reseteo Password', route('reset', $this->token))
             ->line('Si no solicitó un restablecimiento de contraseña, ignore este correo electrónico.');

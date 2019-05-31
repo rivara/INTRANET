@@ -70,7 +70,7 @@
                     </ul>
                 </div>
             </div>
-            <p>version mayo 2019 </p>
+            <p>version 2.2.5</p>
         </nav>
         <main class="py-4">
             @yield('content')

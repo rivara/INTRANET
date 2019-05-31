@@ -76,9 +76,9 @@ class BibliotecaController
         $filename =$request->file('file')->getClientOriginalName();
 
         $fileLength=$request->file('file')->getSize();
-        if($fileLength>30){
+       /* if($fileLength>30){
             die("no llega");
-        }
+        }*/
         //Upload File to external server
         Storage::disk('local')->put( $filename, fopen($request->file('file'), 'r+'));
         $path = Storage::disk('local')->getAdapter()->getPathPrefix();

@@ -71,7 +71,7 @@ class ForgotPasswordController  extends Controller
 
 
     //funcion para envio de correos
-    public function envioMail(Request $request){
+  /*  public function envioMail(Request $request){
         $messageBody ="";
         $mail=$request['email'];
         Mail::raw($messageBody,function ($message,$mail){
@@ -83,7 +83,7 @@ class ForgotPasswordController  extends Controller
             return back()->with('fail', 'error');
         }
         return back()->with('success', 'ok');
-    }
+    }*/
 
 
 
