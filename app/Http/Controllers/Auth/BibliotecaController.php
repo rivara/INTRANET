@@ -140,7 +140,7 @@ class BibliotecaController
                 $formato = "fa fa-file-archive-o  text-secondary";
                 break;
         }
-        die("llega->");
+        die("llega->".$request['id_subgrupo']);
         DB::table('archivos')->insert(array(
             'descripcion' => $descripcion,
             'nombre' => $request->file('file')->getClientOriginalName(),
