@@ -140,16 +140,18 @@ class BibliotecaController
                 $formato = "fa fa-file-archive-o  text-secondary";
                 break;
         }
-
+        // descripcion vacia
+         if(isEmpty($descripcion)){
+             $descripcion = " ";
+         }
         DB::table('archivos')->insert(array(
-            'descripcion' => $descripcion,
+            'descripcion' => "'".$descripcion."'",
             'nombre' => $request->file('file')->getClientOriginalName(),
-            'otros' => $otros,
-            'formato' => $formato,
+            'otros' => "'".$otros."'",
+            'formato' =>"'".$formato."'",
             'id_subgrupo' => $request['id_subgrupo']
         ));
 
-        die("llega@");
 
         return view('biblioteca/subgrupo', [
             'id_usuario' => $request['id_usuario'],
