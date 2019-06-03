@@ -60,9 +60,7 @@ class LoginController extends Controller
         }
 
 
-        //Si no existe lanzamos mensaje de error
-
-
+        //Si no existe lanzamos mensaje de error¡
         if ($request['password'] == decrypt($claveDB)) {
             //recoger datos
             $usuarioId = DB::table('usuarios')->where('email', $request['email'])->pluck('id');
