@@ -61,7 +61,7 @@ class ForgotPasswordController  extends Controller
             $user->email = $mail;   // This is the email you want to send to.
             $token = str_random(32);
             $user->notify(new TemplateEmail($token));
-            return back()->with('statusOk', 'Solicitud enviada rivise su email!');
+            return back()->with('statusOk', 'Solicitud enviada revise su email!');
         }else{
 
             return back()->with('statusFail','Este mail no existe en la bbdd');
