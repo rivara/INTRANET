@@ -141,7 +141,7 @@ class BibliotecaController
                 break;
         }
         // descripcion vacia
-         if(isEmpty($descripcion)){
+         if(empty($descripcion)){
              $descripcion = " ";
          }
         DB::table('archivos')->insert(array(
