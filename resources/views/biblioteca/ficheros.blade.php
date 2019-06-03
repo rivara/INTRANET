@@ -17,7 +17,7 @@
             <button class="btn btn-primary btnE floatRight refresh" type="reset"><i class="fa fa-refresh fa-lg"
                                                                                aria-hidden="true"></i>
             </button>
-            <small>Max 10 MB </small>
+            <b>Max 100 MB </b>
             <input name="file" class="file" type="file" name="file">
             <b>Descripcion</b>
             <textarea rows="4" cols="50" type="text" class="form-control" name="descripcion"></textarea>
