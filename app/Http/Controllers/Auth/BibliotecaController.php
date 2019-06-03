@@ -145,10 +145,10 @@ class BibliotecaController
              $descripcion = " ";
          }
         DB::table('archivos')->insert(array(
-            'descripcion' => "'".$descripcion."'",
+            'descripcion' => $descripcion,
             'nombre' => $request->file('file')->getClientOriginalName(),
-            'otros' => "'".$otros."'",
-            'formato' =>"'".$formato."'",
+            'otros' => $otros,
+            'formato' =>$formato,
             'id_subgrupo' => $request['id_subgrupo']
         ));
 
