@@ -18,7 +18,7 @@
                                                                                aria-hidden="true"></i>
             </button>
             <b>Max 100 MB </b>
-            <input name="file" class="file" type="file" name="file">
+            <input name="file" class="file" type="file" >
             <b>Descripcion</b>
             <textarea rows="4" cols="50" type="text" class="form-control" name="descripcion"></textarea>
 
