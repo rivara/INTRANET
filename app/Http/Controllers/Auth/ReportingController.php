@@ -327,7 +327,10 @@ class reportingController
     //////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
     public function actionObsoletos(Request $request)
     {
         //VARIABLES
@@ -449,7 +452,7 @@ class reportingController
 		fam2.nombre as nombreFam2, 
 		fam3.nombre as nombreFam3, 
 		NULL as presentacion,
-	   stock as stockActual,
+	    stock as stockActual,
 		a.coste_medio * stock as valoracion, 
 		NULL as Stock_calc_, 
 		NULL as Valor_calc_, 
@@ -462,7 +465,7 @@ class reportingController
 		NULL as VENTAS_COD_ANT, 
 		NULL as PRECIO_COSTE,
 		NULL as PRECIO_VENTA_SOCIO, 
-		NULL as PRECIO_MEDIO, 
+		a.coste_medio  as PRECIO_MEDIO, 
 		NULL as PRECIO_MEDIO_CALCULADO, 
 		NULL as COMENTARIO, 
 		NULL as AÑOS_COBERTURA, 
@@ -491,7 +494,6 @@ class reportingController
 		            ".$articulo."
 		            GROUP BY articulo_id ) sm ON a.id = sm.articulo_id
 		            WHERE a.fecha_baja is null  ".$proveedor."".$articulo." ORDER BY a.id )"));
-
 
 
 
