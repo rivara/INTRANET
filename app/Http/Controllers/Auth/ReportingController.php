@@ -564,12 +564,7 @@ class reportingController
         );
 
 
-        $i = 0;
-      /*  foreach ($cabecera as $cab) {
-            $array[$i][1] = $cab;
-            $array[$i][2] = $comentarios[$i];
-            $i++;
-        }*/
+
 
         $cabeceraL = array();
         $page1 = new Sheet($precabecera, $data, $cabecera, $bg, $title, $tramos);
