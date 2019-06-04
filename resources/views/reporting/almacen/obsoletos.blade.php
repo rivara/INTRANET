@@ -5,15 +5,15 @@
     </div>
     <!--- -->
     <div class="col-md-4">
-        <p>Fechas de ventas</p>
+        <p>Fecha de ventas</p>
     </div>
     <div class="col-md-4">
         <small>Desde</small>
-        <input class="form-control floatLeft" type="date"  name="fechaDesde">
+        <input class="form-control floatLeft" type="date"  name="fechaDesde" required  value="<?php echo  date("Y-m-01",strtotime( ' - 1 year'));?>">
     </div>
     <div class="col-md-4">
         <small>Hasta</small>
-        <input class="form-control floatLeft" type="date" name="fechaHasta">
+        <input class="form-control floatLeft" type="date" name="fechaHasta" required  value="<?php echo date('Y-m-d', strtotime('last day of previous month')); ?>">
     </div>
     <!--- -->
     <div class="col-md-4">

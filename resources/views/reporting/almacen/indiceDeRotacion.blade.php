@@ -9,7 +9,7 @@
         <small><b>datos actualizados</b></small>
         <small>
             <?php
-            // rvr formnatear la fecha
+            // rvr formatear la fecha
             use Illuminate\Support\Facades\DB;
             $primerafecha=DB::connection('reporting')->table('historico_ventas')->orderBy('fecha','asc')->value("fecha");
             $ultimafecha=DB::connection('reporting')->table('historico_ventas')->orderBy('fecha','desc')->value("fecha");
