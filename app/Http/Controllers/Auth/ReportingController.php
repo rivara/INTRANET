@@ -430,9 +430,11 @@ class reportingController
 
         $date = strtotime($fechaDesde.'-1 year');
         $fechaDesdeHace2años= date('Y-m-d', $date);
+
+
         $fecha1 = "AND v1.fecha_creacion  BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "'";
-        $fecha2 = "AND c1.fecha_creacion  BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "'";
-        $fecha3 = "AND v2.fecha_creacion  BETWEEN '" . $fechaDesdeHace2años . "' AND '" . $fechaHasta . "'";
+        $fecha2 = "AND c1.fecha_creacion  BETWEEN '" . $fechaDesdeHace2años . "' AND '" . $fechaHasta . "'";
+        $fecha3 = "AND v2.fecha_creacion  BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "'";
         $fecha4 = "AND c2.fecha_creacion  BETWEEN '" . $fechaDesdeHace2años . "' AND '" . $fechaHasta . "'";
         $fechaF = "AND sm.fecha  BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "'";
 
@@ -631,7 +633,7 @@ class reportingController
             //return(Excel::download(new SheetsExports($page1, $page2), $filename . '.csv'));
             //parametrizacion
             $cabecera = "ARTICULO;DESCRIPCION;F.ALTA;F.BAJA;TIPO ART.;TIPO ROT.;PROVEEDOR;RAZON SOCIAL;REFERENCIA;COMPRADOR;MARCA;CAT.FERROKEY;PRECIO MEDIO;FAMILIA;DESC COMPLETA;FAM-1-;DESCRIPCION;FAM-2-;DESCRIPCION;FAM-3-;DESCRIPCION;DATOS ALMACEN EXTINGUIR;VENTAS (UDS);VENTAS (PVP);VENTAS(PMEDIO);STOCK ACTUAL;MARGEN BRUTO;STOCK MEDIO (UDS);INDICE ROTACON;MARGEN POR ROTACION;SURTIDO";
-            $cabeza = date("d-m-Y h:i:sa") . "\n Indice De Rotacion \n PERIODO, " . $fechaDesde . " a " . $fechaHasta . "  \n ALMACEN " . $almacen . " \n PROVEEDOR " . $proveedor_id . " \nLISTAS ARTICULOS ENVASES";
+            $cabeza = date("d-m-Y h:i:sa") . "\n Indice De Rotacion \n PERIODO, " . $fechaDesde . " a " . $fechaHasta .  " \n PROVEEDOR " . $proveedor_id . " \nLISTAS ARTICULOS ENVASES";
             $array = $cabeza . "\n\n" . $cabecera . "\n";
             foreach ($data as $list) {
                 foreach ($list as $dat) {
