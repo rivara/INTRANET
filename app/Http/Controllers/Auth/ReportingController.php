@@ -454,8 +454,6 @@ class reportingController
 		NULL as presentacion,
 	    stock as stockActual,
 		a.coste_medio * stock as valoracion, 
-		NULL as Stock_calc_, 
-		NULL as Valor_calc_, 
 		ifnull(CANSUMCOMP1,0) as COMPRAS_1_AÑO, 
 		ifnull(CANSUMCOMP2,0) as COMPRAS_2_AÑOS, 
 		NULL as CODIGO_ANTERIOR, 
