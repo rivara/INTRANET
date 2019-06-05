@@ -495,7 +495,7 @@ class reportingController
 		            ".$fechaF." 
 		            ".$articulo."
 		            GROUP BY articulo_id ) sm ON a.id = sm.articulo_id
-		            WHERE a.fecha_baja is null  ".$proveedor."".$articulo." ORDER BY a.id )*"));
+		            WHERE a.fecha_baja is null  ".$proveedor."".$articulo." ORDER BY a.id )"));
 
 
 
