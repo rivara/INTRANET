@@ -339,7 +339,7 @@ class reportingController
         $proveedor_id = $request["proveedor"];
         $filename = "obsoletos";
         $stockmedio = $request["stockmedio"];
-        $artculo = $request["articulo"];
+        $articulo = $request["articulo"];
         $calculo = $request["calculo"];
         $compresion=$request["compresion"];
 
@@ -405,11 +405,11 @@ class reportingController
 
 
 
-        if (!empty($articulo)) {
+       /* if (!empty($articulo)) {
             $articulo = "AND a.articulo = '" . $articulo . "'";
         } else {
             $articulo = " ";
-        }
+        }*/
 
         if (!empty($proveedor_id)) {
             $proveedor = "AND a.proveedor_id = '" . $proveedor_id . "'";
@@ -418,8 +418,8 @@ class reportingController
         }
 
 
-        if (!empty($artculo)) {
-            $articulo = "AND a.id = '" . $artculo . "'";
+        if (!empty($articulo)) {
+            $articulo = "AND a.id = '" . $articulo . "'";
         } else {
             $articulo = " ";
         }
@@ -432,10 +432,10 @@ class reportingController
         $fechaDesdeHace2años= date('Y-m-d', $date);
 
 
-        $fecha1 = "AND v1.fecha_creacion  BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "'";
-        $fecha2 = "AND c1.fecha_creacion  BETWEEN '" . $fechaDesdeHace2años . "' AND '" . $fechaHasta . "'";
-        $fecha3 = "AND v2.fecha_creacion  BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "'";
-        $fecha4 = "AND c2.fecha_creacion  BETWEEN '" . $fechaDesdeHace2años . "' AND '" . $fechaHasta . "'";
+        $fecha1 = "AND v1.fecha  BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "'";
+        $fecha2 = "AND c1.fecha  BETWEEN '" . $fechaDesdeHace2años . "' AND '" . $fechaHasta . "'";
+        $fecha3 = "AND v2.fecha  BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "'";
+        $fecha4 = "AND c2.fecha  BETWEEN '" . $fechaDesdeHace2años . "' AND '" . $fechaHasta . "'";
         $fechaF = "AND sm.fecha  BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "'";
 
 
@@ -495,7 +495,7 @@ class reportingController
 		            ".$fechaF." 
 		            ".$articulo."
 		            GROUP BY articulo_id ) sm ON a.id = sm.articulo_id
-		            WHERE a.fecha_baja is null  ".$proveedor."".$articulo." ORDER BY a.id )"));
+		            WHERE a.fecha_baja is null  ".$proveedor."".$articulo." ORDER BY a.id )*"));
 
 
 
