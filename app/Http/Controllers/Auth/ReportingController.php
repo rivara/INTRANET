@@ -381,8 +381,6 @@ class reportingController
             "PRESENTACION",
             "STOCK ACTUAL",
             "VALORACION",
-            "STOCK (CALC)",
-            "VALOR (CALC)",
             "COMPRAS 1 AÑO",
             "COMPRAS 2 AÑOS",
             "CODIGO ANTERIOR",
