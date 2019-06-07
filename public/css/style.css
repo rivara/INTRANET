@@ -852,3 +852,14 @@ ul {
     box-shadow: #B3B3B3 5px 5px 5px;
     padding: 50px;
 }
+
+/*********************************************************/
+/******************  MANTENIMIENTO ************************
+***********************************************************/
+
+.reportingBackground {
+    background-image: url("/img/mantenimiento.jpg");
+    background-repeat: no-repeat;
+    max-width: 10%;
+    min-height: 10%;
+}

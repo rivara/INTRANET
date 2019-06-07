@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers\Auth;
 
+
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Response as FacadeResponse;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use DB;
+use MaddHatter\LaravelFullcalendar\Calendar;
 use Redirect;
 use Session;
 use Illuminate\Pagination\LengthAwarePaginator;
 
+use App\Event;
 class LoginController extends Controller
 {
     /*
@@ -131,8 +134,49 @@ class LoginController extends Controller
             return view('/reporting/index', ['id_usuario' => $request['id_usuario']]);
 
         }
+
+        if ($url[0] == "mantenimiento") {
+            return view('/mantenimiento', ['id_usuario' => $request['id_usuario']]);
+
+        }
+
         if ($url[0] == "sat") {
             return redirect()->away('http://sat.comafe.es/login.php'.'?nombre='.$nombre.'&password='.decrypt($claveDB));
+
+        }
+        if ($url[0] == "reserva") {
+
+
+            //return view('admin.appointments.index', compact('appointments'));
+            $events = [];
+
+            $data = Event::all();
+
+          //  $data = null;
+            if($data->count()){
+
+                foreach ($data as $key => $value) {
+
+                    $events[] = Calendar::event(
+
+                        $value->title,
+
+                        true,
+
+                        new \DateTime($value->start_date),
+
+                        new \DateTime($value->end_date.' +1 day')
+
+                    );
+
+                }
+
+            }
+
+            $calendar = Calendar::addEvents($events);
+
+           // return view('mycalender', compact('calendar'));
+            return view('/salas/index',  compact('calendar'));
 
         }
 
