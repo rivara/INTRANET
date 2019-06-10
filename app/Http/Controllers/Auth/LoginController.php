@@ -4,17 +4,17 @@ namespace App\Http\Controllers\Auth;
 
 
 use App\Http\Controllers\Controller;
+use EventModel;
 use Illuminate\Support\Facades\Response as FacadeResponse;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use DB;
 use MaddHatter\LaravelFullcalendar\Calendar;
+
 use Redirect;
 use Session;
 use Illuminate\Pagination\LengthAwarePaginator;
-
-use App\Event;
 class LoginController extends Controller
 {
     /*
@@ -101,6 +101,11 @@ class LoginController extends Controller
         return redirect('/login');
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     * @throws \Exception
+     */
     public function redirect(Request $request)
     {
         $nombre = $request['nombre'];
@@ -146,37 +151,42 @@ class LoginController extends Controller
         }
         if ($url[0] == "reserva") {
 
+            ///////////////////////////////////////////////////////////////////////////////////////////////
 
-            //return view('admin.appointments.index', compact('appointments'));
             $events = [];
 
-            $data = Event::all();
+            $events[] = Calendar::event(
+                'Event One', //event title
+                false, //full day event?
+                '2015-02-11T0800', //start time (you can also use Carbon instead of DateTime)
+                '2015-02-12T0800', //end time (you can also use Carbon instead of DateTime)
+                0 //optionally, you can specify an event ID
+            );
 
-          //  $data = null;
-            if($data->count()){
+            $events[] = Calendar::event(
+                "Valentine's Day", //event title
+                true, //full day event?
+                new \DateTime('2015-02-14'), //start time (you can also use Carbon instead of DateTime)
+                new \DateTime('2015-02-14'), //end time (you can also use Carbon instead of DateTime)
+                'stringEventId' //optionally, you can specify an event ID
+            );
 
-                foreach ($data as $key => $value) {
+            //$eloquentEvent = \EventModel::first();//EventModel implements MaddHatter\LaravelFullcalendar\Event
+            $eloquentEvent=\EventModel;
+            $calendar = \Calendar::addEvents($events) //add an array with addEvents
+            ->addEvent( [ //set custom color fo this event
+                'color' => '#800',
+            ])->setOptions([ //set fullcalendar options
+                'firstDay' => 1
+            ])->setCallbacks([ //set fullcalendar callback options (will not be JSON encoded)
+                'viewRender' => 'function() {alert("Callbacks!");}'
+            ]);
 
-                    $events[] = Calendar::event(
+            return view('salas/index', compact('calendar'));
 
-                        $value->title,
 
-                        true,
 
-                        new \DateTime($value->start_date),
-
-                        new \DateTime($value->end_date.' +1 day')
-
-                    );
-
-                }
-
-            }
-
-            $calendar = Calendar::addEvents($events);
-
-           // return view('mycalender', compact('calendar'));
-            return view('/salas/index',  compact('calendar'));
+          //  return view('salas/index');
 
         }
 

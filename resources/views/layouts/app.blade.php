@@ -21,6 +21,22 @@
     <script src="{{ asset('js/jsDrag/fileinput.js')}}"></script>
     <script src="{{ asset('js/jsDrag/locales/fr.js')}}"></script>
     <script src="{{ asset('js/jsDrag/locales/es.js')}}"></script>
+    <script src="{{ asset('js/calendar/core/main.js')}}"></script>
+    <script src="{{ asset('js/calendar/interaction/main.js')}}"></script>
+    <script src="{{ asset('js/calendar/daygrid/main.js')}}"></script>
+    <script src="{{ asset('js/calendar/list/main.js')}}"></script>
+    <script src="{{ asset('js/calendar/google-calendar/main.js')}}"></script>
+    <script src="{{ asset('js/calendar/timegrid/main.js')}}"></script>
+
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.js"></script>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.css"/>
+
+
+
     <script>
         var whichInput = 0;
 
@@ -42,6 +58,10 @@
     <link href="{{ asset('css/simple-iconpicker.css') }}" rel="stylesheet">
     <link href="{{ asset('css/fileinput.css') }}" rel="stylesheet">
     <link href="{{ asset('css/themes/explorer-fas/theme.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/calendar/core/main.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/calendar/daygrid/main.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/calendar/list/main.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/calendar/timegrid/main.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">

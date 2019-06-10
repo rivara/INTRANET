@@ -1,53 +1,47 @@
-<!doctype html>
-
-<html lang="en">
-
-<head>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.js"></script>
-
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.css"/>
-
-</head>
-
-<body>
-
-<div class="container">
-
-    <div class="panel panel-primary">
-
-        <div class="panel-heading">
-
-            MY Calender
-
-        </div>
-
-        <div class="panel-body" >
-
-            {!! $calendar->calendar() !!}
-
-            {!! $calendar->script() !!}
-
-        </div>
-
-    </div>
-
-</div>
-
-
 @extends('layouts.app')
 @section('content')
 
 
+    <script>
+/*
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                plugins: [ 'interaction', 'dayGrid', 'timeGrid', 'list' ],
+                height: 'parent',
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                },
+                defaultView: 'dayGridMonth',
+                defaultDate: '2019-06-12',
+                navLinks: true, // can click day/week names to navigate views
+                editable: true,
+                eventLimit: true, // allow "more" link when too many events
+
+            });
+
+            calendar.render();
+        });*/
+
+    </script>
 
 
 
+{!! $calendar->calendar() !!}
+{!! $calendar->script() !!}
+
+
+
+
+
+
+
+
+
+<!-- -->
     <div class="container">
         <div class="row">
             <div class="col-md-1">
