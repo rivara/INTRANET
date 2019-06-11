@@ -222,7 +222,7 @@ class BibliotecaController
             //grabo el subgrupo
             DB::table('subgrupos')->insert(array('nombre' => $request['nombre']));
             var_dump( $request['nombre']);
-            die();
+            die("A");
             $id_subgrupo = DB::table('subgrupos')->where('nombre', $request['nombre'])->pluck('id');
             // lo relaciono con el subgrupo
 
