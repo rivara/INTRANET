@@ -21,11 +21,18 @@
         </div>
     </div>
     <br><br/>
-    <div class="agora container wrapper">
-        <form class="float-right" method="GET" action="{{route('goAddSubGroup')}}">
-            <button type="submit" class="btn btn-link floatRight" >
+
+    <div class=" container wrapper">
+
+
+        <div>
+            <button type="submit" class="btn btn-link floatRight" style="position: relative;bottom:50px;">
                 <span class="fa fa-plus fa-3x"></span>
             </button>
+        </div>
+
+
+        <form class="float-right" method="GET" action="{{route('goAddSubGroup')}}">
             <input type="hidden" name="id_usuario" value={{$id_usuario}} >
             <input type="hidden" name="id_grupo" value={{$id_grupo}}>
 

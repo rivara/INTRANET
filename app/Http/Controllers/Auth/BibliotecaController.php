@@ -233,7 +233,6 @@ class BibliotecaController
                 'id_grupo' => $request['id_grupo'],
                 'id_subgrupo' => $id_subgrupo[0]
             ));
-            //////////////
 
 
 
