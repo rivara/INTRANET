@@ -220,9 +220,12 @@ class BibliotecaController
 
         if (count($id_subgrupo) == 0) {
             //grabo el subgrupo
-            DB::table('subgrupos')->insert(array('nombre' => $request['nombre']));
+
             var_dump( $request['nombre']);
             die("A");
+
+            DB::table('subgrupos')->insert(array('nombre' => $request['nombre']));
+
             $id_subgrupo = DB::table('subgrupos')->where('nombre', $request['nombre'])->pluck('id');
             // lo relaciono con el subgrupo
 
