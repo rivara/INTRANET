@@ -192,16 +192,34 @@ Route::group(['middleware' => 'revalidate'], function() {
     Route::get('back', 'Auth\AgoraController@actionBackAgora')->name('backAgora');
 
 
+
+/////////////////////////
+//////Salas////////////
+////////////////////////
+    Route::get('salas/edit', 'Auth\SalasController@actionGoEditSala')->name('goEditSala');
+    Route::get('salas/index', 'Auth\SalasController@actionGoIndexSala')->name('goIndexSala');
+
+
+
+
+
+
+
+
+
+
+
+
 //DESB2-FERRCASH REVISAR
    // Route::get('WebAdmLog', 'Auth\Desb2bFerrcashController@WebAdmLog')->name('WebAdmLog');
    // Route::get('desb2b-Ferrcash/', 'Auth\Desb2bFerrcashController@backb2b')->name('backb2b');
 
 
-
+/*??
     \DB::listen(function($sql) {
         \Log::info($sql->sql);
         \Log::info($sql->bindings);
         \Log::info($sql->time);
-    });
+    });*/
 
 });

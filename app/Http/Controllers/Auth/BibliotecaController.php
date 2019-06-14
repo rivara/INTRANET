@@ -220,27 +220,13 @@ class BibliotecaController
 
         if (count($id_subgrupo) == 0) {
             //grabo el subgrupo
-
-
-
             DB::table('subgrupos')->insert(['nombre' => $request['nombre']]);
-
-
             $id_subgrupo = DB::table('subgrupos')->where('nombre', $request['nombre'])->pluck('id');
             // lo relaciono con el subgrupo
-
             DB::table('grupos_subgrupos')->insert(array(
                 'id_grupo' => $request['id_grupo'],
                 'id_subgrupo' => $id_subgrupo[0]
             ));
-
-
-
-
-
-
-
-
 
             return view('biblioteca/subcarpetas', [
                 'id_usuario' => $request['id_usuario'],
