@@ -465,7 +465,16 @@ class reportingController
 		NULL as PRECIO_VENTA_SOCIO, 
 		a.coste_medio  as PRECIO_MEDIO, 
 		NULL as PRECIO_MEDIO_CALCULADO, 
-		NULL as COMENTARIO, 
+		CASE WHEN CANSUMVENT1 <= 0 THEN 'No hay ventas. Det: 100'
+             WHEN CANSUMVENT1 > 0 and CANSUMVENT1 <1 THEN 'Escalado_1'
+             WHEN CANSUMVENT1 > 1 and CANSUMVENT1 <2 THEN 'Escalado_2'
+             WHEN CANSUMVENT1 > 2 and CANSUMVENT1 <3 THEN 'Escalado_3'
+             WHEN CANSUMVENT1 > 4 and CANSUMVENT1 <5 THEN 'Escalado_4'
+             WHEN CANSUMVENT1 > 5 and CANSUMVENT1 <6 THEN 'Escalado_5'
+             WHEN CANSUMVENT1 > 8 and CANSUMVENT1 <7 THEN 'Escalado_6'
+             WHEN CANSUMVENT1 > 7 and CANSUMVENT1 <8 THEN 'Escalado_7'
+             WHEN CANSUMVENT1 > 8 and CANSUMVENT1 <9 THEN 'Escalado_8'
+        ELSE 'Escalado_9' END AS COMENTARIO,
 		NULL as AÑOS_COBERTURA, 
 		NULL as OBSOLETO, 
 		NULL as VALOR_OBSOLESCENCIA, 

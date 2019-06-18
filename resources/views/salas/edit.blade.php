@@ -1,10 +1,81 @@
 @extends('layouts.app')
 @section('content')
-<h1>---</h1>
-<div>
-    <form action="{{ route('goIndexSala') }}" method="GET">
-        <button class="btn btn-primary  floatRight"><-</button>
-        <input type="hidden" name="nombre" value="<?php echo $nombre ?>">
-    </form>
-</div>
+
+
+    <div class="container wrapper mitad2">
+      <h2>Reserva de la sala XXX</h2>
+        <div class="row">
+            <div class="col-md-10"></div>
+            <div class="col-md-2">
+                <form action="{{ route('goIndexSala') }}" method="GET">
+                    <button class="btn btn-primary  floatRight">volver</button>
+                    <input type="hidden" name="nombre" value="<?php echo $nombre ?>">
+                </form>
+            </div>
+
+
+
+                <div class="col-md-3">
+                    <p>Dia/mes/año</p>
+                </div>
+                <div class="col-md-4">
+                    <input class="form-control floatLeft" type="date" name="fechaDesde" required>
+                </div>
+                <div class="col-md-5"></div>
+
+                <div class="col-md-3">
+                    <p>hora</p>
+                </div>
+                <div class="col-md-4">
+                    <input class="form-control floatLeft" type="time" name="fechaDesde" required>
+                </div>
+                <div class="col-md-5"></div>
+                <div class="col-md-12">
+                    <p>Titulo</p>
+                </div>
+                <div class="col-md-12">
+                  <input class="form-control floatLeft" type="text" name="fechaDesde" required>
+                </div>
+                  <div class="col-md-12">
+                      &nbsp;
+                  </div>
+                <div class="col-md-12">
+                    <p>Decripcion</p>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group purple-border">
+                        <textarea class="form-control" id="exampleFormControlTextarea4" rows="3"></textarea>
+                    </div>
+                </div>
+
+
+                <div class="col-md-6">
+                    <div class="form-row align-items-center">
+
+                            <label  for="inlineFormCustomSelect">CC</label>
+                            <select class="custom-select" id="inlineFormCustomSelect">
+                                <option selected>Choose...</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select>
+
+                    </div>
+                </div>
+                <div class="col-md-6">
+                  <i class="fa fa-plus fa-3x" aria-hidden="true"></i>
+                </div>
+
+
+            <div class="col-md-12">
+                 aaa@aa.com
+                <i class="fa fa-trash " aria-hidden="true"></i>
+            </div>
+
+            <div class="col-md-9"></div>
+            <div class="col-md-3">
+                <button class="btn-save btn btn-primary ">Save</button>
+            </div>
+    </div>
+    </div>
 @endsection
