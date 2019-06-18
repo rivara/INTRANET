@@ -504,7 +504,7 @@ class reportingController
 
 
 
-
+//a
 
         $bg = array("B5BF00","808080","B5BF00","808080","3333ff","B5BF00","ec7063");
         $title = "INFORME";
