@@ -469,27 +469,16 @@ class reportingController
 		NULL as PRECIO_VENTA_SOCIO, 
 		a.coste_medio  as PRECIO_MEDIO, 
 		NULL as PRECIO_MEDIO_CALCULADO, 
-		CASE WHEN CANSUMVENT1 <= 0 THEN 'No hay ventas. Det: 100'
-              WHEN CANSUMVENT1 > 0 and CANSUMVENT1 <1 and   a.tipo_producto='NAC'  THEN 'Escalado_1' 
-              WHEN CANSUMVENT1 > 1 and CANSUMVENT1 <2 and   a.tipo_producto='NAC'  THEN 'Escalado_2' 
-              WHEN CANSUMVENT1 > 2 and CANSUMVENT1 <3 and   a.tipo_producto='NAC'  THEN 'Escalado_3' 
-              WHEN CANSUMVENT1 > 3 and CANSUMVENT1 <4 and   a.tipo_producto='NAC'  THEN 'Escalado_4' 
-              WHEN CANSUMVENT1 > 4 and CANSUMVENT1 <5 and   a.tipo_producto='NAC'  THEN 'Escalado_5' 
-              WHEN CANSUMVENT1 > 5 and CANSUMVENT1 <6 and   a.tipo_producto='NAC'  THEN 'Escalado_6' 
-              WHEN CANSUMVENT1 > 6 and CANSUMVENT1 <7 and   a.tipo_producto='NAC'  THEN 'Escalado_7' 
-              WHEN CANSUMVENT1 > 7 and CANSUMVENT1 <8 and   a.tipo_producto='NAC'  THEN 'Escalado_8' 
+        -- caso1 hay compras
+		CASE WHEN CANSUMCOMP1 < 0    and a.tipo_producto='NAC' THEN 'No hay ventas. Det: 100'
+             WHEN CANSUMCOMP1 < 0    and a.tipo_producto!='NAC' THEN 'No hay ventas. Det: 100'
+         -- caso 2   no hay compras  
+            WHEN CANSUMVENT1  < 0       and a.tipo_producto='NAC' THEN '100% obsolescencia'
+            WHEN CANSUMVENT2  < 0       and a.tipo_producto!='NAC' THEN '100% obsolescencia'
+        -- caso 3 stock = 0
+            WHEN CANSUMCOMP1 > 0 and  CANSUMVENT1  > 0  and a.tipo_producto='NAC' THEN  stock/CANSUMVENT1
+            WHEN CANSUMCOMP2 > 0 and  CANSUMVENT2  > 0 and a.tipo_producto!='NAC' THEN  stock/CANSUMVENT2
             
-              
-              WHEN CANSUMVENT2 > 0 and CANSUMVENT2 <1 and   a.tipo_producto !='NAC'  THEN 'Escalado_1_' 
-              WHEN CANSUMVENT2 > 1 and CANSUMVENT2 <2 and   a.tipo_producto !='NAC'  THEN 'Escalado_2_' 
-              WHEN CANSUMVENT2 > 2 and CANSUMVENT2 <3 and   a.tipo_producto !='NAC'  THEN 'Escalado_3_' 
-              WHEN CANSUMVENT2 > 3 and CANSUMVENT2 <4 and   a.tipo_producto !='NAC'  THEN 'Escalado_4_' 
-              WHEN CANSUMVENT2 > 4 and CANSUMVENT2 <5 and   a.tipo_producto !='NAC'  THEN 'Escalado_5_' 
-              WHEN CANSUMVENT2 > 5 and CANSUMVENT2 <6 and   a.tipo_producto !='NAC'  THEN 'Escalado_6_' 
-              WHEN CANSUMVENT2 > 6 and CANSUMVENT2 <7 and   a.tipo_producto !='NAC'  THEN 'Escalado_7_' 
-              WHEN CANSUMVENT2 > 7 and CANSUMVENT2 <8 and   a.tipo_producto !='NAC'  THEN 'Escalado_8_' 
-
-          
        END AS COMENTARIO,
 		NULL as AÑOS_COBERTURA, 
 		NULL as OBSOLETO, 
