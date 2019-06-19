@@ -484,6 +484,7 @@ class reportingController
                 WHEN CANSUMCOMP1 = 0   and a.tipo_producto!='NAC' and stock/CANSUMVENT1 >1 and stock/CANSUMVENT1 <2 THEN 'DE 0.00 a 2.00 ='+stock/CANSUMVENT1
                 WHEN CANSUMCOMP1 = 0   and a.tipo_producto!='NAC' and stock/CANSUMVENT1 >2 and stock/CANSUMVENT1 <3 THEN 'DE 2.00 a 3.00 ='+stock/CANSUMVENT1
                 WHEN CANSUMCOMP1 = 0   and a.tipo_producto!='NAC' and stock/CANSUMVENT1 >3 and stock/CANSUMVENT1 <4 THEN 'DE 3.00 a 4.00 ='+stock/CANSUMVENT1
+                ELSE 'caso no contemplado'
             
        END AS COMENTARIO,
 		NULL as AÑOS_COBERTURA, 
