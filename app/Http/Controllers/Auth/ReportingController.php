@@ -470,14 +470,20 @@ class reportingController
 		a.coste_medio  as PRECIO_MEDIO, 
 		NULL as PRECIO_MEDIO_CALCULADO, 
         -- caso1 hay compras
-		CASE WHEN CANSUMCOMP1 < 0    and a.tipo_producto='NAC' THEN 'No hay ventas. Det: 100'
-             WHEN CANSUMCOMP1 < 0    and a.tipo_producto!='NAC' THEN 'No hay ventas. Det: 100'
-         -- caso 2   no hay compras  
-            WHEN CANSUMVENT1  < 0       and a.tipo_producto='NAC' THEN '100% obsolescencia'
-            WHEN CANSUMVENT2  < 0       and a.tipo_producto!='NAC' THEN '100% obsolescencia'
-        -- caso 3 stock = 0
-            WHEN CANSUMCOMP1 > 0 and  CANSUMVENT1  > 0  and a.tipo_producto='NAC' THEN  stock/CANSUMVENT1
-            WHEN CANSUMCOMP2 > 0 and  CANSUMVENT2  > 0 and a.tipo_producto!='NAC' THEN  stock/CANSUMVENT2
+		    CASE WHEN CANSUMCOMP1 > 0    and a.tipo_producto='NAC' THEN 'No hay ventas. Det: 100'
+                 WHEN CANSUMCOMP2 > 0    and a.tipo_producto!='NAC' THEN 'No hay ventas. Det: 100'
+        -- caso 2   no hay compras  
+                 WHEN CANSUMVENT1  > 0    and a.tipo_producto='NAC' THEN '100% obsolescencia'
+                 WHEN CANSUMVENT2  > 0    and a.tipo_producto!='NAC' THEN '100% obsoescencia'
+        -- caso 3 compra = 0
+                -- NO IMPORTACION
+                WHEN CANSUMCOMP1 = 0   and a.tipo_producto='NAC' and stock/CANSUMVENT1 <1 THEN 'DE 0.00 a 2.00 ='+stock/CANSUMVENT1
+                WHEN CANSUMCOMP1 = 0   and a.tipo_producto='NAC' and stock/CANSUMVENT1 <2 THEN 'DE 2.00 a 3.00 ='+stock/CANSUMVENT1
+                WHEN CANSUMCOMP1 = 0   and a.tipo_producto='NAC' and stock/CANSUMVENT1 <3 THEN 'DE 3.00 a 4.00 ='+stock/CANSUMVENT1
+                -- IMPORTACION
+                WHEN CANSUMCOMP1 = 0   and a.tipo_producto!='NAC' and stock/CANSUMVENT1 <1 THEN 'DE 0.00 a 2.00 ='+stock/CANSUMVENT1
+                WHEN CANSUMCOMP1 = 0   and a.tipo_producto!='NAC' and stock/CANSUMVENT1 <2 THEN 'DE 2.00 a 3.00 ='+stock/CANSUMVENT1
+                WHEN CANSUMCOMP1 = 0   and a.tipo_producto!='NAC' and stock/CANSUMVENT1 <3 THEN 'DE 3.00 a 4.00 ='+stock/CANSUMVENT1
             
        END AS COMENTARIO,
 		NULL as AÑOS_COBERTURA, 
