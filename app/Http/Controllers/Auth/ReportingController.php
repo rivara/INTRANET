@@ -463,13 +463,10 @@ class reportingController
 		NULL as presentacion,
 	    stock as stockActual,
 		a.coste_medio * stock as valoracion, 
-		
 		ifnull(CANSUMCOMP1,0) as COMPRAS_1_AÑO, 
 		ifnull(CANSUMCOMP2,0) as COMPRAS_2_AÑOS, 
-		
 		NULL as CODIGO_ANTERIOR, 
 		NULL as COMPRAS_COD_ANT, 
-		
 		ifnull(CANSUMVENT1,0) as VENTAS_1_AÑO, 
 		ifnull(CANSUMVENT2,0) as VENTAS_2_AÑOS, 
 		
@@ -506,8 +503,32 @@ class reportingController
                 WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 8 and stock/CANSUMVENT1 <10 THEN 'DE 8.00 a 10.00 =40'
             
        END AS COMENTARIO,
-		NULL as AÑOS_COBERTURA, 
-		NULL as OBSOLETO, 
+       
+       CASE
+            WHEN a.tipo_producto !='IMP' THEN  stock/CANSUMVENT1
+            WHEN a.tipo_producto ='IMP' THEN  stock/CANSUMVENT2
+       END as AÑOS_COBERTURA,
+		   CASE
+		        -- IMPORTACION
+		        WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 0 and stock/CANSUMVENT2 < 2 THEN  '0% valor del stock'
+                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 2 and stock/CANSUMVENT2 < 3 THEN  '5% valor del stock'
+                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 3 and stock/CANSUMVENT2 < 4 THEN  '10% valor del stock'
+                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 4 and stock/CANSUMVENT2 < 5 THEN  '15% valor del stock'
+                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 5 and stock/CANSUMVENT2 < 6 THEN  '20% valor del stock'
+                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 6 and stock/CANSUMVENT2 < 7 THEN  '25% valor del stock'
+                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 7 and stock/CANSUMVENT2 < 8 THEN  '30% valor del stock'
+                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 8 and stock/CANSUMVENT2 < 10 THEN '40% valor del stock'
+                
+                -- NO IMPORTACION
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 0 and stock/CANSUMVENT1 <2 THEN  '0% valor del stock'
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 2 and stock/CANSUMVENT1 <3 THEN  '5% valor del stock'
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 3 and stock/CANSUMVENT1 <4 THEN  '10% valor del stock'
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 4 and stock/CANSUMVENT1 <5 THEN  '15% valor del stock'
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 5 and stock/CANSUMVENT1 <6 THEN  '20% valor del stock'
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 6 and stock/CANSUMVENT1 <7 THEN  '25% valor del stock'
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 7 and stock/CANSUMVENT1 <8 THEN  '30% valor del stock'
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 8 and stock/CANSUMVENT1 <10 THEN '40% valor del stock'
+		END as OBSOLETO, 
 		NULL as VALOR_OBSOLESCENCIA, 
 		NULL as PFACTOR_CONVERSION 
  FROM articulos a 
