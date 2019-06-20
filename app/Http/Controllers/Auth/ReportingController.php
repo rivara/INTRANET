@@ -502,7 +502,7 @@ class reportingController
                 WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 4 and stock/CANSUMVENT1 <5 THEN 'DE 4.00 a 5.00 =15'
                 WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 5 and stock/CANSUMVENT1 <6 THEN 'DE 5.00 a 6.00 =20'
                 WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 6 and stock/CANSUMVENT1 <7 THEN 'DE 6.00 a 7.00 =25'
-                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 7 and stock/CANSUMVENT1 <8 THEN 'DE 7.00 a 8.00 ='30'
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 7 and stock/CANSUMVENT1 <8 THEN 'DE 7.00 a 8.00 =30'
                 WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 8 and stock/CANSUMVENT1 <10 THEN 'DE 8.00 a 10.00 =40'
             
        END AS COMENTARIO,
