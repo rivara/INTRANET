@@ -485,26 +485,26 @@ class reportingController
                  WHEN CANSUMVENT1  = 0    and a.tipo_producto != 'IMP' THEN 'No hay ventas: 100%'
                  WHEN CANSUMVENT2  = 0    and a.tipo_producto='IMP' THEN 'No hay ventas: 100%'
         -- caso 3 compra = 0
-                -- NO IMPORTACION
-                WHEN CANSUMCOMP1 = 0   and a.tipo_producto ='IMP' and stock/CANSUMVENT1 >0 and stock/CANSUMVENT1 <2 THEN 'DE 0.00 a 2.00 ='+stock/CANSUMVENT1
-                WHEN CANSUMCOMP1 = 0   and a.tipo_producto ='IMP' and stock/CANSUMVENT1 >2 and stock/CANSUMVENT1 <3 THEN 'DE 2.00 a 3.00 ='+stock/CANSUMVENT1
-                WHEN CANSUMCOMP1 = 0   and a.tipo_producto ='IMP' and stock/CANSUMVENT1 >3 and stock/CANSUMVENT1 <4 THEN 'DE 3.00 a 4.00 ='+stock/CANSUMVENT1
-                WHEN CANSUMCOMP1 = 0   and a.tipo_producto ='IMP' and stock/CANSUMVENT1 >4 and stock/CANSUMVENT1 <5 THEN 'DE 4.00 a 5.00 ='+stock/CANSUMVENT1
-                WHEN CANSUMCOMP1 = 0   and a.tipo_producto ='IMP' and stock/CANSUMVENT1 >5 and stock/CANSUMVENT1 <6 THEN 'DE 5.00 a 6.00 ='+stock/CANSUMVENT1
-                WHEN CANSUMCOMP1 = 0   and a.tipo_producto ='IMP' and stock/CANSUMVENT1 >6 and stock/CANSUMVENT1 <7 THEN 'DE 6.00 a 7.00 ='+stock/CANSUMVENT1
-                WHEN CANSUMCOMP1 = 0   and a.tipo_producto ='IMP' and stock/CANSUMVENT1 >7 and stock/CANSUMVENT1 <8 THEN 'DE 7.00 a 8.00 ='+stock/CANSUMVENT1
-                WHEN CANSUMCOMP1 = 0   and a.tipo_producto ='IMP' and stock/CANSUMVENT1 >8 and stock/CANSUMVENT1 <10 THEN 'DE 8.00 a 10.00 ='+stock/CANSUMVENT1  
-                
                 -- IMPORTACION
-                WHEN CANSUMCOMP1 = 0   and a.tipo_producto !='IMP' and stock/CANSUMVENT1 >0 and stock/CANSUMVENT1 <2 THEN 'DE 0.00 a 2.00 ='+stock/CANSUMVENT1
-                WHEN CANSUMCOMP1 = 0   and a.tipo_producto !='IMP' and stock/CANSUMVENT1 >2 and stock/CANSUMVENT1 <3 THEN 'DE 2.00 a 3.00 ='+stock/CANSUMVENT1
-                WHEN CANSUMCOMP1 = 0   and a.tipo_producto !='IMP' and stock/CANSUMVENT1 >3 and stock/CANSUMVENT1 <4 THEN 'DE 3.00 a 4.00 ='+stock/CANSUMVENT1
-                WHEN CANSUMCOMP1 = 0   and a.tipo_producto !='IMP' and stock/CANSUMVENT1 >4 and stock/CANSUMVENT1 <5 THEN 'DE 4.00 a 5.00 ='+stock/CANSUMVENT1
-                WHEN CANSUMCOMP1 = 0   and a.tipo_producto !='IMP' and stock/CANSUMVENT1 >5 and stock/CANSUMVENT1 <6 THEN 'DE 5.00 a 6.00 ='+stock/CANSUMVENT1
-                WHEN CANSUMCOMP1 = 0   and a.tipo_producto !='IMP' and stock/CANSUMVENT1 >6 and stock/CANSUMVENT1 <7 THEN 'DE 6.00 a 7.00 ='+stock/CANSUMVENT1
-                WHEN CANSUMCOMP1 = 0   and a.tipo_producto !='IMP' and stock/CANSUMVENT1 >7 and stock/CANSUMVENT1 <8 THEN 'DE 7.00 a 8.00 ='+stock/CANSUMVENT1
-                WHEN CANSUMCOMP1 = 0   and a.tipo_producto !='IMP' and stock/CANSUMVENT1 >8 and stock/CANSUMVENT1 <10 THEN 'DE 8.00 a 10.00 ='+stock/CANSUMVENT1
-                ELSE 'caso no contemplado'
+                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 >0 and stock/CANSUMVENT2 <2 THEN 'DE 0.00 a 2.00 ='+stock/CANSUMVENT1
+                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 >2 and stock/CANSUMVENT2 <3 THEN 'DE 2.00 a 3.00 ='+stock/CANSUMVENT1
+                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 >3 and stock/CANSUMVENT2 <4 THEN 'DE 3.00 a 4.00 ='+stock/CANSUMVENT1
+                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 >4 and stock/CANSUMVENT2 <5 THEN 'DE 4.00 a 5.00 ='+stock/CANSUMVENT1
+                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 >5 and stock/CANSUMVENT2 <6 THEN 'DE 5.00 a 6.00 ='+stock/CANSUMVENT1
+                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 >6 and stock/CANSUMVENT2 <7 THEN 'DE 6.00 a 7.00 ='+stock/CANSUMVENT1
+                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 >7 and stock/CANSUMVENT2 <8 THEN 'DE 7.00 a 8.00 ='+stock/CANSUMVENT1
+                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 >8 and stock/CANSUMVENT2 <10 THEN 'DE 8.00 a 10.00 ='+stock/CANSUMVENT1  
+                
+                -- NO IMPORTACION
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >0 and stock/CANSUMVENT1 <2 THEN 'DE 0.00 a 2.00 ='+stock/CANSUMVENT1
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >2 and stock/CANSUMVENT1 <3 THEN 'DE 2.00 a 3.00 ='+stock/CANSUMVENT1
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >3 and stock/CANSUMVENT1 <4 THEN 'DE 3.00 a 4.00 ='+stock/CANSUMVENT1
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >4 and stock/CANSUMVENT1 <5 THEN 'DE 4.00 a 5.00 ='+stock/CANSUMVENT1
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >5 and stock/CANSUMVENT1 <6 THEN 'DE 5.00 a 6.00 ='+stock/CANSUMVENT1
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >6 and stock/CANSUMVENT1 <7 THEN 'DE 6.00 a 7.00 ='+stock/CANSUMVENT1
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >7 and stock/CANSUMVENT1 <8 THEN 'DE 7.00 a 8.00 ='+stock/CANSUMVENT1
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >8 and stock/CANSUMVENT1 <10 THEN 'DE 8.00 a 10.00 ='+stock/CANSUMVENT1
+                ELSE stock/CANSUMVENT1
             
        END AS COMENTARIO,
 		NULL as AÑOS_COBERTURA, 
