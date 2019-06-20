@@ -47,7 +47,7 @@
     <div class="col-md-4">
         <input class="form-control" type="text" name="proveedor">
     </div>
-    <div class="col-md-4"></div>
+    <div class="col-md-12">&nbsp;</div>
 
     <div class="col-md-12">
         @include('reporting.generador')

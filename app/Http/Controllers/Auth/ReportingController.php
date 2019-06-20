@@ -430,10 +430,15 @@ class reportingController
         $fechaDesdeHace2años= date('Y-m-d', $date);
 
 
-        $fecha1 = "AND v1.fecha  BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "'";
-        $fecha2 = "AND c1.fecha  BETWEEN '" . $fechaDesdeHace2años . "' AND '" . $fechaHasta . "'";
-        $fecha3 = "AND v2.fecha  BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "'";
-        $fecha4 = "AND c2.fecha  BETWEEN '" . $fechaDesdeHace2años . "' AND '" . $fechaHasta . "'";
+        $fechaVenta1 = "AND v1.fecha  BETWEEN '" . $fechaDesde . "' AND '" .$fechaHasta."'";
+        $fechaCompra1 = "AND c1.fecha  BETWEEN '" .$fechaDesde. "' AND '" .$fechaHasta. "'";
+
+        $fechaVenta2 = "AND v2.fecha  BETWEEN '" .$fechaDesdeHace2años. "' AND '" .$fechaHasta. "'";
+        $fechaCompra2 = "AND c2.fecha  BETWEEN '" .$fechaDesdeHace2años. "' AND '" .$fechaHasta. "'";
+
+
+
+
         $fechaF = "AND sm.fecha  BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "'";
 
 
@@ -458,12 +463,16 @@ class reportingController
 		NULL as presentacion,
 	    stock as stockActual,
 		a.coste_medio * stock as valoracion, 
+		
 		ifnull(CANSUMCOMP1,0) as COMPRAS_1_AÑO, 
 		ifnull(CANSUMCOMP2,0) as COMPRAS_2_AÑOS, 
+		
 		NULL as CODIGO_ANTERIOR, 
 		NULL as COMPRAS_COD_ANT, 
+		
 		ifnull(CANSUMVENT1,0) as VENTAS_1_AÑO, 
 		ifnull(CANSUMVENT2,0) as VENTAS_2_AÑOS, 
+		
 		NULL as VENTAS_COD_ANT, 
 		NULL as PRECIO_COSTE,
 		NULL as PRECIO_VENTA_SOCIO, 
@@ -503,10 +512,10 @@ class reportingController
 		NULL as VALOR_OBSOLESCENCIA, 
 		NULL as PFACTOR_CONVERSION 
  FROM articulos a 
-		LEFT OUTER JOIN (select articulo_id art,SUM(cantidad) as CANSUMVENT1  from historico_ventas_detalle   v1 LEFT OUTER JOIN articulos a ON v1.articulo_id = a.id WHERE empresa=1 AND es_directo=0 AND a.fecha_baja is null ".$fecha1."".$proveedor."".$articulo." GROUP BY articulo_id ) v1 ON a.id = v1.art 
-		LEFT OUTER JOIN (select articulo_id art,SUM(cantidad) as CANSUMCOMP1  from historico_compras_detalle  c1 LEFT OUTER JOIN articulos a ON c1.articulo_id = a.id WHERE empresa=1 AND es_directo=0 AND a.fecha_baja is null ".$fecha2."".$proveedor."".$articulo." GROUP BY articulo_id ) c1 ON a.id = c1.art 
-	    LEFT OUTER JOIN (select articulo_id art,SUM(cantidad) as CANSUMVENT2  from historico_ventas_detalle   v2 LEFT OUTER JOIN articulos a ON v2.articulo_id = a.id WHERE empresa=1 AND es_directo=0 AND a.fecha_baja is null ".$fecha3."".$proveedor."".$articulo." GROUP BY articulo_id ) v2 ON a.id = v2.art 
-		LEFT OUTER JOIN (select articulo_id art,SUM(cantidad) as CANSUMCOMP2  from historico_compras_detalle  c2 LEFT OUTER JOIN articulos a ON c2.articulo_id = a.id WHERE empresa=1 AND es_directo=0 AND a.fecha_baja is null ".$fecha4."".$proveedor."".$articulo." GROUP BY articulo_id ) c2 ON a.id = c2.art
+		LEFT OUTER JOIN (select articulo_id art,SUM(cantidad) as CANSUMVENT1  from historico_ventas_detalle   v1 LEFT OUTER JOIN articulos a ON v1.articulo_id = a.id WHERE empresa=1 AND es_directo=0 AND a.fecha_baja is null ".$fechaVenta1."".$proveedor."".$articulo." GROUP BY articulo_id ) v1 ON a.id = v1.art 
+		LEFT OUTER JOIN (select articulo_id art,SUM(cantidad) as CANSUMCOMP1  from historico_compras_detalle  c1 LEFT OUTER JOIN articulos a ON c1.articulo_id = a.id WHERE empresa=1 AND es_directo=0 AND a.fecha_baja is null ".$fechaCompra1."".$proveedor."".$articulo." GROUP BY articulo_id ) c1 ON a.id = c1.art 
+	    LEFT OUTER JOIN (select articulo_id art,SUM(cantidad) as CANSUMVENT2  from historico_ventas_detalle   v2 LEFT OUTER JOIN articulos a ON v2.articulo_id = a.id WHERE empresa=1 AND es_directo=0 AND a.fecha_baja is null ".$fechaVenta2."".$proveedor."".$articulo." GROUP BY articulo_id ) v2 ON a.id = v2.art 
+		LEFT OUTER JOIN (select articulo_id art,SUM(cantidad) as CANSUMCOMP2  from historico_compras_detalle  c2 LEFT OUTER JOIN articulos a ON c2.articulo_id = a.id WHERE empresa=1 AND es_directo=0 AND a.fecha_baja is null ".$fechaCompra2."".$proveedor."".$articulo." GROUP BY articulo_id ) c2 ON a.id = c2.art
 		LEFT OUTER JOIN (
 				select articulo_id, SUM(stock_actual) as  stock   from  articulos_almacen 		  arta LEFT OUTER JOIN articulos a ON arta.articulo_id=a.id GROUP BY articulo_id	
 		) arta ON a.id = arta.articulo_id
