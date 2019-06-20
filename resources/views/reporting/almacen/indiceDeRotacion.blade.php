@@ -6,7 +6,7 @@
         <u><h3>Indice de rotacion</h3></u>
     </div>
     <div class="col-md-4">
-        <small><b>datos actualizados</b></small>
+        <small><b>ventas a</b></small>
         <small>
             <?php
             // rvr formatear la fecha

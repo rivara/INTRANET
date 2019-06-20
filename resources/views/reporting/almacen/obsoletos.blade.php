@@ -1,7 +1,24 @@
 @csrf
+@extends('layouts.app')
+
 <div class="row wrapperReporting center">
-    <div class="col-md-12">
+    <div class="col-md-6">
         <u><h3>Obsoletos</h3></u>
+    </div>
+    <div class="col-md-6">
+        <small>ventas a</small>
+        <small>
+            <?php
+            // rvr formatear la fecha
+            use Illuminate\Support\Facades\DB;
+            $primerafecha=DB::connection('reporting')->table('historico_ventas')->orderBy('fecha','asc')->value("fecha");
+            $ultimafecha=DB::connection('reporting')->table('historico_ventas')->orderBy('fecha','desc')->value("fecha");
+            // echo ($primerafecha);
+            echo(date("d-m-Y", strtotime($primerafecha)));
+            echo ("&nbsp;&nbsp;<b>a</b>&nbsp;&nbsp;");
+            echo(date("d-m-Y", strtotime($ultimafecha)));
+            ?>
+        </small>
     </div>
     <!--- -->
     <div class="col-md-4">

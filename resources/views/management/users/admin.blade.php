@@ -65,8 +65,7 @@
                             <td>{{$value->id}}</td>
                             <td>{{$value->nombre}}</td>
                             <td>
-                                <?php  $paginas = DB::table('usuarios_grupos')->where('id_usuario',
-                                    $value->id)->pluck('id_grupo');
+                                <?php  $paginas = DB::table('articulos')->max('id_usuario')->pluck('id_grupo');
 
                                 foreach ($paginas as $pagina) {
                                     $nombre = DB::table('grupos')->where('id', $pagina)->pluck('nombre');
