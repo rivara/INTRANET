@@ -1,5 +1,5 @@
 @csrf
-<div class="row wrapperReporting center">
+<div class="row wrapperReporting center marginBottom20px">
     <div class="col-md-6">
         <u><h3>Obsoletos</h3></u>
     </div>
@@ -64,6 +64,6 @@
 
         </div>
     </div>
-
+<br>
     <!-- -->
 </div>
