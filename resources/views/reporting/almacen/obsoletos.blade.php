@@ -48,13 +48,7 @@
         <input class="form-control" type="text" name="proveedor">
     </div>
     <div class="col-md-4"></div>
-    <!--- -->
-    <div class="col-md-5">
-        <input class="form-check-input" type="checkbox" name="stockmedio">
-        <small>Realizar calculo del stock medio</small>
-    </div>
-    <div class="col-md-7"></div>
-    <!-- -->
+
     <div class="col-md-12">
         @include('reporting.generador')
     </div>

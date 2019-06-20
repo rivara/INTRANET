@@ -64,13 +64,7 @@
         <input class="form-check-input" type="checkbox" name="niveles" >
         <small>Incluir niveles inferiores (solo si esta rellena la familias)</small>
     </div>
-    <!---
-    <div class="col-md-5">
-        <input class="form-check-input" type="checkbox" name="calculo">
-        <small>Realizar calculo del stock medio</small>
-    </div>
-    <div class="col-md-7"></div>
-      -->
+
     <div class="col-md-12">&nbsp;</div>
     <!-- -->
     <div class="col-md-12">
