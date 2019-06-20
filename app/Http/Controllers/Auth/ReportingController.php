@@ -504,7 +504,7 @@ class reportingController
                 WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 6 and stock/CANSUMVENT1 <7 THEN 'DE 6.00 a 7.00 ='+stock/CANSUMVENT1
                 WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 7 and stock/CANSUMVENT1 <8 THEN 'DE 7.00 a 8.00 ='+stock/CANSUMVENT1
                 WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 8 and stock/CANSUMVENT1 <10 THEN 'DE 8.00 a 10.00 ='+stock/CANSUMVENT1
-               -- ELSE stock/CANSUMVENT1
+              
             
        END AS COMENTARIO,
 		NULL as AÑOS_COBERTURA, 
