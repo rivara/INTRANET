@@ -1,6 +1,4 @@
 @csrf
-@extends('layouts.app')
-
 <div class="row wrapperReporting center">
     <div class="col-md-6">
         <u><h3>Obsoletos</h3></u>
