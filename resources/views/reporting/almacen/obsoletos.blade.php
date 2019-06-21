@@ -50,6 +50,9 @@
     <div class="col-md-12">
         @include('reporting.generador')
     </div>
+
+
+
     <!--- -->
     <div class="col-md-12">&nbsp;</div>
     <!-- -->

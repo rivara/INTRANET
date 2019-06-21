@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('content')
+
     <div class="subtitle">
         <h4>Administración usuarios</h4>
     </div>
@@ -41,6 +42,10 @@
                 </form>
             </div>
         </div>
+
+
+
+
         <div class="row justify-content-center">
             <table class="table table-striped table-bordered table-info" border="1px solid black">
                 <thead>
@@ -58,21 +63,15 @@
                 </th>
                 </thead>
                 <tbody>
+
+
+
                     @foreach($paginado as $value)
                     <tr>
                         <form action="{{ route('goUpdateUser') }}" method="GET">
                             @csrf
                             <td>{{$value->id}}</td>
                             <td>{{$value->nombre}}</td>
-                            <td>
-                                <?php  $paginas = DB::table('articulos')->max('id_usuario')->pluck('id_grupo');
-
-                                foreach ($paginas as $pagina) {
-                                    $nombre = DB::table('grupos')->where('id', $pagina)->pluck('nombre');
-                                    echo "<p class='titleE'>" . $nombre[0] . "</p>";
-                                }
-                                ?>
-                            </td>
                             <td>{{$value->email}}</td>
                             <td><b> <?php
                                     $menu = DB::table('menus')->where('id', $value->id_menu)->pluck('nombre');
