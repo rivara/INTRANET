@@ -529,7 +529,29 @@ class reportingController
                 WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 7 and stock/CANSUMVENT1 <8 THEN  '30% valor del stock'
                 WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 8 and stock/CANSUMVENT1 <10 THEN '40% valor del stock'
 		END as OBSOLETO, 
-		NULL as VALOR_OBSOLESCENCIA, 
+		
+		
+		CASE
+		        -- IMPORTACION
+		        WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 0 and stock/CANSUMVENT2 < 2 THEN   stock/a.coste_medio * 0 
+                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 2 and stock/CANSUMVENT2 < 3 THEN   stock/a.coste_medio * 5
+                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 3 and stock/CANSUMVENT2 < 4 THEN   stock/a.coste_medio * 10 
+                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 4 and stock/CANSUMVENT2 < 5 THEN   stock/a.coste_medio * 15 
+                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 5 and stock/CANSUMVENT2 < 6 THEN   stock/a.coste_medio * 20 
+                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 6 and stock/CANSUMVENT2 < 7 THEN   stock/a.coste_medio * 25
+                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 7 and stock/CANSUMVENT2 < 8 THEN   stock/a.coste_medio * 30 
+                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 8 and stock/CANSUMVENT2 < 10 THEN  stock/a.coste_medio * 40 
+                
+                -- NO IMPORTACION
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 0 and stock/CANSUMVENT1 <2 THEN   stock/a.coste_medio * 0 
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 2 and stock/CANSUMVENT1 <3 THEN   stock/a.coste_medio * 5
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 3 and stock/CANSUMVENT1 <4 THEN   stock/a.coste_medio * 10 
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 4 and stock/CANSUMVENT1 <5 THEN   stock/a.coste_medio * 15 
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 5 and stock/CANSUMVENT1 <6 THEN   stock/a.coste_medio * 20 
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 6 and stock/CANSUMVENT1 <7 THEN   stock/a.coste_medio * 25
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 7 and stock/CANSUMVENT1 <8 THEN   stock/a.coste_medio * 30 
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 8 and stock/CANSUMVENT1 <10 THEN  stock/a.coste_medio * 40 
+		END as  VALOR_OBSOLESCENCIA, 
 		NULL as PFACTOR_CONVERSION 
  FROM articulos a 
 		LEFT OUTER JOIN (select articulo_id art,SUM(cantidad) as CANSUMVENT1  from historico_ventas_detalle   v1 LEFT OUTER JOIN articulos a ON v1.articulo_id = a.id WHERE empresa=1 AND es_directo=0 AND a.fecha_baja is null ".$fechaVenta1."".$proveedor."".$articulo." GROUP BY articulo_id ) v1 ON a.id = v1.art 

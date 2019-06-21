@@ -64,8 +64,6 @@
                 </thead>
                 <tbody>
 
-
-
                     @foreach($paginado as $value)
                     <tr>
                         <form action="{{ route('goUpdateUser') }}" method="GET">
