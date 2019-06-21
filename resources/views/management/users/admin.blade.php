@@ -72,6 +72,16 @@
                             @csrf
                             <td>{{$value->id}}</td>
                             <td>{{$value->nombre}}</td>
+                            <td>
+                                <?php  $paginas = DB::table('usuarios_grupos')->where('id_usuario',
+                                    $value->id)->pluck('id_grupo');
+
+                                foreach ($paginas as $pagina) {
+                                    $nombre = DB::table('grupos')->where('id', $pagina)->pluck('nombre');
+                                    echo "<p class='titleE'>" . $nombre[0] . "</p>";
+                                }
+                                ?>
+                            </td>
                             <td>{{$value->email}}</td>
                             <td><b> <?php
                                     $menu = DB::table('menus')->where('id', $value->id_menu)->pluck('nombre');
