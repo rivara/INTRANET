@@ -342,7 +342,8 @@ class reportingController
         $articulo = $request["articulo"];
         $calculo = $request["calculo"];
         $compresion=$request["compresion"];
-
+        $date = strtotime($fechaDesde.'-1 year');
+        $fechaDesdeHace2años= date('Y-m-d', $date);
 
 
 
@@ -352,7 +353,7 @@ class reportingController
             array("Obsoletos"),
             array(""),
             array("*PERIODO ANALIZADO", $fechaDesde, "a", $fechaHasta),
-            array("*PERIODO ANALIZADO PARA ARTICULO IMP:", $fechaDesde, "a", $fechaHasta),
+            array("*PERIODO ANALIZADO PARA ARTICULO IMP:", $fechaDesdeHace2años, "a", $fechaHasta),
             array(""),
             array("*LOS DATOS CALCULADOS VIENEN VACIOS. PRECIOS DESDE LA FICHA ARTICULOS"),
             array("*STOCK ACTUAL y VENTAS (Movimientos de almacenes PRINCIPAL y ALICANTE, hasta el dia:".$fechaHasta.")"),
@@ -425,25 +426,12 @@ class reportingController
 
 
 
-
-        $date = strtotime($fechaDesde.'-1 year');
-        $fechaDesdeHace2años= date('Y-m-d', $date);
-
-
         $fechaVenta1 = "AND v1.fecha  BETWEEN '" . $fechaDesde . "' AND '" .$fechaHasta."'";
         $fechaCompra1 = "AND c1.fecha  BETWEEN '" .$fechaDesde. "' AND '" .$fechaHasta. "'";
-
         $fechaVenta2 = "AND v2.fecha  BETWEEN '" .$fechaDesdeHace2años. "' AND '" .$fechaHasta. "'";
         $fechaCompra2 = "AND c2.fecha  BETWEEN '" .$fechaDesdeHace2años. "' AND '" .$fechaHasta. "'";
 
-
-
-
         $fechaF = "AND sm.fecha  BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "'";
-
-
-
-
 
 
 
@@ -507,10 +495,17 @@ class reportingController
        CASE
             WHEN a.tipo_producto !='IMP' THEN  ROUND(stock/CANSUMVENT1,2)
             WHEN a.tipo_producto ='IMP' THEN   ROUND(stock/CANSUMVENT2,2)
-       END as AÑOS_COBERTURA,
-		   CASE
+       END as AÑOS_COBERTURA,  
+	   CASE 
+		   -- caso1 hay compras    
+		            WHEN CANSUMCOMP1 > 0    and a.tipo_producto !='IMP' THEN 0
+                    WHEN CANSUMCOMP2 > 0    and a.tipo_producto  ='IMP' THEN 0
+           -- caso 2  no hay compras     
+                    WHEN CANSUMVENT1  = 0    and a.tipo_producto != 'IMP' THEN 100
+                    WHEN CANSUMVENT2  = 0    and a.tipo_producto='IMP' THEN 100
+           -- caso 3 compra = 0
 		        -- IMPORTACION
-		        WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > -1 and stock/CANSUMVENT2 < 2 THEN  0
+		        WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 0 and stock/CANSUMVENT2 < 2 THEN  0
                 WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 2 and stock/CANSUMVENT2 < 3 THEN  5
                 WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 3 and stock/CANSUMVENT2 < 4 THEN  10
                 WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 4 and stock/CANSUMVENT2 < 5 THEN  15
@@ -520,7 +515,7 @@ class reportingController
                 WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 8 and stock/CANSUMVENT2 < 10 THEN 40
                 
                 -- NO IMPORTACION
-                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > -1 and stock/CANSUMVENT1 <2 THEN  0
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 0 and stock/CANSUMVENT1 <2 THEN  0
                 WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 2 and stock/CANSUMVENT1 <3 THEN  5
                 WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 3 and stock/CANSUMVENT1 <4 THEN  10
                 WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 4 and stock/CANSUMVENT1 <5 THEN  15
