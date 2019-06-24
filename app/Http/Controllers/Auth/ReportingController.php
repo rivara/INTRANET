@@ -510,7 +510,7 @@ class reportingController
        END as AÑOS_COBERTURA,
 		   CASE
 		        -- IMPORTACION
-		        WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 0 and stock/CANSUMVENT2 < 2 THEN  0
+		        WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > -1 and stock/CANSUMVENT2 < 2 THEN  0
                 WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 2 and stock/CANSUMVENT2 < 3 THEN  5
                 WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 3 and stock/CANSUMVENT2 < 4 THEN  10
                 WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 4 and stock/CANSUMVENT2 < 5 THEN  15
@@ -520,7 +520,7 @@ class reportingController
                 WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 8 and stock/CANSUMVENT2 < 10 THEN 40
                 
                 -- NO IMPORTACION
-                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 0 and stock/CANSUMVENT1 <2 THEN  0
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > -1 and stock/CANSUMVENT1 <2 THEN  0
                 WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 2 and stock/CANSUMVENT1 <3 THEN  5
                 WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 3 and stock/CANSUMVENT1 <4 THEN  10
                 WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 4 and stock/CANSUMVENT1 <5 THEN  15
@@ -528,6 +528,7 @@ class reportingController
                 WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 6 and stock/CANSUMVENT1 <7 THEN  25
                 WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 7 and stock/CANSUMVENT1 <8 THEN  30
                 WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 8 and stock/CANSUMVENT1 <10 THEN 40
+                
 		END as OBSOLETO, 
 		
 		
