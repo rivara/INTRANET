@@ -505,7 +505,7 @@ class reportingController
                     WHEN CANSUMVENT2  = 0    and a.tipo_producto='IMP' THEN 100
            -- caso 3 compra = 0
 		        -- IMPORTACION
-		        WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 0 and stock/CANSUMVENT2 < 2 THEN  0
+		        WHEN  a.tipo_producto ='IMP' and stock/ > 0 and stock/CANSUMVENT2 < 2 THEN  0
                 WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 2 and stock/CANSUMVENT2 < 3 THEN  5
                 WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 3 and stock/CANSUMVENT2 < 4 THEN  10
                 WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 4 and stock/CANSUMVENT2 < 5 THEN  15
