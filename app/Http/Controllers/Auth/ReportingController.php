@@ -498,11 +498,11 @@ class reportingController
        END as AÑOS_COBERTURA,  
 	   CASE 
 		   -- caso1 hay compras    
-		            WHEN CANSUMCOMP1 > 0    and a.tipo_producto !='IMP' THEN 0
-                    WHEN CANSUMCOMP2 > 0    and a.tipo_producto  ='IMP' THEN 0
+		            WHEN CANSUMCOMP1 > 0    and a.tipo_producto !='IMP' THEN '0'
+                    WHEN CANSUMCOMP2 > 0    and a.tipo_producto  ='IMP' THEN '0'
            -- caso 2  no hay compras     
-                    WHEN CANSUMVENT1  = 0    and a.tipo_producto != 'IMP' THEN 100
-                    WHEN CANSUMVENT2  = 0    and a.tipo_producto='IMP' THEN 0
+                    WHEN CANSUMVENT1  = 0    and a.tipo_producto != 'IMP' THEN '100'
+                    WHEN CANSUMVENT2  = 0    and a.tipo_producto='IMP' THEN '100'
            -- caso 3 compra = 0
 		        -- IMPORTACION
 		        WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 0 and stock/CANSUMVENT2 < 2 THEN  0
