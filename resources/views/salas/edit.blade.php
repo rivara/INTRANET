@@ -50,7 +50,7 @@
                 </div>
 
 
-                <div class="col-md-6">
+                <!--<div class="col-md-6">
                     <div class="form-row align-items-center">
 
                             <label  for="inlineFormCustomSelect">CC</label>
@@ -62,7 +62,17 @@
                             </select>
 
                     </div>
-                </div>
+                </div> -->
+      <?php
+            $mails = DB::table('usuarios')->pluck('email');
+
+            ?>
+            <select class="custom-select" id="inlineFormCustomSelect">
+            @foreach($mails as $mail)
+                <option value="{{$mail}}">{{$mail}}</option>
+            @endforeach
+            </select>
+
                 <div class="col-md-6">
                   <i class="fa fa-plus fa-3x" aria-hidden="true"></i>
                 </div>
