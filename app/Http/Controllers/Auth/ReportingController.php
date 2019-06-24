@@ -505,29 +505,29 @@ class reportingController
        END AS COMENTARIO,
        
        CASE
-            WHEN a.tipo_producto !='IMP' THEN  stock/CANSUMVENT1
-            WHEN a.tipo_producto ='IMP' THEN  stock/CANSUMVENT2
+            WHEN a.tipo_producto !='IMP' THEN  ROUND(stock/CANSUMVENT1,2)
+            WHEN a.tipo_producto ='IMP' THEN   ROUND(stock/CANSUMVENT2,2)
        END as AÑOS_COBERTURA,
 		   CASE
 		        -- IMPORTACION
-		        WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 0 and stock/CANSUMVENT2 < 2 THEN  '0% valor del stock'
-                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 2 and stock/CANSUMVENT2 < 3 THEN  '5% valor del stock'
-                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 3 and stock/CANSUMVENT2 < 4 THEN  '10% valor del stock'
-                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 4 and stock/CANSUMVENT2 < 5 THEN  '15% valor del stock'
-                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 5 and stock/CANSUMVENT2 < 6 THEN  '20% valor del stock'
-                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 6 and stock/CANSUMVENT2 < 7 THEN  '25% valor del stock'
-                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 7 and stock/CANSUMVENT2 < 8 THEN  '30% valor del stock'
-                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 8 and stock/CANSUMVENT2 < 10 THEN '40% valor del stock'
+		        WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 0 and stock/CANSUMVENT2 < 2 THEN  0
+                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 2 and stock/CANSUMVENT2 < 3 THEN  5
+                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 3 and stock/CANSUMVENT2 < 4 THEN  10
+                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 4 and stock/CANSUMVENT2 < 5 THEN  15
+                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 5 and stock/CANSUMVENT2 < 6 THEN  20
+                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 6 and stock/CANSUMVENT2 < 7 THEN  25
+                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 7 and stock/CANSUMVENT2 < 8 THEN  30
+                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 8 and stock/CANSUMVENT2 < 10 THEN 40
                 
                 -- NO IMPORTACION
-                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 0 and stock/CANSUMVENT1 <2 THEN  '0% valor del stock'
-                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 2 and stock/CANSUMVENT1 <3 THEN  '5% valor del stock'
-                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 3 and stock/CANSUMVENT1 <4 THEN  '10% valor del stock'
-                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 4 and stock/CANSUMVENT1 <5 THEN  '15% valor del stock'
-                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 5 and stock/CANSUMVENT1 <6 THEN  '20% valor del stock'
-                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 6 and stock/CANSUMVENT1 <7 THEN  '25% valor del stock'
-                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 7 and stock/CANSUMVENT1 <8 THEN  '30% valor del stock'
-                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 8 and stock/CANSUMVENT1 <10 THEN '40% valor del stock'
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 0 and stock/CANSUMVENT1 <2 THEN  0
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 2 and stock/CANSUMVENT1 <3 THEN  5
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 3 and stock/CANSUMVENT1 <4 THEN  10
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 4 and stock/CANSUMVENT1 <5 THEN  15
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 5 and stock/CANSUMVENT1 <6 THEN  20
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 6 and stock/CANSUMVENT1 <7 THEN  25
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 7 and stock/CANSUMVENT1 <8 THEN  30
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 8 and stock/CANSUMVENT1 <10 THEN 40
 		END as OBSOLETO, 
 		
 		
