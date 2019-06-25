@@ -489,7 +489,7 @@ class reportingController
                 WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >= 6 and stock/CANSUMVENT1 <7 THEN 'DE 6.00 a 7.00 = 25'
                 WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >= 7 and stock/CANSUMVENT1 <8 THEN 'DE 7.00 a 8.00 = 30'
                 WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >= 8  THEN 'DE 8.00 a 10.00 = 40'
-             
+                ELSE CANSUMCOMP1+','+CANSUMCOMP2+','+CANSUMVENT1+','+CANSUMVENT2
        END AS COMENTARIO,
        
        CASE
@@ -499,10 +499,10 @@ class reportingController
 	   CASE 
 		   -- caso1 hay compras    
 		            WHEN CANSUMCOMP1 > 0    and a.tipo_producto !='IMP' THEN '0'
-                    WHEN CANSUMCOMP2 > 0    and a.tipo_producto  ='IMP' THEN '0'
+                    WHEN CANSUMCOMP2 > 0    and a.tipo_producto  = 'IMP' THEN '0'
            -- caso 2  no hay ventas     
                     WHEN CANSUMVENT1  = 0    and a.tipo_producto != 'IMP' THEN '100'
-                    WHEN CANSUMVENT2  = 0    and a.tipo_producto='IMP' THEN '100'
+                    WHEN CANSUMVENT2  = 0    and a.tipo_producto = 'IMP' THEN '100'
            -- caso 3 compra = 0
 		        -- IMPORTACION
 		        WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 >= 0 and stock/CANSUMVENT2 < 2 THEN  '0'
