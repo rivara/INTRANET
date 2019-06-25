@@ -489,7 +489,7 @@ class reportingController
                 WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >= 6 and stock/CANSUMVENT1 <7 THEN 'DE 6.00 a 7.00 = 25'
                 WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >= 7 and stock/CANSUMVENT1 <8 THEN 'DE 7.00 a 8.00 = 30'
                 WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >= 8  THEN 'MAYOR DE 8'
-                ELSE CANSUMCOMP1+','+CANSUMCOMP2+','+CANSUMVENT1+','+CANSUMVENT2
+                ELSE '***'
        END AS COMENTARIO,
        
        CASE
@@ -523,7 +523,7 @@ class reportingController
                 WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >= 6 and stock/CANSUMVENT1 <7 THEN  '25'
                 WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >= 7 and stock/CANSUMVENT1 <8 THEN  '30'
                 WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >= 8  THEN '40'
-                
+                ELSE '9999'
 		END as OBSOLETO, 
 		
 		
