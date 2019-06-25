@@ -494,7 +494,7 @@ class reportingController
        
        CASE
             WHEN a.tipo_producto != 'IMP' THEN  stock/CANSUMVENT1
-            WHEN a.tipo_producto = 'IMP' THEN   stock/CANSUMVENT2
+            WHEN a.tipo_producto = 'IMP' THEN  stock/CANSUMVENT2
        END as AÑOS_COBERTURA,  
 	   CASE 
 		   -- caso1 hay compras    
