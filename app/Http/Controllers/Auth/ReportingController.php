@@ -478,7 +478,7 @@ class reportingController
                 WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 >= 5 and stock/CANSUMVENT2 < 6 THEN 'DE 5.00 a 6.00 = 20'
                 WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 >= 6 and stock/CANSUMVENT2 < 7 THEN 'DE 6.00 a 7.00 = 25'
                 WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 >= 7 and stock/CANSUMVENT2 < 8 THEN 'DE 7.00 a 8.00 = 30'
-                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 >= 8  THEN 'DE 8.00 a 10.00 = 40'
+                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 >= 8  THEN 'MAYOR DE 8'
                 
                 -- NO IMPORTACION
                 WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >= 0 and stock/CANSUMVENT1 <2 THEN 'DE 0.00 a 2.00 = 0'
@@ -488,7 +488,7 @@ class reportingController
                 WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >= 5 and stock/CANSUMVENT1 <6 THEN 'DE 5.00 a 6.00 = 20'
                 WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >= 6 and stock/CANSUMVENT1 <7 THEN 'DE 6.00 a 7.00 = 25'
                 WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >= 7 and stock/CANSUMVENT1 <8 THEN 'DE 7.00 a 8.00 = 30'
-                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >= 8  THEN 'DE 8.00 a 10.00 = 40'
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >= 8  THEN 'MAYOR DE 8'
                 ELSE CANSUMCOMP1+','+CANSUMCOMP2+','+CANSUMVENT1+','+CANSUMVENT2
        END AS COMENTARIO,
        
@@ -528,9 +528,17 @@ class reportingController
 		
 		
 		CASE
+		  -- caso1 hay compras    
+		            WHEN CANSUMCOMP1 > 0    and a.tipo_producto !='IMP' THEN 0
+                    WHEN CANSUMCOMP2 > 0    and a.tipo_producto  = 'IMP' THEN 0
+           -- caso 2  no hay ventas     
+                    WHEN CANSUMVENT1  = 0    and a.tipo_producto != 'IMP' THEN  a.coste_medio * stock 
+                    WHEN CANSUMVENT2  = 0    and a.tipo_producto = 'IMP' THEN  a.coste_medio * stock 
+           -- caso 3 compra = 0
+		
 		        -- IMPORTACION 
 		        --  valoracion * %obsolescencia
-		        WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 >= 0 and stock/CANSUMVENT2 < 2 THEN   a.coste_medio * stock  *  0 / 100
+		        WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 >= 0 and stock/CANSUMVENT2 < 2 THEN  0
                 WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 >= 2 and stock/CANSUMVENT2 < 3 THEN   a.coste_medio * stock  *  5 / 100
                 WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 >= 3 and stock/CANSUMVENT2 < 4 THEN   a.coste_medio * stock  * 10 / 100 
                 WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 >= 4 and stock/CANSUMVENT2 < 5 THEN   a.coste_medio * stock  * 15 / 100
@@ -541,17 +549,17 @@ class reportingController
                 
                 -- NO IMPORTACION
                 --  valoracion * %obsolescencia
-                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >= 0 and stock/CANSUMVENT1 <2 THEN   a.coste_medio * stock * 0  / 100
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >= 0 and stock/CANSUMVENT1 <2 THEN   0
                 WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >= 2 and stock/CANSUMVENT1 <3 THEN   a.coste_medio * stock * 5  / 100
                 WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >= 3 and stock/CANSUMVENT1 <4 THEN   a.coste_medio * stock * 10 / 100
                 WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >= 4 and stock/CANSUMVENT1 <5 THEN   a.coste_medio * stock * 15 / 100
-                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >= 5 and stock/CANSUMVENT1 <6 THEN  a.coste_medio *  stock * 20 / 100
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >= 5 and stock/CANSUMVENT1 <6 THEN   a.coste_medio *  stock * 20 / 100
                 WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >= 6 and stock/CANSUMVENT1 <7 THEN   a.coste_medio * stock * 25 / 100
                 WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >= 7 and stock/CANSUMVENT1 <8 THEN   a.coste_medio * stock * 30 / 100
                 WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >= 8 and stock/CANSUMVENT1 <10 THEN  a.coste_medio * stock * 40 / 100
 		END as  VALOR_OBSOLESCENCIA, 
 		NULL as PFACTOR_CONVERSION 
- FROM articulos a 
+        FROM articulos a 
 		LEFT OUTER JOIN (select articulo_id art,SUM(cantidad) as CANSUMVENT1  from historico_ventas_detalle   v1 LEFT OUTER JOIN articulos a ON v1.articulo_id = a.id WHERE empresa=1 AND es_directo=0 AND a.fecha_baja is null ".$fechaVenta1."".$proveedor."".$articulo." GROUP BY articulo_id ) v1 ON a.id = v1.art 
 		LEFT OUTER JOIN (select articulo_id art,SUM(cantidad) as CANSUMCOMP1  from historico_compras_detalle  c1 LEFT OUTER JOIN articulos a ON c1.articulo_id = a.id WHERE empresa=1 AND es_directo=0 AND a.fecha_baja is null ".$fechaCompra1."".$proveedor."".$articulo." GROUP BY articulo_id ) c1 ON a.id = c1.art 
 	    LEFT OUTER JOIN (select articulo_id art,SUM(cantidad) as CANSUMVENT2  from historico_ventas_detalle   v2 LEFT OUTER JOIN articulos a ON v2.articulo_id = a.id WHERE empresa=1 AND es_directo=0 AND a.fecha_baja is null ".$fechaVenta2."".$proveedor."".$articulo." GROUP BY articulo_id ) v2 ON a.id = v2.art 
