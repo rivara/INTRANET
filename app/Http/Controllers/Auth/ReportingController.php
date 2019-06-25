@@ -464,8 +464,8 @@ class reportingController
 		a.coste_medio  as PRECIO_MEDIO, 
 		NULL as PRECIO_MEDIO_CALCULADO, 
         -- caso1 hay compras
-		    CASE WHEN CANSUMCOMP1 >= 1    and a.tipo_producto != 'IMP' THEN 'Hay entradas'
-                 WHEN CANSUMCOMP2 >= 1    and a.tipo_producto = 'IMP' THEN 'Hay entradas'
+		    CASE WHEN CANSUMCOMP1 != 0    and a.tipo_producto != 'IMP' THEN 'Hay entradas'
+                 WHEN CANSUMCOMP2 != 0    and a.tipo_producto = 'IMP' THEN 'Hay entradas'
         -- caso 2  no hay ventas  
                  WHEN CANSUMVENT1  = 0    and a.tipo_producto != 'IMP' THEN 'No hay ventas: 100%'
                  WHEN CANSUMVENT2  = 0    and a.tipo_producto = 'IMP' THEN 'No hay ventas: 100%'
@@ -498,8 +498,8 @@ class reportingController
        END as AÑOS_COBERTURA,  
 	   CASE 
 		   -- caso1 hay compras    
-		            WHEN CANSUMCOMP1 >= 1    and a.tipo_producto !='IMP' THEN '0'
-                    WHEN CANSUMCOMP2 >= 1    and a.tipo_producto  = 'IMP' THEN '0'
+		            WHEN CANSUMCOMP1 !=0    and a.tipo_producto !='IMP' THEN '0'
+                    WHEN CANSUMCOMP2 !=0    and a.tipo_producto  = 'IMP' THEN '0'
            -- caso 2  no hay ventas     
                     WHEN CANSUMVENT1  = 0    and a.tipo_producto != 'IMP' THEN '100'
                     WHEN CANSUMVENT2  = 0    and a.tipo_producto = 'IMP' THEN '100'
@@ -529,8 +529,8 @@ class reportingController
 		
 		CASE
 		  -- caso1 hay compras    
-		            WHEN CANSUMCOMP1 >= 1    and a.tipo_producto !='IMP' THEN 0
-                    WHEN CANSUMCOMP2 >= 1    and a.tipo_producto  = 'IMP' THEN 0
+		            WHEN CANSUMCOMP1 != 0    and a.tipo_producto !='IMP' THEN 0
+                    WHEN CANSUMCOMP2 != 0    and a.tipo_producto  = 'IMP' THEN 0
            -- caso 2  no hay ventas     
                     WHEN CANSUMVENT1  = 0    and a.tipo_producto != 'IMP' THEN  a.coste_medio * stock 
                     WHEN CANSUMVENT2  = 0    and a.tipo_producto = 'IMP' THEN  a.coste_medio * stock 
