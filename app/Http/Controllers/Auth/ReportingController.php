@@ -471,7 +471,7 @@ class reportingController
                  WHEN CANSUMVENT2  = 0    and a.tipo_producto = 'IMP' THEN 'No hay ventas: 100%'
         -- caso 3 compra = 0
                 -- IMPORTACION
-                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 >= 0 and stock/CANSUMVENT2 < 2 THEN 'DE 0.00 a 2.00 = 0'
+                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > = 0 and stock/CANSUMVENT2 < 2 THEN 'DE 0.00 a 2.00 = 0'
                 WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 >= 2 and stock/CANSUMVENT2 < 3 THEN 'DE 2.00 a 3.00 = 5'
                 WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 >= 3 and stock/CANSUMVENT2 < 4 THEN 'DE 3.00 a 4.00 = 10'
                 WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 >= 4 and stock/CANSUMVENT2 < 5 THEN 'DE 4.00 a 5.00 = 15'
@@ -493,8 +493,8 @@ class reportingController
        END AS COMENTARIO,
        
        CASE
-            WHEN a.tipo_producto != 'IMP' THEN  ROUND(stock/CANSUMVENT1,2)
-            WHEN a.tipo_producto = 'IMP' THEN   ROUND(stock/CANSUMVENT2,2)
+            WHEN a.tipo_producto != 'IMP' THEN  stock/CANSUMVENT1
+            WHEN a.tipo_producto = 'IMP' THEN   stock/CANSUMVENT2
        END as AÑOS_COBERTURA,  
 	   CASE 
 		   -- caso1 hay compras    
