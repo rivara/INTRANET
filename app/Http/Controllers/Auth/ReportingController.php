@@ -505,51 +505,50 @@ class reportingController
                     WHEN CANSUMVENT2  = 0    and a.tipo_producto='IMP' THEN '100'
            -- caso 3 compra = 0
 		        -- IMPORTACION
-		        WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 0 and stock/CANSUMVENT2 < 2 THEN  '0'
-                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 2 and stock/CANSUMVENT2 < 3 THEN  '5'
-                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 3 and stock/CANSUMVENT2 < 4 THEN  '10'
-                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 4 and stock/CANSUMVENT2 < 5 THEN  '15'
-                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 5 and stock/CANSUMVENT2 < 6 THEN  '20'
-                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 6 and stock/CANSUMVENT2 < 7 THEN  '25'
-                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 7 and stock/CANSUMVENT2 < 8 THEN  '30'
-                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 8 and stock/CANSUMVENT2 < 10 THEN '40'
+		        WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 >= 0 and stock/CANSUMVENT2 < 2 THEN  '0'
+                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 >= 2 and stock/CANSUMVENT2 < 3 THEN  '5'
+                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 >= 3 and stock/CANSUMVENT2 < 4 THEN  '10'
+                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 >= 4 and stock/CANSUMVENT2 < 5 THEN  '15'
+                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 >= 5 and stock/CANSUMVENT2 < 6 THEN  '20'
+                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 >= 6 and stock/CANSUMVENT2 < 7 THEN  '25'
+                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 >= 7 and stock/CANSUMVENT2 < 8 THEN  '30'
+                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 >= 8 and stock/CANSUMVENT2 < 10 THEN '40'
                 
                 -- NO IMPORTACION
-                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 0 and stock/CANSUMVENT1 <2 THEN  '0'
-                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 2 and stock/CANSUMVENT1 <3 THEN  '5'
-                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 3 and stock/CANSUMVENT1 <4 THEN  '10'
-                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 4 and stock/CANSUMVENT1 <5 THEN  '15'
-                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 5 and stock/CANSUMVENT1 <6 THEN  '20'
-                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 6 and stock/CANSUMVENT1 <7 THEN  '25'
-                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 7 and stock/CANSUMVENT1 <8 THEN  '30'
-                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 8 and stock/CANSUMVENT1 <10 THEN '40'
-                ELSE '0'
-                
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >= 0 and stock/CANSUMVENT1 <2 THEN  '0'
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >= 2 and stock/CANSUMVENT1 <3 THEN  '5'
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >= 3 and stock/CANSUMVENT1 <4 THEN  '10'
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >= 4 and stock/CANSUMVENT1 <5 THEN  '15'
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >= 5 and stock/CANSUMVENT1 <6 THEN  '20'
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >= 6 and stock/CANSUMVENT1 <7 THEN  '25'
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >= 7 and stock/CANSUMVENT1 <8 THEN  '30'
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >= 8 and stock/CANSUMVENT1 <10 THEN '40'
+               
 		END as OBSOLETO, 
 		
 		
 		CASE
 		        -- IMPORTACION 
 		        --  valoracion * %obsolescencia
-		        WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 0 and stock/CANSUMVENT2 < 2 THEN   a.coste_medio * stock  *  0 / 100
-                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 2 and stock/CANSUMVENT2 < 3 THEN   a.coste_medio * stock  *  5 / 100
-                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 3 and stock/CANSUMVENT2 < 4 THEN   a.coste_medio * stock  * 10 / 100 
-                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 4 and stock/CANSUMVENT2 < 5 THEN   a.coste_medio * stock  * 15 / 100
-                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 5 and stock/CANSUMVENT2 < 6 THEN   a.coste_medio * stock  * 20 / 100
-                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 6 and stock/CANSUMVENT2 < 7 THEN   a.coste_medio * stock  * 25 / 100
-                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 7 and stock/CANSUMVENT2 < 8 THEN   a.coste_medio * stock  * 30 / 100
-                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 > 8 and stock/CANSUMVENT2 < 10 THEN  a.coste_medio * stock  * 40 / 100
+		        WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 >= 0 and stock/CANSUMVENT2 < 2 THEN   a.coste_medio * stock  *  0 / 100
+                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 >= 2 and stock/CANSUMVENT2 < 3 THEN   a.coste_medio * stock  *  5 / 100
+                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 >= 3 and stock/CANSUMVENT2 < 4 THEN   a.coste_medio * stock  * 10 / 100 
+                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 >= 4 and stock/CANSUMVENT2 < 5 THEN   a.coste_medio * stock  * 15 / 100
+                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 >= 5 and stock/CANSUMVENT2 < 6 THEN   a.coste_medio * stock  * 20 / 100
+                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 >= 6 and stock/CANSUMVENT2 < 7 THEN   a.coste_medio * stock  * 25 / 100
+                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 >= 7 and stock/CANSUMVENT2 < 8 THEN   a.coste_medio * stock  * 30 / 100
+                WHEN  a.tipo_producto ='IMP' and stock/CANSUMVENT2 >= 8 and stock/CANSUMVENT2 < 10 THEN  a.coste_medio * stock  * 40 / 100
                 
                 -- NO IMPORTACION
                 --  valoracion * %obsolescencia
-                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 0 and stock/CANSUMVENT1 <2 THEN   a.coste_medio * stock * 0  / 100
-                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 2 and stock/CANSUMVENT1 <3 THEN   a.coste_medio * stock * 5  / 100
-                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 3 and stock/CANSUMVENT1 <4 THEN   a.coste_medio * stock * 10 / 100
-                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 4 and stock/CANSUMVENT1 <5 THEN   a.coste_medio * stock * 15 / 100
-                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 5 and stock/CANSUMVENT1 <6 THEN  a.coste_medio *  stock * 20 / 100
-                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 6 and stock/CANSUMVENT1 <7 THEN   a.coste_medio * stock * 25 / 100
-                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 7 and stock/CANSUMVENT1 <8 THEN   a.coste_medio * stock * 30 / 100
-                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 > 8 and stock/CANSUMVENT1 <10 THEN  a.coste_medio * stock * 40 / 100
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >= 0 and stock/CANSUMVENT1 <2 THEN   a.coste_medio * stock * 0  / 100
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >= 2 and stock/CANSUMVENT1 <3 THEN   a.coste_medio * stock * 5  / 100
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >= 3 and stock/CANSUMVENT1 <4 THEN   a.coste_medio * stock * 10 / 100
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >= 4 and stock/CANSUMVENT1 <5 THEN   a.coste_medio * stock * 15 / 100
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >= 5 and stock/CANSUMVENT1 <6 THEN  a.coste_medio *  stock * 20 / 100
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >= 6 and stock/CANSUMVENT1 <7 THEN   a.coste_medio * stock * 25 / 100
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >= 7 and stock/CANSUMVENT1 <8 THEN   a.coste_medio * stock * 30 / 100
+                WHEN a.tipo_producto !='IMP' and stock/CANSUMVENT1 >= 8 and stock/CANSUMVENT1 <10 THEN  a.coste_medio * stock * 40 / 100
 		END as  VALOR_OBSOLESCENCIA, 
 		NULL as PFACTOR_CONVERSION 
  FROM articulos a 
