@@ -3,7 +3,7 @@
 
 
     <div class="container wrapper mitad2">
-      <h2>Reserva de la sala XXX</h2>
+        <h2>Reserva de la sala XXX</h2>
         <div class="row">
             <div class="col-md-10"></div>
             <div class="col-md-2">
@@ -15,78 +15,72 @@
             </div>
 
 
+            <div class="col-md-3">
+                <p>Dia/mes/año</p>
+            </div>
+            <div class="col-md-4">
+                <input class="form-control floatLeft" type="date" name="fechaDesde" required>
+            </div>
+            <div class="col-md-5"></div>
 
-                <div class="col-md-3">
-                    <p>Dia/mes/año</p>
-                </div>
-                <div class="col-md-4">
-                    <input class="form-control floatLeft" type="date" name="fechaDesde" required>
-                </div>
-                <div class="col-md-5"></div>
-
-                <div class="col-md-3">
-                    <p>hora</p>
-                </div>
-                <div class="col-md-4">
-                    <input class="form-control floatLeft" type="time" name="fechaDesde" required>
-                </div>
-                <div class="col-md-5"></div>
-                <div class="col-md-12">
-                    <p>Titulo</p>
-                </div>
-                <div class="col-md-12">
-                  <input class="form-control floatLeft" type="text" name="fechaDesde" required>
-                </div>
-                  <div class="col-md-12">
+            <div class="col-md-3">
+                <p>hora</p>
+            </div>
+            <div class="col-md-4">
+                <input class="form-control floatLeft" type="time" name="fechaDesde" required>
+            </div>
+            <div class="col-md-5"></div>
+            <div class="col-md-12">
+                <p>Titulo</p>
+            </div>
+            <div class="col-md-12">
+                <input class="form-control floatLeft" type="text" name="fechaDesde" required>
+            </div>
+            <div class="col-md-12">
                       &nbsp;
                   </div>
-                <div class="col-md-12">
-                    <p>Decripcion</p>
+            <div class="col-md-12">
+                <p>Decripcion</p>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group purple-border">
+                    <textarea class="form-control" id="exampleFormControlTextarea4" rows="3"></textarea>
                 </div>
-                <div class="col-md-12">
-                    <div class="form-group purple-border">
-                        <textarea class="form-control" id="exampleFormControlTextarea4" rows="3"></textarea>
-                    </div>
-                </div>
+            </div>
 
 
-                <!--<div class="col-md-6">
-                    <div class="form-row align-items-center">
-
-                            <label  for="inlineFormCustomSelect">CC</label>
-                            <select class="custom-select" id="inlineFormCustomSelect">
-                                <option selected>Seleccion...</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
-
-                    </div>
-                </div> -->
-      <?php
-            $mails = DB::table('usuarios')->pluck('email');
-
-            ?>
-            <select class="custom-select" id="inlineFormCustomSelect">
-            @foreach($mails as $mail)
-                <option value="{{$mail}}">{{$mail}}</option>
-            @endforeach
-            </select>
-
+            <form>
                 <div class="col-md-6">
-                  <i class="fa fa-plus fa-3x" aria-hidden="true"></i>
-                </div>
+                    <?php
+                    $mails = DB::table('usuarios')->pluck('email');
 
+                    ?>
+                    <select class="custom-select" id="inlineFormCustomSelect">
+                        @foreach($mails as $mail)
+                            <option value="{{$mail}}">{{$mail}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-6">
+
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa fa-plus fa-3x" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </form>
 
             <div class="col-md-12">
-                 aaa@aa.com
+                @foreach($mails as $mail)
+                    <option value="{{$mail}}">{{$mail}}</option>
+                @endforeach
                 <i class="fa fa-trash " aria-hidden="true"></i>
+
             </div>
 
             <div class="col-md-9"></div>
             <div class="col-md-3">
                 <button class="btn-save btn btn-primary ">Save</button>
             </div>
-    </div>
+        </div>
     </div>
 @endsection
