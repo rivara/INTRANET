@@ -49,8 +49,9 @@
             </div>
 
 
-            <form>
+
                 <div class="col-md-6">
+
                     <?php
                     $mails = DB::table('usuarios')->pluck('email');
 
@@ -64,16 +65,18 @@
                 <div class="col-md-6">
 
                     <button type="submit" class="btn btn-primary">
-                        <i class="fa fa-plus fa-3x" aria-hidden="true"></i>
+                        <i class="fa fa-plus aria-hidden="true"></i>
                     </button>
                 </div>
-            </form>
 
             <div class="col-md-12">
                 @foreach($mails as $mail)
-                    <option value="{{$mail}}">{{$mail}}</option>
+                    <div>
+                      <p value="{{$mail}}">{{$mail}}</p>
+                      <i class="fa fa-trash " aria-hidden="true"></i>
+                    </div>
                 @endforeach
-                <i class="fa fa-trash " aria-hidden="true"></i>
+
 
             </div>
 

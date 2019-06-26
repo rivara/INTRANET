@@ -464,8 +464,9 @@ class reportingController
 		a.coste_medio  as PRECIO_MEDIO, 
 		NULL as PRECIO_MEDIO_CALCULADO, 
         -- caso1 hay compras
-		    CASE WHEN ROUND(ifnull(CANSUMVENT1,0),-1) != 0    and a.tipo_producto != 'IMP' THEN 'Hay entradas'
-                 WHEN ROUND(ifnull(CANSUMVENT1,0),-1) != 0    and a.tipo_producto = 'IMP' THEN 'Hay entradas'
+		    CASE 
+                 WHEN CANSUMCOMP1 !=0    and a.tipo_producto !='IMP' THEN 'Hay entradas'
+                 WHEN CANSUMCOMP2 !=0    and a.tipo_producto  = 'IMP' THEN 'Hay entradas'
         -- caso 2  no hay ventas  
                  WHEN CANSUMVENT1  = 0    and a.tipo_producto != 'IMP' THEN 'No hay ventas: 100%'
                  WHEN CANSUMVENT2  = 0    and a.tipo_producto = 'IMP' THEN 'No hay ventas: 100%'
