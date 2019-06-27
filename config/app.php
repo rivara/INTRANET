@@ -137,7 +137,6 @@ return [
         /*
          * Laravel Framework Service Providers...
          */
-        Tremby\LaravelGitVersion\GitVersionServiceProvider::class,
         Illuminate\Auth\AuthServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
         Illuminate\Bus\BusServiceProvider::class,

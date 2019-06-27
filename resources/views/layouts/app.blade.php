@@ -84,8 +84,7 @@
                             </button>
                     </ul>
                 </div>
-            </div>**
-            @include('git-version::version-comment')
+            </div> **
         </nav>
         <main class="py-4">
             @yield('content')
