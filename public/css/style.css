@@ -226,6 +226,11 @@ th {
     height: 60px;
 }
 
+.height90 {
+    height:90%;
+}
+
+
 .width100 {
     width: 100% !important;
 }
@@ -281,6 +286,12 @@ th {
 .paddingTop10px {
     padding-top: 10px;
 }
+
+.paddingTop90 {
+    padding-top: 90%;
+}
+
+
 
 .paddingLeft50px {
     padding-left: 50px;
@@ -353,6 +364,12 @@ th {
 .margin10px {
     margin: 10px;
 }
+
+.marginTop20 {
+    margin-top: 20% !important;
+}
+
+
 
 .marginBottom20px {
     margin-bottom: 20px !important;
@@ -540,6 +557,12 @@ input[type="file"] {
 
 .btn-outline-info:hover {
     color: #fff;
+}
+
+
+.caretButton{
+    height: 3px !important;
+    width:  3px !important;
 }
 
 /*******************************************************/

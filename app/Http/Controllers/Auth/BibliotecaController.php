@@ -70,8 +70,11 @@ class BibliotecaController
     public function actionUpload(Request $request)
     {
         //get file extension
+        if ($request->file('file') != null){
         $ext = $request->file('file')->getClientOriginalExtension();
-
+            }else{
+            return redirect()->back()->withErrors(("error"));
+        }
         //filename to store
         $filename =$request->file('file')->getClientOriginalName();
 
@@ -153,7 +156,8 @@ class BibliotecaController
         ));
 
 
-        return view('biblioteca/subgrupo', [
+     //problema al refrescar la página
+       return view('biblioteca/subgrupo', [
             'id_usuario' => $request['id_usuario'],
             'id_grupo' => $request['id_grupo'],
             'id_subgrupo' => $request['id_subgrupo']
@@ -173,6 +177,21 @@ class BibliotecaController
             'id_subgrupo' => $request['id_subgrupo']
         ]);
     }
+
+
+    public function actionUpdateFile(Request $request)
+    {
+        DB::table('archivos')->where('id', $request['id_fichero'])->update(['descripcion' => $request['descripcion']]);
+
+        //Eliminar fichero
+        return view('biblioteca/subgrupo', [
+            'id_usuario' => $request['id_usuario'],
+            'id_grupo' => $request['id_grupo'],
+            'id_subgrupo' => $request['id_subgrupo']
+        ]);
+    }
+
+
 
 
     public function actionDownload(Request $request)
@@ -253,4 +272,42 @@ class BibliotecaController
             'id_subgrupo' => $request['id_subgrupo']
         ]);
     }
+
+
+    public function actionGoEditFile(Request $request)
+    {
+
+        return view('biblioteca/editFile',[
+            'id_fichero' => $request['id_fichero'],
+            'id_usuario' => $request['id_usuario'],
+            'id_grupo' => $request['id_grupo'],
+            'id_subgrupo' => $request['id_subgrupo']]);
+    }
+
+    public function actionGoSubGrupo(Request $request)
+    {
+        return view('biblioteca/subgrupo',[
+            'id_fichero' => $request['id_fichero'],
+            'id_usuario' => $request['id_usuario'],
+            'id_grupo' => $request['id_grupo'],
+            'id_subgrupo' => $request['id_subgrupo']]);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

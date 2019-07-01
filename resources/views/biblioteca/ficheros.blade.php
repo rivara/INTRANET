@@ -1,6 +1,10 @@
 @extends('layouts.app')
 @section('content')
 
+    @if ($errors->has('error'))
+        <strong>Error</strong>
+    @endif
+
     <div class="paddingLeft50px container">
                <form  method="GET" action="{{route('goSubGroup')}}">
                    <button class="btn btn-primary btnE" value="{{$id_subgrupo}}">
@@ -11,6 +15,7 @@
                    <input type="hidden" name="id_grupo" value={{$id_grupo}}>
                </form>
            </div>
+
 
     <div class="container wrapper mitad agora">
         <form action="{{ url('upload') }}" method="post" enctype="multipart/form-data">

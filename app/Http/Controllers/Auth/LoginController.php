@@ -149,34 +149,23 @@ class LoginController extends Controller
         if ($url[0] == "reserva") {
 
             ///////////////////////////////////////////////////////////////////////////////////////////////
+// return view('salas/index',['nombre' => $request['nombre']]);
 
-          /*  $events = [];
+            $calendario = DB::table('reservas')->get();
 
-            $events[] = Calendar::event(
-                'Event One', //event title
-                false, //full day event?
-                '2015-02-11T0800', //start time (you can also use Carbon instead of DateTime)
-                '2015-02-12T0800', //end time (you can also use Carbon instead of DateTime)
-                0 //optionally, you can specify an event ID
-            );
-*/
-            $events[] = Calendar::event(
-                "Evento", //event title
-                true, //full day event?
-                new \DateTime('2019-06-14'), //start time (you can also use Carbon instead of DateTime)
-                new \DateTime('2019-06-14'), //end time (you can also use Carbon instead of DateTime)
-                null ,
-                [
-                    'color' => '#f05050',
-                    'url' => 'salas/edit',
-                ]
+            foreach($calendario as $calendar) {
+                $events[] = Calendar::event(
+                    $calendar->descripcion, //event title
+                    false, //full day event?
+                    new \DateTime($calendar->fecha." ".$calendar->hora_inicio), //start time (you can also use Carbon instead of DateTime)
+                    new \DateTime($calendar->fecha." ".$calendar->hora_fin), //end time (you can also use Carbon instead of DateTime)
+                    null,
+                    [
+                        'color' => $calendar->color,
+                        'url' => 'salas/edit',
+                    ]);
+            }
 
-            );
-
-
-
-          //  $calendar = Calendar::addEvents($events);
-          //  $events = [];
             $nombre = $request['nombre'];
             $calendar = \Calendar::addEvents($events);
             return view('salas/index', compact('calendar','nombre'));
@@ -195,16 +184,18 @@ class LoginController extends Controller
 
     public function backHome()
     {
-        $usuarioId = DB::table('usuarios')->where('email', session('mail'))->pluck('id');
-        $nombre = DB::table('usuarios')->where('email', session('mail'))->pluck('nombre');
-        $nombreId= DB::table('usuarios')->where('email', session('mail'))->pluck('id');
+        $usuarioId =    DB::table('usuarios')->where('email', session('mail'))->pluck('id');
+        $nombre =       DB::table('usuarios')->where('email', session('mail'))->pluck('nombre');
+        $nombreId=      DB::table('usuarios')->where('email', session('mail'))->pluck('id');
         //saco los grupos que pertenece el usuario
-        $gruposId = DB::table('usuarios_grupos')->where('id_usuario', $usuarioId)->pluck('id_grupo');
+        $gruposId =     DB::table('usuarios_grupos')->where('id_usuario', $usuarioId)->pluck('id_grupo');
         //Saco los portales que puede ver en los grupos en los que esta ese usuario
         $i = 0;
+
         foreach ($gruposId as $grupoId) {
-            $portalesId = DB::table('grupos_portales')->where('id_grupo', $grupoId)->pluck('id_portal');
-            foreach ($portalesId as $portalId) {
+        $portalesId = DB::table('grupos_portales')->where('id_grupo', $grupoId)->pluck('id_portal');
+
+        foreach ($portalesId as $portalId) {
                 $portales[$i] = DB::table('portales')->where('id', $portalId)->get();
                 $i++;
             }
