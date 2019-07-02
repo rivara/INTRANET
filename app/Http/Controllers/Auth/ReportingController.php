@@ -342,7 +342,7 @@ class reportingController
         $articulo = $request["articulo"];
         $calculo = $request["calculo"];
         $compresion=$request["compresion"];
-        $date = strtotime($fechaDesde);
+        $date = strtotime($fechaDesde.'-1 year');
         $fechaDesdeHace2años= date('Y-m-d', $date);
         ECHO $fechaDesdeHace2años;
         DIE();
@@ -433,8 +433,8 @@ class reportingController
         $fechaCompra2 = "AND c2.fecha  BETWEEN '" .$fechaDesdeHace2años. "' AND '" .$fechaHasta. "'";
 
         $fechaF = "AND sm.fecha  BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "'";
-
-
+        echo $fechaVenta2;
+         die();
 
         $data = $db->select($db->raw("(
         SELECT a.id Articulo, 
