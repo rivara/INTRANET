@@ -9,8 +9,8 @@
             <?php
             // rvr formatear la fecha
             use Illuminate\Support\Facades\DB;
-            $primerafecha=DB::connection('reporting')->table('historico_ventas')->orderBy('fecha','asc')->value("fecha");
-            $ultimafecha=DB::connection('reporting')->table('historico_ventas')->orderBy('fecha','desc')->value("fecha");
+            $primerafecha=DB::connection('reporting')->table('historico_ventas_detalle')->orderBy('fecha','asc')->value("fecha");
+            $ultimafecha=DB::connection('reporting')->table('historico_ventas_detalle')->orderBy('fecha','desc')->value("fecha");
             // echo ($primerafecha);
             echo(date("d-m-Y", strtotime($primerafecha)));
             echo ("&nbsp;&nbsp;<b>a</b>&nbsp;&nbsp;");
