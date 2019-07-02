@@ -160,7 +160,7 @@ class reportingController
                                 FROM articulos a
                                 LEFT OUTER JOIN (
                                     select articulo_id art,SUM(cantidad) CANSUM ,SUM(importe) CANIMP
-                                    from historico_ventas v LEFT OUTER JOIN articulos a ON v.articulo_id = a.id
+                                    from historico_ventas_detalle v LEFT OUTER JOIN articulos a ON v.articulo_id = a.id
                                     WHERE empresa=1 
                                     AND es_directo=0 
                                     AND a.fecha_baja is null
@@ -434,6 +434,7 @@ class reportingController
         $fechaF = "AND sm.fecha  BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "'";
 
 
+
         $data = $db->select($db->raw("(
         SELECT a.id Articulo, 
 		a.nombre as Descripcion, 
@@ -557,10 +558,10 @@ class reportingController
 		END as  VALOR_OBSOLESCENCIA, 
 		NULL as PFACTOR_CONVERSION 
         FROM articulos a 
-		LEFT OUTER JOIN (select articulo_id art,SUM(cantidad) as CANSUMVENT1  from historico_ventas   v1 LEFT OUTER JOIN articulos a ON v1.articulo_id = a.id WHERE empresa=1 AND es_directo=0 AND a.fecha_baja is null ".$fechaVenta1."".$proveedor."".$articulo." GROUP BY articulo_id ) v1 ON a.id = v1.art 
-		LEFT OUTER JOIN (select articulo_id art,SUM(cantidad) as CANSUMCOMP1  from historico_compras  c1 LEFT OUTER JOIN articulos a ON c1.articulo_id = a.id WHERE empresa=1 AND es_directo=0 AND a.fecha_baja is null ".$fechaCompra1."".$proveedor."".$articulo." GROUP BY articulo_id ) c1 ON a.id = c1.art 
-	    LEFT OUTER JOIN (select articulo_id art,SUM(cantidad) as CANSUMVENT2  from historico_ventas   v2 LEFT OUTER JOIN articulos a ON v2.articulo_id = a.id WHERE empresa=1 AND es_directo=0 AND a.fecha_baja is null ".$fechaVenta2."".$proveedor."".$articulo." GROUP BY articulo_id ) v2 ON a.id = v2.art 
-		LEFT OUTER JOIN (select articulo_id art,SUM(cantidad) as CANSUMCOMP2  from historico_compras  c2 LEFT OUTER JOIN articulos a ON c2.articulo_id = a.id WHERE empresa=1 AND es_directo=0 AND a.fecha_baja is null ".$fechaCompra2."".$proveedor."".$articulo." GROUP BY articulo_id ) c2 ON a.id = c2.art
+		LEFT OUTER JOIN (select articulo_id art,SUM(cantidad) as CANSUMVENT1  from historico_ventas_detalle   v1 LEFT OUTER JOIN articulos a ON v1.articulo_id = a.id WHERE empresa=1 AND es_directo=0 AND a.fecha_baja is null ".$fechaVenta1."".$proveedor."".$articulo." GROUP BY articulo_id ) v1 ON a.id = v1.art 
+		LEFT OUTER JOIN (select articulo_id art,SUM(cantidad) as CANSUMCOMP1  from historico_compras_detalle  c1 LEFT OUTER JOIN articulos a ON c1.articulo_id = a.id WHERE empresa=1 AND es_directo=0 AND a.fecha_baja is null ".$fechaCompra1."".$proveedor."".$articulo." GROUP BY articulo_id ) c1 ON a.id = c1.art 
+	    LEFT OUTER JOIN (select articulo_id art,SUM(cantidad) as CANSUMVENT2  from historico_ventas_detalle   v2 LEFT OUTER JOIN articulos a ON v2.articulo_id = a.id WHERE empresa=1 AND es_directo=0 AND a.fecha_baja is null ".$fechaVenta2."".$proveedor."".$articulo." GROUP BY articulo_id ) v2 ON a.id = v2.art 
+		LEFT OUTER JOIN (select articulo_id art,SUM(cantidad) as CANSUMCOMP2  from historico_compras_detalle  c2 LEFT OUTER JOIN articulos a ON c2.articulo_id = a.id WHERE empresa=1 AND es_directo=0 AND a.fecha_baja is null ".$fechaCompra2."".$proveedor."".$articulo." GROUP BY articulo_id ) c2 ON a.id = c2.art
 		LEFT OUTER JOIN (
 				select articulo_id, SUM(stock_actual) as  stock   from  articulos_almacen arta LEFT OUTER JOIN articulos a ON arta.articulo_id=a.id GROUP BY articulo_id	
 		) arta ON a.id = arta.articulo_id
