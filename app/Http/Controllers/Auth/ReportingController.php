@@ -345,8 +345,7 @@ class reportingController
         $date = strtotime($fechaDesde.'-2 year');
         $fechaDesdeHace2años= date('Y-m-d', $date);
 
-        $date = strtotime($fechaHasta.'-2 year');
-        $fechaHastaHace2años= date('Y-m-d', $date);
+
 
 
         //INFORME
@@ -430,8 +429,8 @@ class reportingController
 
         $fechaVenta1 = "AND v1.fecha  BETWEEN '" . $fechaDesde . "' AND '" .$fechaHasta."'";
         $fechaCompra1 = "AND c1.fecha  BETWEEN '" .$fechaDesde. "' AND '" .$fechaHasta. "'";
-        $fechaVenta2 = "AND v2.fecha  BETWEEN '" .$fechaDesdeHace2años. "' AND '" .$fechaHastaHace2años. "'";
-        $fechaCompra2 = "AND c2.fecha  BETWEEN '" .$fechaDesdeHace2años. "' AND '" .$fechaHastaHace2años. "'";
+        $fechaVenta2 = "AND v2.fecha  BETWEEN '" .$fechaDesdeHace2años. "' AND '" .$fechaHasta. "'";
+        $fechaCompra2 = "AND c2.fecha  BETWEEN '" .$fechaDesdeHace2años. "' AND '" .$fechaHasta. "'";
 
         $fechaF = "AND sm.fecha  BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "'";
 
