@@ -27,7 +27,12 @@
         <div class="container wrapper agora ">
             <form id="logout-form" action="{{route('updateFile')}}" method="GET">
                 <label for="Nombre">Nombre</label>
-                <input type="text" class="form-control width300px" name="descripcion" placeholder="Introduce Nombre" value=<?php echo $val; ?> >
+
+                  <input class="form-control " type="text" name="descripcion"
+                       value="{{str_replace(array('["', '"]'), '',DB::table('archivos')->where('id', $id_fichero)->pluck('descripcion'))}}"
+                       style="width:100% !important;">
+
+
                 @if ($errors->has('nombre'))
                     <span class="error">
                     <strong>{{ $errors->first('nombre') }}</strong>
