@@ -342,7 +342,7 @@ class reportingController
         $articulo = $request["articulo"];
         $calculo = $request["calculo"];
         $compresion=$request["compresion"];
-        $date = strtotime($fechaDesde.'-1 year');
+        $date = strtotime($fechaDesde);
         $fechaDesdeHace2años= date('Y-m-d', $date);
         ECHO $fechaDesdeHace2años;
         DIE();
