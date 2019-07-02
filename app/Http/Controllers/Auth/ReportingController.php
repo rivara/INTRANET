@@ -344,7 +344,8 @@ class reportingController
         $compresion=$request["compresion"];
         $date = strtotime($fechaDesde.'-2 year');
         $fechaDesdeHace2años= date('Y-m-d', $date);
-
+        ECHO $fechaDesdeHace2años;
+        DIE();
 
 
         //INFORME
