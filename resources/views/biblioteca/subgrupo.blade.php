@@ -44,11 +44,7 @@
             <thead>
             <th></th>
             <th>
-                <form>Descripción
-                    <button type="submit" name="submit" value="Edit" class="caretButton">
-                    <i class="fa fa-caret-down"></i>
-                    </button>
-                </form>
+               Descripción <i class="fa fa-caret-up "></i>
             </th>
 
             <th>Fichero</th>
@@ -65,7 +61,7 @@
             </th>
             </thead>
             <?php
-            $ficheros = DB::table('archivos')->where('id_subgrupo', $id_subgrupo)->get();
+            $ficheros = DB::table('archivos')->orderBy('descripcion', 'asc')->where('id_subgrupo', $id_subgrupo)->get();
             ?>
             @if(! is_null($ficheros))
                 @foreach($ficheros as $fichero)
