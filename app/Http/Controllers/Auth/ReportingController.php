@@ -347,7 +347,6 @@ class reportingController
 
 
 
-
         //INFORME
         $precabecera = array(
             array(date("F j, Y, g:i a")),
@@ -564,7 +563,7 @@ class reportingController
 	    LEFT OUTER JOIN (select articulo_id art,SUM(cantidad) as CANSUMVENT2  from historico_ventas_detalle   v2 LEFT OUTER JOIN articulos a ON v2.articulo_id = a.id WHERE empresa=1 AND es_directo=0 AND a.fecha_baja is null ".$fechaVenta2."".$proveedor."".$articulo." GROUP BY articulo_id ) v2 ON a.id = v2.art 
 		LEFT OUTER JOIN (select articulo_id art,SUM(cantidad) as CANSUMCOMP2  from historico_compras_detalle  c2 LEFT OUTER JOIN articulos a ON c2.articulo_id = a.id WHERE empresa=1 AND es_directo=0 AND a.fecha_baja is null ".$fechaCompra2."".$proveedor."".$articulo." GROUP BY articulo_id ) c2 ON a.id = c2.art
 		LEFT OUTER JOIN (
-				select articulo_id, SUM(stock_actual) as  stock   from  articulos_almacen arta LEFT OUTER JOIN articulos a ON arta.articulo_id=a.id GROUP BY articulo_id	
+				select articulo_id, SUM(stock_actual) as  stock   from  articulos_almacen 		  arta LEFT OUTER JOIN articulos a ON arta.articulo_id=a.id GROUP BY articulo_id	
 		) arta ON a.id = arta.articulo_id
 		LEFT JOIN proveedores pro ON a.proveedor_id = pro.id 
 		LEFT JOIN familias fam ON a.familia_id = fam.id 
