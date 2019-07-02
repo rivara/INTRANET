@@ -342,8 +342,9 @@ class reportingController
         $articulo = $request["articulo"];
         $calculo = $request["calculo"];
         $compresion=$request["compresion"];
-        $date = strtotime($fechaDesde.'-1 year');
+        $date = strtotime($fechaDesde.'-2 year');
         $fechaDesdeHace2años= date('Y-m-d', $date);
+
 
 
         //INFORME
@@ -431,8 +432,8 @@ class reportingController
         $fechaCompra2 = "AND c2.fecha  BETWEEN '" .$fechaDesdeHace2años. "' AND '" .$fechaHasta. "'";
 
         $fechaF = "AND sm.fecha  BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "'";
-        echo $fechaVenta2;
-         die();
+
+
 
         $data = $db->select($db->raw("(
         SELECT a.id Articulo, 
@@ -562,7 +563,7 @@ class reportingController
 	    LEFT OUTER JOIN (select articulo_id art,SUM(cantidad) as CANSUMVENT2  from historico_ventas_detalle   v2 LEFT OUTER JOIN articulos a ON v2.articulo_id = a.id WHERE empresa=1 AND es_directo=0 AND a.fecha_baja is null ".$fechaVenta2."".$proveedor."".$articulo." GROUP BY articulo_id ) v2 ON a.id = v2.art 
 		LEFT OUTER JOIN (select articulo_id art,SUM(cantidad) as CANSUMCOMP2  from historico_compras_detalle  c2 LEFT OUTER JOIN articulos a ON c2.articulo_id = a.id WHERE empresa=1 AND es_directo=0 AND a.fecha_baja is null ".$fechaCompra2."".$proveedor."".$articulo." GROUP BY articulo_id ) c2 ON a.id = c2.art
 		LEFT OUTER JOIN (
-				select articulo_id, SUM(stock_actual) as  stock   from  articulos_almacen 		  arta LEFT OUTER JOIN articulos a ON arta.articulo_id=a.id GROUP BY articulo_id	
+				select articulo_id, SUM(stock_actual) as  stock   from  articulos_almacen  LEFT OUTER JOIN articulos a ON arta.articulo_id=a.id GROUP BY articulo_id	
 		) arta ON a.id = arta.articulo_id
 		LEFT JOIN proveedores pro ON a.proveedor_id = pro.id 
 		LEFT JOIN familias fam ON a.familia_id = fam.id 
