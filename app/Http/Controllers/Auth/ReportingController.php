@@ -434,7 +434,6 @@ class reportingController
         $fechaF = "AND sm.fecha  BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "'";
 
 
-
         $data = $db->select($db->raw("(
         SELECT a.id Articulo, 
 		a.nombre as Descripcion, 
