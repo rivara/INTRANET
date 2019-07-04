@@ -7,6 +7,7 @@
  */
 namespace App\Http\Controllers\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use MaddHatter\LaravelFullcalendar\Calendar;
 
 
@@ -42,7 +43,7 @@ class SalasController
         );
 
         $calendar = \Calendar::addEvents($events);
-        return view('salas/edit', compact('calendar','nombre'));
+        return view('salas/edit', compact('calendar','nombre'),['salaOpcion' => $request['salaOpcion']]);
 
 
     }
@@ -89,6 +90,37 @@ class SalasController
 
 
         $calendar = \Calendar::addEvents($events);
-        return view('salas/index', compact('calendar','nombre'));
+        return view('salas/index', compact('calendar','nombre'),['salaOpcion' => $request['salaOpcion']]);
+    }
+
+
+
+    ////////////////////////////////////// EDITAR AGGENDA
+    public function actionRecordCalendar(Request $request){
+        echo $request['fecha'];
+        echo $request['horaDesde'];
+        echo $request['fechaHasta'];
+        echo $request['titulo'];
+        echo $request['descricion'];
+
+        $sala=DB::table('salas')->where('nombre',$request['salaOpcion'])->pluck('id');
+
+
+
+        DB::table('reservas')->insert(array(
+            'fecha' =>$request['fecha'],
+            'hora_inicio'=>$request['horaDesde'],
+            'hora_fin'=>$request['fechaHasta'],
+            'titulo'=>$request['titulo'],
+            'descripcion'=>$request['descripcion'],
+            'id_mails'=>1,
+            'otros'=>'',
+            'sala'=>print_r($sala),
+            'color'=>'#F64F2C',
+        ));
+
+        return view('salas/index', compact('calendar','nombre'),['salaOpcion' => $request['salaOpcion']]);
+
+
     }
 }

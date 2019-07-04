@@ -205,17 +205,7 @@ Route::group(['middleware' => 'revalidate'], function() {
 ////////////////////////
     Route::get('salas/edit', 'Auth\SalasController@actionGoEditSala')->name('goEditSala');
     Route::get('salas/index', 'Auth\SalasController@actionGoIndexSala')->name('goIndexSala');
-
-
-
-
-
-
-
-
-
-
-
+    Route::get('salas/edit/record', 'Auth\SalasController@actionRecordCalendar')->name('recordCalendar');
 
 //DESB2-FERRCASH REVISAR
    // Route::get('WebAdmLog', 'Auth\Desb2bFerrcashController@WebAdmLog')->name('WebAdmLog');

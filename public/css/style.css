@@ -21,7 +21,7 @@
 }
 
 .table button {
-    width: 175px;
+    width: 175px !important;
 }
 
 .btn p {

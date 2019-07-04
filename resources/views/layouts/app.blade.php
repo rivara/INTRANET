@@ -19,14 +19,12 @@
     <script src="{{ asset('js/bootstrap.bundle.min.js')}}"></script>
     <script src="{{ asset('js/jsDrag/plugins/sortable.js')}}"></script>
     <script src="{{ asset('js/jsDrag/fileinput.js')}}"></script>
-    <script src="{{ asset('js/jsDrag/locales/fr.js')}}"></script>
     <script src="{{ asset('js/jsDrag/locales/es.js')}}"></script>
     <script src="{{ asset('js/calendar/moment.min.js')}}"></script>
-    <script src="{{ asset('js/calendar/fullcalendar.min.js')}}"></script>
-
-
-
-
+    <script src="{{ asset('js/calendar/fullcalendar.js')}}"></script>
+    <script src="{{ asset('js/calendar/gcal.js')}}"></script>
+    <script src="{{ asset('js/calendar/locale-all.js')}}"></script>
+    <script src="{{ asset('js/calendar/locale/es.js') }}"></script>
     <script>
         var whichInput = 0;
 
@@ -49,14 +47,6 @@
     <link href="{{ asset('css/fileinput.css') }}" rel="stylesheet">
     <link href="{{ asset('css/themes/explorer-fas/theme.css') }}" rel="stylesheet">
     <link href="{{ asset('css/calendar/fullcalendar.min.css') }}" rel="stylesheet">
-
-
-
-
-
-
-
-
 </head>
 <body>
     <div id="app">
