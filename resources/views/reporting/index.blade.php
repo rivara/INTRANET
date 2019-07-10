@@ -9,6 +9,11 @@
                     <form action="{{ route('obsoletos')}}" method="get">
                         @include('reporting.almacen.obsoletos')
                     </form>
+
+                @elseif ($option=="marcaPropia")
+                    <form action="{{ route('marcaPropia')}}" method="get">
+                        @include('reporting.ventas.marcaPropia')
+                    </form>
                 @elseif ($option=="otros")
                     <h3>en construccion</h3>
                     <i class="fa fa-user-circle-o" aria-hidden="true"></i>

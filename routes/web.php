@@ -168,7 +168,7 @@ Route::group(['middleware' => 'revalidate'], function() {
     Route::get('reporting', 'Auth\ReportingController@actionReportingRedirect')->name('reportingRedirect');
     Route::get('indiceDeRotacion', 'Auth\ReportingController@actionindiceDeRotacion')->name('indiceDeRotacion');
     Route::get('obsoletos', 'Auth\ReportingController@actionObsoletos')->name('obsoletos');
-
+    Route::get('marcaPropia', 'Auth\ReportingController@actionMarcaPropia')->name('marcaPropia');
 
 
 /////////////////////////

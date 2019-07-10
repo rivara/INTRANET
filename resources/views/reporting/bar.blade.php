@@ -155,8 +155,8 @@
                     </li>
                     <li class="dropdown-submenu">
                         <form action="{{ route('reportingRedirect')}}" method="get">
-                            <button class="" type="submit"><p>8.- Marca Propia</p></button>
-                            <input type="hidden" name="option" value="otro">
+                            <button class="" type="submit"><p>8.-Consumo Marca Propia</p></button>
+                            <input type="hidden" name="option" value="marcaPropia">
                         </form>
                     </li>
                 </ul>
@@ -201,19 +201,13 @@
                             <button class="" type="submit"><p>6.- Inventario x tiempo de movimiento</p></button>
                             <input type="hidden" name="option" value="otro">
                         </form>
-                    </li><li class="dropdown-submenu">
+                    </li>
+                    <li class="dropdown-submenu">
                         <form action="{{ route('reportingRedirect')}}" method="get">
                             <button class="" type="submit"><p>7.- Mermas</p></button>
                             <input type="hidden" name="option" value="otro">
                         </form>
-                    </li><li class="dropdown-submenu">
-                        <form action="{{ route('reportingRedirect')}}" method="get">
-                            <button class="" type="submit"><p>8.- Marca Propia</p></button>
-                            <input type="hidden" name="option" value="otro">
-                        </form>
                     </li>
-
-
 
                 </ul>
             </li>

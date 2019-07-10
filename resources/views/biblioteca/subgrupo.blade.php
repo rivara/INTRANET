@@ -77,16 +77,19 @@
                             ({{$fichero->otros}})
                         </td>
                         <td>
-                            <form class="floatLeft" method="GET" action="{{route('deleteFile')}}">
-                                <button type="submit" class="btn width60px">
+                          <div class="row">
+                            <div class="col-md-2">
+                            <form  method="GET" action="{{route('deleteFile')}}">
+                                <button type="submit" class="btn width60px ">
                                     <i class="fa fa-trash fa-2x"></i></button>
                                 <input type="hidden" name="id" value={{$fichero->id}} >
                                 <input type="hidden" name="id_usuario" value={{$id_usuario}} >
                                 <input type="hidden" name="id_grupo" value={{$id_grupo}}>
                                 <input type="hidden" name="id_subgrupo" value={{$id_subgrupo}} >
                             </form>
-
-                            <form class="floatLeft" method="GET" action="{{route('download')}}">
+                            </div>
+                              <div class="col-md-2">
+                            <form  method="GET" action="{{route('download')}}">
                                 <button type="submit" class="btn width60px">
                                     <i class="fa fa-download fa-2x" aria-hidden="true"></i>
                                     <input type="hidden" name="id" value={{$fichero->id}} >
@@ -95,7 +98,9 @@
                                     <input type="hidden" name="id_subgrupo" value={{$id_subgrupo}} >
                                 </button>
                             </form>
-                            <form class="floatLeft" method="GET" action="{{route('goEditFile')}}">
+                              </div>
+                              <div class="col-md-2">
+                            <form  method="GET" action="{{route('goEditFile')}}">
                                 <button type="submit" class="btn width60px">
                                     <i class="fa fa-pencil fa-2x" aria-hidden="true"></i>
                                     <input type="hidden" name="id_fichero" value={{$fichero->id}} >
@@ -104,6 +109,8 @@
                                     <input type="hidden" name="id_subgrupo" value={{$id_subgrupo}} >
                                 </button>
                             </form>
+                              </div>
+                          <div>
                         </td>
                     </tr>
                 @endforeach

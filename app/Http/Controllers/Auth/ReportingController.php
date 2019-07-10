@@ -23,6 +23,7 @@ class reportingController
 {
     public function actionReportingRedirect(Request $request)
     {
+
         return view('/reporting/index', ['option' => $request['option']]);
     }
 
@@ -342,7 +343,7 @@ class reportingController
         $articulo = $request["articulo"];
         $calculo = $request["calculo"];
         $compresion=$request["compresion"];
-        $date = strtotime($fechaDesde.'-2 year');
+        $date = strtotime($fechaDesde.'-1 year');
         $fechaDesdeHace2años= date('Y-m-d', $date);
 
 
@@ -726,6 +727,318 @@ class reportingController
             return response()->attachmentCSV($array, $filename.".csv");
         }
     }
+
+
+
+
+
+
+
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////// MARCA PROPIA ///////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+/*
+ * select clientes.nombre
+from historico_ventas_detalle as hist
+INNER JOIN clientes  ON   clientes.cliente= hist.cliente_id
+limit 100;
+ * */
+
+
+    public function actionMarcaPropia(Request $request)
+    {
+
+        //VARIABLES
+        $tipo = $request["opcion"];
+
+        $tipoCliente = $request["tipoCliente"];
+        if($tipoCliente==" "){
+            $tipoCliente="Todos";
+        }
+
+        $codigoCliente = $request["codigoCliente"];
+        if($codigoCliente==" "){
+            $codigoCliente="Todos";
+        }
+
+        $fechaDesde = $request["fechaDesde"];
+        $fechaHasta = $request["fechaHasta"];
+        $filename = "marcaPropia";
+        $compresion=$request["compresion"];
+
+
+        /*$fechaVenta1 = "AND v1.fecha  BETWEEN '" . $fechaDesde . "' AND '" .$fechaHasta."'";
+        $fechaCompra1 = "AND c1.fecha  BETWEEN '" .$fechaDesde. "' AND '" .$fechaHasta. "'";
+        $fechaVenta2 = "AND v2.fecha  BETWEEN '" .$fechaDesdeHace2años. "' AND '" .$fechaHasta. "'";
+        $fechaCompra2 = "AND c2.fecha  BETWEEN '" .$fechaDesdeHace2años. "' AND '" .$fechaHasta. "'";*/
+
+
+
+        $precabecera = array(
+            array(date("F j, Y, g:i a")),
+            array(date("H:i:s")),
+            array("Marca propia por cliente"),
+            array(""),
+            array("*PERIODO", $fechaDesde, "a", $fechaHasta),
+            array("*TIPO CLIENTE", $codigoCliente),
+            array("*CODIGO CLIENTE", $codigoCliente),
+            array(" ")
+        );
+          /******************************
+             SI LA OPCION ES CLIENTE
+           *****************************/
+        if ($tipo=="CLIENTE") {
+            $codigoCliente = $request["codigoCliente"];
+
+            if($codigoCliente==" "){
+                $codigoCliente=" ";
+            }else{
+                $codigoCliente="	where cliente_id =".$request["codigoCliente"];
+            }
+
+
+
+            $db = DB::connection('reporting');
+            $cabecera = array(
+                "Nº CLIENTE PREMIUM",
+                "NOMBRE CLIENTE",
+                "VENTAS TOTALES A 30/06/19 (€)",
+                "VENTAS TOTALES A 30/06/18 (€)",
+                "DIF 19/18 (%)",
+                "VENTAS MARCA PROPIA A 30/06/19 (€).",
+                "VENTAS MARCA PROPIA A 30/06/18 (€)",
+                "DIF 19/18 (%)"
+            );
+
+
+            $fechaActual    = "AND hist.fecha BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "'";
+            $fechaAnterior  = "AND hist.fecha BETWEEN '" . date('Y-m-d',strtotime($fechaDesde.'-1 year'))."' AND '".date('Y-m-d',strtotime($fechaHasta.'-1 year'))."'";
+
+
+
+            /*rvr*/
+            $data = $db->select($db->raw("(select clientes.cliente,clientes.nombre ,
+        (SELECT (historico_ventas_detalle.cantidad *historico_ventas_detalle.precio) 
+	    from historico_ventas_detalle 
+	     ".$codigoCliente."
+	     ".$fechaActual."
+    	group by historico_ventas_detalle.cliente_id)as venta_totales1 ,
+        
+        
+        (SELECT (historico_ventas_detalle.cantidad *historico_ventas_detalle.precio) 
+	    from historico_ventas_detalle 
+	     ".$codigoCliente."
+	     ".$fechaAnterior."
+	    group by historico_ventas_detalle.cliente_id)as venta_totales2 ,
+        
+        
+        NULL as diferencia ,
+        
+        (SELECT (hist.cantidad * hist.precio) as b
+	    from historico_ventas_detalle as hist
+	    LEFT JOIN articulos ON articulos.id = hist.articulo_id
+	    where hist.cliente_id= 125 
+	    and hist.fecha between '2018-05-11' and '2019-05-11'
+	    and articulos.es_marca_propia=1
+	    group by hist.cliente_id) as venta_totales_mp1 ,
+        
+        
+        (SELECT (hist.cantidad * hist.precio) as b
+	    from historico_ventas_detalle as hist
+	    LEFT JOIN articulos ON articulos.id = hist.articulo_id
+	    where hist.cliente_id= 125 
+	    and hist.fecha between '2018-05-11' and '2019-05-11'
+	    and articulos.es_marca_propia=1
+	    group by hist.cliente_id) as venta_totales_mp2 
+        
+        
+        
+        from historico_ventas_detalle as hist
+        LEFT OUTER JOIN clientes  ON   clientes.cliente= hist.cliente_id 
+        where clientes.cliente = 125
+        Group by   clientes.cliente)"
+            ));
+
+        }
+        /******************************
+        SI LA OPCION ES ARTICULO
+         ********************************/
+
+
+        if ($tipo=="ARTICULOS") {
+            $db = DB::connection('reporting');
+            $cabecera = array(
+                "N ARTICULO",
+                "DESCRIPCIÓN ARTÍCULO (SÓLO MARCA PROPIA)",
+                "VENTAS TOTALES A 30/06/19 (UDS)",
+                "VENTAS TOTALES A 30/06/18 (UDS)",
+                "DIF 19/18 (%)",
+                "ROTACIÓN DIARÍA (UDS VENDIDAS A 30.06.19 /  181 DÍAS"
+
+            );
+
+
+
+
+
+
+            //consultas
+            $fecha1 = "AND v.fecha  BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "'";
+            $fecha2 = "AND sm.fecha  BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "'";
+
+            $data = $db->select($db->raw("(select clientes.cliente,clientes.nombre , hist.importe ,(hist.cantidad *hist.precio) as ventaTotal , hist.fecha
+                                                        from historico_ventas_detalle as hist
+                                                    	LEFT OUTER JOIN clientes  ON   clientes.cliente= hist.cliente_id 
+                                                   	    where clientes.cliente = 105
+                                                   	    and  hist.fecha  between '2018-03-01' and '2019-01-01' 
+														Group by   clientes.cliente;)"));
+
+        }
+
+
+
+
+
+        $bg = array("808080", "0000ff", "B5BF00");
+        $title = "INFORME";
+        //LEYENDA
+        $fin1 = 12;
+        $fin2 = $fin1 + 9;
+        $fin3 = $fin2 + 11;
+        $tramo1 = Coordinate::stringFromColumnIndex(1) . "12:" . Coordinate::stringFromColumnIndex($fin1) . "12";
+        $tramo2 = Coordinate::stringFromColumnIndex($fin1 + 1) . "12:" . Coordinate::stringFromColumnIndex($fin2) . "12";
+        $tramo3 = Coordinate::stringFromColumnIndex($fin2 + 1) . "12:" . Coordinate::stringFromColumnIndex($fin3) . "12";
+        $tramos = array($tramo1, $tramo2, $tramo3);
+        $precabeceraL = array("CAMPO INFORME", "DESCRIPCION COMENTARIOS");
+        $tramo1 = "A2:A" . ($fin1);
+        $tramo2 = "A" . ($fin1) . ":A" . ($fin2);
+        $tramo3 = "A" . ($fin2) . ":A" . ($fin3);
+        $tramosLeyenda = array($tramo1, $tramo2, $tramo3);
+        $titleL = "LEYENDA";
+        $comentarios = array(
+            "Codigo de articulo",
+            "Descripcion del articulo",
+            "Fecha de alta",
+            "Fecha de baja",
+            "Tipo de articulo (NAC,UE o IMP)",
+            "Tipo Rotacion (Este campo es un campo de Navision, que no sé si alguien lo actualiza)",
+            "Proveedor",
+            "Razon social del proveedor",
+            "Referencia del articulo",
+            "Comprador asociado al proveedor del articulo",
+            "Marca asociada al articulo",
+            "Esta en el surtido basico de ferrokey",
+            "Precio medio de la ficha del articulo en Navision",
+            "Familia",
+            "Descripcion completa de la familia",
+            "Nivel 1 de la familia",
+            "Descripcion del nivel 1 de la familia",
+            "Nivel 2 de la familia",
+            "Descripcion del nivel 2 de la familia",
+            "Nivel 3 de la familia",
+            "Descripcion del nivel 3 de la familia",
+            "¿Esta a extinguir?",
+            "Unidades vendidas",
+            "Importe de las unidades",
+            "Importe de las unidades vendidas (valoradas al coste)",
+            "Stock a la fecha que se genera el informe",
+            "La suma de los importes de la ventas menos el coste de estas ventas.",
+            "Stock medio del producto (En unidades)",
+            "Son las unidades vendidas divididas por el stock medio",
+            "Es la division del margen bruto, por el indice de rotacion",
+            "¿Tiene marcado la casilla surtido de alicante?"
+        );
+
+
+        $i = 0;
+        foreach ($cabecera as $cab) {
+            $array[$i][1] = $cab;
+            $array[$i][2] = $comentarios[$i];
+            $i++;
+        }
+
+        $cabeceraL = array();
+        $page1 = new Sheet($precabecera, $data, $cabecera, $bg, $title, $tramos);
+        $page2 = new SheetLeyenda($precabeceraL, $array, $precabeceraL, $bg, $titleL, $tramosLeyenda);
+
+        // Envio del mail
+        if ((!is_null($request["email"])) && ($request["enviaMail"] == true)) {
+            set_time_limit(20000);
+            //generacion del zip
+            $zip = new ZipArchive;
+            if ($zip->open($filename.'.zip', ZipArchive::CREATE) === true) {
+                $zip->addFile(Excel::download(new SheetsExports($page1, $page2), $filename . '.xls')->getFile(),
+                    $filename.'.xls');
+                $zip->close();
+            }
+
+            if (is_null($request["asunto"])) {
+                $messageBody = "Informe de Indice de rotacion";
+            } else {
+                $messageBody = $request["asunto"];
+            }
+            $email = $request["email"];
+            $message = "Este mail contiene el informe de rotacion";
+            Mail::raw(/**
+             * @param $message
+             */
+                $messageBody, function ($message) use ($filename, $page2, $compresion, $email, $page1) {
+                $message->from('rvalle@comafe.es', 'Informe de Indice de rotación');
+                $message->to($email);
+                $message->subject('indice de rotacion');
+
+                if ($compresion== true) {
+                    set_time_limit(20000);
+                    $message->attach(response()->download($filename.".zip")->getFile(), ['as' => 'report.zip']);
+                    return redirect()->back();
+                }else{
+                    set_time_limit(20000);
+                    $message->attach(Excel::download(new SheetsExports($page1, $page2), $filename . '.xls')->getFile(), ['as' => 'report.xls']);
+                    return redirect()->back();
+                }
+            });
+
+        }
+
+        if (($compresion == true)&&($request["enviaMail"] == false)) {
+            //generacion del zip
+            $zip = new ZipArchive;
+            if ($zip->open($filename.'.zip', ZipArchive::CREATE) === true) {
+                $zip->addFile(Excel::download(new SheetsExports($page1, $page2), $filename . '.xls')->getFile(),
+                    $filename.'.xls');
+                $zip->close();
+            }
+            return response()->download($filename.".zip");
+        }
+
+
+        if ($request["type"] == "xls") {
+            set_time_limit(20000);
+            return (Excel::download(new SheetsExports($page1, $page2), $filename . '.xls'));
+        }
+        if ($request["type"] == "csv") {
+            set_time_limit(20000);
+            //return(Excel::download(new SheetsExports($page1, $page2), $filename . '.csv'));
+            //parametrizacion
+            $cabecera = "ARTICULO;DESCRIPCION;F.ALTA;F.BAJA;TIPO ART.;TIPO ROT.;PROVEEDOR;RAZON SOCIAL;REFERENCIA;COMPRADOR;MARCA;CAT.FERROKEY;PRECIO MEDIO;FAMILIA;DESC COMPLETA;FAM-1-;DESCRIPCION;FAM-2-;DESCRIPCION;FAM-3-;DESCRIPCION;DATOS ALMACEN EXTINGUIR;VENTAS (UDS);VENTAS (PVP);VENTAS(PMEDIO);STOCK ACTUAL;MARGEN BRUTO;STOCK MEDIO (UDS);INDICE ROTACON;MARGEN POR ROTACION;SURTIDO";
+            $cabeza = date("d-m-Y h:i:sa") . "\n Indice De Rotacion \n PERIODO, " . $fechaDesde . " a " . $fechaHasta . "  \n ALMACEN " . $almacen . " \n PROVEEDOR " . $proveedor_id . " \nLISTAS ARTICULOS ENVASES";
+            $array = $cabeza . "\n\n" . $cabecera . "\n";
+            foreach ($data as $list) {
+                foreach ($list as $dat) {
+                    $array = $array . $dat . ";";
+                }
+                $array = $array . "\n";
+            }
+            return response()->attachmentCSV($array, $filename.".csv");
+        }
+    }
+
+
+
+
+
+
 
 
 }
