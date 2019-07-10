@@ -343,7 +343,7 @@ class reportingController
         $articulo = $request["articulo"];
         $calculo = $request["calculo"];
         $compresion=$request["compresion"];
-        $date = strtotime($fechaDesde.'-1 year');
+        $date = strtotime($fechaDesde.'-2 year');
         $fechaDesdeHace2años= date('Y-m-d', $date);
 
 
@@ -838,8 +838,8 @@ limit 100;
         (SELECT (hist.cantidad * hist.precio) as b
 	    from historico_ventas_detalle as hist
 	    LEFT JOIN articulos ON articulos.id = hist.articulo_id
-	    where hist.cliente_id= 125 
-	    and hist.fecha between '2018-05-11' and '2019-05-11'
+	     ".$codigoCliente."
+	     ".$fechaActual."
 	    and articulos.es_marca_propia=1
 	    group by hist.cliente_id) as venta_totales_mp1 ,
         
@@ -848,15 +848,15 @@ limit 100;
 	    from historico_ventas_detalle as hist
 	    LEFT JOIN articulos ON articulos.id = hist.articulo_id
 	    where hist.cliente_id= 125 
-	    and hist.fecha between '2018-05-11' and '2019-05-11'
-	    and articulos.es_marca_propia=1
+	     ".$codigoCliente."
+	     ".$fechaAnterior."
 	    group by hist.cliente_id) as venta_totales_mp2 
         
         
         
         from historico_ventas_detalle as hist
         LEFT OUTER JOIN clientes  ON   clientes.cliente= hist.cliente_id 
-        where clientes.cliente = 125
+        ".$codigoCliente."
         Group by   clientes.cliente)"
             ));
 
