@@ -838,7 +838,7 @@ limit 100;
                 LEFT OUTER JOIN clientes cl ON (cab.empresa = cl.empresa AND cab.cliente_id = cl.cliente AND cab.sucursal_id = cl.sucursal)
                 WHERE cab.empresa = 1 AND cl.tipo_cliente = 'TARICAT'
                    ".$codigoClienteInner."
-                   ".$fechaActual."
+                   ".$fechaAnterior."
                 GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
                 ) v_mp ON c.empresa = v_mp.EMP AND c.cliente = v_mp.CLI AND c.sucursal = v_mp.SUC
                 LEFT OUTER JOIN (
@@ -856,7 +856,7 @@ limit 100;
                 LEFT OUTER JOIN clientes cl ON (cab.empresa = cl.empresa AND cab.cliente_id = cl.cliente AND cab.sucursal_id = cl.sucursal)
                 WHERE cab.empresa = 1 AND cl.tipo_cliente = 'TARICAT' 
                    ".$codigoClienteInner."
-                   ".$fechaActual."
+                   ".$fechaAnterior."
                 GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
                 ) v_mp_ant ON c.empresa = v_mp_ant.EMP AND c.cliente = v_mp_ant.CLI AND c.sucursal = v_mp_ant.SUC
                 
