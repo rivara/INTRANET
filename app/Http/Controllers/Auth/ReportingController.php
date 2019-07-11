@@ -800,6 +800,8 @@ limit 100;
             $cabecera = array(
                 "Nº CLIENTE PREMIUM",
                 "NOMBRE CLIENTE",
+                "EMPRESA",
+                "SUCURSAL",
                 "VENTAS TOTALES A 30/06/19 (€)",
                 "VENTAS TOTALES A 30/06/18 (€)",
                 "DIF 19/18 (%)",
