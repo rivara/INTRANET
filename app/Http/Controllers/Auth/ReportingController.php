@@ -798,10 +798,10 @@ limit 100;
 
             $db = DB::connection('reporting');
             $cabecera = array(
-                "Nº CLIENTE PREMIUM",
-                "NOMBRE CLIENTE",
                 "EMPRESA",
+                "Nº CLIENTE PREMIUM",
                 "SUCURSAL",
+                "NOMBRE CLIENTE",
                 "VENTAS TOTALES A 30/06/19 (€)",
                 "VENTAS TOTALES A 30/06/18 (€)",
                 "DIF 19/18 (%)",
