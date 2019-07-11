@@ -768,10 +768,6 @@ limit 100;
         $compresion=$request["compresion"];
 
 
-        /*$fechaVenta1 = "AND v1.fecha  BETWEEN '" . $fechaDesde . "' AND '" .$fechaHasta."'";
-        $fechaCompra1 = "AND c1.fecha  BETWEEN '" .$fechaDesde. "' AND '" .$fechaHasta. "'";
-        $fechaVenta2 = "AND v2.fecha  BETWEEN '" .$fechaDesdeHace2años. "' AND '" .$fechaHasta. "'";
-        $fechaCompra2 = "AND c2.fecha  BETWEEN '" .$fechaDesdeHace2años. "' AND '" .$fechaHasta. "'";*/
 
 
 
@@ -789,15 +785,15 @@ limit 100;
              SI LA OPCION ES CLIENTE
            *****************************/
         if ($tipo=="CLIENTE") {
-            $codigoCliente = $request["codigoCliente"];
 
-            if($codigoCliente==" "){
+            $codigoCliente="";
+            if(is_null($request["codigoCliente"])){
                 $codigoCliente=" ";
             }else{
-                $codigoCliente="	where cliente_id =".$request["codigoCliente"];
+                $codigoCliente="and cab.cliente_id =".$request["codigoCliente"];
             }
 
-
+            //$codigoCliente="	where cliente_id =".$request["codigoCliente"];
 
             $db = DB::connection('reporting');
             $cabecera = array(
@@ -812,53 +808,56 @@ limit 100;
             );
 
 
-            $fechaActual    = "AND hist.fecha BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "'";
-            $fechaAnterior  = "AND hist.fecha BETWEEN '" . date('Y-m-d',strtotime($fechaDesde.'-1 year'))."' AND '".date('Y-m-d',strtotime($fechaHasta.'-1 year'))."'";
+            $fechaActual    = "WHERE cab.fecha BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "'";
+            $fechaAnterior  = "WHERE cab.fecha BETWEEN '" . date('Y-m-d',strtotime($fechaDesde.'-1 year'))."' AND '".date('Y-m-d',strtotime($fechaHasta.'-1 year'))."'";
 
 
 
-            /*rvr*/
-            $data = $db->select($db->raw("(select clientes.cliente,clientes.nombre ,
-        (SELECT (historico_ventas_detalle.cantidad *historico_ventas_detalle.precio) 
-	    from historico_ventas_detalle 
-	     ".$codigoCliente."
-	     ".$fechaActual."
-    	group by historico_ventas_detalle.cliente_id)as venta_totales1 ,
-        
-        
-        (SELECT (historico_ventas_detalle.cantidad *historico_ventas_detalle.precio) 
-	    from historico_ventas_detalle 
-	     ".$codigoCliente."
-	     ".$fechaAnterior."
-	    group by historico_ventas_detalle.cliente_id)as venta_totales2 ,
-        
-        
-        NULL as diferencia ,
-        
-        (SELECT (hist.cantidad * hist.precio) as b
-	    from historico_ventas_detalle as hist
-	    LEFT JOIN articulos ON articulos.id = hist.articulo_id
-	     ".$codigoCliente."
-	     ".$fechaActual."
-	    and articulos.es_marca_propia=1
-	    group by hist.cliente_id) as venta_totales_mp1 ,
-        
-        
-        (SELECT (hist.cantidad * hist.precio) as b
-	    from historico_ventas_detalle as hist
-	    LEFT JOIN articulos ON articulos.id = hist.articulo_id
-	    where hist.cliente_id= 125 
-	     ".$codigoCliente."
-	     ".$fechaAnterior."
-	    group by hist.cliente_id) as venta_totales_mp2 
-        
-        
-        
-        from historico_ventas_detalle as hist
-        LEFT OUTER JOIN clientes  ON   clientes.cliente= hist.cliente_id 
-        ".$codigoCliente."
-        Group by   clientes.cliente)"
-            ));
+            //  "Nº CLIENTE PREMIUM , NOMBRE CLIENTE,VENTAS TOTALES A 30/06/19 (€)",VENTAS TOTALES A 30/06/18 (€)"
+            $data = $db->select($db->raw("(
+              select c.empresa, c.cliente, c.sucursal, c.nombre, ventasact.TOTVENTAS, v_mp.TOTVENTAS, (ventasact.TOTVENTAS -  v_mp.TOTVENTAS) DIF
+             from clientes c
+             LEFT OUTER JOIN (
+               SELECT cab.empresa EMP, cab.cliente_id CLI, cab.sucursal_id SUC, SUM(det.importe) TOTVENTAS  FROM historico_ventas_detalle det 
+                INNER JOIN historico_ventas cab ON (det.empresa = cab.empresa AND det.tipo_documento = cab.tipo_documento AND det.documento = cab.documento) 
+                ".$fechaActual."
+                 ".$codigoCliente."
+                GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
+             ) ventasact ON c.empresa = ventasact.EMP AND c.cliente = ventasact.CLI AND c.sucursal = ventasact.SUC
+              LEFT OUTER JOIN (
+               SELECT cab.empresa EMP, cab.cliente_id CLI, cab.sucursal_id SUC, SUM(det.importe) TOTVENTAS  FROM historico_ventas_detalle det 
+                INNER JOIN historico_ventas cab ON (det.empresa = cab.empresa AND det.tipo_documento = cab.tipo_documento AND det.documento = cab.documento) 
+                ".$fechaActual."
+                ".$codigoCliente."
+                GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
+             ) v_mp ON c.empresa = ventasact.EMP AND c.cliente = ventasact.CLI AND c.sucursal = ventasact.SUC
+              LEFT OUTER JOIN (
+               SELECT cab.empresa EMP, cab.cliente_id CLI, cab.sucursal_id SUC, SUM(det.importe) TOTVENTAS  FROM historico_ventas_detalle det 
+                INNER JOIN historico_ventas cab ON (det.empresa = cab.empresa AND det.tipo_documento = cab.tipo_documento AND det.documento = cab.documento) 
+                 ".$fechaActual."
+                  ".$codigoCliente."
+                GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
+             ) v_alm_ant ON c.empresa = ventasact.EMP AND c.cliente = ventasact.CLI AND c.sucursal = ventasact.SUC
+              LEFT OUTER JOIN (
+               SELECT cab.empresa EMP, cab.cliente_id CLI, cab.sucursal_id SUC, SUM(det.importe) TOTVENTAS  FROM historico_ventas_detalle det 
+                INNER JOIN historico_ventas cab ON (det.empresa = cab.empresa AND det.tipo_documento = cab.tipo_documento AND det.documento = cab.documento) 
+                ".$fechaActual."
+                 ".$codigoCliente."
+                GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
+             ) v_mp_ant ON c.empresa = ventasact.EMP AND c.cliente = ventasact.CLI AND c.sucursal = ventasact.SUC
+             
+             WHERE c.empresa = 1
+             GROUP BY c.cliente 
+            /* AND c.tipo_cliente='TARICAT'*/
+             
+             
+             )"));
+
+        //$items->put('products', $product);
+         // DIF DE AÑOS
+
+            //$data->push($data2);
+
 
         }
         /******************************
@@ -906,7 +905,7 @@ limit 100;
         $fin1 = 12;
         $fin2 = $fin1 + 9;
         $fin3 = $fin2 + 11;
-        $tramo1 = Coordinate::stringFromColumnIndex(1) . "12:" . Coordinate::stringFromColumnIndex($fin1) . "12";
+        $tramo1 = Coordinate::stringFromColumnIndex(1) . "9:" . Coordinate::stringFromColumnIndex($fin1) . "9";
         $tramo2 = Coordinate::stringFromColumnIndex($fin1 + 1) . "12:" . Coordinate::stringFromColumnIndex($fin2) . "12";
         $tramo3 = Coordinate::stringFromColumnIndex($fin2 + 1) . "12:" . Coordinate::stringFromColumnIndex($fin3) . "12";
         $tramos = array($tramo1, $tramo2, $tramo3);

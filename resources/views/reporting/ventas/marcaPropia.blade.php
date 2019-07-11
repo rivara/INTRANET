@@ -27,7 +27,7 @@
 
     <div class="col-md-4">
         <div class="form-group">
-            <select name="opcion" class="form-control">
+            <select name="opcion" class="form-control" id="single">
                 <option value="CLIENTE">por cliente</option>
                 <option value="ARTICULOS">por articulo</option>
             </select>
@@ -51,7 +51,7 @@
     </div>
 
     <div class="col-md-4">
-        <input class="form-control" type="text" name="codigo">
+        <input class="form-control" type="text" name="codigoCliente">
     </div>
     <div class="col-md-4">
 
@@ -75,7 +75,7 @@
         <p>Código de articulo</p>
     </div>
     <div class="col-md-4">
-        <input class="form-control" type="text" name="articulo">
+        <input class="form-control" type="text" name="articulo" id="codArt" style="visibility: hidden">
     </div>
     <div class="col-md-4"></div>
     <div class="col-md-12">&nbsp;</div>
@@ -102,3 +102,22 @@
 <br>
     <!-- -->
 </div>
+<script>
+    function displayVals() {
+        var singleValues = $( "#single" ).val();
+        var codArt = $( "#codArt" ).val();
+
+        // When using jQuery 3:
+        // var multipleValues = $( "#multiple" ).val();
+        /*$( "p" ).html( "<b>Single:</b> " + singleValues +
+            " <b>Multiple:</b> " + multipleValues.join( ", " ) );*/
+       // alert(singleValues);
+        if ("ARTICULOS" === singleValues){
+            ("#codArt").css('visibility', 'visible');
+            alert("*");
+        }
+    }
+
+    $( "select" ).change( displayVals );
+    displayVals();
+</script>
