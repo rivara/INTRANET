@@ -103,21 +103,7 @@
     <!-- -->
 </div>
 <script>
-    function displayVals() {
-        var singleValues = $( "#single" ).val();
-        var codArt = $( "#codArt" ).val();
-
-        // When using jQuery 3:
-        // var multipleValues = $( "#multiple" ).val();
-        /*$( "p" ).html( "<b>Single:</b> " + singleValues +
-            " <b>Multiple:</b> " + multipleValues.join( ", " ) );*/
-        alert(singleValues);
-        if (singleValues.localeCompare(str2)){
-            ("#codArt").css('visibility', 'visible');
-            alert("*");
-        }
-    }
-
-    $( "select" ).change( displayVals );
-    displayVals();
+    $('select').on('change', function() {
+        alert( this.value );
+    });
 </script>
