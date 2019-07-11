@@ -859,7 +859,7 @@ limit 100;
                 ) v_mp_ant ON c.empresa = v_mp_ant.EMP AND c.cliente = v_mp_ant.CLI AND c.sucursal = v_mp_ant.SUC
             WHERE c.empresa = 1
             AND c.tipo_cliente = 'TARICAT'
-              ".$codigoCliente." *
+              ".$codigoCliente."
              )"));
         }
         /******************************
