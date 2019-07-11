@@ -778,7 +778,7 @@ limit 100;
             array(""),
             array("*PERIODO", $fechaDesde, "a", $fechaHasta),
             array("*PERIODO ANTERIOR", date('Y-m-d',strtotime($fechaDesde.'-1 year')), "a",  date('Y-m-d',strtotime($fechaHasta.'-1 year'))),
-            array("*TIPO CLIENTE", ),
+            array("*TIPO CLIENTE", ""),
             array("*CODIGO CLIENTE", $codigoCliente),
             array(" ")
         );
@@ -789,7 +789,7 @@ limit 100;
 
             $codigoCliente="";
             $codigoClienteInner="";
-            if(is_null($request["codigoCliente"])){
+            if(! is_null($request["codigoCliente"])){
                 $codigoClienteInner="AND cab.cliente_id ='".$request["codigoCliente"]."'";
                 $codigoCliente="AND c.cliente ='".$request["codigoCliente"]."'";
             }
@@ -902,7 +902,7 @@ limit 100;
 
 
 
-        $bg = array("808080", "0000ff");
+        $bg = array("808080", "0000ff","00000");
         $title = "INFORME";
         //LEYENDA
         $fin1 = 12;
