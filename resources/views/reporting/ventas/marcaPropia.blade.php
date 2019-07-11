@@ -111,8 +111,8 @@
         // var multipleValues = $( "#multiple" ).val();
         /*$( "p" ).html( "<b>Single:</b> " + singleValues +
             " <b>Multiple:</b> " + multipleValues.join( ", " ) );*/
-       // alert(singleValues);
-        if ("ARTICULOS" === singleValues){
+        alert(singleValues);
+        if (singleValues.localeCompare(str2)){
             ("#codArt").css('visibility', 'visible');
             alert("*");
         }

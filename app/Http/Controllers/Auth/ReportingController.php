@@ -810,55 +810,42 @@ limit 100;
 
             $fechaActual    = "WHERE cab.fecha BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "'";
             $fechaAnterior  = "WHERE cab.fecha BETWEEN '" . date('Y-m-d',strtotime($fechaDesde.'-1 year'))."' AND '".date('Y-m-d',strtotime($fechaHasta.'-1 year'))."'";
-
-
-
             //  "Nº CLIENTE PREMIUM , NOMBRE CLIENTE,VENTAS TOTALES A 30/06/19 (€)",VENTAS TOTALES A 30/06/18 (€)"
             $data = $db->select($db->raw("(
               select c.empresa, c.cliente, c.sucursal, c.nombre, ventasact.TOTVENTAS, v_mp.TOTVENTAS, (ventasact.TOTVENTAS -  v_mp.TOTVENTAS) DIF
-             from clientes c
-             LEFT OUTER JOIN (
-               SELECT cab.empresa EMP, cab.cliente_id CLI, cab.sucursal_id SUC, SUM(det.importe) TOTVENTAS  FROM historico_ventas_detalle det 
-                INNER JOIN historico_ventas cab ON (det.empresa = cab.empresa AND det.tipo_documento = cab.tipo_documento AND det.documento = cab.documento) 
-                ".$fechaActual."
-                 ".$codigoCliente."
-                GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
-             ) ventasact ON c.empresa = ventasact.EMP AND c.cliente = ventasact.CLI AND c.sucursal = ventasact.SUC
-              LEFT OUTER JOIN (
-               SELECT cab.empresa EMP, cab.cliente_id CLI, cab.sucursal_id SUC, SUM(det.importe) TOTVENTAS  FROM historico_ventas_detalle det 
+                from clientes c
+                LEFT OUTER JOIN (
+                SELECT cab.empresa EMP, cab.cliente_id CLI, cab.sucursal_id SUC, SUM(det.importe) TOTVENTAS  FROM historico_ventas_detalle det 
                 INNER JOIN historico_ventas cab ON (det.empresa = cab.empresa AND det.tipo_documento = cab.tipo_documento AND det.documento = cab.documento) 
                 ".$fechaActual."
                 ".$codigoCliente."
                 GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
-             ) v_mp ON c.empresa = ventasact.EMP AND c.cliente = ventasact.CLI AND c.sucursal = ventasact.SUC
-              LEFT OUTER JOIN (
-               SELECT cab.empresa EMP, cab.cliente_id CLI, cab.sucursal_id SUC, SUM(det.importe) TOTVENTAS  FROM historico_ventas_detalle det 
-                INNER JOIN historico_ventas cab ON (det.empresa = cab.empresa AND det.tipo_documento = cab.tipo_documento AND det.documento = cab.documento) 
-                 ".$fechaActual."
-                  ".$codigoCliente."
-                GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
-             ) v_alm_ant ON c.empresa = ventasact.EMP AND c.cliente = ventasact.CLI AND c.sucursal = ventasact.SUC
-              LEFT OUTER JOIN (
-               SELECT cab.empresa EMP, cab.cliente_id CLI, cab.sucursal_id SUC, SUM(det.importe) TOTVENTAS  FROM historico_ventas_detalle det 
+                ) ventasact ON c.empresa = ventasact.EMP AND c.cliente = ventasact.CLI AND c.sucursal = ventasact.SUC
+                LEFT OUTER JOIN (
+                SELECT cab.empresa EMP, cab.cliente_id CLI, cab.sucursal_id SUC, SUM(det.importe) TOTVENTAS  FROM historico_ventas_detalle det 
                 INNER JOIN historico_ventas cab ON (det.empresa = cab.empresa AND det.tipo_documento = cab.tipo_documento AND det.documento = cab.documento) 
                 ".$fechaActual."
-                 ".$codigoCliente."
+                ".$codigoCliente."
                 GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
-             ) v_mp_ant ON c.empresa = ventasact.EMP AND c.cliente = ventasact.CLI AND c.sucursal = ventasact.SUC
-             
-             WHERE c.empresa = 1
-             GROUP BY c.cliente 
-            /* AND c.tipo_cliente='TARICAT'*/
-             
-             
+                ) v_mp ON c.empresa = ventasact.EMP AND c.cliente = ventasact.CLI AND c.sucursal = ventasact.SUC
+                LEFT OUTER JOIN (
+                SELECT cab.empresa EMP, cab.cliente_id CLI, cab.sucursal_id SUC, SUM(det.importe) TOTVENTAS  FROM historico_ventas_detalle det 
+                INNER JOIN historico_ventas cab ON (det.empresa = cab.empresa AND det.tipo_documento = cab.tipo_documento AND det.documento = cab.documento) 
+                ".$fechaActual."
+                ".$codigoCliente."
+                GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
+                ) v_alm_ant ON c.empresa = ventasact.EMP AND c.cliente = ventasact.CLI AND c.sucursal = ventasact.SUC  
+                LEFT OUTER JOIN (
+                SELECT cab.empresa EMP, cab.cliente_id CLI, cab.sucursal_id SUC, SUM(det.importe) TOTVENTAS  FROM historico_ventas_detalle det 
+                INNER JOIN historico_ventas cab ON (det.empresa = cab.empresa AND det.tipo_documento = cab.tipo_documento AND det.documento = cab.documento) 
+                ".$fechaActual."
+                ".$codigoCliente."
+                GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
+                ) v_mp_ant ON c.empresa = ventasact.EMP AND c.cliente = ventasact.CLI AND c.sucursal = ventasact.SUC
+                WHERE c.empresa = 1
+                GROUP BY c.cliente 
+                AND c.tipo_cliente='TARICAT' *
              )"));
-
-        //$items->put('products', $product);
-         // DIF DE AÑOS
-
-            //$data->push($data2);
-
-
         }
         /******************************
         SI LA OPCION ES ARTICULO
