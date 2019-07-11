@@ -815,13 +815,15 @@ limit 100;
             $fechaAnterior  = "AND cab.fecha BETWEEN '" . date('Y-m-d',strtotime($fechaDesde.'-1 year'))."' AND '".date('Y-m-d',strtotime($fechaHasta.'-1 year'))."'";
             //  "Nº CLIENTE PREMIUM , NOMBRE CLIENTE,VENTAS TOTALES A 30/06/19 (€)",VENTAS TOTALES A 30/06/18 (€)"
             $data = $db->select($db->raw("(
-         
-              
-                SELECT c.empresa, c.cliente, c.sucursal, c.nombre, IFNULL(ventasact.TOTVENTAS,0), IFNULL(v_mp.TOTVENTAS,0)
-                , (IFNULL(ventasact.TOTVENTAS,0) -  IFNULL(v_mp.TOTVENTAS,0)) DIF_ALM
-                , iFNULL(v_alm_ant.TOTVENTAS,0) TOT_ALM_ANT
-                , iFNULL(v_mp_ant.TOTVENTAS,0) TOT_MP_ANT
-                , iFNULL(v_alm_ant.TOTVENTAS,0) - iFNULL(v_mp_ant.TOTVENTAS,0) DIF_MP
+                SELECT
+              c.empresa, c.cliente, c.sucursal, c.nombre
+                , IFNULL(ventasact.TOTVENTAS,0) 'Almacen_Actual'
+                , iFNULL(v_alm_ant.TOTVENTAS,0) 'Almacen_Anterior'
+                , ROUND (CASE WHEN iFNULL(v_alm_ant.TOTVENTAS,0) <> 0 THEN ((IFNULL(ventasact.TOTVENTAS,0) -  IFNULL(v_alm_ant.TOTVENTAS,0)) / iFNULL(v_alm_ant.TOTVENTAS,0))*100 ELSE 0 END,2)'Diferencia_almacen (%)'
+                , IFNULL(v_mp.TOTVENTAS,0) 'Marca_propia_actual'
+                , iFNULL(v_mp_ant.TOTVENTAS,0)  'Marca_propia_anterior'
+                , ROUND (CASE WHEN iFNULL(v_mp_ant.TOTVENTAS,0) <> 0 THEN ((IFNULL(v_mp.TOTVENTAS,0) -  IFNULL(v_mp_ant.TOTVENTAS,0)) / iFNULL(v_mp_ant.TOTVENTAS,0))*100 ELSE 0 END,2)'Diferencia_mpropia (%)'
+                /* DATEDIFF('2019-04-30','2019-03-01')*/
                 from clientes c
                 LEFT OUTER JOIN (
                 SELECT cab.empresa EMP, cab.cliente_id CLI, cab.sucursal_id SUC, SUM(det.importe) TOTVENTAS  FROM historico_ventas_detalle det
