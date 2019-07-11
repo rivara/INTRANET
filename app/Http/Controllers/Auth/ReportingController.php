@@ -788,7 +788,7 @@ limit 100;
 
             $codigoCliente="";
             $codigoClienteInner="";
-            if(is_null($request["codigoCliente"])){
+            if(! is_null($request["codigoCliente"])){
                 $codigoClienteInner="AND cab.cliente_id ='".$request["codigoCliente"]."'";
                 $codigoCliente="AND c.cliente ='".$request["codigoCliente"]."'";
             }
