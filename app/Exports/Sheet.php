@@ -85,8 +85,7 @@ class Sheet implements FromCollection, WithHeadings, WithEvents, WithTitle
                     $i++;
                 }
                 $len=strlen($tramo);
-                $event->sheet->getDelegate()->getStyle("A1:".substr($tramo,$len-4 , 2)."1")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->
-                getStartColor()->setRGB($background[2]);
+                $event->sheet->getDelegate()->getStyle("A1:".substr($tramo,$len-4 , 2)."1")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB($background[2]);
 
             },
         );
