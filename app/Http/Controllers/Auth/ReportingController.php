@@ -830,14 +830,14 @@ limit 100;
             $fechaActual    = " AND (cab.fecha BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "')";
             $fechaAnterior  = "AND (cab.fecha BETWEEN '" . date('Y-m-d',strtotime($fechaDesde.'-1 year'))."' AND '".date('Y-m-d',strtotime($fechaHasta.'-1 year'))."')";
             $data = $db->select($db->raw("(
-             SELECT c.empresa, c.cliente, c.sucursal, c.nombre
+            SELECT c.empresa, c.cliente, c.sucursal, c.nombre
             , IFNULL(ventasact.TOTAL,0) Almacen
             , IFNULL(v_alm_ant.TOTAL,0) AlmacenAnterior
             , ROUND (CASE WHEN iFNULL(v_alm_ant.TOTAL,0) <> 0 THEN ((IFNULL(ventasact.TOTAL,0) -  IFNULL(v_alm_ant.TOTAL,0)) / iFNULL(v_alm_ant.TOTAL,0))*100 ELSE 0 END,2)'Diferencia_almacen (%)'
             , IFNULL(v_mp.TOTAL,0) MarcaPropia
             , IFNULL(v_mp_ant.TOTAL,0) MarcaPropia
             , ROUND (CASE WHEN iFNULL(v_mp_ant.TOTAL,0) <> 0 THEN ((IFNULL(v_mp.TOTAL,0) -  IFNULL(v_mp_ant.TOTAL,0)) / iFNULL(v_mp_ant.TOTAL,0))*100 ELSE 0 END,2)'Diferencia_mpropia (%)'
-             FROM clientes c
+            FROM clientes c
             LEFT OUTER JOIN (
             SELECT
             cab.empresa EMP, cab.cliente_id CLI, cab.sucursal_id SUC
@@ -849,8 +849,8 @@ limit 100;
             LEFT OUTER JOIN clientes cl ON (cab.empresa = cl.empresa AND cab.cliente_id = cl.cliente AND cab.sucursal_id = cl.sucursal)
             LEFT OUTER JOIN articulos art ON (det.articulo_id = art.id)
             LEFT OUTER JOIN proveedores pro ON (art.proveedor_id = pro.id)
-            WHERE (cab.empresa = 1 ".$tipoGrupoClienteInner.$codigoClienteInner.")
-              ".$fechaActual."
+            WHERE (cab.empresa = 1 AND cl.tipo_cliente = 'TARICAT')
+            AND (cab.fecha BETWEEN '2019-03-01' AND '2019-04-30')
             GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
             ) ventasact ON c.empresa = ventasact.EMP AND c.cliente = ventasact.CLI AND c.sucursal = ventasact.SUC
             LEFT OUTER JOIN (
@@ -863,8 +863,8 @@ limit 100;
             LEFT OUTER JOIN clientes cl ON (cab.empresa = cl.empresa AND cab.cliente_id = cl.cliente AND cab.sucursal_id = cl.sucursal)
             LEFT OUTER JOIN articulos art ON (det.articulo_id = art.id)
             LEFT OUTER JOIN proveedores pro ON (art.proveedor_id = pro.id)
-            WHERE (cab.empresa = 1 ".$tipoGrupoClienteInner.$codigoClienteInner.")
-             ".$fechaActual."
+            WHERE (cab.empresa = 1 AND cl.tipo_cliente = 'TARICAT')
+            AND (cab.fecha BETWEEN '2019-03-01' AND '2019-04-30')
             AND (art.es_marca_propia = 1 OR pro.es_marca_propia=1)
             GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
             ) v_mp ON c.empresa = v_mp.EMP AND c.cliente = v_mp.CLI AND c.sucursal = v_mp.SUC
@@ -878,8 +878,8 @@ limit 100;
             LEFT OUTER JOIN clientes cl ON (cab.empresa = cl.empresa AND cab.cliente_id = cl.cliente AND cab.sucursal_id = cl.sucursal)
             LEFT OUTER JOIN articulos art ON (det.articulo_id = art.id)
             LEFT OUTER JOIN proveedores pro ON (art.proveedor_id = pro.id)
-            WHERE (cab.empresa = 1  ".$tipoGrupoClienteInner.$codigoClienteInner.")
-             ".$fechaAnterior."
+            WHERE (cab.empresa = 1 AND cl.tipo_cliente = 'TARICAT')
+            AND (cab.fecha BETWEEN '2018-03-01' AND '2018-04-30')
             GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
             ) v_alm_ant ON c.empresa = v_alm_ant.EMP AND c.cliente = v_alm_ant.CLI AND c.sucursal = v_alm_ant.SUC
             LEFT OUTER JOIN (
@@ -892,14 +892,12 @@ limit 100;
             LEFT OUTER JOIN clientes cl ON (cab.empresa = cl.empresa AND cab.cliente_id = cl.cliente AND cab.sucursal_id = cl.sucursal)
             LEFT OUTER JOIN articulos art ON (det.articulo_id = art.id)
             LEFT OUTER JOIN proveedores pro ON (art.proveedor_id = pro.id)
-            WHERE (cab.empresa = 1 ".$tipoGrupoClienteInner.$codigoClienteInner.")
-             ".$fechaAnterior."
+            WHERE (cab.empresa = 1 AND cl.tipo_cliente = 'TARICAT')
+            AND (cab.fecha BETWEEN '2018-03-01' AND '2018-04-30')
             AND (art.es_marca_propia = 1 OR pro.es_marca_propia=1)
             GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
             ) v_mp_ant ON c.empresa = v_mp_ant.EMP AND c.cliente = v_mp_ant.CLI AND c.sucursal = v_mp_ant.SUC
-            
-            WHERE (c.empresa = 1 ".$tipoGrupoCliente.")
-             ".$codigoCliente."
+            WHERE (c.empresa = 1 AND c.tipo_cliente = 'TARICAT')
              )"));
         }
         /******************************
