@@ -1012,7 +1012,7 @@ limit 100;
         $i = 0;
         foreach ($cabecera as $cab) {
             $array[$i][1] = $cab;
-            $array[$i][2] = $comentarios[$i];
+            //$array[$i][2] = $comentarios[$i];
             $i++;
         }
 
