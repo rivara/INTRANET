@@ -768,6 +768,12 @@ limit 100;
             $codigoCliente="Todos";
         }
 
+
+        $codigoArticulo = $request["codigoArticulo"];
+        if($codigoArticulo==" "){
+            $codigoArticulo="Todos";
+        }
+
         $fechaDesde = $request["fechaDesde"];
         $fechaHasta = $request["fechaHasta"];
         $filename = "marcaPropia";
@@ -803,33 +809,26 @@ limit 100;
             }
 
 
-            //$codigoCliente="	where cliente_id =".$request["codigoCliente"];
 
             $db = DB::connection('reporting');
             $cabecera = array(
                 "EMPRESA",
-                "Nº CLIENTE PREMIUM",
+                "Nº CLIENTE",
                 "SUCURSAL",
                 "NOMBRE CLIENTE",
-                "VENTAS TOTALES A 30/06/19 (€)",
-                "VENTAS TOTALES A 30/06/18 (€)",
-                "DIF 19/18 (%)",
-                "VENTAS MARCA PROPIA A 30/06/19 (€).",
-                "VENTAS MARCA PROPIA A 30/06/18 (€)",
+                "VENTAS TOTALES A ".$fechaHasta." (€)",
+                "VENTAS TOTALES A ".date('d/m/Y',strtotime($fechaHasta.'-1 year'))." (€)",
+                "DIF ".$fechaHasta."/".date('d/m/Y',strtotime($fechaHasta.'-1 year'))." (%)",
+                "VENTAS MARCA PROPIA A ".$fechaHasta." (€).",
+                "VENTAS MARCA PROPIA A ".date('d/m/Y',strtotime($fechaHasta.'-1 year'))."(€)",
                 "DIF 19/18 (%)"
             );
 
 
-            $fechaActual    = " AND (cab.fecha BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "')";
-
-
             $tipoGrupoClienteInner=" AND cl.tipo_cliente ='".$request["tipoGrupoCliente"]."'";
             $tipoGrupoCliente=" AND c.tipo_cliente ='".$request["tipoGrupoCliente"]."'";
-
-
-
+            $fechaActual    = " AND (cab.fecha BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "')";
             $fechaAnterior  = "AND (cab.fecha BETWEEN '" . date('Y-m-d',strtotime($fechaDesde.'-1 year'))."' AND '".date('Y-m-d',strtotime($fechaHasta.'-1 year'))."')";
-            //  "Nº CLIENTE PREMIUM , NOMBRE CLIENTE,VENTAS TOTALES A 30/06/19 (€)",VENTAS TOTALES A 30/06/18 (€)"
             $data = $db->select($db->raw("(
              SELECT c.empresa, c.cliente, c.sucursal, c.nombre
             , IFNULL(ventasact.TOTAL,0) Almacen
@@ -850,8 +849,8 @@ limit 100;
             LEFT OUTER JOIN clientes cl ON (cab.empresa = cl.empresa AND cab.cliente_id = cl.cliente AND cab.sucursal_id = cl.sucursal)
             LEFT OUTER JOIN articulos art ON (det.articulo_id = art.id)
             LEFT OUTER JOIN proveedores pro ON (art.proveedor_id = pro.id)
-            WHERE (cab.empresa = 1 ".$tipoGrupoClienteInner.")
-              ".$codigoClienteInner."
+            WHERE (cab.empresa = 1 ".$tipoGrupoClienteInner.$codigoClienteInner.")
+              
               ".$fechaActual."
             GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
             ) ventasact ON c.empresa = ventasact.EMP AND c.cliente = ventasact.CLI AND c.sucursal = ventasact.SUC
@@ -865,8 +864,7 @@ limit 100;
             LEFT OUTER JOIN clientes cl ON (cab.empresa = cl.empresa AND cab.cliente_id = cl.cliente AND cab.sucursal_id = cl.sucursal)
             LEFT OUTER JOIN articulos art ON (det.articulo_id = art.id)
             LEFT OUTER JOIN proveedores pro ON (art.proveedor_id = pro.id)
-            WHERE (cab.empresa = 1 ".$tipoGrupoClienteInner.")
-             ".$codigoClienteInner."
+            WHERE (cab.empresa = 1 ".$tipoGrupoClienteInner.$codigoClienteInner.")
              ".$fechaActual."
             AND (art.es_marca_propia = 1 OR pro.es_marca_propia=1)
             GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
@@ -881,8 +879,7 @@ limit 100;
             LEFT OUTER JOIN clientes cl ON (cab.empresa = cl.empresa AND cab.cliente_id = cl.cliente AND cab.sucursal_id = cl.sucursal)
             LEFT OUTER JOIN articulos art ON (det.articulo_id = art.id)
             LEFT OUTER JOIN proveedores pro ON (art.proveedor_id = pro.id)
-            WHERE (cab.empresa = 1  ".$tipoGrupoClienteInner.")
-             ".$codigoClienteInner."
+            WHERE (cab.empresa = 1  ".$tipoGrupoClienteInner.$codigoClienteInner.")
              ".$fechaAnterior."
             GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
             ) v_alm_ant ON c.empresa = v_alm_ant.EMP AND c.cliente = v_alm_ant.CLI AND c.sucursal = v_alm_ant.SUC
@@ -896,8 +893,7 @@ limit 100;
             LEFT OUTER JOIN clientes cl ON (cab.empresa = cl.empresa AND cab.cliente_id = cl.cliente AND cab.sucursal_id = cl.sucursal)
             LEFT OUTER JOIN articulos art ON (det.articulo_id = art.id)
             LEFT OUTER JOIN proveedores pro ON (art.proveedor_id = pro.id)
-            WHERE (cab.empresa = 1 ".$tipoGrupoClienteInner.")
-             ".$codigoClienteInner."
+            WHERE (cab.empresa = 1 ".$tipoGrupoClienteInner.$codigoClienteInner.")
              ".$fechaAnterior."
             AND (art.es_marca_propia = 1 OR pro.es_marca_propia=1)
             GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
@@ -913,13 +909,17 @@ limit 100;
 
 
         if ($tipo=="ARTICULOS") {
+
+
+
+
             $db = DB::connection('reporting');
             $cabecera = array(
                 "N ARTICULO",
                 "DESCRIPCIÓN ARTÍCULO (SÓLO MARCA PROPIA)",
-                "VENTAS TOTALES A 30/06/19 (UDS)",
-                "VENTAS TOTALES A 30/06/18 (UDS)",
-                "DIF 19/18 (%)",
+                "VENTAS TOTALES A ".$fechaHasta."(UDS)",
+                "VENTAS TOTALES A  ".date('d/m/Y',strtotime($fechaHasta.'-1 year'))."(UDS)",
+                "DIF ".$fechaHasta."/".date('d/m/Y',strtotime($fechaHasta.'-1 year'))." (%)",
                 "ROTACIÓN DIARÍA (UDS VENDIDAS A 30.06.19 /  181 DÍAS"
 
             );
@@ -927,23 +927,65 @@ limit 100;
 
 
 
+            $codigoArticulo="";
+            $codigoArticuloInner="";
+            if(! is_null($request["codigoArticulo"])){
+                $codigoArticuloInner=" AND cab.cliente_id ='".$request["codigoArticulo"]."'";
+                $codigoArticulo=" AND a.id ='".$request["codigoArticulo"]."'";
+            }
 
 
-            //consultas
-            $fecha1 = "AND v.fecha  BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "'";
-            $fecha2 = "AND sm.fecha  BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "'";
+            $fechaActual    = " AND (cab.fecha BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "')";
+            $fechaAnterior  = "AND (cab.fecha BETWEEN '" . date('Y-m-d',strtotime($fechaDesde.'-1 year'))."' AND '".date('Y-m-d',strtotime($fechaHasta.'-1 year'))."')";
+            $tipoGrupoClienteInner=" AND cl.tipo_cliente ='".$request["tipoGrupoCliente"]."'";
+           // $tipoGrupoCliente=" AND c.tipo_cliente ='".$request["tipoGrupoCliente"]."'";
 
-            $data = $db->select($db->raw("(select clientes.cliente,clientes.nombre , hist.importe ,(hist.cantidad *hist.precio) as ventaTotal , hist.fecha
-                                                        from historico_ventas_detalle as hist
-                                                    	LEFT OUTER JOIN clientes  ON   clientes.cliente= hist.cliente_id 
-                                                   	    where clientes.cliente = 105
-                                                   	    and  hist.fecha  between '2018-03-01' and '2019-01-01' 
-														Group by   clientes.cliente;)"));
+            $data = $db->select($db->raw("(SELECT a.id, a.nombre, a.proveedor_id, a.marca, a.es_marca_propia, p.es_marca_propia, a.fecha_alta, a.fecha_baja
+            , IFNULL(AlmacenUds.TOTAL,0) AlmacenUds
+            , IFNULL(AlmacenAnteriorUds.TOTAL,0) AlmacenAnteriorUds
+            , ROUND (CASE WHEN iFNULL(AlmacenAnteriorUds.TOTAL,0) <> 0 THEN ((IFNULL(AlmacenUds.TOTAL,0) -  IFNULL(AlmacenAnteriorUds.TOTAL,0)) / iFNULL(AlmacenAnteriorUds.TOTAL,0))*100 ELSE 0 END,2)'Diferencia_almacen (%)'
+            , CASE WHEN DATEDIFF('".$fechaHasta."','".$fechaDesde."') <> 0 THEN IFNULL(AlmacenUds.TOTAL,0) / (DATEDIFF('".$fechaHasta."','".$fechaDesde."')) ELSE 0 END Rotacion
+            FROM articulos a
+            LEFT OUTER JOIN proveedores p ON a.proveedor_id = p.id
+            LEFT OUTER JOIN (
+            SELECT det.articulo_id ART
+            , SUM(CASE WHEN det.tipo_documento='A' THEN  det.cantidad *-1 ELSE 0 END) TOTABO
+            , SUM(CASE WHEN det.tipo_documento='F' THEN  det.cantidad ELSE 0 END) TOT_FAC
+            , SUM(CASE WHEN det.tipo_documento='A' THEN  det.cantidad*-1 ELSE det.cantidad END) TOTAL
+            FROM historico_ventas_detalle det
+            INNER JOIN historico_ventas cab ON (det.empresa = cab.empresa AND det.tipo_documento = cab.tipo_documento AND det.documento = cab.documento)
+            LEFT OUTER JOIN clientes cl ON (cab.empresa = cl.empresa AND cab.cliente_id = cl.cliente AND cab.sucursal_id = cl.sucursal)
+            LEFT OUTER JOIN articulos art ON (det.articulo_id = art.id)
+            LEFT OUTER JOIN proveedores pro ON (art.proveedor_id = pro.id)
+            WHERE (cab.empresa = 1 ".$tipoGrupoClienteInner.")
+            ".$fechaActual."
+            ".$codigoArticuloInner."
+            AND (art.es_marca_propia = 1 OR pro.es_marca_propia=1)
+            GROUP BY det.articulo_id
+            ) AlmacenUds ON a.id = AlmacenUds.ART
+            LEFT OUTER JOIN (
+            SELECT det.articulo_id ART
+            , SUM(CASE WHEN det.tipo_documento='A' THEN  det.cantidad *-1 ELSE 0 END) TOTABO
+            , SUM(CASE WHEN det.tipo_documento='F' THEN  det.cantidad ELSE 0 END) TOT_FAC
+            , SUM(CASE WHEN det.tipo_documento='A' THEN  det.cantidad*-1 ELSE det.cantidad END) TOTAL
+            FROM historico_ventas_detalle det
+            INNER JOIN historico_ventas cab ON (det.empresa = cab.empresa AND det.tipo_documento = cab.tipo_documento AND det.documento = cab.documento)
+            LEFT OUTER JOIN clientes cl ON (cab.empresa = cl.empresa AND cab.cliente_id = cl.cliente AND cab.sucursal_id = cl.sucursal)
+            LEFT OUTER JOIN articulos art ON (det.articulo_id = art.id)
+            LEFT OUTER JOIN proveedores pro ON (art.proveedor_id = pro.id)
+            WHERE (cab.empresa = 1  ".$tipoGrupoClienteInner.")
+           ".$fechaAnterior."
+            ".$codigoArticuloInner."
+            AND (art.es_marca_propia = 1 OR pro.es_marca_propia=1)
+            GROUP BY det.articulo_id
+            ) AlmacenAnteriorUds ON a.id = AlmacenAnteriorUds.ART
+            
+            WHERE (a.es_marca_propia = 1 OR p.es_marca_propia=1)
+             ".$codigoArticulo."
+            ORDER BY a.proveedor_id, a.nombre
+            )"));
 
         }
-
-
-
 
 
         $bg = array("808080", "0000ff","00000");
@@ -963,37 +1005,7 @@ limit 100;
         $tramosLeyenda = array($tramo1, $tramo2, $tramo3);
         $titleL = "LEYENDA";
         $comentarios = array(
-            "Codigo de articulo",
-            "Descripcion del articulo",
-            "Fecha de alta",
-            "Fecha de baja",
-            "Tipo de articulo (NAC,UE o IMP)",
-            "Tipo Rotacion (Este campo es un campo de Navision, que no sé si alguien lo actualiza)",
-            "Proveedor",
-            "Razon social del proveedor",
-            "Referencia del articulo",
-            "Comprador asociado al proveedor del articulo",
-            "Marca asociada al articulo",
-            "Esta en el surtido basico de ferrokey",
-            "Precio medio de la ficha del articulo en Navision",
-            "Familia",
-            "Descripcion completa de la familia",
-            "Nivel 1 de la familia",
-            "Descripcion del nivel 1 de la familia",
-            "Nivel 2 de la familia",
-            "Descripcion del nivel 2 de la familia",
-            "Nivel 3 de la familia",
-            "Descripcion del nivel 3 de la familia",
-            "¿Esta a extinguir?",
-            "Unidades vendidas",
-            "Importe de las unidades",
-            "Importe de las unidades vendidas (valoradas al coste)",
-            "Stock a la fecha que se genera el informe",
-            "La suma de los importes de la ventas menos el coste de estas ventas.",
-            "Stock medio del producto (En unidades)",
-            "Son las unidades vendidas divididas por el stock medio",
-            "Es la division del margen bruto, por el indice de rotacion",
-            "¿Tiene marcado la casilla surtido de alicante?"
+            "Codigo de articulo"
         );
 
 

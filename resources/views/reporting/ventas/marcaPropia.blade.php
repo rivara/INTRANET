@@ -27,7 +27,7 @@
 
     <div class="col-md-4">
         <div class="form-group">
-            <select name="opcion" class="form-control" id="single">
+            <select name="opcion" class="form-control" id="codigo">
                 <option value="CLIENTE">por cliente</option>
                 <option value="ARTICULOS">por articulo</option>
             </select>
@@ -56,11 +56,11 @@
     </div>
 
     <!--- -->
-    <div class="col-md-4">
+    <div class="col-md-4 codCli">
         <p>Codigo de cliente</p>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-4 codCli">
         <input class="form-control" type="text" name="codigoCliente">
     </div>
     <div class="col-md-4">
@@ -81,11 +81,11 @@
         <input class="form-control floatLeft" type="date" name="fechaHasta" required  value="<?php echo date('Y-m-d', strtotime('last day of previous month')); ?>">
     </div>
     <!--- -->
-    <div class="col-md-4">
+    <div class="col-md-4 codArt">
         <p>Código de articulo</p>
     </div>
-    <div class="col-md-4">
-        <input class="form-control" type="text" name="articulo" id="codArt" style="visibility: hidden">
+    <div class="col-md-4 codArt">
+        <input class="form-control" type="text" name="codigoArticulo" >
     </div>
     <div class="col-md-4"></div>
     <div class="col-md-12">&nbsp;</div>
@@ -113,7 +113,17 @@
     <!-- -->
 </div>
 <script>
-    $('#single').on('change', function() {
-        alert( this.value );
+    $('.codArt').css("visibility", "hidden");
+
+    $('#codigo').change(function(){
+        if($(this).val() == 'CLIENTE'){
+            $('.codCli').css("visibility", "visible");
+            $('.codArt').css("visibility", "hidden");
+        } else if($(this).val() == 'ARTICULOS'){
+            $('.codCli').css("visibility", "hidden");
+            $('.codArt').css("visibility", "visible");
+        }
     });
+
+
 </script>
