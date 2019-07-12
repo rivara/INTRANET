@@ -749,12 +749,18 @@ limit 100;
     public function actionMarcaPropia(Request $request)
     {
 
+
         //VARIABLES
         $tipo = $request["opcion"];
 
         $tipoCliente = $request["tipoCliente"];
         if($tipoCliente==" "){
             $tipoCliente="Todos";
+        }
+
+        $tipoGrupoCliente = $request["tipoGrupoCliente"];
+        if($tipoGrupoCliente==" "){
+            $tipoGrupoCliente="Todos";
         }
 
         $codigoCliente = $request["codigoCliente"];
@@ -778,21 +784,24 @@ limit 100;
             array(""),
             array("*PERIODO", $fechaDesde, "a", $fechaHasta),
             array("*PERIODO ANTERIOR", date('Y-m-d',strtotime($fechaDesde.'-1 year')), "a",  date('Y-m-d',strtotime($fechaHasta.'-1 year'))),
-            array("*TIPO CLIENTE", ""),
+            array("*TIPO CLIENTE", $tipoGrupoCliente),
             array("*CODIGO CLIENTE", $codigoCliente),
             array(" ")
         );
+
           /******************************
              SI LA OPCION ES CLIENTE
            *****************************/
+
         if ($tipo=="CLIENTE") {
 
             $codigoCliente="";
             $codigoClienteInner="";
             if(! is_null($request["codigoCliente"])){
-                $codigoClienteInner="AND cab.cliente_id ='".$request["codigoCliente"]."'";
-                $codigoCliente="AND c.cliente ='".$request["codigoCliente"]."'";
+                $codigoClienteInner=" AND cab.cliente_id ='".$request["codigoCliente"]."'";
+                $codigoCliente=" AND c.cliente ='".$request["codigoCliente"]."'";
             }
+
 
             //$codigoCliente="	where cliente_id =".$request["codigoCliente"];
 
@@ -811,61 +820,91 @@ limit 100;
             );
 
 
-            $fechaActual    = "AND cab.fecha BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "'";
-            $fechaAnterior  = "AND cab.fecha BETWEEN '" . date('Y-m-d',strtotime($fechaDesde.'-1 year'))."' AND '".date('Y-m-d',strtotime($fechaHasta.'-1 year'))."'";
+            $fechaActual    = " AND (cab.fecha BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "')";
+
+
+            $tipoGrupoClienteInner=" AND cl.tipo_cliente ='".$request["tipoGrupoCliente"]."'";
+            $tipoGrupoCliente=" AND c.tipo_cliente ='".$request["tipoGrupoCliente"]."'";
+
+
+
+            $fechaAnterior  = "AND (cab.fecha BETWEEN '" . date('Y-m-d',strtotime($fechaDesde.'-1 year'))."' AND '".date('Y-m-d',strtotime($fechaHasta.'-1 year'))."')";
             //  "Nº CLIENTE PREMIUM , NOMBRE CLIENTE,VENTAS TOTALES A 30/06/19 (€)",VENTAS TOTALES A 30/06/18 (€)"
             $data = $db->select($db->raw("(
-                SELECT
-              c.empresa, c.cliente, c.sucursal, c.nombre
-                , IFNULL(ventasact.TOTVENTAS,0) 'Almacen_Actual'
-                , iFNULL(v_alm_ant.TOTVENTAS,0) 'Almacen_Anterior'
-                , ROUND (CASE WHEN iFNULL(v_alm_ant.TOTVENTAS,0) <> 0 THEN ((IFNULL(ventasact.TOTVENTAS,0) -  IFNULL(v_alm_ant.TOTVENTAS,0)) / iFNULL(v_alm_ant.TOTVENTAS,0))*100 ELSE 0 END,2)'Diferencia_almacen (%)'
-                , IFNULL(v_mp.TOTVENTAS,0) 'Marca_propia_actual'
-                , iFNULL(v_mp_ant.TOTVENTAS,0)  'Marca_propia_anterior'
-                , ROUND (CASE WHEN iFNULL(v_mp_ant.TOTVENTAS,0) <> 0 THEN ((IFNULL(v_mp.TOTVENTAS,0) -  IFNULL(v_mp_ant.TOTVENTAS,0)) / iFNULL(v_mp_ant.TOTVENTAS,0))*100 ELSE 0 END,2)'Diferencia_mpropia (%)'
-                /* DATEDIFF('2019-04-30','2019-03-01')*/
-                from clientes c
-                LEFT OUTER JOIN (
-                SELECT cab.empresa EMP, cab.cliente_id CLI, cab.sucursal_id SUC, SUM(det.importe) TOTVENTAS  FROM historico_ventas_detalle det
-                INNER JOIN historico_ventas cab ON (det.empresa = cab.empresa AND det.tipo_documento = cab.tipo_documento AND det.documento = cab.documento)
-                LEFT OUTER JOIN clientes cl ON (cab.empresa = cl.empresa AND cab.cliente_id = cl.cliente AND cab.sucursal_id = cl.sucursal)
-                WHERE cab.empresa = 1 AND cl.tipo_cliente = 'TARICAT' 
-                   ".$codigoClienteInner."
-                   ".$fechaActual."
-                GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
-                ) ventasact ON c.empresa = ventasact.EMP AND c.cliente = ventasact.CLI AND c.sucursal = ventasact.SUC
-                LEFT OUTER JOIN (
-                SELECT cab.empresa EMP, cab.cliente_id CLI, cab.sucursal_id SUC, SUM(det.importe) TOTVENTAS  FROM historico_ventas_detalle det
-                INNER JOIN historico_ventas cab ON (det.empresa = cab.empresa AND det.tipo_documento = cab.tipo_documento AND det.documento = cab.documento)
-                LEFT OUTER JOIN clientes cl ON (cab.empresa = cl.empresa AND cab.cliente_id = cl.cliente AND cab.sucursal_id = cl.sucursal)
-                WHERE cab.empresa = 1 AND cl.tipo_cliente = 'TARICAT'
-                   ".$codigoClienteInner."
-                   ".$fechaAnterior."
-                GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
-                ) v_mp ON c.empresa = v_mp.EMP AND c.cliente = v_mp.CLI AND c.sucursal = v_mp.SUC
-                LEFT OUTER JOIN (
-                SELECT cab.empresa EMP, cab.cliente_id CLI, cab.sucursal_id SUC, SUM(det.importe) TOTVENTAS  FROM historico_ventas_detalle det
-                INNER JOIN historico_ventas cab ON (det.empresa = cab.empresa AND det.tipo_documento = cab.tipo_documento AND det.documento = cab.documento)
-                LEFT OUTER JOIN clientes cl ON (cab.empresa = cl.empresa AND cab.cliente_id = cl.cliente AND cab.sucursal_id = cl.sucursal)
-                WHERE cab.empresa = 1 AND cl.tipo_cliente = 'TARICAT' 
-                   ".$codigoClienteInner."
-                   ".$fechaActual."
-                GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
-                ) v_alm_ant ON c.empresa = v_alm_ant.EMP AND c.cliente = v_alm_ant.CLI AND c.sucursal = v_alm_ant.SUC
-                LEFT OUTER JOIN (
-                SELECT cab.empresa EMP, cab.cliente_id CLI, cab.sucursal_id SUC, SUM(det.importe) TOTVENTAS  FROM historico_ventas_detalle det
-                INNER JOIN historico_ventas cab ON (det.empresa = cab.empresa AND det.tipo_documento = cab.tipo_documento AND det.documento = cab.documento)
-                LEFT OUTER JOIN clientes cl ON (cab.empresa = cl.empresa AND cab.cliente_id = cl.cliente AND cab.sucursal_id = cl.sucursal)
-                WHERE cab.empresa = 1 AND cl.tipo_cliente = 'TARICAT' 
-                   ".$codigoClienteInner."
-                   ".$fechaAnterior."
-                GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
-                ) v_mp_ant ON c.empresa = v_mp_ant.EMP AND c.cliente = v_mp_ant.CLI AND c.sucursal = v_mp_ant.SUC
-                
-                WHERE c.empresa = 1
-                AND c.tipo_cliente = 'TARICAT'
-              ".$codigoCliente."
-             
+             SELECT c.empresa, c.cliente, c.sucursal, c.nombre
+            , IFNULL(ventasact.TOTAL,0) Almacen
+            , IFNULL(v_alm_ant.TOTAL,0) AlmacenAnterior
+            , ROUND (CASE WHEN iFNULL(v_alm_ant.TOTAL,0) <> 0 THEN ((IFNULL(ventasact.TOTAL,0) -  IFNULL(v_alm_ant.TOTAL,0)) / iFNULL(v_alm_ant.TOTAL,0))*100 ELSE 0 END,2)'Diferencia_almacen (%)'
+            , IFNULL(v_mp.TOTAL,0) MarcaPropia
+            , IFNULL(v_mp_ant.TOTAL,0) MarcaPropia
+            , ROUND (CASE WHEN iFNULL(v_mp_ant.TOTAL,0) <> 0 THEN ((IFNULL(v_mp.TOTAL,0) -  IFNULL(v_mp_ant.TOTAL,0)) / iFNULL(v_mp_ant.TOTAL,0))*100 ELSE 0 END,2)'Diferencia_mpropia (%)'
+            FROM clientes c
+            LEFT OUTER JOIN (
+            SELECT
+            cab.empresa EMP, cab.cliente_id CLI, cab.sucursal_id SUC
+            , SUM(CASE WHEN det.tipo_documento='A' THEN  det.importe*-1 ELSE 0 END) TOTABO
+            , SUM(CASE WHEN det.tipo_documento='F' THEN  det.importe ELSE 0 END) TOT_FAC
+            , SUM(CASE WHEN det.tipo_documento='A' THEN  det.importe*-1 ELSE det.importe END) TOTAL
+            FROM historico_ventas_detalle det
+            INNER JOIN historico_ventas cab ON (det.empresa = cab.empresa AND det.tipo_documento = cab.tipo_documento AND det.documento = cab.documento)
+            LEFT OUTER JOIN clientes cl ON (cab.empresa = cl.empresa AND cab.cliente_id = cl.cliente AND cab.sucursal_id = cl.sucursal)
+            LEFT OUTER JOIN articulos art ON (det.articulo_id = art.id)
+            LEFT OUTER JOIN proveedores pro ON (art.proveedor_id = pro.id)
+            WHERE (cab.empresa = 1 ".$tipoGrupoClienteInner.")
+              ".$codigoClienteInner."
+              ".$fechaActual."
+            GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
+            ) ventasact ON c.empresa = ventasact.EMP AND c.cliente = ventasact.CLI AND c.sucursal = ventasact.SUC
+            LEFT OUTER JOIN (
+            SELECT cab.empresa EMP, cab.cliente_id CLI, cab.sucursal_id SUC
+            , SUM(CASE WHEN det.tipo_documento='A' THEN  det.importe*-1 ELSE 0 END) TOTABO
+            , SUM(CASE WHEN det.tipo_documento='F' THEN  det.importe ELSE 0 END) TOT_FAC
+            , SUM(CASE WHEN det.tipo_documento='A' THEN  det.importe*-1 ELSE det.importe END) TOTAL
+            FROM historico_ventas_detalle det
+            INNER JOIN historico_ventas cab ON (det.empresa = cab.empresa AND det.tipo_documento = cab.tipo_documento AND det.documento = cab.documento)
+            LEFT OUTER JOIN clientes cl ON (cab.empresa = cl.empresa AND cab.cliente_id = cl.cliente AND cab.sucursal_id = cl.sucursal)
+            LEFT OUTER JOIN articulos art ON (det.articulo_id = art.id)
+            LEFT OUTER JOIN proveedores pro ON (art.proveedor_id = pro.id)
+            WHERE (cab.empresa = 1 ".$tipoGrupoClienteInner.")
+             ".$codigoClienteInner."
+             ".$fechaActual."
+            AND (art.es_marca_propia = 1 OR pro.es_marca_propia=1)
+            GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
+            ) v_mp ON c.empresa = v_mp.EMP AND c.cliente = v_mp.CLI AND c.sucursal = v_mp.SUC
+            LEFT OUTER JOIN (
+            SELECT cab.empresa EMP, cab.cliente_id CLI, cab.sucursal_id SUC
+            , SUM(CASE WHEN det.tipo_documento='A' THEN  det.importe*-1 ELSE 0 END) TOTABO
+            , SUM(CASE WHEN det.tipo_documento='F' THEN  det.importe ELSE 0 END) TOT_FAC
+            , SUM(CASE WHEN det.tipo_documento='A' THEN  det.importe*-1 ELSE det.importe END) TOTAL
+            FROM historico_ventas_detalle det
+            INNER JOIN historico_ventas cab ON (det.empresa = cab.empresa AND det.tipo_documento = cab.tipo_documento AND det.documento = cab.documento)
+            LEFT OUTER JOIN clientes cl ON (cab.empresa = cl.empresa AND cab.cliente_id = cl.cliente AND cab.sucursal_id = cl.sucursal)
+            LEFT OUTER JOIN articulos art ON (det.articulo_id = art.id)
+            LEFT OUTER JOIN proveedores pro ON (art.proveedor_id = pro.id)
+            WHERE (cab.empresa = 1  ".$tipoGrupoClienteInner.")
+             ".$codigoClienteInner."
+             ".$fechaAnterior."
+            GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
+            ) v_alm_ant ON c.empresa = v_alm_ant.EMP AND c.cliente = v_alm_ant.CLI AND c.sucursal = v_alm_ant.SUC
+            LEFT OUTER JOIN (
+            SELECT cab.empresa EMP, cab.cliente_id CLI, cab.sucursal_id SUC
+            , SUM(CASE WHEN det.tipo_documento='A' THEN  det.importe*-1 ELSE 0 END) TOTABO
+            , SUM(CASE WHEN det.tipo_documento='F' THEN  det.importe ELSE 0 END) TOT_FAC
+            , SUM(CASE WHEN det.tipo_documento='A' THEN  det.importe*-1 ELSE det.importe END) TOTAL
+            FROM historico_ventas_detalle det
+            INNER JOIN historico_ventas cab ON (det.empresa = cab.empresa AND det.tipo_documento = cab.tipo_documento AND det.documento = cab.documento)
+            LEFT OUTER JOIN clientes cl ON (cab.empresa = cl.empresa AND cab.cliente_id = cl.cliente AND cab.sucursal_id = cl.sucursal)
+            LEFT OUTER JOIN articulos art ON (det.articulo_id = art.id)
+            LEFT OUTER JOIN proveedores pro ON (art.proveedor_id = pro.id)
+            WHERE (cab.empresa = 1 ".$tipoGrupoClienteInner.")
+             ".$codigoClienteInner."
+             ".$fechaAnterior."
+            AND (art.es_marca_propia = 1 OR pro.es_marca_propia=1)
+            GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
+            ) v_mp_ant ON c.empresa = v_mp_ant.EMP AND c.cliente = v_mp_ant.CLI AND c.sucursal = v_mp_ant.SUC
+            
+            WHERE (c.empresa = 1 ".$tipoGrupoCliente.")
+             ".$codigoCliente."
              )"));
         }
         /******************************

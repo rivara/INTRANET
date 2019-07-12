@@ -39,7 +39,17 @@
         <p>Tipo de grupo de cliente</p>
     </div>
     <div class="col-md-4">
-        <input class="form-control" type="text" name="tipoCliente">
+       <?php
+        $tipos= DB::connection('reporting')->select('select tipo_cliente from clientes group by tipo_cliente');
+       ?>
+           <select name="tipoGrupoCliente" class="form-control">
+               @foreach($tipos as $tipo)
+                    @foreach($tipo as $tip)
+                        <option value={{$tip}}>{{$tip}}</option>
+                    @endforeach
+               @endforeach
+           </select>
+
     </div>
     <div class="col-md-4">
 
@@ -103,7 +113,7 @@
     <!-- -->
 </div>
 <script>
-    $('select').on('change', function() {
+    $('#single').on('change', function() {
         alert( this.value );
     });
 </script>
