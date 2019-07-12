@@ -837,7 +837,7 @@ limit 100;
             , IFNULL(v_mp.TOTAL,0) MarcaPropia
             , IFNULL(v_mp_ant.TOTAL,0) MarcaPropia
             , ROUND (CASE WHEN iFNULL(v_mp_ant.TOTAL,0) <> 0 THEN ((IFNULL(v_mp.TOTAL,0) -  IFNULL(v_mp_ant.TOTAL,0)) / iFNULL(v_mp_ant.TOTAL,0))*100 ELSE 0 END,2)'Diferencia_mpropia (%)'
-            FROM clientes c
+             FROM clientes c
             LEFT OUTER JOIN (
             SELECT
             cab.empresa EMP, cab.cliente_id CLI, cab.sucursal_id SUC
@@ -850,7 +850,6 @@ limit 100;
             LEFT OUTER JOIN articulos art ON (det.articulo_id = art.id)
             LEFT OUTER JOIN proveedores pro ON (art.proveedor_id = pro.id)
             WHERE (cab.empresa = 1 ".$tipoGrupoClienteInner.$codigoClienteInner.")
-              
               ".$fechaActual."
             GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
             ) ventasact ON c.empresa = ventasact.EMP AND c.cliente = ventasact.CLI AND c.sucursal = ventasact.SUC
