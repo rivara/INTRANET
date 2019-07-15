@@ -829,6 +829,10 @@ limit 100;
             $tipoGrupoCliente=" AND c.tipo_cliente ='".$request["tipoGrupoCliente"]."'";
             $fechaActual    = " AND (cab.fecha BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "')";
             $fechaAnterior  = "AND (cab.fecha BETWEEN '" . date('Y-m-d',strtotime($fechaDesde.'-1 year'))."' AND '".date('Y-m-d',strtotime($fechaHasta.'-1 year'))."')";
+
+
+
+
             $data = $db->select($db->raw("(
             SELECT c.empresa, c.cliente, c.sucursal, c.nombre
             , IFNULL(ventasact.TOTAL,0) Almacen
@@ -849,7 +853,8 @@ limit 100;
             LEFT OUTER JOIN clientes cl ON (cab.empresa = cl.empresa AND cab.cliente_id = cl.cliente AND cab.sucursal_id = cl.sucursal)
             LEFT OUTER JOIN articulos art ON (det.articulo_id = art.id)
             LEFT OUTER JOIN proveedores pro ON (art.proveedor_id = pro.id)
-            WHERE (cab.empresa = 1 AND cl.tipo_cliente = 'TARICAT')
+           
+            WHERE (cab.empresa = 1  ".$tipoGrupoClienteInner.")
             AND (cab.fecha BETWEEN '2019-03-01' AND '2019-04-30')
             GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
             ) ventasact ON c.empresa = ventasact.EMP AND c.cliente = ventasact.CLI AND c.sucursal = ventasact.SUC
@@ -892,12 +897,12 @@ limit 100;
             LEFT OUTER JOIN clientes cl ON (cab.empresa = cl.empresa AND cab.cliente_id = cl.cliente AND cab.sucursal_id = cl.sucursal)
             LEFT OUTER JOIN articulos art ON (det.articulo_id = art.id)
             LEFT OUTER JOIN proveedores pro ON (art.proveedor_id = pro.id)
-            WHERE (cab.empresa = 1 AND cl.tipo_cliente = 'TARICAT')
+            WHERE (cab.empresa = 1  ".$tipoGrupoClienteInner.")
             AND (cab.fecha BETWEEN '2018-03-01' AND '2018-04-30')
             AND (art.es_marca_propia = 1 OR pro.es_marca_propia=1)
             GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
             ) v_mp_ant ON c.empresa = v_mp_ant.EMP AND c.cliente = v_mp_ant.CLI AND c.sucursal = v_mp_ant.SUC
-            WHERE (c.empresa = 1 AND c.tipo_cliente = 'TARICAT')
+           WHERE (cab.empresa = 1  ".$tipoGrupoCliente.")
              )"));
 
            // die(var_dump($data));
