@@ -900,6 +900,26 @@ limit 100;
             WHERE (c.empresa = 1 ".$tipoGrupoCliente.$codigoCliente.")
              )"));
 
+            $bg = array("808080", "ffffff","ffffff");
+            $title = "INFORME";
+            //LEYENDA
+            $fin1 = 10;
+            $fin2 = $fin1 + 9;
+            $fin3 = $fin2 + 11;
+            $tramo1 = Coordinate::stringFromColumnIndex(1) . "9:" . Coordinate::stringFromColumnIndex($fin1) . "9";
+            $tramo2 = Coordinate::stringFromColumnIndex($fin1 + 1) . "12:" . Coordinate::stringFromColumnIndex($fin2) . "12";
+            $tramo3 = Coordinate::stringFromColumnIndex($fin2 + 1) . "12:" . Coordinate::stringFromColumnIndex($fin3) . "12";
+            $tramos = array($tramo1, $tramo2, $tramo3);
+            $precabeceraL = array("CAMPO INFORME", "DESCRIPCION COMENTARIOS");
+            $tramo1 = "A2:A" . ($fin1);
+            $tramo2 = "A" . ($fin1) . ":A" . ($fin2);
+            $tramo3 = "A" . ($fin2) . ":A" . ($fin3);
+            $tramosLeyenda = array($tramo1, $tramo2, $tramo3);
+            $titleL = "LEYENDA";
+            $comentarios = array(
+                "Codigo de articulo"
+            );
+
 
         }
         /******************************
@@ -983,29 +1003,29 @@ limit 100;
              ".$codigoArticulo."
             ORDER BY a.proveedor_id, a.nombre
             )"));
+            $bg = array("808080", "ffffff","ffffff");
+            $title = "INFORME";
+            //LEYENDA
+            $fin1 = 11;
+            $fin2 = $fin1 + 9;
+            $fin3 = $fin2 + 11;
+            $tramo1 = Coordinate::stringFromColumnIndex(1) . "9:" . Coordinate::stringFromColumnIndex($fin1) . "9";
+            $tramo2 = Coordinate::stringFromColumnIndex($fin1 + 1) . "12:" . Coordinate::stringFromColumnIndex($fin2) . "12";
+            $tramo3 = Coordinate::stringFromColumnIndex($fin2 + 1) . "12:" . Coordinate::stringFromColumnIndex($fin3) . "12";
+            $tramos = array($tramo1, $tramo2, $tramo3);
+            $precabeceraL = array("CAMPO INFORME", "DESCRIPCION COMENTARIOS");
+            $tramo1 = "A2:A" . ($fin1);
+            $tramo2 = "A" . ($fin1) . ":A" . ($fin2);
+            $tramo3 = "A" . ($fin2) . ":A" . ($fin3);
+            $tramosLeyenda = array($tramo1, $tramo2, $tramo3);
+            $titleL = "LEYENDA";
+            $comentarios = array(
+                "Codigo de articulo"
+            );
+
 
         }
 
-
-        $bg = array("808080", "ffffff","ffffff");
-        $title = "INFORME";
-        //LEYENDA
-        $fin1 = 10;
-        $fin2 = $fin1 + 9;
-        $fin3 = $fin2 + 11;
-        $tramo1 = Coordinate::stringFromColumnIndex(1) . "9:" . Coordinate::stringFromColumnIndex($fin1) . "9";
-        $tramo2 = Coordinate::stringFromColumnIndex($fin1 + 1) . "12:" . Coordinate::stringFromColumnIndex($fin2) . "12";
-        $tramo3 = Coordinate::stringFromColumnIndex($fin2 + 1) . "12:" . Coordinate::stringFromColumnIndex($fin3) . "12";
-        $tramos = array($tramo1, $tramo2, $tramo3);
-        $precabeceraL = array("CAMPO INFORME", "DESCRIPCION COMENTARIOS");
-        $tramo1 = "A2:A" . ($fin1);
-        $tramo2 = "A" . ($fin1) . ":A" . ($fin2);
-        $tramo3 = "A" . ($fin2) . ":A" . ($fin3);
-        $tramosLeyenda = array($tramo1, $tramo2, $tramo3);
-        $titleL = "LEYENDA";
-        $comentarios = array(
-            "Codigo de articulo"
-        );
 
 
         $i = 0;

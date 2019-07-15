@@ -114,17 +114,20 @@
     <!-- -->
 </div>
 <script>
-    $('.codArt').css("visibility", "hidden");
+   /* $('.codArt').css("visibility", "hidden");
 
     $('#codigo').change(function(){
         if($(this).val() == 'CLIENTE'){
             $('.codCli').css("visibility", "visible");
             $('.codArt').css("visibility", "hidden");
+            $('input').value([]);
+
         } else if($(this).val() == 'ARTICULOS'){
             $('.codCli').css("visibility", "hidden");
             $('.codArt').css("visibility", "visible");
+            $('input').value([]);
         }
-    });
+    });*/
 
 
 </script>
