@@ -900,7 +900,7 @@ limit 100;
             WHERE (c.empresa = 1 AND c.tipo_cliente = 'TARICAT')
              )"));
 
-            die(var_dump($data));
+           // die(var_dump($data));
 
         }
         /******************************
