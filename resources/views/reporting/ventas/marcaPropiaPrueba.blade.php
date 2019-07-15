@@ -1,7 +1,7 @@
 @csrf
 <div class="row wrapperReporting center marginBottom20px">
     <div class="col-md-6">
-        <u><h3>Marca Propia</h3></u>
+        <u><h3>Marca Propia **PRUEBA**</h3></u>
     </div>
     <div class="col-md-6">
         <small>ventas a</small>

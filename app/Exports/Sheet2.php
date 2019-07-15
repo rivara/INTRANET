@@ -74,13 +74,20 @@ class Sheet2 implements FromCollection, WithHeadings, WithEvents, WithTitle
 
             },
             AfterSheet::class => function (AfterSheet $event) use ($background) {
-                    $event->sheet->getDelegate()->getStyle(1)->getFont()->setSize(12);
-                    $event->sheet->getDelegate()->getStyle(1)->getFont()->setBold(true);
-                    $event->sheet->getDelegate()->getStyle(1)->getFont()->getColor()->setRGB('ffffff');
-                    $event->sheet->getDelegate()->getStyle(1)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB("00000");
-                    $len=strlen(1);
-                    $event->sheet->getDelegate()->getStyle("A1:".substr(1,$len-4 , 2)."1")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->
-                    getStartColor()->setRGB("00000");
+
+                $i = 0;
+
+                foreach ($this->tramos as $tramo) {
+                    $event->sheet->getDelegate()->getStyle($tramo)->getFont()->setSize(12);
+                    $event->sheet->getDelegate()->getStyle($tramo)->getFont()->setBold(true);
+                    $event->sheet->getDelegate()->getStyle($tramo)->getFont()->getColor()->setRGB('ffffff');
+                    $event->sheet->getDelegate()->getStyle($tramo)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB($background[$i]);
+                    $i++;
+                }
+                $len=strlen($tramo);
+                $event->sheet->getDelegate()->getStyle("A1:".substr($tramo,$len-4 , 2)."1")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->
+                getStartColor()->setRGB($background[2]);
+                // $event->sheet->appendRows(2, array('appended', 'appended'));
 
             },
         );
