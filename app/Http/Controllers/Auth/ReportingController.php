@@ -990,7 +990,7 @@ limit 100;
         $bg = array("808080", "ffffff","ffffff");
         $title = "INFORME";
         //LEYENDA
-        $fin1 = 11;
+        $fin1 = 10;
         $fin2 = $fin1 + 9;
         $fin3 = $fin2 + 11;
         $tramo1 = Coordinate::stringFromColumnIndex(1) . "9:" . Coordinate::stringFromColumnIndex($fin1) . "9";
