@@ -57,7 +57,8 @@
 
     <!--- -->
     <div class="col-md-4 codCli">
-        <p>Codigo de cliente</p>
+        <p>Codigo de cliente <br>
+        <small>(*) si no se mete valor selecciona todos por defecto</small></p>
     </div>
 
     <div class="col-md-4 codCli">

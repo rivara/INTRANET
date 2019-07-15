@@ -764,7 +764,7 @@ limit 100;
         }
 
         $codigoCliente = $request["codigoCliente"];
-        if($codigoCliente==" "){
+        if(empty($codigoCliente)){
             $codigoCliente="Todos";
         }
 
@@ -791,7 +791,7 @@ limit 100;
             array("*PERIODO", $fechaDesde, "a", $fechaHasta),
             array("*PERIODO ANTERIOR", date('Y-m-d',strtotime($fechaDesde.'-1 year')), "a",  date('Y-m-d',strtotime($fechaHasta.'-1 year'))),
             array("*TIPO CLIENTE", $tipoGrupoCliente),
-            array("*CODIGO CLIENTE", $codigoCliente),
+            array("*CODIGO CLIENTE",$codigoCliente),
             array(" ")
         );
 
@@ -828,7 +828,7 @@ limit 100;
             $tipoGrupoClienteInner=" AND cl.tipo_cliente ='".$request["tipoGrupoCliente"]."'";
             $tipoGrupoCliente=" AND c.tipo_cliente ='".$request["tipoGrupoCliente"]."'";
             $fechaActual    = " AND (cab.fecha BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "')";
-            $fechaAnterior  = "AND (cab.fecha BETWEEN '" . date('Y-m-d',strtotime($fechaDesde.'-1 year'))."' AND '".date('Y-m-d',strtotime($fechaHasta.'-1 year'))."')";
+            $fechaAnterior  = " AND (cab.fecha BETWEEN '" . date('Y-m-d',strtotime($fechaDesde.'-1 year'))."' AND '".date('Y-m-d',strtotime($fechaHasta.'-1 year'))."')";
             $data = $db->select($db->raw("(
             SELECT c.empresa, c.cliente, c.sucursal, c.nombre
             , IFNULL(ventasact.TOTAL,0) Almacen
@@ -849,7 +849,7 @@ limit 100;
             LEFT OUTER JOIN clientes cl ON (cab.empresa = cl.empresa AND cab.cliente_id = cl.cliente AND cab.sucursal_id = cl.sucursal)
             LEFT OUTER JOIN articulos art ON (det.articulo_id = art.id)
             LEFT OUTER JOIN proveedores pro ON (art.proveedor_id = pro.id)
-            WHERE (cab.empresa = 1 ".$tipoGrupoClienteInner.")
+            WHERE (cab.empresa = 1 ".$tipoGrupoClienteInner.$codigoClienteInner.")
             ".$fechaActual."
             GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
             ) ventasact ON c.empresa = ventasact.EMP AND c.cliente = ventasact.CLI AND c.sucursal = ventasact.SUC
@@ -863,7 +863,7 @@ limit 100;
             LEFT OUTER JOIN clientes cl ON (cab.empresa = cl.empresa AND cab.cliente_id = cl.cliente AND cab.sucursal_id = cl.sucursal)
             LEFT OUTER JOIN articulos art ON (det.articulo_id = art.id)
             LEFT OUTER JOIN proveedores pro ON (art.proveedor_id = pro.id)
-              WHERE (cab.empresa = 1 ".$tipoGrupoClienteInner.")
+              WHERE (cab.empresa = 1 ".$tipoGrupoClienteInner.$codigoClienteInner.")
               ".$fechaActual."
             AND (art.es_marca_propia = 1 OR pro.es_marca_propia=1)
             GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
@@ -878,7 +878,7 @@ limit 100;
             LEFT OUTER JOIN clientes cl ON (cab.empresa = cl.empresa AND cab.cliente_id = cl.cliente AND cab.sucursal_id = cl.sucursal)
             LEFT OUTER JOIN articulos art ON (det.articulo_id = art.id)
             LEFT OUTER JOIN proveedores pro ON (art.proveedor_id = pro.id)
-             WHERE (cab.empresa = 1 ".$tipoGrupoClienteInner.")
+             WHERE (cab.empresa = 1 ".$tipoGrupoClienteInner.$codigoClienteInner.")
                 ".$fechaAnterior."
             GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
             ) v_alm_ant ON c.empresa = v_alm_ant.EMP AND c.cliente = v_alm_ant.CLI AND c.sucursal = v_alm_ant.SUC
@@ -892,12 +892,12 @@ limit 100;
             LEFT OUTER JOIN clientes cl ON (cab.empresa = cl.empresa AND cab.cliente_id = cl.cliente AND cab.sucursal_id = cl.sucursal)
             LEFT OUTER JOIN articulos art ON (det.articulo_id = art.id)
             LEFT OUTER JOIN proveedores pro ON (art.proveedor_id = pro.id)
-             WHERE (cab.empresa = 1 ".$tipoGrupoClienteInner.")
+             WHERE (cab.empresa = 1 ".$tipoGrupoClienteInner.$codigoClienteInner.")
             ".$fechaAnterior."
             AND (art.es_marca_propia = 1 OR pro.es_marca_propia=1)
             GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
             ) v_mp_ant ON c.empresa = v_mp_ant.EMP AND c.cliente = v_mp_ant.CLI AND c.sucursal = v_mp_ant.SUC
-          WHERE (c.empresa = 1 ".$tipoGrupoCliente.")
+            WHERE (c.empresa = 1 ".$tipoGrupoCliente.$codigoCliente.")
              )"));
 
 
