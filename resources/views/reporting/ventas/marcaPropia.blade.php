@@ -22,7 +22,7 @@
 
     <!--- -->
     <div class="col-md-4">
-        <p>Codigo de cliente</p>
+        <p>Filtrado por: </p>
     </div>
 
     <div class="col-md-4">
