@@ -849,8 +849,8 @@ limit 100;
             LEFT OUTER JOIN clientes cl ON (cab.empresa = cl.empresa AND cab.cliente_id = cl.cliente AND cab.sucursal_id = cl.sucursal)
             LEFT OUTER JOIN articulos art ON (det.articulo_id = art.id)
             LEFT OUTER JOIN proveedores pro ON (art.proveedor_id = pro.id)
-              WHERE (cab.empresa = 1 ".$tipoGrupoClienteInner.")
-            AND (cab.fecha BETWEEN '2019-03-01' AND '2019-04-30')
+            WHERE (cab.empresa = 1 ".$tipoGrupoClienteInner.")
+            ".$fechaActual."
             GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
             ) ventasact ON c.empresa = ventasact.EMP AND c.cliente = ventasact.CLI AND c.sucursal = ventasact.SUC
             LEFT OUTER JOIN (
@@ -864,7 +864,7 @@ limit 100;
             LEFT OUTER JOIN articulos art ON (det.articulo_id = art.id)
             LEFT OUTER JOIN proveedores pro ON (art.proveedor_id = pro.id)
               WHERE (cab.empresa = 1 ".$tipoGrupoClienteInner.")
-            AND (cab.fecha BETWEEN '2019-03-01' AND '2019-04-30')
+              ".$fechaActual."
             AND (art.es_marca_propia = 1 OR pro.es_marca_propia=1)
             GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
             ) v_mp ON c.empresa = v_mp.EMP AND c.cliente = v_mp.CLI AND c.sucursal = v_mp.SUC
@@ -879,7 +879,7 @@ limit 100;
             LEFT OUTER JOIN articulos art ON (det.articulo_id = art.id)
             LEFT OUTER JOIN proveedores pro ON (art.proveedor_id = pro.id)
              WHERE (cab.empresa = 1 ".$tipoGrupoClienteInner.")
-            AND (cab.fecha BETWEEN '2018-03-01' AND '2018-04-30')
+                ".$fechaAnterior."
             GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
             ) v_alm_ant ON c.empresa = v_alm_ant.EMP AND c.cliente = v_alm_ant.CLI AND c.sucursal = v_alm_ant.SUC
             LEFT OUTER JOIN (
@@ -893,7 +893,7 @@ limit 100;
             LEFT OUTER JOIN articulos art ON (det.articulo_id = art.id)
             LEFT OUTER JOIN proveedores pro ON (art.proveedor_id = pro.id)
              WHERE (cab.empresa = 1 ".$tipoGrupoClienteInner.")
-            AND (cab.fecha BETWEEN '2018-03-01' AND '2018-04-30')
+            ".$fechaAnterior."
             AND (art.es_marca_propia = 1 OR pro.es_marca_propia=1)
             GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
             ) v_mp_ant ON c.empresa = v_mp_ant.EMP AND c.cliente = v_mp_ant.CLI AND c.sucursal = v_mp_ant.SUC
