@@ -835,7 +835,7 @@ limit 100;
             , IFNULL(v_alm_ant.TOTAL,0) AlmacenAnterior
             , ROUND (CASE WHEN iFNULL(v_alm_ant.TOTAL,0) <> 0 THEN ((IFNULL(ventasact.TOTAL,0) -  IFNULL(v_alm_ant.TOTAL,0)) / iFNULL(v_alm_ant.TOTAL,0))*100 ELSE 0 END,2)'Diferencia_almacen (%)'
             , IFNULL(v_mp.TOTAL,0) MarcaPropia
-            , IFNULL(v_mp_ant.TOTAL,0) MarcaPropia
+            , IFNULL(v_mp_ant.TOTAL,0) MarcaPropiaAnterior
             , ROUND (CASE WHEN iFNULL(v_mp_ant.TOTAL,0) <> 0 THEN ((IFNULL(v_mp.TOTAL,0) -  IFNULL(v_mp_ant.TOTAL,0)) / iFNULL(v_mp_ant.TOTAL,0))*100 ELSE 0 END,2)'Diferencia_mpropia (%)'
             FROM clientes c
             LEFT OUTER JOIN (
@@ -899,6 +899,9 @@ limit 100;
             ) v_mp_ant ON c.empresa = v_mp_ant.EMP AND c.cliente = v_mp_ant.CLI AND c.sucursal = v_mp_ant.SUC
             WHERE (c.empresa = 1 AND c.tipo_cliente = 'TARICAT')
              )"));
+
+            die(var_dump($data));
+
         }
         /******************************
         SI LA OPCION ES ARTICULO
