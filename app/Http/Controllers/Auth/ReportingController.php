@@ -835,8 +835,8 @@ class reportingController
             , CONCAT(REPLACE(CAST(IFNULL(ventasact.TOTAL,0)AS DECIMAL(18,2)),'.',','),'€') Almacen
             , CONCAT(REPLACE(CAST(IFNULL(v_alm_ant.TOTAL,0)AS DECIMAL(18,2)),'.',','),'€') AlmacenAnterior
             , CONCAT(ROUND (CASE WHEN iFNULL(v_alm_ant.TOTAL,0) <> 0 THEN ((IFNULL(ventasact.TOTAL,0) -  IFNULL(v_alm_ant.TOTAL,0)) / iFNULL(v_alm_ant.TOTAL,0))*100 ELSE 0 END,2),'%')'Diferencia_almacen (%)'
-            , CONCAT(CAST(IFNULL(v_mp.TOTAL,0)AS DECIMAL(18,2)),'€') MarcaPropia
-            , CONCAT(CAST(IFNULL(v_mp_ant.TOTAL,0)AS DECIMAL(18,2)),'€') MarcaPropiaAnterior
+            , CONCAT(REPLACE(CAST(IFNULL(v_mp.TOTAL,0)AS DECIMAL(18,2)),'.',','),'€') MarcaPropia
+            , CONCAT(REPLACE(CAST(IFNULL(v_mp_ant.TOTAL,0)AS DECIMAL(18,2)),'.',','),'€') MarcaPropiaAnterior
             , CONCAT(ROUND (CASE WHEN iFNULL(v_mp_ant.TOTAL,0) <> 0 THEN ((IFNULL(v_mp.TOTAL,0) -  IFNULL(v_mp_ant.TOTAL,0)) / iFNULL(v_mp_ant.TOTAL,0))*100 ELSE 0 END,2),'%')'Diferencia_mpropia (%)'
             FROM clientes c
             LEFT OUTER JOIN (
@@ -1177,8 +1177,8 @@ class reportingController
             , CONCAT(REPLACE(CAST(IFNULL(ventasact.TOTAL,0)AS DECIMAL(18,2)),'.',','),'€') Almacen
             , CONCAT(REPLACE(CAST(IFNULL(v_alm_ant.TOTAL,0)AS DECIMAL(18,2)),'.',','),'€') AlmacenAnterior
             , CONCAT(ROUND (CASE WHEN iFNULL(v_alm_ant.TOTAL,0) <> 0 THEN ((IFNULL(ventasact.TOTAL,0) -  IFNULL(v_alm_ant.TOTAL,0)) / iFNULL(v_alm_ant.TOTAL,0))*100 ELSE 0 END,2),'%')'Diferencia_almacen (%)'
-            , CONCAT(CAST(IFNULL(v_mp.TOTAL,0)AS DECIMAL(18,2)),'€') MarcaPropia
-            , CONCAT(CAST(IFNULL(v_mp_ant.TOTAL,0)AS DECIMAL(18,2)),'€') MarcaPropiaAnterior
+            , CONCAT(REPLACE(CAST(IFNULL(v_mp.TOTAL,0)AS DECIMAL(18,2)),'.',','),'€') MarcaPropia
+            , CONCAT(REPLACE(CAST(IFNULL(v_mp_ant.TOTAL,0)AS DECIMAL(18,2)),'.',','),'€') MarcaPropiaAnterior
             , CONCAT(ROUND (CASE WHEN iFNULL(v_mp_ant.TOTAL,0) <> 0 THEN ((IFNULL(v_mp.TOTAL,0) -  IFNULL(v_mp_ant.TOTAL,0)) / iFNULL(v_mp_ant.TOTAL,0))*100 ELSE 0 END,2),'%')'Diferencia_mpropia (%)'
             FROM clientes c
             LEFT OUTER JOIN (
@@ -1281,6 +1281,7 @@ class reportingController
             $data = $db->select($db->raw("(SELECT a.id, a.nombre
             , IFNULL(AlmacenUds.TOTAL,0) AlmacenUds
             , IFNULL(AlmacenAnteriorUds.TOTAL,0) AlmacenAnteriorUds
+       
             , CONCAT(CASE WHEN iFNULL(AlmacenAnteriorUds.TOTAL,0) <> 0 THEN ((IFNULL(AlmacenUds.TOTAL,0) -  IFNULL(AlmacenAnteriorUds.TOTAL,0)) / iFNULL(AlmacenAnteriorUds.TOTAL,0))*100 ELSE 0 END,'%')'Diferencia_almacen (%)'
                        
            
