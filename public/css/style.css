@@ -16,8 +16,9 @@
 
 }
 
+
 .table div {
-    margin-top: 30px;
+    margin-top: 30px !important;
 }
 
 .table button {
@@ -491,8 +492,8 @@ input[type="file"] {
 }
 
 .files {
-    height: 30px;
-    width: 30px;
+    height: 36px;
+    width: 36px;
     color: #fff;
     background-color: #008fff;
     border-radius: 50%;
@@ -504,7 +505,7 @@ input[type="file"] {
 
 .files small {
     font-weight: bold;
-    padding-left: 4px;
+    padding-left: 3px;
 }
 
 .files i {
