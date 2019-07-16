@@ -84,6 +84,7 @@ class Sheet2 implements FromCollection, WithHeadings, WithEvents, WithTitle
                             null,
                             null,
                             '=SUM(E1:E' . $event->sheet->getDelegate()->getHighestRow() . ')&"€"',
+                            '=SUM(E1:E' . $event->sheet->getDelegate()->getHighestRow() . ')&"€"',
                             null,
                             '=SUM(E1:E' . $event->sheet->getDelegate()->getHighestRow() . ')&"€"',
                             '=SUM(E1:E' . $event->sheet->getDelegate()->getHighestRow() . ')&"€"',
