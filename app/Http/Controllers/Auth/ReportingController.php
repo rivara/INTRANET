@@ -9,6 +9,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Exports\Sheet;
+use App\Exports\Sheet2;
 use App\Exports\SheetLeyenda;
 use App\Exports\SheetsExports;
 use Illuminate\Http\Request;
@@ -831,8 +832,8 @@ class reportingController
             $fechaAnterior  = " AND (cab.fecha BETWEEN '" . date('Y-m-d',strtotime($fechaDesde.'-1 year'))."' AND '".date('Y-m-d',strtotime($fechaHasta.'-1 year'))."')";
             $data = $db->select($db->raw("(
             SELECT c.empresa, c.cliente, c.sucursal, c.nombre
-            , CONCAT(CAST(IFNULL(ventasact.TOTAL,0)AS DECIMAL(18,2)),'€') Almacen
-            , CONCAT(CAST(IFNULL(v_alm_ant.TOTAL,0)AS DECIMAL(18,2)),'€') AlmacenAnterior
+            , CONCAT(REPLACE(CAST(IFNULL(ventasact.TOTAL,0)AS DECIMAL(18,2)),'.',','),'€') Almacen
+            , CONCAT(REPLACE(CAST(IFNULL(v_alm_ant.TOTAL,0)AS DECIMAL(18,2)),'.',','),'€') AlmacenAnterior
             , CONCAT(ROUND (CASE WHEN iFNULL(v_alm_ant.TOTAL,0) <> 0 THEN ((IFNULL(ventasact.TOTAL,0) -  IFNULL(v_alm_ant.TOTAL,0)) / iFNULL(v_alm_ant.TOTAL,0))*100 ELSE 0 END,2),'%')'Diferencia_almacen (%)'
             , CONCAT(CAST(IFNULL(v_mp.TOTAL,0)AS DECIMAL(18,2)),'€') MarcaPropia
             , CONCAT(CAST(IFNULL(v_mp_ant.TOTAL,0)AS DECIMAL(18,2)),'€') MarcaPropiaAnterior
@@ -900,26 +901,10 @@ class reportingController
             WHERE (c.empresa = 1 ".$tipoGrupoCliente.$codigoCliente.")
              )"));
 
-            $bg = array("808080", "ffffff","ffffff");
-            $title = "INFORME";
-            //LEYENDA
+            $bg = "808080";
+            $title = "INFORME DE VENTAS POR CLIENTE";
             $fin1 = 10;
-            $fin2 = $fin1 + 9;
-            $fin3 = $fin2 + 11;
-            $tramo1 = Coordinate::stringFromColumnIndex(1) . "9:" . Coordinate::stringFromColumnIndex($fin1) . "9";
-            $tramo2 = Coordinate::stringFromColumnIndex($fin1 + 1) . "12:" . Coordinate::stringFromColumnIndex($fin2) . "12";
-            $tramo3 = Coordinate::stringFromColumnIndex($fin2 + 1) . "12:" . Coordinate::stringFromColumnIndex($fin3) . "12";
-            $tramos = array($tramo1, $tramo2, $tramo3);
-            $precabeceraL = array("CAMPO INFORME", "DESCRIPCION COMENTARIOS");
-            $tramo1 = "A2:A" . ($fin1);
-            $tramo2 = "A" . ($fin1) . ":A" . ($fin2);
-            $tramo3 = "A" . ($fin2) . ":A" . ($fin3);
-            $tramosLeyenda = array($tramo1, $tramo2, $tramo3);
-            $titleL = "LEYENDA";
-            $comentarios = array(
-                "Codigo de articulo"
-            );
-
+            $tramo = Coordinate::stringFromColumnIndex(1) . "9:" . Coordinate::stringFromColumnIndex($fin1) . "9";
 
         }
         /******************************
@@ -928,8 +913,6 @@ class reportingController
 
 
         if ($tipo=="ARTICULOS") {
-
-
 
 
             $db = DB::connection('reporting');
@@ -942,7 +925,6 @@ class reportingController
                 "ROTACIÓN DIARÍA (UDS VENDIDAS A 30.06.19 /  181 DÍAS"
 
             );
-
             $codigoArticulo="";
             $codigoArticuloInner="";
             if(! is_null($request["codigoArticulo"])){
@@ -1000,26 +982,11 @@ class reportingController
              ".$codigoArticulo."
             ORDER BY a.proveedor_id, a.nombre
             )"));
-            $bg = array("808080", "ffffff","ffffff");
-            $title = "INFORME";
+            $bg = "808080";
+            $title = "INFORME DE VENTAS POR ARTICULOS";
             //LEYENDA
-            $fin1 = 11;
-            $fin2 = $fin1 + 9;
-            $fin3 = $fin2 + 11;
-            $tramo1 = Coordinate::stringFromColumnIndex(1) . "9:" . Coordinate::stringFromColumnIndex($fin1) . "9";
-            $tramo2 = Coordinate::stringFromColumnIndex($fin1 + 1) . "12:" . Coordinate::stringFromColumnIndex($fin2) . "12";
-            $tramo3 = Coordinate::stringFromColumnIndex($fin2 + 1) . "12:" . Coordinate::stringFromColumnIndex($fin3) . "12";
-            $tramos = array($tramo1, $tramo2, $tramo3);
-            $precabeceraL = array("CAMPO INFORME", "DESCRIPCION COMENTARIOS");
-            $tramo1 = "A2:A" . ($fin1);
-            $tramo2 = "A" . ($fin1) . ":A" . ($fin2);
-            $tramo3 = "A" . ($fin2) . ":A" . ($fin3);
-            $tramosLeyenda = array($tramo1, $tramo2, $tramo3);
-            $titleL = "LEYENDA";
-            $comentarios = array(
-                "Codigo de articulo"
-            );
-
+            $fin1 = 6;
+            $tramo = Coordinate::stringFromColumnIndex(1)."9:".Coordinate::stringFromColumnIndex($fin1)."9";
 
         }
 
@@ -1028,13 +995,12 @@ class reportingController
         $i = 0;
         foreach ($cabecera as $cab) {
             $array[$i][1] = $cab;
-            //$array[$i][2] = $comentarios[$i];
             $i++;
         }
 
         $cabeceraL = array();
-        $page1 = new Sheet($precabecera, $data, $cabecera, $bg, $title, $tramos);
-        $page2 = new SheetLeyenda($precabeceraL, $array, $precabeceraL, $bg, $titleL, $tramosLeyenda);
+        $page1 = new Sheet2($precabecera, $data, $cabecera, $bg, $title, $tramo);
+        $page2 = null;
 
         // Envio del mail
         if ((!is_null($request["email"])) && ($request["enviaMail"] == true)) {
@@ -1107,8 +1073,6 @@ class reportingController
             return response()->attachmentCSV($array, $filename.".csv");
         }
     }
-
-
 
 
 
@@ -1210,8 +1174,8 @@ class reportingController
             $fechaAnterior  = " AND (cab.fecha BETWEEN '" . date('Y-m-d',strtotime($fechaDesde.'-1 year'))."' AND '".date('Y-m-d',strtotime($fechaHasta.'-1 year'))."')";
             $data = $db->select($db->raw("(
             SELECT c.empresa, c.cliente, c.sucursal, c.nombre
-            , CONCAT(CAST(IFNULL(ventasact.TOTAL,0)AS DECIMAL(18,2)),'€') Almacen
-            , CONCAT(CAST(IFNULL(v_alm_ant.TOTAL,0)AS DECIMAL(18,2)),'€') AlmacenAnterior
+            , CONCAT(REPLACE(CAST(IFNULL(ventasact.TOTAL,0)AS DECIMAL(18,2)),'.',','),'€') Almacen
+            , CONCAT(REPLACE(CAST(IFNULL(v_alm_ant.TOTAL,0)AS DECIMAL(18,2)),'.',','),'€') AlmacenAnterior
             , CONCAT(ROUND (CASE WHEN iFNULL(v_alm_ant.TOTAL,0) <> 0 THEN ((IFNULL(ventasact.TOTAL,0) -  IFNULL(v_alm_ant.TOTAL,0)) / iFNULL(v_alm_ant.TOTAL,0))*100 ELSE 0 END,2),'%')'Diferencia_almacen (%)'
             , CONCAT(CAST(IFNULL(v_mp.TOTAL,0)AS DECIMAL(18,2)),'€') MarcaPropia
             , CONCAT(CAST(IFNULL(v_mp_ant.TOTAL,0)AS DECIMAL(18,2)),'€') MarcaPropiaAnterior
@@ -1279,26 +1243,10 @@ class reportingController
             WHERE (c.empresa = 1 ".$tipoGrupoCliente.$codigoCliente.")
              )"));
 
-            $bg = array("808080", "ffffff","ffffff");
-            $title = "INFORME";
-            //LEYENDA
+            $bg = "808080";
+            $title = "INFORME DE VENTAS POR CLIENTE";
             $fin1 = 10;
-            $fin2 = $fin1 + 9;
-            $fin3 = $fin2 + 11;
-            $tramo1 = Coordinate::stringFromColumnIndex(1) . "9:" . Coordinate::stringFromColumnIndex($fin1) . "9";
-            $tramo2 = Coordinate::stringFromColumnIndex($fin1 + 1) . "12:" . Coordinate::stringFromColumnIndex($fin2) . "12";
-            $tramo3 = Coordinate::stringFromColumnIndex($fin2 + 1) . "12:" . Coordinate::stringFromColumnIndex($fin3) . "12";
-            $tramos = array($tramo1, $tramo2, $tramo3);
-            $precabeceraL = array("CAMPO INFORME", "DESCRIPCION COMENTARIOS");
-            $tramo1 = "A2:A" . ($fin1);
-            $tramo2 = "A" . ($fin1) . ":A" . ($fin2);
-            $tramo3 = "A" . ($fin2) . ":A" . ($fin3);
-            $tramosLeyenda = array($tramo1, $tramo2, $tramo3);
-            $titleL = "LEYENDA";
-            $comentarios = array(
-                "Codigo de articulo"
-            );
-
+            $tramo = Coordinate::stringFromColumnIndex(1) . "9:" . Coordinate::stringFromColumnIndex($fin1) . "9";
 
         }
         /******************************
@@ -1307,8 +1255,6 @@ class reportingController
 
 
         if ($tipo=="ARTICULOS") {
-
-
 
 
             $db = DB::connection('reporting');
@@ -1321,7 +1267,6 @@ class reportingController
                 "ROTACIÓN DIARÍA (UDS VENDIDAS A 30.06.19 /  181 DÍAS"
 
             );
-
             $codigoArticulo="";
             $codigoArticuloInner="";
             if(! is_null($request["codigoArticulo"])){
@@ -1379,26 +1324,11 @@ class reportingController
              ".$codigoArticulo."
             ORDER BY a.proveedor_id, a.nombre
             )"));
-            $bg = array("808080", "ffffff","ffffff");
-            $title = "INFORME";
+            $bg = "808080";
+            $title = "INFORME DE VENTAS POR ARTICULOS";
             //LEYENDA
-            $fin1 = 11;
-            $fin2 = $fin1 + 9;
-            $fin3 = $fin2 + 11;
-            $tramo1 = Coordinate::stringFromColumnIndex(1) . "9:" . Coordinate::stringFromColumnIndex($fin1) . "9";
-            $tramo2 = Coordinate::stringFromColumnIndex($fin1 + 1) . "12:" . Coordinate::stringFromColumnIndex($fin2) . "12";
-            $tramo3 = Coordinate::stringFromColumnIndex($fin2 + 1) . "12:" . Coordinate::stringFromColumnIndex($fin3) . "12";
-            $tramos = array($tramo1, $tramo2, $tramo3);
-            $precabeceraL = array("CAMPO INFORME", "DESCRIPCION COMENTARIOS");
-            $tramo1 = "A2:A" . ($fin1);
-            $tramo2 = "A" . ($fin1) . ":A" . ($fin2);
-            $tramo3 = "A" . ($fin2) . ":A" . ($fin3);
-            $tramosLeyenda = array($tramo1, $tramo2, $tramo3);
-            $titleL = "LEYENDA";
-            $comentarios = array(
-                "Codigo de articulo"
-            );
-
+            $fin1 = 6;
+            $tramo = Coordinate::stringFromColumnIndex(1)."9:".Coordinate::stringFromColumnIndex($fin1)."9";
 
         }
 
@@ -1407,13 +1337,12 @@ class reportingController
         $i = 0;
         foreach ($cabecera as $cab) {
             $array[$i][1] = $cab;
-            //$array[$i][2] = $comentarios[$i];
             $i++;
         }
 
         $cabeceraL = array();
-        $page1 = new Sheet($precabecera, $data, $cabecera, $bg, $title, $tramos);
-        // $page2 = new SheetLeyenda($precabeceraL, $array, $precabeceraL, $bg, $titleL, $tramosLeyenda);
+        $page1 = new Sheet2($precabecera, $data, $cabecera, $bg, $title, $tramo);
+        $page2 = null;
 
         // Envio del mail
         if ((!is_null($request["email"])) && ($request["enviaMail"] == true)) {

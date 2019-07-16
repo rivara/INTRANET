@@ -18,7 +18,6 @@ use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Events\BeforeSheet;
 
 
-
 /**
  * @property  output
  */
@@ -33,14 +32,14 @@ class Sheet2 implements FromCollection, WithHeadings, WithEvents, WithTitle
     protected $tramos;
     protected $columna_roja;
 
-    public function __construct($precabecera, $data, $cabecera, $background, $title, $tramos)
+    public function __construct($precabecera, $data, $cabecera, $background, $title, $tramo)
     {
         $this->precabecera = $precabecera;
         $this->cabecera = $cabecera;
         $this->data = $data;
         $this->background = $background;
         $this->title = $title;
-        $this->tramos = $tramos;
+        $this->tramo = $tramo;
     }
 
 
@@ -50,7 +49,7 @@ class Sheet2 implements FromCollection, WithHeadings, WithEvents, WithTitle
     public function collection()
     {
 
-        $a= collect($this->data);
+        $a = collect($this->data);
 
         return $a;
     }
@@ -68,26 +67,42 @@ class Sheet2 implements FromCollection, WithHeadings, WithEvents, WithTitle
             BeforeSheet::class => function (BeforeSheet $event) {
 
                 $event->sheet->append($this->precabecera);
-                //$event->sheet->fromArray($this->data, null, 'A1', true);
                 $event->sheet->getDelegate()->getStyle("A1")->getFont()->setBold(true);
                 $event->sheet->getDelegate()->getStyle("A3")->getFont()->setBold(true);
 
             },
             AfterSheet::class => function (AfterSheet $event) use ($background) {
+                $event->sheet->getDelegate()->getStyle($this->tramo)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB($background);
 
-                $i = 0;
+                //VENTAS >> CONSUMO MARCA PROPIA
 
-                foreach ($this->tramos as $tramo) {
-                    $event->sheet->getDelegate()->getStyle($tramo)->getFont()->setSize(12);
-                    $event->sheet->getDelegate()->getStyle($tramo)->getFont()->setBold(true);
-                    $event->sheet->getDelegate()->getStyle($tramo)->getFont()->getColor()->setRGB('ffffff');
-                    $event->sheet->getDelegate()->getStyle($tramo)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB($background[$i]);
-                    $i++;
+                if ($this->title == "INFORME DE VENTAS POR CLIENTE") {
+                    $event->sheet->appendRows(array(
+                        array(
+                            null,
+                            null,
+                            null,
+                            null,
+                            '=SUM(E1:E' . $event->sheet->getDelegate()->getHighestRow() . ')&"€"',
+                            null,
+                            '=SUM(E1:E' . $event->sheet->getDelegate()->getHighestRow() . ')&"€"',
+                            '=SUM(E1:E' . $event->sheet->getDelegate()->getHighestRow() . ')&"€"',
+                            null
+                        ),
+                    ), $event);
                 }
-                $len=strlen($tramo);
-                $event->sheet->getDelegate()->getStyle("A1:".substr($tramo,$len-4 , 2)."1")->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->
-                getStartColor()->setRGB($background[2]);
-                // $event->sheet->appendRows(2, array('appended', 'appended'));
+                if ($this->title == "INFORME DE VENTAS POR ARTICULOS") {
+                    $event->sheet->appendRows(array(
+                        array(
+                            null,
+                            null,
+                            '=SUM(E1:E' . $event->sheet->getDelegate()->getHighestRow() . ')',
+                            '=SUM(E1:E' . $event->sheet->getDelegate()->getHighestRow() . ')',
+                            null,
+                            '=SUM(E1:E' . $event->sheet->getDelegate()->getHighestRow() . ')'
+                        ),
+                    ), $event);
+                }
 
             },
         );
@@ -110,10 +125,6 @@ class Sheet2 implements FromCollection, WithHeadings, WithEvents, WithTitle
     {
         return $this->title;
     }
-
-
-
-
 
 
 }
