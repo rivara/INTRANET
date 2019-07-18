@@ -159,12 +159,6 @@
                             <input type="hidden" name="option" value="marcaPropia">
                         </form>
                     </li>
-                    <li class="dropdown-submenu">
-                        <form action="{{ route('reportingRedirect')}}" method="get">
-                            <button class="" type="submit"><p>8.-Consumo Marca Propia Pruebas</p></button>
-                            <input type="hidden" name="option" value="marcaPropiaPrueba">
-                        </form>
-                    </li>
                 </ul>
             </li>
 

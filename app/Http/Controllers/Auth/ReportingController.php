@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use ZipArchive;
 
 
@@ -344,7 +345,7 @@ class reportingController
         $articulo = $request["articulo"];
         $calculo = $request["calculo"];
         $compresion=$request["compresion"];
-        $date = strtotime($fechaDesde.'-1 year');
+        $date = strtotime($fechaDesde.'-2 year');
         $fechaDesdeHace2años= date('Y-m-d', $date);
 
 
@@ -832,12 +833,12 @@ class reportingController
             $fechaAnterior  = " AND (cab.fecha BETWEEN '" . date('Y-m-d',strtotime($fechaDesde.'-1 year'))."' AND '".date('Y-m-d',strtotime($fechaHasta.'-1 year'))."')";
             $data = $db->select($db->raw("(
             SELECT c.empresa, c.cliente, c.sucursal, c.nombre
-            , CONCAT(REPLACE(CAST(IFNULL(ventasact.TOTAL,0)AS DECIMAL(18,2)),'.',','),'€') Almacen
-            , CONCAT(REPLACE(CAST(IFNULL(v_alm_ant.TOTAL,0)AS DECIMAL(18,2)),'.',','),'€') AlmacenAnterior
-            , CONCAT(ROUND (CASE WHEN iFNULL(v_alm_ant.TOTAL,0) <> 0 THEN ((IFNULL(ventasact.TOTAL,0) -  IFNULL(v_alm_ant.TOTAL,0)) / iFNULL(v_alm_ant.TOTAL,0))*100 ELSE 0 END,2),'%')'Diferencia_almacen (%)'
-            , CONCAT(REPLACE(CAST(IFNULL(v_mp.TOTAL,0)AS DECIMAL(18,2)),'.',','),'€') MarcaPropia
-            , CONCAT(REPLACE(CAST(IFNULL(v_mp_ant.TOTAL,0)AS DECIMAL(18,2)),'.',','),'€') MarcaPropiaAnterior
-            , CONCAT(ROUND (CASE WHEN iFNULL(v_mp_ant.TOTAL,0) <> 0 THEN ((IFNULL(v_mp.TOTAL,0) -  IFNULL(v_mp_ant.TOTAL,0)) / iFNULL(v_mp_ant.TOTAL,0))*100 ELSE 0 END,2),'%')'Diferencia_mpropia (%)'
+            , IFNULL(ventasact.TOTAL,0) Almacen
+            , IFNULL(v_alm_ant.TOTAL,0) AlmacenAnterior
+            , ROUND (CASE WHEN iFNULL(v_alm_ant.TOTAL,0) <> 0 THEN ((IFNULL(ventasact.TOTAL,0) -  IFNULL(v_alm_ant.TOTAL,0)) / iFNULL(v_alm_ant.TOTAL,0))*100 ELSE 0 END,2)'Diferencia_almacen (%)'
+            , IFNULL(v_mp.TOTAL,0) MarcaPropia
+            , IFNULL(v_mp_ant.TOTAL,0) MarcaPropiaAnterior
+            , ROUND (CASE WHEN iFNULL(v_mp_ant.TOTAL,0) <> 0 THEN ((IFNULL(v_mp.TOTAL,0) -  IFNULL(v_mp_ant.TOTAL,0)) / iFNULL(v_mp_ant.TOTAL,0))*100 ELSE 0 END,2)'Diferencia_mpropia (%)'
             FROM clientes c
             LEFT OUTER JOIN (
             SELECT
@@ -906,6 +907,15 @@ class reportingController
             $fin1 = 10;
             $tramo = Coordinate::stringFromColumnIndex(1) . "9:" . Coordinate::stringFromColumnIndex($fin1) . "9";
 
+            $columnFormats = [
+                "E" => NumberFormat::FORMAT_CURRENCY_EUR,
+                "F" => NumberFormat::FORMAT_CURRENCY_EUR,
+                "G" => NumberFormat::FORMAT_PERCENTAGE_00,
+                "H" => NumberFormat::FORMAT_CURRENCY_EUR,
+                "I" => NumberFormat::FORMAT_CURRENCY_EUR,
+                "J" => NumberFormat::FORMAT_PERCENTAGE_00
+            ];
+
         }
         /******************************
         SI LA OPCION ES ARTICULO
@@ -939,9 +949,7 @@ class reportingController
             $data = $db->select($db->raw("(SELECT a.id, a.nombre
             , IFNULL(AlmacenUds.TOTAL,0) AlmacenUds
             , IFNULL(AlmacenAnteriorUds.TOTAL,0) AlmacenAnteriorUds
-            , CONCAT(CASE WHEN iFNULL(AlmacenAnteriorUds.TOTAL,0) <> 0 THEN ((IFNULL(AlmacenUds.TOTAL,0) -  IFNULL(AlmacenAnteriorUds.TOTAL,0)) / iFNULL(AlmacenAnteriorUds.TOTAL,0))*100 ELSE 0 END,'%')'Diferencia_almacen (%)'
-                       
-           
+            , CASE WHEN iFNULL(AlmacenAnteriorUds.TOTAL,0) <> 0 THEN ((IFNULL(AlmacenUds.TOTAL,0) -  IFNULL(AlmacenAnteriorUds.TOTAL,0)) / iFNULL(AlmacenAnteriorUds.TOTAL,0))*100 ELSE 0 END'Diferencia_almacen (%)'
             , CASE WHEN DATEDIFF('".$fechaHasta."','".$fechaDesde."') <> 0 THEN IFNULL(AlmacenUds.TOTAL,0) / (DATEDIFF('".$fechaHasta."','".$fechaDesde."')) ELSE 0 END Rotacion
             FROM articulos a
             LEFT OUTER JOIN proveedores p ON a.proveedor_id = p.id
@@ -987,6 +995,10 @@ class reportingController
             //LEYENDA
             $fin1 = 6;
             $tramo = Coordinate::stringFromColumnIndex(1)."9:".Coordinate::stringFromColumnIndex($fin1)."9";
+            $columnFormats = [
+                "C" => NumberFormat::FORMAT_CURRENCY_EUR,
+                "D" => NumberFormat::FORMAT_CURRENCY_EUR,
+                "E" => NumberFormat::FORMAT_PERCENTAGE_00];
 
         }
 
@@ -998,8 +1010,8 @@ class reportingController
             $i++;
         }
 
-        $cabeceraL = array();
-        $page1 = new Sheet2($precabecera, $data, $cabecera, $bg, $title, $tramo);
+
+        $page1 = new Sheet2($precabecera, $data, $cabecera, $bg, $title, $tramo,$columnFormats);
         $page2 = null;
 
         // Envio del mail
@@ -1059,14 +1071,23 @@ class reportingController
         }
         if ($request["type"] == "csv") {
             set_time_limit(20000);
-            //return(Excel::download(new SheetsExports($page1, $page2), $filename . '.csv'));
+
             //parametrizacion
-            $cabecera = "ARTICULO;DESCRIPCION;F.ALTA;F.BAJA;TIPO ART.;TIPO ROT.;PROVEEDOR;RAZON SOCIAL;REFERENCIA;COMPRADOR;MARCA;CAT.FERROKEY;PRECIO MEDIO;FAMILIA;DESC COMPLETA;FAM-1-;DESCRIPCION;FAM-2-;DESCRIPCION;FAM-3-;DESCRIPCION;DATOS ALMACEN EXTINGUIR;VENTAS (UDS);VENTAS (PVP);VENTAS(PMEDIO);STOCK ACTUAL;MARGEN BRUTO;STOCK MEDIO (UDS);INDICE ROTACON;MARGEN POR ROTACION;SURTIDO";
-            $cabeza = date("d-m-Y h:i:sa") . "\n Indice De Rotacion \n PERIODO, " . $fechaDesde . " a " . $fechaHasta . "  \n ALMACEN " . $almacen . " \n PROVEEDOR " . $proveedor_id . " \nLISTAS ARTICULOS ENVASES";
+
+            $cabeza=null;
+           if ($tipo=="CLIENTE") {
+                $cabecera = "EMPRESA;N CLIENTE;SUCURSAL;NOMBRE CLIENTE;VENTAS TOTALES A".$fechaHasta." €);VENTAS TOTALES A.".$fechaHasta.'-1 year'."(€);.$fechaHasta.'-1 year(%);VENTAS MARCA PROPIA A ".$fechaHasta." (€);VENTAS MARCA PROPIA A ".$fechaHasta.'-1 year'."(€);DIF 19/18 (%)";
+            }
+
+            if ($tipo=="ARTICULOS"){
+                $cabecera ="N ARTICULO;DESCRIPCIÓN ARTÍCULO (SóLO MARCA PROPIA); VENTAS TOTALES A ".$fechaHasta."(UDS); VENTAS TOTALES A  ".$fechaHasta."-1 year(UDS);".$fechaHasta.$fechaHasta."(%);ROTACIÓN DIARÍA (UDS VENDIDAS A 30.06.19 / 181 DÍAS";
+            }
+
+
             $array = $cabeza . "\n\n" . $cabecera . "\n";
             foreach ($data as $list) {
                 foreach ($list as $dat) {
-                    $array = $array . $dat . ";";
+                    $array=$array.$dat.";";
                 }
                 $array = $array . "\n";
             }
@@ -1074,348 +1095,6 @@ class reportingController
         }
     }
 
-
-
-
-
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////// MARCA PROPIA  Prueba///////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////
-    /*
-     * select clientes.nombre
-    from historico_ventas_detalle as hist
-    INNER JOIN clientes  ON   clientes.cliente= hist.cliente_id
-    limit 100;
-     * */
-
-
-    public function actionMarcaPropiaPrueba(Request $request)
-    {
-
-
-        //VARIABLES
-        $tipo = $request["opcion"];
-
-        $tipoCliente = $request["tipoCliente"];
-        if($tipoCliente==" "){
-            $tipoCliente="Todos";
-        }
-
-        $tipoGrupoCliente = $request["tipoGrupoCliente"];
-        if($tipoGrupoCliente==" "){
-            $tipoGrupoCliente="Todos";
-        }
-
-        $codigoCliente = $request["codigoCliente"];
-        if(empty($codigoCliente)){
-            $codigoCliente="Todos";
-        }
-
-
-        $codigoArticulo = $request["codigoArticulo"];
-        if($codigoArticulo==" "){
-            $codigoArticulo="Todos";
-        }
-
-        $fechaDesde = $request["fechaDesde"];
-        $fechaHasta = $request["fechaHasta"];
-        $filename = "marcaPropia";
-        $compresion=$request["compresion"];
-
-
-
-
-
-        $precabecera = array(
-            array(date("F j, Y, g:i a")),
-            //  array(date("H:i:s")),
-            array("Marca propia por cliente"),
-            array(""),
-            array("*PERIODO", $fechaDesde, "a", $fechaHasta),
-            array("*PERIODO ANTERIOR", date('Y-m-d',strtotime($fechaDesde.'-1 year')), "a",  date('Y-m-d',strtotime($fechaHasta.'-1 year'))),
-            array("*TIPO CLIENTE", $tipoGrupoCliente),
-            array("*CODIGO CLIENTE",$codigoCliente),
-            array(" ")
-        );
-
-        /******************************
-        SI LA OPCION ES CLIENTE
-         *****************************/
-
-        if ($tipo=="CLIENTE") {
-
-            $codigoCliente="";
-            $codigoClienteInner="";
-            if(! is_null($request["codigoCliente"])){
-                $codigoClienteInner=" AND cab.cliente_id ='".$request["codigoCliente"]."'";
-                $codigoCliente=" AND c.cliente ='".$request["codigoCliente"]."'";
-            }
-
-
-
-            $db = DB::connection('reporting');
-            $cabecera = array(
-                "EMPRESA",
-                "Nº CLIENTE",
-                "SUCURSAL",
-                "NOMBRE CLIENTE",
-                "VENTAS TOTALES A ".$fechaHasta." (€)",
-                "VENTAS TOTALES A ".date('d/m/Y',strtotime($fechaHasta.'-1 year'))." (€)",
-                "DIF ".$fechaHasta."/".date('d/m/Y',strtotime($fechaHasta.'-1 year'))." (%)",
-                "VENTAS MARCA PROPIA A ".$fechaHasta." (€).",
-                "VENTAS MARCA PROPIA A ".date('d/m/Y',strtotime($fechaHasta.'-1 year'))."(€)",
-                "DIF 19/18 (%)"
-            );
-
-
-            $tipoGrupoClienteInner=" AND cl.tipo_cliente ='".$request["tipoGrupoCliente"]."'";
-            $tipoGrupoCliente=" AND c.tipo_cliente ='".$request["tipoGrupoCliente"]."'";
-            $fechaActual    = " AND (cab.fecha BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "')";
-            $fechaAnterior  = " AND (cab.fecha BETWEEN '" . date('Y-m-d',strtotime($fechaDesde.'-1 year'))."' AND '".date('Y-m-d',strtotime($fechaHasta.'-1 year'))."')";
-            $data = $db->select($db->raw("(
-            SELECT c.empresa, c.cliente, c.sucursal, c.nombre
-            , CONCAT(REPLACE(CAST(IFNULL(ventasact.TOTAL,0)AS DECIMAL(18,2)),'.',','),'€') Almacen
-            , CONCAT(REPLACE(CAST(IFNULL(v_alm_ant.TOTAL,0)AS DECIMAL(18,2)),'.',','),'€') AlmacenAnterior
-            , CONCAT(ROUND (CASE WHEN iFNULL(v_alm_ant.TOTAL,0) <> 0 THEN ((IFNULL(ventasact.TOTAL,0) -  IFNULL(v_alm_ant.TOTAL,0)) / iFNULL(v_alm_ant.TOTAL,0))*100 ELSE 0 END,2),'%')'Diferencia_almacen (%)'
-            , CONCAT(REPLACE(CAST(IFNULL(v_mp.TOTAL,0)AS DECIMAL(18,2)),'.',','),'€') MarcaPropia
-            , CONCAT(REPLACE(CAST(IFNULL(v_mp_ant.TOTAL,0)AS DECIMAL(18,2)),'.',','),'€') MarcaPropiaAnterior
-            , CONCAT(ROUND (CASE WHEN iFNULL(v_mp_ant.TOTAL,0) <> 0 THEN ((IFNULL(v_mp.TOTAL,0) -  IFNULL(v_mp_ant.TOTAL,0)) / iFNULL(v_mp_ant.TOTAL,0))*100 ELSE 0 END,2),'%')'Diferencia_mpropia (%)'
-            FROM clientes c
-            LEFT OUTER JOIN (
-            SELECT
-            cab.empresa EMP, cab.cliente_id CLI, cab.sucursal_id SUC
-            , SUM(CASE WHEN det.tipo_documento='A' THEN  det.importe*-1 ELSE 0 END) TOTABO
-            , SUM(CASE WHEN det.tipo_documento='F' THEN  det.importe ELSE 0 END) TOT_FAC
-            , SUM(CASE WHEN det.tipo_documento='A' THEN  det.importe*-1 ELSE det.importe END) TOTAL
-            FROM historico_ventas_detalle det
-            INNER JOIN historico_ventas cab ON (det.empresa = cab.empresa AND det.tipo_documento = cab.tipo_documento AND det.documento = cab.documento)
-            LEFT OUTER JOIN clientes cl ON (cab.empresa = cl.empresa AND cab.cliente_id = cl.cliente AND cab.sucursal_id = cl.sucursal)
-            LEFT OUTER JOIN articulos art ON (det.articulo_id = art.id)
-            LEFT OUTER JOIN proveedores pro ON (art.proveedor_id = pro.id)
-            WHERE (cab.empresa = 1 ".$tipoGrupoClienteInner.$codigoClienteInner.")
-            ".$fechaActual."
-            GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
-            ) ventasact ON c.empresa = ventasact.EMP AND c.cliente = ventasact.CLI AND c.sucursal = ventasact.SUC
-            LEFT OUTER JOIN (
-            SELECT cab.empresa EMP, cab.cliente_id CLI, cab.sucursal_id SUC
-            , SUM(CASE WHEN det.tipo_documento='A' THEN  det.importe*-1 ELSE 0 END) TOTABO
-            , SUM(CASE WHEN det.tipo_documento='F' THEN  det.importe ELSE 0 END) TOT_FAC
-            , SUM(CASE WHEN det.tipo_documento='A' THEN  det.importe*-1 ELSE det.importe END) TOTAL
-            FROM historico_ventas_detalle det
-            INNER JOIN historico_ventas cab ON (det.empresa = cab.empresa AND det.tipo_documento = cab.tipo_documento AND det.documento = cab.documento)
-            LEFT OUTER JOIN clientes cl ON (cab.empresa = cl.empresa AND cab.cliente_id = cl.cliente AND cab.sucursal_id = cl.sucursal)
-            LEFT OUTER JOIN articulos art ON (det.articulo_id = art.id)
-            LEFT OUTER JOIN proveedores pro ON (art.proveedor_id = pro.id)
-              WHERE (cab.empresa = 1 ".$tipoGrupoClienteInner.$codigoClienteInner.")
-              ".$fechaActual."
-            AND (art.es_marca_propia = 1 OR pro.es_marca_propia=1)
-            GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
-            ) v_mp ON c.empresa = v_mp.EMP AND c.cliente = v_mp.CLI AND c.sucursal = v_mp.SUC
-            LEFT OUTER JOIN (
-            SELECT cab.empresa EMP, cab.cliente_id CLI, cab.sucursal_id SUC
-            , SUM(CASE WHEN det.tipo_documento='A' THEN  det.importe*-1 ELSE 0 END) TOTABO
-            , SUM(CASE WHEN det.tipo_documento='F' THEN  det.importe ELSE 0 END) TOT_FAC
-            , SUM(CASE WHEN det.tipo_documento='A' THEN  det.importe*-1 ELSE det.importe END) TOTAL
-            FROM historico_ventas_detalle det
-            INNER JOIN historico_ventas cab ON (det.empresa = cab.empresa AND det.tipo_documento = cab.tipo_documento AND det.documento = cab.documento)
-            LEFT OUTER JOIN clientes cl ON (cab.empresa = cl.empresa AND cab.cliente_id = cl.cliente AND cab.sucursal_id = cl.sucursal)
-            LEFT OUTER JOIN articulos art ON (det.articulo_id = art.id)
-            LEFT OUTER JOIN proveedores pro ON (art.proveedor_id = pro.id)
-             WHERE (cab.empresa = 1 ".$tipoGrupoClienteInner.$codigoClienteInner.")
-                ".$fechaAnterior."
-            GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
-            ) v_alm_ant ON c.empresa = v_alm_ant.EMP AND c.cliente = v_alm_ant.CLI AND c.sucursal = v_alm_ant.SUC
-            LEFT OUTER JOIN (
-            SELECT cab.empresa EMP, cab.cliente_id CLI, cab.sucursal_id SUC
-            , SUM(CASE WHEN det.tipo_documento='A' THEN  det.importe*-1 ELSE 0 END) TOTABO
-            , SUM(CASE WHEN det.tipo_documento='F' THEN  det.importe ELSE 0 END) TOT_FAC
-            , SUM(CASE WHEN det.tipo_documento='A' THEN  det.importe*-1 ELSE det.importe END) TOTAL
-            FROM historico_ventas_detalle det
-            INNER JOIN historico_ventas cab ON (det.empresa = cab.empresa AND det.tipo_documento = cab.tipo_documento AND det.documento = cab.documento)
-            LEFT OUTER JOIN clientes cl ON (cab.empresa = cl.empresa AND cab.cliente_id = cl.cliente AND cab.sucursal_id = cl.sucursal)
-            LEFT OUTER JOIN articulos art ON (det.articulo_id = art.id)
-            LEFT OUTER JOIN proveedores pro ON (art.proveedor_id = pro.id)
-             WHERE (cab.empresa = 1 ".$tipoGrupoClienteInner.$codigoClienteInner.")
-            ".$fechaAnterior."
-            AND (art.es_marca_propia = 1 OR pro.es_marca_propia=1)
-            GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
-            ) v_mp_ant ON c.empresa = v_mp_ant.EMP AND c.cliente = v_mp_ant.CLI AND c.sucursal = v_mp_ant.SUC
-            WHERE (c.empresa = 1 ".$tipoGrupoCliente.$codigoCliente.")
-             )"));
-
-            $bg = "808080";
-            $title = "INFORME DE VENTAS POR CLIENTE";
-            $fin1 = 10;
-            $tramo = Coordinate::stringFromColumnIndex(1) . "9:" . Coordinate::stringFromColumnIndex($fin1) . "9";
-
-        }
-        /******************************
-        SI LA OPCION ES ARTICULO
-         ********************************/
-
-
-        if ($tipo=="ARTICULOS") {
-
-
-            $db = DB::connection('reporting');
-            $cabecera = array(
-                "N ARTICULO",
-                "DESCRIPCIÓN ARTÍCULO (SÓLO MARCA PROPIA)",
-                "VENTAS TOTALES A ".$fechaHasta."(UDS)",
-                "VENTAS TOTALES A  ".date('d/m/Y',strtotime($fechaHasta.'-1 year'))."(UDS)",
-                "DIF ".$fechaHasta."/".date('d/m/Y',strtotime($fechaHasta.'-1 year'))." (%)",
-                "ROTACIÓN DIARÍA (UDS VENDIDAS A 30.06.19 /  181 DÍAS"
-
-            );
-            $codigoArticulo="";
-            $codigoArticuloInner="";
-            if(! is_null($request["codigoArticulo"])){
-                $codigoArticuloInner=" AND cab.cliente_id ='".$request["codigoArticulo"]."'";
-                $codigoArticulo=" AND a.id ='".$request["codigoArticulo"]."'";
-            }
-            $fechaActual    = " AND (cab.fecha BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "')";
-            $fechaAnterior  = "AND (cab.fecha BETWEEN '" . date('Y-m-d',strtotime($fechaDesde.'-1 year'))."' AND '".date('Y-m-d',strtotime($fechaHasta.'-1 year'))."')";
-            $tipoGrupoClienteInner=" AND cl.tipo_cliente ='".$request["tipoGrupoCliente"]."'";
-            // $tipoGrupoCliente=" AND c.tipo_cliente ='".$request["tipoGrupoCliente"]."'";
-
-            $data = $db->select($db->raw("(SELECT a.id, a.nombre
-            , IFNULL(AlmacenUds.TOTAL,0) AlmacenUds
-            , IFNULL(AlmacenAnteriorUds.TOTAL,0) AlmacenAnteriorUds
-       
-            , CONCAT(CASE WHEN iFNULL(AlmacenAnteriorUds.TOTAL,0) <> 0 THEN ((IFNULL(AlmacenUds.TOTAL,0) -  IFNULL(AlmacenAnteriorUds.TOTAL,0)) / iFNULL(AlmacenAnteriorUds.TOTAL,0))*100 ELSE 0 END,'%')'Diferencia_almacen (%)'
-                       
-           
-            , CASE WHEN DATEDIFF('".$fechaHasta."','".$fechaDesde."') <> 0 THEN IFNULL(AlmacenUds.TOTAL,0) / (DATEDIFF('".$fechaHasta."','".$fechaDesde."')) ELSE 0 END Rotacion
-            FROM articulos a
-            LEFT OUTER JOIN proveedores p ON a.proveedor_id = p.id
-            LEFT OUTER JOIN (
-            SELECT det.articulo_id ART
-            , SUM(CASE WHEN det.tipo_documento='A' THEN  det.cantidad *-1 ELSE 0 END) TOTABO
-            , SUM(CASE WHEN det.tipo_documento='F' THEN  det.cantidad ELSE 0 END) TOT_FAC
-            , SUM(CASE WHEN det.tipo_documento='A' THEN  det.cantidad*-1 ELSE det.cantidad END) TOTAL
-            FROM historico_ventas_detalle det
-            INNER JOIN historico_ventas cab ON (det.empresa = cab.empresa AND det.tipo_documento = cab.tipo_documento AND det.documento = cab.documento)
-            LEFT OUTER JOIN clientes cl ON (cab.empresa = cl.empresa AND cab.cliente_id = cl.cliente AND cab.sucursal_id = cl.sucursal)
-            LEFT OUTER JOIN articulos art ON (det.articulo_id = art.id)
-            LEFT OUTER JOIN proveedores pro ON (art.proveedor_id = pro.id)
-            WHERE (cab.empresa = 1 ".$tipoGrupoClienteInner.")
-            ".$fechaActual."
-            ".$codigoArticuloInner."
-            AND (art.es_marca_propia = 1 OR pro.es_marca_propia=1)
-            GROUP BY det.articulo_id
-            ) AlmacenUds ON a.id = AlmacenUds.ART
-            LEFT OUTER JOIN (
-            SELECT det.articulo_id ART
-            , SUM(CASE WHEN det.tipo_documento='A' THEN  det.cantidad *-1 ELSE 0 END) TOTABO
-            , SUM(CASE WHEN det.tipo_documento='F' THEN  det.cantidad ELSE 0 END) TOT_FAC
-            , SUM(CASE WHEN det.tipo_documento='A' THEN  det.cantidad*-1 ELSE det.cantidad END) TOTAL
-            FROM historico_ventas_detalle det
-            INNER JOIN historico_ventas cab ON (det.empresa = cab.empresa AND det.tipo_documento = cab.tipo_documento AND det.documento = cab.documento)
-            LEFT OUTER JOIN clientes cl ON (cab.empresa = cl.empresa AND cab.cliente_id = cl.cliente AND cab.sucursal_id = cl.sucursal)
-            LEFT OUTER JOIN articulos art ON (det.articulo_id = art.id)
-            LEFT OUTER JOIN proveedores pro ON (art.proveedor_id = pro.id)
-            WHERE (cab.empresa = 1  ".$tipoGrupoClienteInner.")
-           ".$fechaAnterior."
-            ".$codigoArticuloInner."
-            AND (art.es_marca_propia = 1 OR pro.es_marca_propia=1)
-            GROUP BY det.articulo_id
-            ) AlmacenAnteriorUds ON a.id = AlmacenAnteriorUds.ART
-            
-            WHERE (a.es_marca_propia = 1 OR p.es_marca_propia=1)
-             ".$codigoArticulo."
-            ORDER BY a.proveedor_id, a.nombre
-            )"));
-            $bg = "808080";
-            $title = "INFORME DE VENTAS POR ARTICULOS";
-            //LEYENDA
-            $fin1 = 6;
-            $tramo = Coordinate::stringFromColumnIndex(1)."9:".Coordinate::stringFromColumnIndex($fin1)."9";
-
-        }
-
-
-
-        $i = 0;
-        foreach ($cabecera as $cab) {
-            $array[$i][1] = $cab;
-            $i++;
-        }
-
-        $cabeceraL = array();
-        $page1 = new Sheet2($precabecera, $data, $cabecera, $bg, $title, $tramo);
-        $page2 = null;
-
-        // Envio del mail
-        if ((!is_null($request["email"])) && ($request["enviaMail"] == true)) {
-            set_time_limit(20000);
-            //generacion del zip
-            $zip = new ZipArchive;
-            if ($zip->open($filename.'.zip', ZipArchive::CREATE) === true) {
-                $zip->addFile(Excel::download(new SheetsExports($page1, $page2), $filename . '.xls')->getFile(),
-                    $filename.'.xls');
-                $zip->close();
-            }
-
-            if (is_null($request["asunto"])) {
-                $messageBody = "Informe de Indice de rotacion";
-            } else {
-                $messageBody = $request["asunto"];
-            }
-            $email = $request["email"];
-            $message = "Este mail contiene el informe de rotacion";
-            Mail::raw(/**
-             * @param $message
-             */
-                $messageBody, function ($message) use ($filename, $page2, $compresion, $email, $page1) {
-                $message->from('rvalle@comafe.es', 'Informe de Indice de rotación');
-                $message->to($email);
-                $message->subject('indice de rotacion');
-
-                if ($compresion== true) {
-                    set_time_limit(20000);
-                    $message->attach(response()->download($filename.".zip")->getFile(), ['as' => 'report.zip']);
-                    return redirect()->back();
-                }else{
-                    set_time_limit(20000);
-                    $message->attach(Excel::download(new SheetsExports($page1, $page2), $filename . '.xls')->getFile(), ['as' => 'report.xls']);
-                    return redirect()->back();
-                }
-            });
-
-        }
-
-        if (($compresion == true)&&($request["enviaMail"] == false)) {
-            //generacion del zip
-            $zip = new ZipArchive;
-            if ($zip->open($filename.'.zip', ZipArchive::CREATE) === true) {
-                $zip->addFile(Excel::download(new SheetsExports($page1, $page2), $filename . '.xls')->getFile(),
-                    $filename.'.xls');
-                $zip->close();
-            }
-            return response()->download($filename.".zip");
-        }
-
-
-        if ($request["type"] == "xls") {
-            set_time_limit(20000);
-            return (Excel::download(new SheetsExports($page1, $page2), $filename . '.xls'));
-        }
-        if ($request["type"] == "csv") {
-            set_time_limit(20000);
-            //return(Excel::download(new SheetsExports($page1, $page2), $filename . '.csv'));
-            //parametrizacion
-            $cabecera = "ARTICULO;DESCRIPCION;F.ALTA;F.BAJA;TIPO ART.;TIPO ROT.;PROVEEDOR;RAZON SOCIAL;REFERENCIA;COMPRADOR;MARCA;CAT.FERROKEY;PRECIO MEDIO;FAMILIA;DESC COMPLETA;FAM-1-;DESCRIPCION;FAM-2-;DESCRIPCION;FAM-3-;DESCRIPCION;DATOS ALMACEN EXTINGUIR;VENTAS (UDS);VENTAS (PVP);VENTAS(PMEDIO);STOCK ACTUAL;MARGEN BRUTO;STOCK MEDIO (UDS);INDICE ROTACON;MARGEN POR ROTACION;SURTIDO";
-            $cabeza = date("d-m-Y h:i:sa") . "\n Indice De Rotacion \n PERIODO, " . $fechaDesde . " a " . $fechaHasta . "  \n ALMACEN " . $almacen . " \n PROVEEDOR " . $proveedor_id . " \nLISTAS ARTICULOS ENVASES";
-            $array = $cabeza . "\n\n" . $cabecera . "\n";
-            foreach ($data as $list) {
-                foreach ($list as $dat) {
-                    $array = $array . $dat . ";";
-                }
-                $array = $array . "\n";
-            }
-            return response()->attachmentCSV($array, $filename.".csv");
-        }
-    }
 
 
 

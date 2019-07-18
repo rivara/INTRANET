@@ -11,17 +11,20 @@ namespace App\Exports;
 
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Events\BeforeSheet;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 
 
 /**
  * @property  output
+ * @property  columnFormats
  */
-class Sheet2 implements FromCollection, WithHeadings, WithEvents, WithTitle
+class Sheet2 implements FromCollection, WithHeadings, WithEvents, WithTitle ,WithColumnFormatting
 {
 
     protected $precabecera;
@@ -29,10 +32,10 @@ class Sheet2 implements FromCollection, WithHeadings, WithEvents, WithTitle
     protected $data;
     protected $background;
     protected $pagename;
-    protected $tramos;
-    protected $columna_roja;
+    protected $tramo;
+    protected $columnFormats;
 
-    public function __construct($precabecera, $data, $cabecera, $background, $title, $tramo)
+    public function __construct($precabecera, $data, $cabecera, $background, $title, $tramo,$columnFormats)
     {
         $this->precabecera = $precabecera;
         $this->cabecera = $cabecera;
@@ -40,6 +43,8 @@ class Sheet2 implements FromCollection, WithHeadings, WithEvents, WithTitle
         $this->background = $background;
         $this->title = $title;
         $this->tramo = $tramo;
+        $this->columnFormats = $columnFormats;
+
     }
 
 
@@ -74,41 +79,67 @@ class Sheet2 implements FromCollection, WithHeadings, WithEvents, WithTitle
             AfterSheet::class => function (AfterSheet $event) use ($background) {
                 $event->sheet->getDelegate()->getStyle($this->tramo)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB($background);
 
-                //VENTAS >> CONSUMO MARCA PROPIA
-
+               // $event->getSheet()->fromCollection()
                 if ($this->title == "INFORME DE VENTAS POR CLIENTE") {
+
                     $event->sheet->appendRows(array(
                         array(
                             null,
                             null,
                             null,
                             null,
-                            '=SUM(E1:E' . $event->sheet->getDelegate()->getHighestRow() . ')&"€"',
-                            '=SUM(E1:E' . $event->sheet->getDelegate()->getHighestRow() . ')&"€"',
+                            '=SUM(E1:E'.$event->sheet->getDelegate()->getHighestRow().')&"€"',
+                            '=SUM(F1:F'.$event->sheet->getDelegate()->getHighestRow().')&"€"',
                             null,
-                            '=SUM(E1:E' . $event->sheet->getDelegate()->getHighestRow() . ')&"€"',
-                            '=SUM(E1:E' . $event->sheet->getDelegate()->getHighestRow() . ')&"€"',
+                            '=SUM(H1:H'.$event->sheet->getDelegate()->getHighestRow().')&"€"',
+                            '=SUM(I1:I'.$event->sheet->getDelegate()->getHighestRow().')&"€"',
                             null
                         ),
                     ), $event);
+                    $event->sheet->getDelegate()->getStyle("E".$event->sheet->getDelegate()->getHighestRow())->getFont()->setBold(true);
+                    $event->sheet->getDelegate()->getStyle("F".$event->sheet->getDelegate()->getHighestRow())->getFont()->setBold(true);
+                    $event->sheet->getDelegate()->getStyle("H".$event->sheet->getDelegate()->getHighestRow())->getFont()->setBold(true);
+                    $event->sheet->getDelegate()->getStyle("I".$event->sheet->getDelegate()->getHighestRow())->getFont()->setBold(true);
                 }
                 if ($this->title == "INFORME DE VENTAS POR ARTICULOS") {
                     $event->sheet->appendRows(array(
                         array(
                             null,
                             null,
-                            '=SUM(E1:E' . $event->sheet->getDelegate()->getHighestRow() . ')',
-                            '=SUM(E1:E' . $event->sheet->getDelegate()->getHighestRow() . ')',
+                            '=SUM(C1:C'.$event->sheet->getDelegate()->getHighestRow().')&"€"',
+                            '=SUM(D1:D'.$event->sheet->getDelegate()->getHighestRow().')&"€"',
                             null,
-                            '=SUM(E1:E' . $event->sheet->getDelegate()->getHighestRow() . ')'
+                            '=SUM(F1:F'.$event->sheet->getDelegate()->getHighestRow().')&"€"',
                         ),
                     ), $event);
+                    $event->sheet->getDelegate()->getStyle("C".$event->sheet->getDelegate()->getHighestRow())->getFont()->setBold(true);
+                    $event->sheet->getDelegate()->getStyle("D".$event->sheet->getDelegate()->getHighestRow())->getFont()->setBold(true);
+                    $event->sheet->getDelegate()->getStyle("F".$event->sheet->getDelegate()->getHighestRow())->getFont()->setBold(true);
                 }
 
             },
         );
 
     }
+
+
+
+
+
+    /**
+     * @return array
+     */
+    public function columnFormats(): array
+    {
+       return $this->columnFormats;
+
+
+    }
+
+
+
+
+
 
 
     /**
