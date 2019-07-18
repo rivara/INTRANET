@@ -100,6 +100,8 @@ class Sheet2 implements FromCollection, WithHeadings, WithEvents, WithTitle ,Wit
                     $event->sheet->getDelegate()->getStyle("F".$event->sheet->getDelegate()->getHighestRow())->getFont()->setBold(true);
                     $event->sheet->getDelegate()->getStyle("H".$event->sheet->getDelegate()->getHighestRow())->getFont()->setBold(true);
                     $event->sheet->getDelegate()->getStyle("I".$event->sheet->getDelegate()->getHighestRow())->getFont()->setBold(true);
+
+
                 }
                 if ($this->title == "INFORME DE VENTAS POR ARTICULOS") {
                     $event->sheet->appendRows(array(
@@ -108,14 +110,18 @@ class Sheet2 implements FromCollection, WithHeadings, WithEvents, WithTitle ,Wit
                             null,
                             '=SUM(C1:C'.$event->sheet->getDelegate()->getHighestRow().')',
                             '=SUM(D1:D'.$event->sheet->getDelegate()->getHighestRow().')',
-                            null,
+                            '=SUM(E1:E'.$event->sheet->getDelegate()->getHighestRow().')',
                             '=SUM(F1:F'.$event->sheet->getDelegate()->getHighestRow().')',
+                            '=SUM(G1:G'.$event->sheet->getDelegate()->getHighestRow().')',
                         ),
                     ), $event);
                     $event->sheet->getDelegate()->getStyle("C".$event->sheet->getDelegate()->getHighestRow())->getFont()->setBold(true);
                     $event->sheet->getDelegate()->getStyle("D".$event->sheet->getDelegate()->getHighestRow())->getFont()->setBold(true);
+                    $event->sheet->getDelegate()->getStyle("E".$event->sheet->getDelegate()->getHighestRow())->getFont()->setBold(true);
                     $event->sheet->getDelegate()->getStyle("F".$event->sheet->getDelegate()->getHighestRow())->getFont()->setBold(true);
-                }
+                    $event->sheet->getDelegate()->getStyle("G".$event->sheet->getDelegate()->getHighestRow())->getFont()->setBold(true);
+
+            }
 
             },
         );

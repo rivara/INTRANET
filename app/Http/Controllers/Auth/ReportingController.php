@@ -778,7 +778,7 @@ class reportingController
 
         $fechaDesde = $request["fechaDesde"];
         $fechaHasta = $request["fechaHasta"];
-        $filename = "marcaPropia";
+
         $compresion=$request["compresion"];
 
 
@@ -915,7 +915,7 @@ class reportingController
                 "I" => NumberFormat::FORMAT_CURRENCY_EUR,
                 "J" => NumberFormat::FORMAT_PERCENTAGE_00
             ];
-
+            $filename = "marcaPropia_por_Cliente";
         }
         /******************************
         SI LA OPCION ES ARTICULO
@@ -930,8 +930,12 @@ class reportingController
                 "N ARTICULO",
                 "DESCRIPCIÓN ARTÍCULO (SÓLO MARCA PROPIA)",
                 "VENTAS TOTALES A ".$fechaHasta."(UDS)",
+                "VENTAS TOTALES A ".$fechaHasta."(€)",
+                "PRECIO VENTA MEDIO ".$fechaHasta."(€)",
                 "VENTAS TOTALES A  ".date('d/m/Y',strtotime($fechaHasta.'-1 year'))."(UDS)",
-                "DIF ".$fechaHasta."/".date('d/m/Y',strtotime($fechaHasta.'-1 year'))." (%)",
+                "VENTAS TOTALES A  ".date('d/m/Y',strtotime($fechaHasta.'-1 year'))."(€)",
+                "DIF ".$fechaHasta.date('d/m/Y',strtotime($fechaHasta.'-1 year'))."(%)",
+                "DIF ANUAL (%)",
                 "ROTACIÓN DIARÍA (UDS VENDIDAS A 30.06.19 /  181 DÍAS"
 
             );
@@ -947,17 +951,23 @@ class reportingController
             // $tipoGrupoCliente=" AND c.tipo_cliente ='".$request["tipoGrupoCliente"]."'";
 
             $data = $db->select($db->raw("(SELECT a.id, a.nombre
-            , IFNULL(AlmacenUds.TOTAL,0) AlmacenUds
-            , IFNULL(AlmacenAnteriorUds.TOTAL,0) AlmacenAnteriorUds
-            , CASE WHEN iFNULL(AlmacenAnteriorUds.TOTAL,0) <> 0 THEN ((IFNULL(AlmacenUds.TOTAL,0) -  IFNULL(AlmacenAnteriorUds.TOTAL,0)) / iFNULL(AlmacenAnteriorUds.TOTAL,0))*100 ELSE 0 END'Diferencia_almacen (%)'
-            , CASE WHEN DATEDIFF('".$fechaHasta."','".$fechaDesde."') <> 0 THEN IFNULL(AlmacenUds.TOTAL,0) / (DATEDIFF('".$fechaHasta."','".$fechaDesde."')) ELSE 0 END Rotacion
-            FROM articulos a
+            , IFNULL(Almacen.TOTAL_UDS,0) AlmacenUds
+            , IFNULL(Almacen.TOTAL_PREC,0) AlmacenPrec
+            , IFNULL(IFNULL(Almacen.TOTAL_UDS,0)/IFNULL(Almacen.TOTAL_PREC,0),0) PrecioMedio
+            , IFNULL(AlmacenAnterior.TOTAL_UDS,0) AlmacenAnterior
+            , IFNULL(AlmacenAnterior.TOTAL_PREC,0) AlmacenAnteriorPrec
+            , IFNULL(IFNULL(Almacen.TOTAL_PREC,0)/IFNULL(AlmacenAnterior.TOTAL_PREC,0),0)-1 dif
+            , ROUND (CASE WHEN iFNULL(AlmacenAnterior.TOTAL_UDS,0) <> 0 THEN ((IFNULL(Almacen.TOTAL_UDS,0) -  IFNULL(AlmacenAnterior.TOTAL_UDS,0)) / iFNULL(AlmacenAnterior.TOTAL_UDS,0))*100 ELSE 0 END,2)'Diferencia_almacen (%)'
+          , CASE WHEN DATEDIFF('".$fechaHasta."','".$fechaDesde."') <> 0 THEN IFNULL(Almacen.TOTAL_UDS,0) / (DATEDIFF('".$fechaHasta."','".$fechaDesde."')) ELSE 0 END Rotacion  FROM articulos a
             LEFT OUTER JOIN proveedores p ON a.proveedor_id = p.id
             LEFT OUTER JOIN (
             SELECT det.articulo_id ART
-            , SUM(CASE WHEN det.tipo_documento='A' THEN  det.cantidad *-1 ELSE 0 END) TOTABO
-            , SUM(CASE WHEN det.tipo_documento='F' THEN  det.cantidad ELSE 0 END) TOT_FAC
-            , SUM(CASE WHEN det.tipo_documento='A' THEN  det.cantidad*-1 ELSE det.cantidad END) TOTAL
+            , SUM(CASE WHEN det.tipo_documento='A' THEN  det.cantidad *-1 ELSE 0 END) TOTABO_UDS
+            , SUM(CASE WHEN det.tipo_documento='F' THEN  det.cantidad ELSE 0 END) TOT_FAC_UDS
+            , SUM(CASE WHEN det.tipo_documento='A' THEN  det.cantidad*-1 ELSE det.cantidad END) TOTAL_UDS
+            , SUM(CASE WHEN det.tipo_documento='A' THEN  det.precio *-1 ELSE 0 END) TOTABO_PREC
+            , SUM(CASE WHEN det.tipo_documento='F' THEN  det.precio ELSE 0 END) TOT_FAC_PREC
+            , SUM(CASE WHEN det.tipo_documento='A' THEN  det.precio*-1 ELSE det.precio END) TOTAL_PREC
             FROM historico_ventas_detalle det
             INNER JOIN historico_ventas cab ON (det.empresa = cab.empresa AND det.tipo_documento = cab.tipo_documento AND det.documento = cab.documento)
             LEFT OUTER JOIN clientes cl ON (cab.empresa = cl.empresa AND cab.cliente_id = cl.cliente AND cab.sucursal_id = cl.sucursal)
@@ -968,38 +978,49 @@ class reportingController
             ".$codigoArticuloInner."
             AND (art.es_marca_propia = 1 OR pro.es_marca_propia=1)
             GROUP BY det.articulo_id
-            ) AlmacenUds ON a.id = AlmacenUds.ART
+            ) Almacen ON a.id = Almacen.ART
+            
             LEFT OUTER JOIN (
             SELECT det.articulo_id ART
-            , SUM(CASE WHEN det.tipo_documento='A' THEN  det.cantidad *-1 ELSE 0 END) TOTABO
-            , SUM(CASE WHEN det.tipo_documento='F' THEN  det.cantidad ELSE 0 END) TOT_FAC
-            , SUM(CASE WHEN det.tipo_documento='A' THEN  det.cantidad*-1 ELSE det.cantidad END) TOTAL
+            , SUM(CASE WHEN det.tipo_documento='A' THEN  det.cantidad *-1 ELSE 0 END) TOTABO_UDS
+            , SUM(CASE WHEN det.tipo_documento='F' THEN  det.cantidad ELSE 0 END) TOT_FAC_UDS
+            , SUM(CASE WHEN det.tipo_documento='A' THEN  det.cantidad*-1 ELSE det.cantidad END) TOTAL_UDS
+            
+            , SUM(CASE WHEN det.tipo_documento='A' THEN  det.precio *-1 ELSE 0 END) TOTABO_PREC
+            , SUM(CASE WHEN det.tipo_documento='F' THEN  det.precio ELSE 0 END) TOT_FAC_PREC
+            , SUM(CASE WHEN det.tipo_documento='A' THEN  det.precio*-1 ELSE det.precio END) TOTAL_PREC
+            
+            
             FROM historico_ventas_detalle det
             INNER JOIN historico_ventas cab ON (det.empresa = cab.empresa AND det.tipo_documento = cab.tipo_documento AND det.documento = cab.documento)
             LEFT OUTER JOIN clientes cl ON (cab.empresa = cl.empresa AND cab.cliente_id = cl.cliente AND cab.sucursal_id = cl.sucursal)
             LEFT OUTER JOIN articulos art ON (det.articulo_id = art.id)
             LEFT OUTER JOIN proveedores pro ON (art.proveedor_id = pro.id)
+           
             WHERE (cab.empresa = 1  ".$tipoGrupoClienteInner.")
-           ".$fechaAnterior."
+            ".$fechaAnterior."
             ".$codigoArticuloInner."
             AND (art.es_marca_propia = 1 OR pro.es_marca_propia=1)
             GROUP BY det.articulo_id
-            ) AlmacenAnteriorUds ON a.id = AlmacenAnteriorUds.ART
+            ) AlmacenAnterior ON a.id = AlmacenAnterior.ART
             
             WHERE (a.es_marca_propia = 1 OR p.es_marca_propia=1)
-             ".$codigoArticulo."
-            ORDER BY a.proveedor_id, a.nombre
-            )"));
+            ".$codigoArticulo."
+            ORDER BY a.proveedor_id, a.nombre)
+            "));
             $bg = "808080";
             $title = "INFORME DE VENTAS POR ARTICULOS";
             //LEYENDA
-            $fin1 = 6;
+            $fin1 = 10;
             $tramo = Coordinate::stringFromColumnIndex(1)."9:".Coordinate::stringFromColumnIndex($fin1)."9";
             $columnFormats = [
-                "C" => NumberFormat::FORMAT_CURRENCY_EUR,
                 "D" => NumberFormat::FORMAT_CURRENCY_EUR,
-                "E" => NumberFormat::FORMAT_PERCENTAGE_00];
-
+                "E" => NumberFormat::FORMAT_CURRENCY_EUR,
+                "F" => NumberFormat::FORMAT_NUMBER,
+                "G" => NumberFormat::FORMAT_CURRENCY_EUR,
+                "J" => NumberFormat::FORMAT_PERCENTAGE_00
+            ];
+            $filename = "marcaPropia_Por_Articulo";
         }
 
 
