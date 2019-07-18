@@ -88,11 +88,11 @@ class Sheet2 implements FromCollection, WithHeadings, WithEvents, WithTitle ,Wit
                             null,
                             null,
                             null,
-                            '=SUM(E1:E'.$event->sheet->getDelegate()->getHighestRow().')&"€"',
-                            '=SUM(F1:F'.$event->sheet->getDelegate()->getHighestRow().')&"€"',
+                            '=SUM(E1:E'.$event->sheet->getDelegate()->getHighestRow().')',
+                            '=SUM(F1:F'.$event->sheet->getDelegate()->getHighestRow().')',
                             null,
-                            '=SUM(H1:H'.$event->sheet->getDelegate()->getHighestRow().')&"€"',
-                            '=SUM(I1:I'.$event->sheet->getDelegate()->getHighestRow().')&"€"',
+                            '=SUM(H1:H'.$event->sheet->getDelegate()->getHighestRow().')',
+                            '=SUM(I1:I'.$event->sheet->getDelegate()->getHighestRow().')',
                             null
                         ),
                     ), $event);
@@ -106,10 +106,10 @@ class Sheet2 implements FromCollection, WithHeadings, WithEvents, WithTitle ,Wit
                         array(
                             null,
                             null,
-                            '=SUM(C1:C'.$event->sheet->getDelegate()->getHighestRow().')&"€"',
-                            '=SUM(D1:D'.$event->sheet->getDelegate()->getHighestRow().')&"€"',
+                            '=SUM(C1:C'.$event->sheet->getDelegate()->getHighestRow().')',
+                            '=SUM(D1:D'.$event->sheet->getDelegate()->getHighestRow().')',
                             null,
-                            '=SUM(F1:F'.$event->sheet->getDelegate()->getHighestRow().')&"€"',
+                            '=SUM(F1:F'.$event->sheet->getDelegate()->getHighestRow().')',
                         ),
                     ), $event);
                     $event->sheet->getDelegate()->getStyle("C".$event->sheet->getDelegate()->getHighestRow())->getFont()->setBold(true);
