@@ -942,7 +942,7 @@ class reportingController
             $codigoArticulo="";
             $codigoArticuloInner="";
             if(! is_null($request["codigoArticulo"])){
-                $codigoArticuloInner=" AND cab.cliente_id ='".$request["codigoArticulo"]."'";
+                $codigoArticuloInner=" AND det.articulo_id ='".$request["codigoArticulo"]."'";
                 $codigoArticulo=" AND a.id ='".$request["codigoArticulo"]."'";
             }
             $fechaActual    = " AND (cab.fecha BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "')";
@@ -1006,7 +1006,7 @@ class reportingController
             WHERE (a.es_marca_propia = 1 OR p.es_marca_propia=1)
             ".$codigoArticulo."
             ORDER BY a.proveedor_id, a.nombre)
-            "));
+            *"));
             $bg = "b5bf00";
             $title = "INFORME DE VENTAS POR ARTICULOS";
             //LEYENDA
