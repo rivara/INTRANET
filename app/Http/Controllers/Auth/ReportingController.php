@@ -1018,7 +1018,7 @@ class reportingController
                 "E" => NumberFormat::FORMAT_CURRENCY_EUR,
                 "F" => NumberFormat::FORMAT_NUMBER,
                 "G" => NumberFormat::FORMAT_CURRENCY_EUR,
-                "H" => NumberFormat::FORMAT_PERCENTAGE,
+                "H" => NumberFormat::FORMAT_NUMBER,
                 "I" => NumberFormat::FORMAT_CURRENCY_EUR,
                 "J" => NumberFormat::FORMAT_PERCENTAGE,
             ];
