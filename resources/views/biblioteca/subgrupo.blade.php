@@ -76,8 +76,8 @@
                             <b>{{$fichero->nombre}}</b><br>
                             ({{$fichero->otros}})
                         </td>
-                        <td>
-                          <div class="row">
+                        <td  >
+                          <div class="row" style="margin-top: -20px!important;">
                             <div class="col-md-2">
                             <form  method="GET" action="{{route('deleteFile')}}">
                                 <button type="submit" class="btn width60px ">
