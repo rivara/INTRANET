@@ -1006,7 +1006,7 @@ class reportingController
             WHERE (a.es_marca_propia = 1 OR p.es_marca_propia=1)
             ".$codigoArticulo."
             ORDER BY a.proveedor_id, a.nombre)
-            *"));
+            "));
             $bg = "b5bf00";
             $title = "INFORME DE VENTAS POR ARTICULOS";
             //LEYENDA
