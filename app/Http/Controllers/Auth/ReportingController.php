@@ -1018,9 +1018,9 @@ class reportingController
                 "E" => NumberFormat::FORMAT_CURRENCY_EUR,
                 "F" => NumberFormat::FORMAT_NUMBER,
                 "G" => NumberFormat::FORMAT_CURRENCY_EUR,
-                "H" => NumberFormat::FORMAT_PERCENTAGE_00,
+                "H" => NumberFormat::FORMAT_PERCENTAGE,
                 "I" => NumberFormat::FORMAT_CURRENCY_EUR,
-                "J" => NumberFormat::FORMAT_PERCENTAGE_00
+                "J" => NumberFormat::FORMAT_PERCENTAGE,
             ];
             $filename = "marcaPropia_Por_Articulo";
         }
