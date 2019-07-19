@@ -902,7 +902,7 @@ class reportingController
             WHERE (c.empresa = 1 ".$tipoGrupoCliente.$codigoCliente.")
              )"));
 
-            $bg = "808080";
+            $bg = "b5bf00";
             $title = "INFORME DE VENTAS POR CLIENTE";
             $fin1 = 10;
             $tramo = Coordinate::stringFromColumnIndex(1) . "9:" . Coordinate::stringFromColumnIndex($fin1) . "9";
@@ -934,9 +934,9 @@ class reportingController
                 "PRECIO VENTA MEDIO ".$fechaHasta."(€)",
                 "VENTAS TOTALES A  ".date('d/m/Y',strtotime($fechaHasta.'-1 year'))."(UDS)",
                 "VENTAS TOTALES A  ".date('d/m/Y',strtotime($fechaHasta.'-1 year'))."(€)",
-                "DIF ".$fechaHasta.date('d/m/Y',strtotime($fechaHasta.'-1 year'))."(%)",
-                "DIF ANUAL (%)",
-                "ROTACIÓN DIARÍA (UDS VENDIDAS A 30.06.19 /  181 DÍAS"
+                "DIF (UDS)".$fechaHasta.date('d/m/Y',strtotime($fechaHasta.'-1 year'))."(%)",
+                "DIF(€)".$fechaHasta.date('d/m/Y',strtotime($fechaHasta.'-1 year')),
+                "ROTACIÓN DIARÍA (UDS VENDIDAS ".$fechaHasta." /  181 DÍAS"
 
             );
             $codigoArticulo="";
@@ -953,12 +953,14 @@ class reportingController
             $data = $db->select($db->raw("(SELECT a.id, a.nombre
             , IFNULL(Almacen.TOTAL_UDS,0) AlmacenUds
             , IFNULL(Almacen.TOTAL_PREC,0) AlmacenPrec
-            , IFNULL(IFNULL(Almacen.TOTAL_UDS,0)/IFNULL(Almacen.TOTAL_PREC,0),0) PrecioMedio
+            , IFNULL(IFNULL(Almacen.TOTAL_PREC,0)/IFNULL(Almacen.TOTAL_UDS,0),0) PrecioMedio
             , IFNULL(AlmacenAnterior.TOTAL_UDS,0) AlmacenAnterior
             , IFNULL(AlmacenAnterior.TOTAL_PREC,0) AlmacenAnteriorPrec
-            , IFNULL(IFNULL(Almacen.TOTAL_PREC,0)/IFNULL(AlmacenAnterior.TOTAL_PREC,0),0)-1 dif
             , ROUND (CASE WHEN iFNULL(AlmacenAnterior.TOTAL_UDS,0) <> 0 THEN ((IFNULL(Almacen.TOTAL_UDS,0) -  IFNULL(AlmacenAnterior.TOTAL_UDS,0)) / iFNULL(AlmacenAnterior.TOTAL_UDS,0))*100 ELSE 0 END,2)'Diferencia_almacen (%)'
-          , CASE WHEN DATEDIFF('".$fechaHasta."','".$fechaDesde."') <> 0 THEN IFNULL(Almacen.TOTAL_UDS,0) / (DATEDIFF('".$fechaHasta."','".$fechaDesde."')) ELSE 0 END Rotacion  FROM articulos a
+            , IFNULL(IFNULL(Almacen.TOTAL_PREC,0)/IFNULL(AlmacenAnterior.TOTAL_PREC,0),0)-1 dif
+            , CASE WHEN DATEDIFF('".$fechaHasta."','".$fechaDesde."') <> 0 THEN IFNULL(Almacen.TOTAL_UDS,0) / (DATEDIFF('".$fechaHasta."','".$fechaDesde."')) ELSE 0 END Rotacion  
+            
+            FROM articulos a
             LEFT OUTER JOIN proveedores p ON a.proveedor_id = p.id
             LEFT OUTER JOIN (
             SELECT det.articulo_id ART
@@ -985,12 +987,9 @@ class reportingController
             , SUM(CASE WHEN det.tipo_documento='A' THEN  det.cantidad *-1 ELSE 0 END) TOTABO_UDS
             , SUM(CASE WHEN det.tipo_documento='F' THEN  det.cantidad ELSE 0 END) TOT_FAC_UDS
             , SUM(CASE WHEN det.tipo_documento='A' THEN  det.cantidad*-1 ELSE det.cantidad END) TOTAL_UDS
-            
             , SUM(CASE WHEN det.tipo_documento='A' THEN  det.precio *-1 ELSE 0 END) TOTABO_PREC
             , SUM(CASE WHEN det.tipo_documento='F' THEN  det.precio ELSE 0 END) TOT_FAC_PREC
             , SUM(CASE WHEN det.tipo_documento='A' THEN  det.precio*-1 ELSE det.precio END) TOTAL_PREC
-            
-            
             FROM historico_ventas_detalle det
             INNER JOIN historico_ventas cab ON (det.empresa = cab.empresa AND det.tipo_documento = cab.tipo_documento AND det.documento = cab.documento)
             LEFT OUTER JOIN clientes cl ON (cab.empresa = cl.empresa AND cab.cliente_id = cl.cliente AND cab.sucursal_id = cl.sucursal)
@@ -1008,16 +1007,19 @@ class reportingController
             ".$codigoArticulo."
             ORDER BY a.proveedor_id, a.nombre)
             "));
-            $bg = "808080";
+            $bg = "b5bf00";
             $title = "INFORME DE VENTAS POR ARTICULOS";
             //LEYENDA
             $fin1 = 10;
             $tramo = Coordinate::stringFromColumnIndex(1)."9:".Coordinate::stringFromColumnIndex($fin1)."9";
             $columnFormats = [
+                "C" => NumberFormat::FORMAT_NUMBER,
                 "D" => NumberFormat::FORMAT_CURRENCY_EUR,
                 "E" => NumberFormat::FORMAT_CURRENCY_EUR,
                 "F" => NumberFormat::FORMAT_NUMBER,
                 "G" => NumberFormat::FORMAT_CURRENCY_EUR,
+                "H" => NumberFormat::FORMAT_PERCENTAGE_00,
+                "I" => NumberFormat::FORMAT_CURRENCY_EUR,
                 "J" => NumberFormat::FORMAT_PERCENTAGE_00
             ];
             $filename = "marcaPropia_Por_Articulo";
