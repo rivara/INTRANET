@@ -957,7 +957,7 @@ class reportingController
             , IFNULL(AlmacenAnterior.TOTAL_UDS,0) AlmacenAnterior
             , IFNULL(AlmacenAnterior.TOTAL_PREC,0) AlmacenAnteriorPrec
             , ROUND (CASE WHEN iFNULL(AlmacenAnterior.TOTAL_UDS,0) <> 0 THEN ((IFNULL(Almacen.TOTAL_UDS,0) -  IFNULL(AlmacenAnterior.TOTAL_UDS,0)) / iFNULL(AlmacenAnterior.TOTAL_UDS,0))*100 ELSE 0 END,2)'Diferencia_almacen (%)'
-            , IFNULL(IFNULL(Almacen.TOTAL_PREC,0)/IFNULL(AlmacenAnterior.TOTAL_PREC,0),0)-1 dif
+            , (IFNULL(IFNULL(Almacen.TOTAL_PREC,0)/IFNULL(AlmacenAnterior.TOTAL_PREC,0),0)-1)*100 dif
             , CASE WHEN DATEDIFF('".$fechaHasta."','".$fechaDesde."') <> 0 THEN IFNULL(Almacen.TOTAL_UDS,0) / (DATEDIFF('".$fechaHasta."','".$fechaDesde."')) ELSE 0 END Rotacion  
             
             FROM articulos a
@@ -1018,9 +1018,9 @@ class reportingController
                 "E" => NumberFormat::FORMAT_CURRENCY_EUR,
                 "F" => NumberFormat::FORMAT_NUMBER,
                 "G" => NumberFormat::FORMAT_CURRENCY_EUR,
-                "H" => NumberFormat::FORMAT_NUMBER,
-                "I" => NumberFormat::FORMAT_CURRENCY_EUR,
-                "J" => NumberFormat::FORMAT_PERCENTAGE,
+                "H" => NumberFormat::FORMAT_PERCENTAGE,
+                "I" => NumberFormat::FORMAT_PERCENTAGE,
+                "J" => NumberFormat::FORMAT_NUMBER,
             ];
             $filename = "marcaPropia_Por_Articulo";
         }

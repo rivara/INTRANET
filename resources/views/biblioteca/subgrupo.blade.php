@@ -79,14 +79,10 @@
                         <td  >
                           <div class="row" style="margin-top: -22px!important;">
                             <div class="col-md-2">
-                            <form  method="GET" action="{{route('deleteFile')}}">
-                                <button type="submit" class="btn width60px ">
-                                    <i class="fa fa-trash fa-2x"></i></button>
-                                <input type="hidden" name="id" value={{$fichero->id}} >
-                                <input type="hidden" name="id_usuario" value={{$id_usuario}} >
-                                <input type="hidden" name="id_grupo" value={{$id_grupo}}>
-                                <input type="hidden" name="id_subgrupo" value={{$id_subgrupo}} >
-                            </form>
+                                <button class="delete btn btn-primary btnE  " type="button" data-toggle="modal"
+                                        data-target="#confirm2" value="1">
+                                    <i class="fa fa-trash fa-lg"></i>
+                                </button>
                             </div>
                               <div class="col-md-2">
                             <form  method="GET" action="{{route('download')}}">
@@ -120,8 +116,9 @@
     </div>
     </div>
     <!-- Modal Dialog -->
-    <div class="modal fade" id="confirm" aria-labelledby="confirmDeleteLabel">
+
         @csrf
+    <div class="modal fade" id="confirm" aria-labelledby="confirmDeleteLabel">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body">
@@ -142,5 +139,30 @@
                 </div>
             </div>
         </div>
+</div>
+<!-- LUNES -->
+    <div class="modal fade" id="confirm2" aria-labelledby="confirmDeleteLabel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h6>¿Desea borrar este **** ?</h6>
+                    <p>ATENCION!! se eliminaran todos los archivos adjuntos</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+
+                    <form method="GET" action="{{route('deleteFile')}}">
+                        <button type="submit" name="submit" value="Delete" class="btn btn-danger ">
+                            borrar
+                        </button>
+                        <input type="hidden" name="id_usuario" value={{$id_usuario}} >
+                        <input type="hidden" name="id_grupo" value={{$id_grupo}}>
+                        <input type="hidden" name="id_subgrupo" value={{$id_subgrupo}} >
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
+
+</div>
 @endsection
