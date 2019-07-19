@@ -1020,7 +1020,8 @@ class reportingController
                 "G" => NumberFormat::FORMAT_CURRENCY_EUR,
                 "H" => NumberFormat::FORMAT_PERCENTAGE,
                 "I" => NumberFormat::FORMAT_PERCENTAGE,
-                "J" => NumberFormat::FORMAT_NUMBER,
+                "J" => NumberFormat::FORMAT_NUMBE
+
             ];
             $filename = "marcaPropia_Por_Articulo";
         }
