@@ -18,7 +18,7 @@
 
 
 .table div {
-    margin-top: 30px;
+    margin-top: 30px !important;
 }
 
 .table button {
@@ -371,6 +371,7 @@ th {
 }
 
 
+
 .marginBottom20px {
     margin-bottom: 20px !important;
 }
@@ -564,7 +565,6 @@ input[type="file"] {
     height: 3px !important;
     width:  3px !important;
 }
-
 
 /*******************************************************/
 /*********************GENERAL*****************************/
