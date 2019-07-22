@@ -957,7 +957,7 @@ class reportingController
             , IFNULL(AlmacenAnterior.TOTAL_UDS,0) AlmacenAnterior
             , IFNULL(AlmacenAnterior.TOTAL_PREC,0) AlmacenAnteriorPrec
             , ROUND (CASE WHEN iFNULL(AlmacenAnterior.TOTAL_UDS,0) <> 0 THEN ((IFNULL(Almacen.TOTAL_UDS,0) -  IFNULL(AlmacenAnterior.TOTAL_UDS,0)) / iFNULL(AlmacenAnterior.TOTAL_UDS,0))*100 ELSE 0 END,2)'Diferencia_almacen (%)'
-            , (IFNULL(IFNULL(Almacen.TOTAL_PREC,0)/IFNULL(AlmacenAnterior.TOTAL_PREC,0),0)-1)*100 dif
+            , IFNULL(Almacen.TOTAL_UDS,0)/IFNULL(AlmacenAnterior.TOTAL_UDS,0) -1  dif_Anual 
             , CASE WHEN DATEDIFF('".$fechaHasta."','".$fechaDesde."') <> 0 THEN IFNULL(Almacen.TOTAL_UDS,0) / (DATEDIFF('".$fechaHasta."','".$fechaDesde."')) ELSE 0 END Rotacion  
             
             FROM articulos a

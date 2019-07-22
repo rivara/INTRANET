@@ -71,6 +71,9 @@ class LoginController extends Controller
             $gruposId = DB::table('usuarios_grupos')->where('id_usuario', $usuarioId)->pluck('id_grupo');
             //Saco los portales que puede ver en los grupos en los que esta ese usuario
             $i = 0;
+
+
+
             foreach ($gruposId as $grupoId) {
                 $portalesId = DB::table('grupos_portales')->where('id_grupo', $grupoId)->pluck('id_portal');
                 foreach ($portalesId as $portalId) {
@@ -82,6 +85,7 @@ class LoginController extends Controller
             $portales = array_unique($portales);
             //Mete el email en una variable de sesión
             session()->put('mail', $request['email']);
+
             return view('/home', ['nombre' => $nombre,'id_usuario' => $usuarioId, 'portales' => $portales]);
         }
         else {
@@ -202,6 +206,7 @@ class LoginController extends Controller
         }
         //Elimina duplicados
         $portales = array_unique($portales);
+
         return view('/home', ['nombre' => $nombre,'id_usuario' => $nombreId, 'portales' => $portales]);
     }
 
