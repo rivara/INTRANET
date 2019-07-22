@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    alert("llega");
 
     var $rows = $("tr");
 
@@ -118,6 +119,7 @@ $(".delete").click(function(){
             console.log(files[i]);
         }
     }
+
 
 
 });

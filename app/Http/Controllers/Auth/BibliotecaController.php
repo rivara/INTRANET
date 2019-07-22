@@ -167,9 +167,10 @@ class BibliotecaController
 
     public function actionDeleteFile(Request $request)
     {
-        $name = DB::table('archivos')->where('id', $request["id"])->value('nombre');
+
+        $name = DB::table('archivos')->where('id', $request["fichero_id"])->value('nombre');
         Storage::disk('local')->delete($name, 'Contents');
-        DB::table('archivos')->where(['id' => $request["id"]])->delete();
+        DB::table('archivos')->where(['id' => $request["fichero_id"]])->delete();
         //Eliminar fichero
         return view('biblioteca/subgrupo', [
             'id_usuario' => $request['id_usuario'],
