@@ -954,10 +954,8 @@ class reportingController
             , IFNULL(Almacen.TOTAL_UDS,0) AlmacenUds
             , IFNULL(Almacen.TOTAL_PREC,0) AlmacenPrec
             , IFNULL(IFNULL(Almacen.TOTAL_PREC,0)/IFNULL(Almacen.TOTAL_UDS,0),0) PrecioMedio
-            
             , IFNULL(AlmacenAnterior.TOTAL_UDS,0) AlmacenAnterior
             , IFNULL(AlmacenAnterior.TOTAL_PREC,0) AlmacenAnteriorPrec
-            
             , (IFNULL(Almacen.TOTAL_UDS,0) DIV IFNULL(AlmacenAnterior.TOTAL_UDS,0)) -1  dif_Anual_almacenUDS  
             , (IFNULL(Almacen.TOTAL_PREC,0) DIV IFNULL(AlmacenAnterior.TOTAL_PREC,0)) -1 dif_Anual_almaceNPREC 
             , CASE WHEN DATEDIFF('".$fechaHasta."','".$fechaDesde."') <> 0 THEN IFNULL(Almacen.TOTAL_UDS,0) / (DATEDIFF('".$fechaHasta."','".$fechaDesde."')) ELSE 0 END Rotacion  
