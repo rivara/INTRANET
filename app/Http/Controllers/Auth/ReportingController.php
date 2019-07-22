@@ -1019,7 +1019,7 @@ class reportingController
                 "F" => NumberFormat::FORMAT_NUMBER,
                 "G" => NumberFormat::FORMAT_CURRENCY_EUR,
                 "H" => NumberFormat::FORMAT_PERCENTAGE,
-                "I" => NumberFormat::FORMAT_PERCENTAGE_00,
+                "I" => NumberFormat::FORMAT_PERCENTAGE,
                 "J" => NumberFormat::FORMAT_NUMBER
 
             ];
