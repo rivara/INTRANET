@@ -959,7 +959,6 @@ class reportingController
             , (IFNULL(Almacen.TOTAL_UDS,0) DIV IFNULL(AlmacenAnterior.TOTAL_UDS,0)) -1 *0.001  dif_Anual_almacenUDS  
             , (IFNULL(Almacen.TOTAL_PREC,0) DIV IFNULL(AlmacenAnterior.TOTAL_PREC,0)) -1 *0.001 dif_Anual_almaceNPREC 
             , CASE WHEN DATEDIFF('".$fechaHasta."','".$fechaDesde."') <> 0 THEN IFNULL(Almacen.TOTAL_UDS,0) / (DATEDIFF('".$fechaHasta."','".$fechaDesde."')) ELSE 0 END Rotacion  
-            
             FROM articulos a
             LEFT OUTER JOIN proveedores p ON a.proveedor_id = p.id
             LEFT OUTER JOIN (
