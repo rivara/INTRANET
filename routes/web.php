@@ -185,7 +185,6 @@ Route::group(['middleware' => 'revalidate'], function() {
     Route::get('carpeta', 'Auth\BibliotecaController@actionBackCarpeta')->name('backCarpeta');
 //record file
     Route::post('upload', 'Auth\BibliotecaController@actionUpload')->name('upload');
-
     Route::get('download', 'Auth\BibliotecaController@actionDownload')->name('download');
 //deleteFile
     Route::get('delete', 'Auth\BibliotecaController@actionDeleteFile')->name('deleteFile');
@@ -196,11 +195,11 @@ Route::group(['middleware' => 'revalidate'], function() {
 
     //  Route::get('edit/file', 'Auth\BibliotecaController@actionGoSubCarpeta')->name('goSubCarpeta');
     Route::get('edit/file', 'Auth\BibliotecaController@actionGoSubGrupo')->name('goSubGrupo');
-    Route::get('update/file', 'Auth\BibliotecaController@actionUpdateFile')->name('updateFile');
+
     Route::get('back', 'Auth\AgoraController@actionBackAgora')->name('backAgora');
 
-
-
+//))
+    Route::post('upload2', 'Auth\BibliotecaController@actionUpload2')->name('upload2');
 /////////////////////////
 //////Salas////////////
 ////////////////////////

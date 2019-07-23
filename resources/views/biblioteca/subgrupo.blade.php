@@ -1,5 +1,12 @@
 @extends('layouts.app')
 @section('content')
+    <style>
+        input[type="text"]{
+            border: none;
+            background: transparent;
+
+        }
+    </style>
     <div class="container">
         <div class="row">
             <div class="col-md-1">
@@ -79,11 +86,16 @@
                         <td>
                             <div class="row" style="margin-top: -22px!important;">
                                 <div class="col-md-2">
-                                    <button class="btn width60px " type="button" data-toggle="modal"
-                                            data-target="#confirm2" value={{$fichero->id}}>
+
+
+
+
+                                    <button type="submit" class="delete btn  width60px " data-toggle="modal"
+                                            data-target="#confirm2" value="{{$fichero->id}}">
                                         <i class="fa fa-trash fa-2x"></i>
-                                        <input type="hidden" name="id" value="{{$fichero->id}}">
                                     </button>
+
+
                                 </div>
                                 <div class="col-md-2">
                                     <form method="GET" action="{{route('download')}}">
@@ -114,8 +126,7 @@
             @endif
         </table>
     </div>
-    </div>
-    </div>
+
     <!-- Modal Dialog -->
 
     @csrf
@@ -145,7 +156,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body">
-                    <h6>¿Desea borrar el fichero?</h6>
+                    <h6>¿Desea borrar el fichero  <input type="text" name="id_fichero" id="id" class="form-control">>?</h6>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
@@ -154,42 +165,13 @@
                         <button type="submit" name="submit" value="Delete" class="btn btn-danger ">
                             borrar
                         </button>
-                        <input type="hidden" name="fichero_id" id="id">
+                        <input type="hidden" name="id_fichero" id="id">
                         <input type="hidden" name="id_usuario" value={{$id_usuario}} >
                         <input type="hidden" name="id_grupo" value={{$id_grupo}}>
                         <input type="hidden" name="id_subgrupo" value={{$id_subgrupo}} >
-
                     </form>
                 </div>
             </div>
         </div>
     </div>
-
-    </div>
 @endsection
-
-<!--FALTA IDENTIFICAR EL NOMBRE  -->
-<script>
-    // data-* attributes to scan when populating modal values
-    var ATTRIBUTES = ['myvalue', 'myvar', 'bb'];
-
-    $('[data-toggle="confirm2"]').on('click', function (e) {
-        // convert target (e.g. the button) to jquery object
-        var $target = $(e.target);
-        // modal targeted by the button
-        var modalSelector = $target.data('target');
-
-        // iterate over each possible data-* attribute
-        ATTRIBUTES.forEach(function (attributeName) {
-            // retrieve the dom element corresponding to current attribute
-            var $modalAttribute = $(modalSelector + ' #confirm2-' + attributeName);
-            var dataValue = $target.data(attributeName);
-
-            // if the attribute value is empty, $target.data() will return undefined.
-            // In JS boolean expressions return operands and are not coerced into
-            // booleans. That way is dataValue is undefined, the left part of the following
-            // Boolean expression evaluate to false and the empty string will be returned
-            $modalAttribute.text(dataValue || '');
-        });
-    });
-</script>

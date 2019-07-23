@@ -168,9 +168,9 @@ class BibliotecaController
     public function actionDeleteFile(Request $request)
     {
 
-        $name = DB::table('archivos')->where('id', $request["fichero_id"])->value('nombre');
+        $name = DB::table('archivos')->where('id', $request["id_fichero"])->value('nombre');
         Storage::disk('local')->delete($name, 'Contents');
-        DB::table('archivos')->where(['id' => $request["fichero_id"]])->delete();
+        DB::table('archivos')->where(['id' => $request["id_fichero"]])->delete();
         //Eliminar fichero
         return view('biblioteca/subgrupo', [
             'id_usuario' => $request['id_usuario'],
@@ -180,16 +180,112 @@ class BibliotecaController
     }
 
 
-    public function actionUpdateFile(Request $request)
-    {
-        DB::table('archivos')->where('id', $request['id_fichero'])->update(['descripcion' => $request['descripcion']]);
 
-        //Eliminar fichero
+    public function actionUpload2(Request $request)
+    {
+
+        //borro
+       // $name = DB::table('archivos')->where('id', $request["id_fichero"])->value('nombre');
+        //Storage::disk('local')->delete($name, 'Contents');
+        // DB::table('archivos')->where(['id' => $request["id_fichero"]])->delete();
+
+
+        // crear
+        if ($request->file('file') != null) {
+            $ext = $request->file('file')->getClientOriginalExtension();
+        } else {
+            return redirect()->back()->withErrors(("error"));
+        }
+        //filename to store
+        $filename = $request->file('file')->getClientOriginalName();
+
+        $fileLength = $request->file('file')->getSize();
+        /* if($fileLength>30){
+             die("no llega");
+         }*/
+        //Upload File to external server
+        Storage::disk('local')->put($filename, fopen($request->file('file'), 'r+'));
+        $path = Storage::disk('local')->getAdapter()->getPathPrefix();
+        $descripcion = "";
+
+
+
+        $size = $request->file('file')->getsize();
+        $todayDate = date("Y-m-d");
+        $otros = 'Fecha:' . $todayDate . ' Peso:' . $size . " Kb";
+        //icon + color
+        $formato = "fa fa-file-o text-info";
+        switch ($ext) {
+            //formato imagen
+            case "jpg":
+                $formato = "fa fa-file-image-o text-danger";
+                break;
+            case "png":
+                $formato = "fa fa-file-image-o text-danger";
+                break;
+            case "bmp":
+                $formato = "fa fa-file-image-o text-danger";
+                break;
+            //formato video
+            case "mp4":
+                $formato = "fa fa-file-video-o text-warning";
+                break;
+            case "avi":
+                $formato = "fa fa-file-video-o text-warning";
+                break;
+            //formato texto
+            case "txt":
+                $formato = "fa fa-file-text-o text-primary";
+                break;
+            case "doc":
+                $formato = "fa fa-file-word-o  text-primary";
+                break;
+            case "docx":
+                $formato = "fa fa-file-word-o text-primary";
+                break;
+
+            //formato xls
+            case "xls":
+                $formato = "fa fa-file-excel-o  text-success";
+                break;
+            //formato pdf
+            case "pdf":
+                $formato = "fa fa-file-pdf-o  text-danger";
+                break;
+            //formato zip
+            case "zip":
+                $formato = "fa fa-file-archive-o text-secondary";
+                break;
+            case "rar":
+                $formato = "fa fa-file-archive-o  text-secondary";
+                break;
+        }
+        // descripcion vacia
+
+        //actualizo
+
+        // nombre
+        if (!empty($request['nom'])) {
+            DB::table('archivos')->where('id', $request['id_fichero'])->update(['nombre' => $request['nom']]);
+        }
+
+
+        //decripcion
+        if (!empty($request['desc'])){
+           DB::table('archivos')->where('id', $request['id_fichero'])->update(['descripcion' => $request['desc']]);
+        }
+
+
+        //problema al refrescar la página
         return view('biblioteca/subgrupo', [
             'id_usuario' => $request['id_usuario'],
             'id_grupo' => $request['id_grupo'],
             'id_subgrupo' => $request['id_subgrupo']
         ]);
+
+
+
+
     }
 
 
@@ -261,12 +357,16 @@ class BibliotecaController
 
     public function actionSubGroupDelete(Request $request)
     {
+
         //Elimino tabla grupo_subgrupo
         DB::table('grupos_subgrupos')->where('id_subgrupo',$request["id_subgrupo"])->delete();
         //Elimino la tabla grupo
         DB::table('subgrupos')->where('id', $request["id_subgrupo"])->delete();
         //Elimino archivos -> esto podriamos tenerlo en una carpeta old
         DB::table('archivos')->where('id_subgrupo', $request["id_subgrupo"])->delete();
+
+
+
         return view('biblioteca/subcarpetas', [
             'id_usuario' => $request['id_usuario'],
             'id_grupo' => $request['id_grupo'],
@@ -280,6 +380,7 @@ class BibliotecaController
 
         return view('biblioteca/editFile',[
             'id_fichero' => $request['id_fichero'],
+            'nfichero' => $request['nfichero'],
             'id_usuario' => $request['id_usuario'],
             'id_grupo' => $request['id_grupo'],
             'id_subgrupo' => $request['id_subgrupo']]);

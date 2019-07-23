@@ -24,34 +24,36 @@
             </div>
         </div>
         <br>
-        <div class="container wrapper agora ">
-            <form id="logout-form" action="{{route('updateFile')}}" method="GET">
-                <label for="Nombre">Nombre</label>
 
-                <input class="form-control " type="text" name="descripcion"
-                       value="{{str_replace(array('["', '"]'), '',DB::table('archivos')->where('id', $id_fichero)->pluck('descripcion'))}}"
-                       style="width:100% !important;">
-                @if ($errors->has('nombre'))
-                    <span class="error">
-                    <strong>{{ $errors->first('nombre') }}</strong>
-                </span>
-                @endif
-                <form action="{{ url('upload') }}" method="post" enctype="multipart/form-data">
-                    <button class="btn btn-primary btnE floatRight refresh" type="reset"><i class="fa fa-refresh fa-lg"
-                                                                                            aria-hidden="true"></i>
-                    </button>
-                    <b>Max 100 MB </b>
-                    <input name="file" class="file" type="file">
-                    <b>Descripcion</b>
-                    <textarea rows="4" cols="50" type="text" class="form-control" name="descripcion"></textarea>
-                    <br>
+
+
+
+        <div class="container wrapper mitad agora">
+            <form action="{{ url('upload2') }}" method="post" enctype="multipart/form-data">
+
+                <button class="btn btn-primary btnE floatRight refresh" type="reset"><i class="fa fa-refresh fa-lg"
+                                                                                        aria-hidden="true"></i>
+                </button>
+                <b>Max 100 MB </b>
+                <input name="file" class="file" type="file" >
+                <b>Descripcion</b>
+                <textarea rows="4" cols="50" type="text" class="form-control" name="desc"></textarea>
+
+                <br><br/>
+                <?php ?>
+
+                <br><br/>
+                <div class="floatRight">
+                    {{ csrf_field() }}
                     <button class="btn btn-primary floatRight"><i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i>
                         grabar
                     </button>
-                    <input type="hidden" name="id_fichero" value={{$id_fichero}}>
-                    <input type="hidden" name="id_usuario" value={{$id_usuario}}>
-                    <input type="hidden" name="id_subgrupo" value={{$id_subgrupo}}>
-                    <input type="hidden" name="id_grupo" value={{$id_grupo}}>
-                </form>
+                </div>
+                <input type="hidden" name="id_fichero" value={{$id_fichero}} >
+                <input type="hidden" name="id_usuario" value={{$id_usuario}} >
+                <input type="hidden" name="id_grupo" value={{$id_grupo}}>
+                <input type="hidden" name="id_subgrupo" value={{$id_subgrupo}} >
+            </form>
+
         </div>
 @endsection
