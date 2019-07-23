@@ -1,8 +1,6 @@
 $(document).ready(function() {
 
-
     var $rows = $("tr");
-
     $(".busca").keyup(function() {
         var val = $.trim(this.value);
         if (val === "")
