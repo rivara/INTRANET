@@ -8,11 +8,10 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use DB;
 use Illuminate\Support\Facades\Storage;
 use App\Upload;
 use Illuminate\Http\Request;
-use DB;
 use Redirect;
 use Response;
 use Session;
@@ -167,11 +166,11 @@ class BibliotecaController
 
     public function actionDeleteFile(Request $request)
     {
-
         $name = DB::table('archivos')->where('id', $request["id_fichero"])->value('nombre');
         Storage::disk('local')->delete($name, 'Contents');
         DB::table('archivos')->where(['id' => $request["id_fichero"]])->delete();
         //Eliminar fichero
+
         return view('biblioteca/subgrupo', [
             'id_usuario' => $request['id_usuario'],
             'id_grupo' => $request['id_grupo'],
@@ -181,16 +180,10 @@ class BibliotecaController
 
 
 
-    public function actionUpload2(Request $request)
+    public function actionModify(Request $request)
     {
 
-        //borro
-       // $name = DB::table('archivos')->where('id', $request["id_fichero"])->value('nombre');
-        //Storage::disk('local')->delete($name, 'Contents');
-        // DB::table('archivos')->where(['id' => $request["id_fichero"]])->delete();
-
-
-        // crear
+        // Actualiza
         if ($request->file('file') != null) {
             $ext = $request->file('file')->getClientOriginalExtension();
         } else {
@@ -200,9 +193,9 @@ class BibliotecaController
         $filename = $request->file('file')->getClientOriginalName();
 
         $fileLength = $request->file('file')->getSize();
-        /* if($fileLength>30){
-             die("no llega");
-         }*/
+         if($fileLength>30){
+            // die("no llega".$fileLength);
+         }
         //Upload File to external server
         Storage::disk('local')->put($filename, fopen($request->file('file'), 'r+'));
         $path = Storage::disk('local')->getAdapter()->getPathPrefix();
@@ -260,17 +253,9 @@ class BibliotecaController
                 $formato = "fa fa-file-archive-o  text-secondary";
                 break;
         }
-        // descripcion vacia
-
-        //actualizo
-
-        // nombre
-        if (!empty($request['nom'])) {
-            DB::table('archivos')->where('id', $request['id_fichero'])->update(['nombre' => $request['nom']]);
-        }
 
 
-        //decripcion
+        //actualizo  decripcion
         if (!empty($request['desc'])){
            DB::table('archivos')->where('id', $request['id_fichero'])->update(['descripcion' => $request['desc']]);
         }
@@ -283,11 +268,22 @@ class BibliotecaController
             'id_subgrupo' => $request['id_subgrupo']
         ]);
 
-
-
-
     }
 
+
+    public function actionModifyDescription(Request $request)
+    {
+        if (!empty($request['desc'])) {
+            DB::table('archivos')->where('id', $request['id_fichero'])->update(['descripcion' => $request['desc']]);
+        }
+            //problema al refrescar la página
+        return view('biblioteca/subgrupo', [
+            'id_usuario' => $request['id_usuario'],
+            'id_grupo' => $request['id_grupo'],
+            'id_subgrupo' => $request['id_subgrupo']
+        ]);
+
+    }
 
 
 
@@ -386,10 +382,13 @@ class BibliotecaController
             'id_subgrupo' => $request['id_subgrupo']]);
     }
 
-    public function actionGoSubGrupo(Request $request)
+
+    public function actionGoEditDFile(Request $request)
     {
-        return view('biblioteca/subgrupo',[
+
+        return view('biblioteca/editDFile',[
             'id_fichero' => $request['id_fichero'],
+            'nfichero' => $request['nfichero'],
             'id_usuario' => $request['id_usuario'],
             'id_grupo' => $request['id_grupo'],
             'id_subgrupo' => $request['id_subgrupo']]);
@@ -401,11 +400,14 @@ class BibliotecaController
 
 
 
-
-
-
-
-
+    public function actionGoSubGrupo(Request $request)
+    {
+        return view('biblioteca/subgrupo',[
+            'id_fichero' => $request['id_fichero'],
+            'id_usuario' => $request['id_usuario'],
+            'id_grupo' => $request['id_grupo'],
+            'id_subgrupo' => $request['id_subgrupo']]);
+    }
 
 
 

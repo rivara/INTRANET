@@ -1,5 +1,10 @@
 @extends('layouts.app')
 @section('content')
+    <style>
+        .fileinput-upload-button{
+            display: none !important;
+        }
+    </style>
 
     @if ($errors->has('error'))
         <strong>Error</strong>

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <style>
-        input[type="text"]{
+        input[type="text"] {
             border: none;
             background: transparent;
 
@@ -49,18 +49,16 @@
         </div>
         <table class="table-bordered table bg-white">
             <thead>
-            <th></th>
+            <th>Id</th>
+            <th>Icono</th>
             <th>
                 Descripción <i class="fa fa-caret-up "></i>
             </th>
-
             <th>Fichero</th>
-
-
             <th>
                 <form class="floatRight" method="GET" action="{{route('goAddFile')}}">
-                    <button type="submit" name="submit" value="Edit" class="btn  btnE floatRight"><i
-                                class="fa fa-plus fa-lg"></i></button>
+                    <button type="submit" name="submit" value="Edit" class="btn  btnE floatRight">
+                        <i class="fa fa-plus fa-lg"></i></button>
                     <input type="hidden" name="id_grupo" value={{$id_grupo}}>
                     <input type="hidden" name="id_usuario" value={{$id_usuario}} >
                     <input type="hidden" name="id_subgrupo" value={{$id_subgrupo}} >
@@ -73,11 +71,20 @@
             @if(! is_null($ficheros))
                 @foreach($ficheros as $fichero)
                     <tr>
+                        <td>{{$fichero->id}}</td>
                         <td>
                             <i class="{{$fichero->formato}} fa-3x marginLeft20" aria-hidden="true"></i>
                         </td>
                         <td>
-                            <b>{{$fichero->descripcion}}</b>
+                            <form method="GET" action="{{route('goEditDFile')}}">
+                                {{$fichero->descripcion}}
+                                <button type="submit" class="btn width10px fa fa-pencil ">
+                                    <input type="hidden" name="id_fichero" value={{$fichero->id}} >
+                                    <input type="hidden" name="id_usuario" value={{$id_usuario}} >
+                                    <input type="hidden" name="id_grupo" value={{$id_grupo}}>
+                                    <input type="hidden" name="id_subgrupo" value={{$id_subgrupo}} >
+                                </button>
+                            </form>
                         </td>
                         <td>
                             <b>{{$fichero->nombre}}</b><br>
@@ -86,8 +93,6 @@
                         <td>
                             <div class="row" style="margin-top: -22px!important;">
                                 <div class="col-md-2">
-
-
 
 
                                     <button type="submit" class="delete btn  width60px " data-toggle="modal"
@@ -155,17 +160,21 @@
     <div class="modal fade" id="confirm2" aria-labelledby="confirmDeleteLabel">
         <div class="modal-dialog">
             <div class="modal-content">
+
                 <div class="modal-body">
-                    <h6>¿Desea borrar el fichero  <input type="text" name="id_fichero" id="id" class="form-control">>?</h6>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
 
                     <form method="GET" action="{{route('deleteFile')}}">
-                        <button type="submit" name="submit" value="Delete" class="btn btn-danger ">
-                            borrar
-                        </button>
-                        <input type="hidden" name="id_fichero" id="id">
+                        <div>
+                            <h6>¿Desea borrar el fichero <input type="text" id="id" style="width:25px;"
+                                                                name="id_fichero">?</h6>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" name="submit" value="Delete" class="btn btn-danger ">
+                                borrar
+                            </button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        </div>
+                        <!--<input type="hidden" name="id_fichero" id="id">-->
                         <input type="hidden" name="id_usuario" value={{$id_usuario}} >
                         <input type="hidden" name="id_grupo" value={{$id_grupo}}>
                         <input type="hidden" name="id_subgrupo" value={{$id_subgrupo}} >

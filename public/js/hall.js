@@ -91,22 +91,6 @@ $(".delete").click(function(){
     });
 
 /*MENU*/
-/*
-    $(".subMenu").click(function(){
-          //  e.preventDefault();
-            var text = $(this).attr('value');
-           // alert(text);
-        $.ajax({
-            type: "POST",
-            url: "/update",
-            data:text,
-            success:function(){alert('success!');},
-            error: function (){alert('error');},
-
-
-        });
-    });
-*/
 
     var folder = document.getElementById("myInput");
     folder.onchange=function(){
