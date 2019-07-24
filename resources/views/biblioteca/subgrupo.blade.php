@@ -4,7 +4,6 @@
         input[type="text"] {
             border: none;
             background: transparent;
-
         }
     </style>
     <div class="container">
