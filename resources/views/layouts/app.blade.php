@@ -38,7 +38,9 @@
     @stack('scripts')
     <!-- Icons -->
 
-    <?php if(Illuminate\Support\Facades\App::basePath()=="C:\laragon\www\hall"){ ?>
+    <?php $var= Illuminate\Support\Facades\App::basePath();
+
+    if($var === 'C:\laragon\www\hall'){ ?>
         <link rel="icon" href="{{asset('icono1.ico')}}" type="image/x-icon"/>
         <link rel="shortcut icon" href="{{asset('icono1.ico')}}" type="image/x-icon"/>
     <?php }else{ ?>
