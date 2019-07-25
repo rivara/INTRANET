@@ -36,6 +36,20 @@
     </script>
 
     @stack('scripts')
+    <!-- icons -->
+    <?php
+    use Illuminate\Support\Facades\App;
+    if (App::environment('local')) {
+    echo "aa";
+    // The environment is local
+    }
+    ?>
+
+    <link rel="icon" href="{{asset('icono.ico')}}" type="image/x-icon"/>
+    <link rel="shortcut icon" href="{{asset('icono.ico')}}" type="image/x-icon"/>
+
+
+
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
