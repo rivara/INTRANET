@@ -39,10 +39,7 @@
     <!-- icons -->
     <?php
     use Illuminate\Support\Facades\App;
-    if (App::environment('local')) {
-    echo "aa";
-    // The environment is local
-    }
+    echo App::environment();
     ?>
 
     <link rel="icon" href="{{asset('icono.ico')}}" type="image/x-icon"/>
