@@ -161,6 +161,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         MaddHatter\LaravelFullcalendar\ServiceProvider::class,
+        Tremby\LaravelGitVersion\GitVersionServiceProvider::class,
         /*
          * Package Service Providers...
          */
