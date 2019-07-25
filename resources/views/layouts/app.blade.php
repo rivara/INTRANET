@@ -39,7 +39,7 @@
     <!-- icons -->
     <?php
     use Illuminate\Support\Facades\App;
-    echo App::environment();
+    echo App::basePath();
     ?>
 
     <link rel="icon" href="{{asset('icono.ico')}}" type="image/x-icon"/>
