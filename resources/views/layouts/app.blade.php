@@ -75,11 +75,10 @@
                     </ul>
                 </div>
             </div>
-            @include('git-version::version-comment')
-            <?php echo \Tremby\LaravelGitVersion\GitVersionHelper::getNameAndVersion();?>
+
         </nav>
         <main class="py-4">
-            @yield('content')
+            @yield('content')  @yield('content')
         </main>
     </div>
     <!-- Modal Dialog -->
