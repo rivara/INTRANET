@@ -36,9 +36,25 @@
     </script>
 
     @stack('scripts')
+    <!-- Icons -->
+
+    <?php $var= Illuminate\Support\Facades\App::basePath();
+
+    if($var === 'C:\laragon\www\hall'){ ?>
+        <link rel="icon" href="{{asset('icono2.ico')}}" type="image/x-icon"/>
+        <link rel="shortcut icon" href="{{asset('icono2.ico')}}" type="image/x-icon"/>
+    <?php }else{ ?>
+        <link rel="icon" href="{{asset('icono1.ico')}}" type="image/x-icon"/>
+        <link rel="shortcut icon" href="{{asset('icono1.ico')}}" type="image/x-icon"/>
+    <?php } ?>
+
+
     <!-- Fonts -->
+
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
+
+
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
@@ -74,7 +90,8 @@
                             </button>
                     </ul>
                 </div>
-            </div> **
+            </div>
+
         </nav>
         <main class="py-4">
             @yield('content')

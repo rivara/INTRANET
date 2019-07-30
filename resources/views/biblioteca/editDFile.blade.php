@@ -34,25 +34,22 @@
 
 
         <div class="container wrapper mitad agora">
-            <form action="{{ url('modify') }}" method="post" enctype="multipart/form-data">
-
-                <button class="btn btn-primary btnE floatRight refresh" type="reset"><i class="fa fa-refresh fa-lg"
-                                                                                        aria-hidden="true"></i>
-                </button>
-                <b>Max 100 MB </b>
-                <input name="file" class="file" type="file" >
+            <form action="{{ url('modifyDescription') }}" method="get">
                 <b>Descripcion</b>
                 <textarea rows="2" cols="30" type="text" class="form-control" name="desc">
                         <?php
-                        // $val = substr($id_usuario, 1, strlen($id_usuario) - 2);
-                        $val = DB::table('archivos')->where('id', $id_fichero)->pluck('descripcion');
-                        $val = substr($val, 2, strlen($val) - 4);
-                        echo $val;
-                        ?>
+                    // $val = substr($id_usuario, 1, strlen($id_usuario) - 2);
+                    $val = DB::table('archivos')->where('id', $id_fichero)->pluck('descripcion');
+                    $val = substr($val, 2, strlen($val) - 4);
+                    echo $val;
+                    ?>
                 </textarea>
+
+                <br><br/>
+                <?php ?>
+
                 <br><br/>
                 <div class="floatRight">
-                    {{ csrf_field() }}
                     <button class="btn btn-primary floatRight"><i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i>
                         grabar
                     </button>

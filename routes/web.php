@@ -192,14 +192,12 @@ Route::group(['middleware' => 'revalidate'], function() {
 
 //edit
     Route::get('edit', 'Auth\BibliotecaController@actionGoEditFile')->name('goEditFile');
-
-    //  Route::get('edit/file', 'Auth\BibliotecaController@actionGoSubCarpeta')->name('goSubCarpeta');
+    Route::post('modify', 'Auth\BibliotecaController@actionModify')->name('modify');
+    Route::get('modifyDescription', 'Auth\BibliotecaController@actionModifyDescription')->name('modifyDescription');
+    Route::get('edit/description', 'Auth\BibliotecaController@actionGoEditDFile')->name('goEditDFile');
     Route::get('edit/file', 'Auth\BibliotecaController@actionGoSubGrupo')->name('goSubGrupo');
-
     Route::get('back', 'Auth\AgoraController@actionBackAgora')->name('backAgora');
 
-//))
-    Route::post('upload2', 'Auth\BibliotecaController@actionUpload2')->name('upload2');
 /////////////////////////
 //////Salas////////////
 ////////////////////////
