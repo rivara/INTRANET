@@ -95,3 +95,9 @@
         </div>
 </body>
 </html>
+
+
+<!-- INTEGRAR CON CUIDADO
+    <script src="jquery.caret.min.js"></script>
+    <script src="jquery.tag-editor.js"></script>
+    -->

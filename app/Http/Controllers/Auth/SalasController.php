@@ -123,4 +123,59 @@ class SalasController
 
 
     }
+
+
+    ////////////////////////////////////
+    ///
+    ///
+    /// */
+    public function actionGoPrueba(Request $request){
+        $nombre= $request['nombre'];
+        // return view('salas/index',['nombre' => $request['nombre']]);
+
+        $events[] = Calendar::event(
+            "Evento1", //event title
+            true, //full day event?
+            new \DateTime('2019-06-14'), //start time (you can also use Carbon instead of DateTime)
+            new \DateTime('2019-06-14'), //end time (you can also use Carbon instead of DateTime)
+            null ,
+            [
+                'color' => '#f05050',
+                'url' => 'salas/edit',
+            ]);
+
+
+        $events[] =  Calendar::event( "Evento2", //event title
+            true, //full day event?
+            new \DateTime('2019-06-16'), //start time (you can also use Carbon instead of DateTime)
+            new \DateTime('2019-06-16'), //end time (you can also use Carbon instead of DateTime)
+            null ,
+            [
+                'color' => '#f05050',
+                'url' => 'salas/edit',
+            ]);
+
+        // graba
+        /*
+         *  DB::table('usuarios')->insert(array(
+                'id' => $id,
+                'nombre' => $request['usuario'],
+                'email' => $request['email'],
+                'clave' => $clave,
+                'id_empresa' => $request['idEmpresa'],
+                'id_menu' => $request["id_menu"]
+            ));
+         * */
+
+
+
+        $calendar = \Calendar::addEvents($events);
+        return view('salas/prueba', compact('calendar','nombre'),['salaOpcion' => $request['salaOpcion']]);
+    }
+
+
+
+
+
+
 }

@@ -1,23 +1,17 @@
 @extends('layouts.app')
 @section('content')
 
-    <div class="row">
-        <div  class="col-md-2 paddingLeft50px" >
-            <form   action="{{ route('goPortals') }}" method="GET">
-                @csrf
-                <button type="submit" name="submit" value="Edit" class="btn btn-outline-primary  btnE ">
-                    <i class="fa fa-arrow-left fa-lg"></i></button>
-                <input type="hidden" name="id" value=1>
-                <input type="hidden" name="name" value="" style="display:none;">
-            </form>
-        </div>
-        <div  class="col-md-2" ></div>
-        <div  class="col-md-3" >
-            <h1 class="paddingtop10px">&nbsp;Modificación usuarios</h1>
-        </div>
-        <div   class="col-md-5"></div>
+    <div  class=" paddingLeft50px" >
+        <form   action="{{ route('goPortals') }}" method="GET">
+            @csrf
+            <button type="submit" name="submit" value="Edit" class="btn btn-outline-primary  btnE ">
+                <i class="fa fa-arrow-left fa-lg"></i></button>
+            <input type="hidden" name="id" value=1>
+            <input type="hidden" name="name" value="" style="display:none;">
+        </form>
     </div>
-    <br />
+    <h1 style="text-align: center">&nbsp;Crear Portales</h1>
+    <br>
     <div class="container wrapper mitad ">
         <?php $portales = DB::table('portales')->where('id',$portalId)->get() ?>
         <form id="logout-form" action="{{route('updatePortal')}}" method="get">
