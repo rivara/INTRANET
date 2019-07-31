@@ -818,10 +818,10 @@ class reportingController
                 "Nº CLIENTE",
                 "SUCURSAL",
                 "NOMBRE CLIENTE",
-                "VENTAS TOTALES A ".$fechaHasta." (€)",
+                "VENTAS TOTALES A ".date('d/m/Y',$fechaHasta)." (€)",
                 "VENTAS TOTALES A ".date('d/m/Y',strtotime($fechaHasta.'-1 year'))." (€)",
-                "DIF ".$fechaHasta."/".date('d/m/Y',strtotime($fechaHasta.'-1 year'))." (%)",
-                "VENTAS MARCA PROPIA A ".$fechaHasta." (€).",
+                "DIF ".date('d/m/Y',$fechaHasta)."/".date('d/m/Y',strtotime($fechaHasta.'-1 year'))." (%)",
+                "VENTAS MARCA PROPIA A ".date('d/m/Y',$fechaHasta)." (€).",
                 "VENTAS MARCA PROPIA A ".date('d/m/Y',strtotime($fechaHasta.'-1 year'))."(€)",
                 "DIF 19/18 (%)"
             );
@@ -929,14 +929,14 @@ class reportingController
             $cabecera = array(
                 "N ARTICULO",
                 "DESCRIPCIÓN ARTÍCULO (SÓLO MARCA PROPIA)",
-                "VENTAS TOTALES A ".$fechaHasta."(UDS)",
-                "VENTAS TOTALES A ".$fechaHasta."(€)",
+                "VENTAS TOTALES A ".date('d/m/Y',$fechaHasta)."(UDS)",
+                "VENTAS TOTALES A ".date('d/m/Y',$fechaHasta)."(€)",
                 "PRECIO VENTA MEDIO ".$fechaHasta."(€)",
                 "VENTAS TOTALES A  ".date('d/m/Y',strtotime($fechaHasta.'-1 year'))."(UDS)",
                 "VENTAS TOTALES A  ".date('d/m/Y',strtotime($fechaHasta.'-1 year'))."(€)",
                 "DIF (UDS)".$fechaHasta.date('d/m/Y',strtotime($fechaHasta.'-1 year'))."(%)",
                 "DIF(€)".$fechaHasta.date('d/m/Y',strtotime($fechaHasta.'-1 year')),
-                "ROTACIÓN DIARÍA (UDS VENDIDAS ".$fechaHasta." /  181 DÍAS"
+                "ROTACIÓN DIARÍA (UDS VENDIDAS ".date('d/m/Y',$fechaHasta)." /  181 DÍAS"
 
             );
             $codigoArticulo="";
