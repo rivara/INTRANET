@@ -966,58 +966,33 @@ class reportingController
                 $codigoCliente=" AND c.cliente_id ='".$request["codigoCliente"]."'";
             }
 
-//prueba
+//PRUEBA HARCODEADA
             $data= $db->select($db->raw("(
-           SELECT a.id, a.nombre
-            , IFNULL(Almacen.TOTAL_UDS,0) AlmacenUds
-            , IFNULL(Almacen.TOTAL_PREC,0) AlmacenPrec
-            , IFNULL(IFNULL(Almacen.TOTAL_PREC,0)/IFNULL(Almacen.TOTAL_UDS,0),0) PrecioMedio
-            , IFNULL(AlmacenAnterior.TOTAL_UDS,0) AlmacenAnterior
-            , IFNULL(AlmacenAnterior.TOTAL_PREC,0) AlmacenAnteriorPrec
-            , (IFNULL(Almacen.TOTAL_UDS,0) DIV IFNULL(AlmacenAnterior.TOTAL_UDS,0)) -1  dif_Anual_almacenUDS  
-            , (IFNULL(Almacen.TOTAL_PREC,0) DIV IFNULL(AlmacenAnterior.TOTAL_PREC,0)) -1 dif_Anual_almaceNPREC  
-            , CASE WHEN DATEDIFF('2019-04-30','2019-03-01') <> 0 THEN IFNULL(AlmacenUds.TOTAL,0) / (DATEDIFF('2019-04-30','2019-03-01')) ELSE 0 END Rotacion
+            SELECT a.id, a.nombre , IFNULL(Almacen.TOTAL_UDS,0) AlmacenUds , IFNULL(Almacen.TOTAL_PREC,0) AlmacenPrec ,
+            IFNULL(IFNULL(Almacen.TOTAL_PREC,0)/IFNULL(Almacen.TOTAL_UDS,0),0) PrecioMedio , IFNULL(AlmacenAnterior.TOTAL_UDS,0) AlmacenAnterior ,
+            IFNULL(AlmacenAnterior.TOTAL_PREC,0) AlmacenAnteriorPrec , (IFNULL(Almacen.TOTAL_UDS,0) DIV IFNULL(AlmacenAnterior.TOTAL_UDS,0)) -1 dif_Anual_almacenUDS ,
+            (IFNULL(Almacen.TOTAL_PREC,0) DIV IFNULL(AlmacenAnterior.TOTAL_PREC,0)) -1 dif_Anual_almaceNPREC , CASE WHEN DATEDIFF('2019-06-30','2018-07-01') <> 0 THEN IFNULL(Almacen.TOTAL_UDS,0) / (DATEDIFF('2019-06-30','2018-07-01')) ELSE 0 END Rotacion
             FROM articulos a
+             LEFT OUTER JOIN historico_ventas_detalle hd ON hd.articulo_id = a.id
             LEFT OUTER JOIN proveedores p ON a.proveedor_id = p.id
-            LEFT OUTER JOIN historico_ventas_detalle hd ON hd.articulo_id = a.id
-            
-            LEFT OUTER JOIN (
-                            SELECT det.articulo_id ART
-            , SUM(CASE WHEN det.tipo_documento='A' THEN  det.cantidad *-1 ELSE 0 END) TOTABO
-            , SUM(CASE WHEN det.tipo_documento='F' THEN  det.cantidad ELSE 0 END) TOT_FAC
-            , SUM(CASE WHEN det.tipo_documento='A' THEN  det.cantidad*-1 ELSE det.cantidad END) TOTAL
-            FROM historico_ventas_detalle det
-            INNER JOIN historico_ventas cab ON (det.empresa = cab.empresa AND det.tipo_documento = cab.tipo_documento AND det.documento = cab.documento)
-            LEFT OUTER JOIN clientes cl ON (cab.empresa = cl.empresa AND cab.cliente_id = cl.cliente AND cab.sucursal_id = cl.sucursal)
-            LEFT OUTER JOIN articulos art ON (det.articulo_id = art.id)
-            LEFT OUTER JOIN proveedores pro ON (art.proveedor_id = pro.id)
-            WHERE (cab.empresa = 1 AND cl.tipo_cliente = 'TARICAT')
-            AND (cab.fecha BETWEEN '2019-03-01' AND '2019-04-30')
-            AND (cab.cliente_id=724)
-                        AND (art.es_marca_propia = 1 OR pro.es_marca_propia=1)
-            GROUP BY det.articulo_id
-            ) AlmacenUds ON a.id = AlmacenUds.ART
-            LEFT OUTER JOIN (
-                            SELECT det.articulo_id ART
-            , SUM(CASE WHEN det.tipo_documento='A' THEN  det.cantidad *-1 ELSE 0 END) TOTABO
-            , SUM(CASE WHEN det.tipo_documento='F' THEN  det.cantidad ELSE 0 END) TOT_FAC
-            , SUM(CASE WHEN det.tipo_documento='A' THEN  det.cantidad*-1 ELSE det.cantidad END) TOTAL
-            FROM historico_ventas_detalle det
-            INNER JOIN historico_ventas cab ON (det.empresa = cab.empresa AND det.tipo_documento = cab.tipo_documento AND det.documento = cab.documento)
-            LEFT OUTER JOIN clientes cl ON (cab.empresa = cl.empresa AND cab.cliente_id = cl.cliente AND cab.sucursal_id = cl.sucursal)
-            LEFT OUTER JOIN articulos art ON (det.articulo_id = art.id)
-            LEFT OUTER JOIN proveedores pro ON (art.proveedor_id = pro.id)
-            WHERE (cab.empresa = 1 AND cl.tipo_cliente = 'TARICAT')
-            AND (cab.fecha BETWEEN '2018-03-01' AND '2018-04-30')
-            AND (cab.cliente_id=724)
-                        AND (art.es_marca_propia = 1 OR pro.es_marca_propia=1)
-            GROUP BY det.articulo_id
-            ) AlmacenAnteriorUds ON a.id = AlmacenAnteriorUds.ART
-            
-            WHERE (a.es_marca_propia = 1 OR p.es_marca_propia=1) AND hd.cliente_id='724'
-            ORDER BY a.proveedor_id, a.nombre
+            LEFT OUTER JOIN ( SELECT det.articulo_id ART ,
+            SUM(CASE WHEN det.tipo_documento='A' THEN det.cantidad *-1 ELSE 0 END) TOTABO_UDS ,
+            SUM(CASE WHEN det.tipo_documento='F' THEN det.cantidad ELSE 0 END) TOT_FAC_UDS ,
+            SUM(CASE WHEN det.tipo_documento='A' THEN det.cantidad*-1 ELSE det.cantidad END) TOTAL_UDS ,
+            SUM(CASE WHEN det.tipo_documento='A' THEN det.precio *-1 ELSE 0 END) TOTABO_PREC ,
+            SUM(CASE WHEN det.tipo_documento='F' THEN det.precio ELSE 0 END) TOT_FAC_PREC ,
+            SUM(CASE WHEN det.tipo_documento='A' THEN det.precio*-1 ELSE det.precio END) TOTAL_PREC
+            FROM historico_ventas_detalle det INNER JOIN historico_ventas cab ON (det.empresa = cab.empresa AND det.tipo_documento = cab.tipo_documento AND det.documento = cab.documento)
+            LEFT OUTER JOIN clientes cl ON (cab.empresa = cl.empresa AND cab.cliente_id = cl.cliente AND cab.sucursal_id = cl.sucursal) LEFT OUTER JOIN articulos art ON (det.articulo_id = art.id)
+            LEFT OUTER JOIN proveedores pro ON (art.proveedor_id = pro.id) WHERE (cab.empresa = 1 AND cl.tipo_cliente ='TARCIAT' AND cab.cliente_id=724) AND (cab.fecha BETWEEN '2018-07-01' AND '2019-06-30') AND (art.es_marca_propia = 1 OR pro.es_marca_propia=1) GROUP BY det.articulo_id ) Almacen ON a.id = Almacen.ART
+            LEFT OUTER JOIN ( SELECT det.articulo_id ART , SUM(CASE WHEN det.tipo_documento='A' THEN det.cantidad *-1 ELSE 0 END) TOTABO_UDS , SUM(CASE WHEN det.tipo_documento='F' THEN det.cantidad ELSE 0 END) TOT_FAC_UDS , SUM(CASE WHEN det.tipo_documento='A' THEN det.cantidad*-1 ELSE det.cantidad END) TOTAL_UDS , SUM(CASE WHEN det.tipo_documento='A' THEN det.precio *-1 ELSE 0 END) TOTABO_PREC , SUM(CASE WHEN det.tipo_documento='F' THEN det.precio ELSE 0 END) TOT_FAC_PREC , SUM(CASE WHEN det.tipo_documento='A' THEN det.precio*-1 ELSE det.precio END) TOTAL_PREC FROM historico_ventas_detalle det INNER JOIN historico_ventas cab ON (det.empresa = cab.empresa AND det.tipo_documento = cab.tipo_documento AND det.documento = cab.documento)
+            LEFT OUTER JOIN clientes cl ON (cab.empresa = cl.empresa AND cab.cliente_id = cl.cliente AND cab.sucursal_id = cl.sucursal) LEFT OUTER JOIN articulos art ON (det.articulo_id = art.id) LEFT OUTER JOIN proveedores pro ON (art.proveedor_id = pro.id) WHERE (cab.empresa = 1 AND cl.tipo_cliente ='TARICAT' AND cab.cliente_id=724) AND (cab.fecha BETWEEN '2017-07-01' AND '2018-06-30') AND (art.es_marca_propia = 1 OR pro.es_marca_propia=1) GROUP BY det.articulo_id ) AlmacenAnterior ON a.id = AlmacenAnterior.ART
+            WHERE (a.es_marca_propia = 1 OR p.es_marca_propia=1) AND  hd.cliente_id=724 ORDER BY a.proveedor_id, a.nombre
           )"));
 
+
+
+            // ORIGINAL
             $data_ = $db->select($db->raw("(SELECT a.id, a.nombre
             , IFNULL(Almacen.TOTAL_UDS,0) AlmacenUds
             , IFNULL(Almacen.TOTAL_PREC,0) AlmacenPrec
