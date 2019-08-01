@@ -968,10 +968,14 @@ class reportingController
 
 //prueba
             $data= $db->select($db->raw("(
-            SELECT a.id, a.nombre, a.proveedor_id, a.marca, a.es_marca_propia, p.es_marca_propia, a.fecha_alta, a.fecha_baja
-            , IFNULL(AlmacenUds.TOTAL,0) AlmacenUds
-            , IFNULL(AlmacenAnteriorUds.TOTAL,0) AlmacenAnteriorUds
-            , ROUND (CASE WHEN iFNULL(AlmacenAnteriorUds.TOTAL,0) <> 0 THEN ((IFNULL(AlmacenUds.TOTAL,0) -  IFNULL(AlmacenAnteriorUds.TOTAL,0)) / iFNULL(AlmacenAnteriorUds.TOTAL,0))*100 ELSE 0 END,2)'Diferencia_almacen (%)'
+           SELECT a.id, a.nombre
+            , IFNULL(Almacen.TOTAL_UDS,0) AlmacenUds
+            , IFNULL(Almacen.TOTAL_PREC,0) AlmacenPrec
+            , IFNULL(IFNULL(Almacen.TOTAL_PREC,0)/IFNULL(Almacen.TOTAL_UDS,0),0) PrecioMedio
+            , IFNULL(AlmacenAnterior.TOTAL_UDS,0) AlmacenAnterior
+            , IFNULL(AlmacenAnterior.TOTAL_PREC,0) AlmacenAnteriorPrec
+            , (IFNULL(Almacen.TOTAL_UDS,0) DIV IFNULL(AlmacenAnterior.TOTAL_UDS,0)) -1  dif_Anual_almacenUDS  
+            , (IFNULL(Almacen.TOTAL_PREC,0) DIV IFNULL(AlmacenAnterior.TOTAL_PREC,0)) -1 dif_Anual_almaceNPREC  
             , CASE WHEN DATEDIFF('2019-04-30','2019-03-01') <> 0 THEN IFNULL(AlmacenUds.TOTAL,0) / (DATEDIFF('2019-04-30','2019-03-01')) ELSE 0 END Rotacion
             FROM articulos a
             LEFT OUTER JOIN proveedores p ON a.proveedor_id = p.id
