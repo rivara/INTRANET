@@ -968,7 +968,7 @@ class reportingController
 
 //prueba
             $data= $db->select($db->raw("(
-            SELECT hd.cliente_id, a.id, a.nombre, a.proveedor_id, a.marca, a.es_marca_propia, p.es_marca_propia, a.fecha_alta, a.fecha_baja
+            SELECT a.id, a.nombre, a.proveedor_id, a.marca, a.es_marca_propia, p.es_marca_propia, a.fecha_alta, a.fecha_baja
             , IFNULL(AlmacenUds.TOTAL,0) AlmacenUds
             , IFNULL(AlmacenAnteriorUds.TOTAL,0) AlmacenAnteriorUds
             , ROUND (CASE WHEN iFNULL(AlmacenAnteriorUds.TOTAL,0) <> 0 THEN ((IFNULL(AlmacenUds.TOTAL,0) -  IFNULL(AlmacenAnteriorUds.TOTAL,0)) / iFNULL(AlmacenAnteriorUds.TOTAL,0))*100 ELSE 0 END,2)'Diferencia_almacen (%)'
