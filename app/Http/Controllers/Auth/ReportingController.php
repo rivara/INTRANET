@@ -925,6 +925,7 @@ class reportingController
         if ($tipo=="ARTICULOS") {
 
 
+
             $db = DB::connection('reporting');
             $cabecera = array(
                 "N ARTICULO",
@@ -934,8 +935,8 @@ class reportingController
                 "PRECIO VENTA MEDIO ".date('d/m/Y',strtotime($fechaHasta))."(€)",
                 "VENTAS TOTALES A  ".date('d/m/Y',strtotime($fechaHasta.'-1 year'))."(UDS)",
                 "VENTAS TOTALES A  ".date('d/m/Y',strtotime($fechaHasta.'-1 year'))."(€)",
-                "DIF (UDS)".date('d/m/Y',strtotime($fechaHasta)).date('d/m/Y',strtotime($fechaHasta.'-1 year'))."(%)",
-                "DIF(€)".date('d/m/Y',strtotime($fechaHasta)).date('d/m/Y',strtotime($fechaHasta.'-1 year')),
+                "DIF (UDS)".date('d/m/Y',strtotime($fechaDesde)).date('d/m/Y',strtotime($fechaHasta.'-1 year'))."(%)",
+                "DIF(€)".date('d/m/Y',strtotime($fechaDesde)).date('d/m/Y',strtotime($fechaHasta.'-1 year')),
                 "ROTACIÓN DIARÍA (UDS VENDIDAS ".date('d/m/Y',strtotime($fechaHasta))." /  181 DÍAS"
 
             );
@@ -949,6 +950,16 @@ class reportingController
             $fechaAnterior  = "AND (cab.fecha BETWEEN '" . date('Y-m-d',strtotime($fechaDesde.'-1 year'))."' AND '".date('Y-m-d',strtotime($fechaHasta.'-1 year'))."')";
             $tipoGrupoClienteInner=" AND cl.tipo_cliente ='".$request["tipoGrupoCliente"]."'";
             // $tipoGrupoCliente=" AND c.tipo_cliente ='".$request["tipoGrupoCliente"]."'";
+
+
+
+            $codigoCliente="";
+            $codigoClienteInner="";
+            if(! is_null($request["codigoCliente"])){
+                $codigoClienteInner=" AND cab.cliente_id ='".$request["codigoCliente"]."'";
+                $codigoCliente=" AND c.cliente_id ='".$request["codigoCliente"]."'";
+            }
+
 
             $data = $db->select($db->raw("(SELECT a.id, a.nombre
             , IFNULL(Almacen.TOTAL_UDS,0) AlmacenUds
@@ -976,7 +987,9 @@ class reportingController
             LEFT OUTER JOIN proveedores pro ON (art.proveedor_id = pro.id)
             WHERE (cab.empresa = 1 ".$tipoGrupoClienteInner.")
             ".$fechaActual."
+            ".$codigoClienteInner."
             ".$codigoArticuloInner."
+            
             AND (art.es_marca_propia = 1 OR pro.es_marca_propia=1)
             GROUP BY det.articulo_id
             ) Almacen ON a.id = Almacen.ART
@@ -997,6 +1010,7 @@ class reportingController
            
             WHERE (cab.empresa = 1  ".$tipoGrupoClienteInner.")
             ".$fechaAnterior."
+            ".$codigoClienteInner."
             ".$codigoArticuloInner."
             AND (art.es_marca_propia = 1 OR pro.es_marca_propia=1)
             GROUP BY det.articulo_id
@@ -1004,8 +1018,13 @@ class reportingController
             
             WHERE (a.es_marca_propia = 1 OR p.es_marca_propia=1)
             ".$codigoArticulo."
+             
             ORDER BY a.proveedor_id, a.nombre)
             "));
+
+
+
+
             $bg = "b5bf00";
             $title = "INFORME DE VENTAS POR ARTICULOS";
             //LEYENDA
