@@ -3,9 +3,6 @@
 @section('content')
     <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet">
 
-    <form action="{{ route('goPrueba') }}" method="GET">
-        <button class="btn btn-primary btnE "><i class=" fa fa-question  fa-lg"></i></button>
-    </form>
 
 
     <div class="container">

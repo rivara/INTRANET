@@ -56,9 +56,8 @@
     <link href="{{ asset('css/fileinput.css') }}" rel="stylesheet">
     <link href="{{ asset('css/themes/explorer-fas/theme.css') }}" rel="stylesheet">
     <link href="{{ asset('css/calendar/fullcalendar.min.css') }}" rel="stylesheet">
-
-   <link href="{{ asset('css/tag-editor.css') }}" rel="stylesheet">
-   <!--<link rel="stylesheet" href="https://goodies.pixabay.com/jquery/tag-editor/jquery.tag-editor.css">-->
+    <link href="{{ asset('css/tag-editor.css') }}" rel="stylesheet">
+    <!--<link rel="stylesheet" href="https://goodies.pixabay.com/jquery/tag-editor/jquery.tag-editor.css">-->
 
 
 </head>
