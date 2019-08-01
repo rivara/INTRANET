@@ -9,18 +9,19 @@
     </form>
 
 
+
+    <script src="{{ asset('js/jquery2.min.js') }}"></script>
+    <script src="{{ asset('js/tag-editor.js') }}"></script>
+    <script src="{{ asset('js/list.js') }}"></script>
+    <link href="{{ asset('css/list.css') }}" rel="stylesheet">
+
     <div class="container wrapper mitad2 ">
         <form action="{{ route('recordCalendar') }}" method="GET">
             <div class="row">
                <div class="col-md-8">
                     <h2>Reserva de la sala {{$salaOpcion}}</h2>
                 </div>
-                <div class="col-md-2">
-                    <button type="submit" class="btn btn-primary" data-toggle="modal"
-                            data-target="#ModalLoginForm">
-                        <i class="fa fa-envelope-o"></i>
-                    </button>
-                </div>
+
                 <div class="col-md-2">
                     <button type="submit" class="btn btn-primary floatRight">
                         <i class="fa fa-calendar"></i>
@@ -68,9 +69,14 @@
                         <textarea class="form-control" name="descripcion" rows="3"></textarea>
                     </div>
                 </div>
+                <div class="col-md-12">
+                   Mail
+                </div>
+                <div class="col-md-12">
 
+                        <textarea id="hero-demo">example tags, sortable, autocomplete, edit in place, tab/cursor navigation, duplicate check, callbacks, copy-paste, placeholder, public methods, custom delimiter, graceful degradation</textarea>
 
-
+                </div>
             </div>
             <div class="floatRight">
                 <button class="btn-save btn btn-primary   ">
@@ -78,7 +84,7 @@
                 </button>
             </div>
             <input type="hidden" name="salaOpcion" value={{$salaOpcion}}>
-    </div>-->
+    </div>
 
    </div>
    </form>
@@ -114,9 +120,8 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript">
 
-        $('.colorpicker').colorpicker();
 
-    </script>
+
+
 @endsection

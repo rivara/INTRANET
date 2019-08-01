@@ -1,4 +1,7 @@
 $(document).ready(function() {
+    $('.input1').iconpicker(".input1");
+    $('#inputid2').iconpicker("#inputid2");
+    $('.input3').iconpicker(".input3");
 
     var $rows = $("tr");
     $(".busca").keyup(function() {

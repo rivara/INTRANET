@@ -25,17 +25,10 @@
     <script src="{{ asset('js/calendar/gcal.js')}}"></script>
     <script src="{{ asset('js/calendar/locale-all.js')}}"></script>
     <script src="{{ asset('js/calendar/locale/es.js') }}"></script>
-    <script>
-        var whichInput = 0;
 
-        $(document).ready(function(){
-            $('.input1').iconpicker(".input1");
-            $('#inputid2').iconpicker("#inputid2");
-            $('.input3').iconpicker(".input3");
-        });
-    </script>
 
-    @stack('scripts')
+
+@stack('scripts')
     <!-- Icons -->
 
     <?php $var= Illuminate\Support\Facades\App::basePath();
@@ -63,6 +56,11 @@
     <link href="{{ asset('css/fileinput.css') }}" rel="stylesheet">
     <link href="{{ asset('css/themes/explorer-fas/theme.css') }}" rel="stylesheet">
     <link href="{{ asset('css/calendar/fullcalendar.min.css') }}" rel="stylesheet">
+
+   <link href="{{ asset('css/tag-editor.css') }}" rel="stylesheet">
+   <!--<link rel="stylesheet" href="https://goodies.pixabay.com/jquery/tag-editor/jquery.tag-editor.css">-->
+
+
 </head>
 <body>
     <div id="app">
@@ -114,7 +112,3 @@
 </html>
 
 
-<!-- INTEGRAR CON CUIDADO
-    <script src="jquery.caret.min.js"></script>
-    <script src="jquery.tag-editor.js"></script>
-    -->
