@@ -6,11 +6,10 @@
     <meta http-equiv="cache-control" content="private, max-age=0, no-cache">
     <meta http-equiv="pragma" content="no-cache">
     <meta http-equiv="expires" content="0">
-    <!-- CSRF Token -->
+<!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Portal-Empresa') }}</title>
-    <!-- Scripts -->
-
+<!-- Scripts -->
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/hall.js') }}" ></script>
     <script src="{{ asset('js/app.js') }}" ></script>
@@ -25,12 +24,30 @@
     <script src="{{ asset('js/calendar/gcal.js')}}"></script>
     <script src="{{ asset('js/calendar/locale-all.js')}}"></script>
     <script src="{{ asset('js/calendar/locale/es.js') }}"></script>
+    <script src="{{ asset('js/colorselector.js') }}"></script>
+    <script src="{{ asset('js/jquery2.min.js') }}"></script>
+    <script src="{{ asset('js/tag-editor.js') }}"></script>
+    <script src="{{ asset('js/list.js') }}"></script>
 
 
 
-@stack('scripts')
-    <!-- Icons -->
 
+<!-- picker color -->
+    <script>
+        $(function() {
+            window.prettyPrint && prettyPrint();
+            $('#colorselector_1').colorselector();
+            $('#colorselector_2').colorselector({
+                callback : function(value, color, title) {
+                    $("#colorValue").val(value);
+                    $("#colorColor").val(color);
+                    $("#colorTitle").val(title);
+                }
+            });
+        });
+    </script>
+    @stack('scripts')
+<!-- Icons -->
     <?php $var= Illuminate\Support\Facades\App::basePath();
 
     if($var === 'C:\laragon\www\hall'){ ?>
@@ -42,13 +59,13 @@
     <?php } ?>
 
 
-    <!-- Fonts -->
+<!-- Fonts -->
 
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
 
-
-    <!-- Styles -->
+<!-- Styles -->
+    <link href="{{ asset('css/tag-editor.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/font-awesome.css') }}" rel="stylesheet">
@@ -56,9 +73,9 @@
     <link href="{{ asset('css/fileinput.css') }}" rel="stylesheet">
     <link href="{{ asset('css/themes/explorer-fas/theme.css') }}" rel="stylesheet">
     <link href="{{ asset('css/calendar/fullcalendar.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/tag-editor.css') }}" rel="stylesheet">
-    <!--<link rel="stylesheet" href="https://goodies.pixabay.com/jquery/tag-editor/jquery.tag-editor.css">-->
+    <link href="{{ asset('css/colorselector.css') }}" rel="stylesheet">
 
+    <link href="{{ asset('css/list.css') }}" rel="stylesheet">
 
 </head>
 <body>

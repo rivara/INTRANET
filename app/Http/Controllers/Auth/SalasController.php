@@ -15,67 +15,29 @@ use MaddHatter\LaravelFullcalendar\Calendar;
 class SalasController
 {
 
-    public function actionGoEditSala(Request $request){
-        $nombre= $request['nombre'];
-       // return view('salas/edit',['nombre' => $request['nombre']]);
-        // recoge
-        $events[] = Calendar::event(
-            "Evento1", //event title
-            true, //full day event?
-            new \DateTime('2019-06-14'), //start time (you can also use Carbon instead of DateTime)
-            new \DateTime('2019-06-14'), //end time (you can also use Carbon instead of DateTime)
-            null ,
-            [
-                'color' => '#f05050',
-                'url' => 'salas/edit',
-            ],
-
-            "Evento2", //event title
-            true, //full day event?
-            new \DateTime('2019-06-16'), //start time (you can also use Carbon instead of DateTime)
-            new \DateTime('2019-06-16'), //end time (you can also use Carbon instead of DateTime)
-            null ,
-            [
-                'color' => '#f05050',
-                'url' => 'salas/edit',
-            ]
-
-        );
-
-        $calendar = \Calendar::addEvents($events);
-        return view('salas/edit', compact('calendar','nombre'),['salaOpcion' => $request['salaOpcion']]);
-
-
+    public function actionGoRecordSala(Request $request)
+    {
+        return view('salas/record', compact('calendar','nombre'),['salaOpcion' => $request['salaOpcion'],'nombre' => $request['nombre']]);
     }
+
+
 
 
     public function actionGoIndexSala(Request $request){
         $nombre= $request['nombre'];
-       // return view('salas/index',['nombre' => $request['nombre']]);
-
-        $events[] = Calendar::event(
-            "Evento1", //event title
-            true, //full day event?
-            new \DateTime('2019-06-14'), //start time (you can also use Carbon instead of DateTime)
-            new \DateTime('2019-06-14'), //end time (you can also use Carbon instead of DateTime)
-            null ,
-            [
-                'color' => '#f05050',
-                'url' => 'salas/edit',
-            ]);
 
 
         $events[] =  Calendar::event( "Evento2", //event title
             true, //full day event?
-            new \DateTime('2019-06-16'), //start time (you can also use Carbon instead of DateTime)
-            new \DateTime('2019-06-16'), //end time (you can also use Carbon instead of DateTime)
+            new \DateTime('2019-08-10'), //start time (you can also use Carbon instead of DateTime)
+            new \DateTime('2019-08-10'), //end time (you can also use Carbon instead of DateTime)
             null ,
             [
                 'color' => '#f05050',
                 'url' => 'salas/edit',
             ]);
 
-            // graba
+
         /*
          *  DB::table('usuarios')->insert(array(
                 'id' => $id,
@@ -87,21 +49,33 @@ class SalasController
             ));
          * */
 
-
-
+       // busco
         $calendar = \Calendar::addEvents($events);
-        return view('salas/index', compact('calendar','nombre'),['salaOpcion' => $request['salaOpcion']]);
+        return view('salas/index', compact('calendar','nombre'),['salaOpcion' => $request['salaOpcion'],'nombre' => $request['nombre']]);
     }
 
 
 
-    ////////////////////////////////////// EDITAR AGENDA
-    public function actionRecordCalendar(Request $request){
-        echo $request['fecha'];
-        echo $request['horaDesde'];
-        echo $request['fechaHasta'];
+////////////////////////////////////// EDITAR AGENDA
+    public function actionRecordSala(Request $request){
+
+        $fecha=DB::table('reservas')->where('fecha',$request['fecha'])->pluck('id');
+
+        // si el dia coincide y la hora desde y hasta se solapa con otra saltar error
+        if(!empty($fecha)){
+                $horaDesde = DB::table('reservas')->where('fecha',$request['fecha'])->pluck('hora_inicio');
+                $horaHasta = DB::table('reservas')->where('fecha',$request['fecha'])->pluck('hora_fin');
+
+                if(($horaDesde>=$request['fecha'])and($horaHasta<=$request['fecha'])){
+                     // devolver error esa fecha ya esta pillada
+                    //     Acabar el lunes
+                }
+            }
+
         echo $request['titulo'];
         echo $request['descricion'];
+        echo $request['color'];
+        echo $request['mails'];
 
         $sala=DB::table('salas')->where('nombre',$request['salaOpcion'])->pluck('id');
 
@@ -118,14 +92,10 @@ class SalasController
             'sala'=>print_r($sala),
             'color'=>'#F64F2C',
         ));
-
-        return view('salas/index', compact('calendar','nombre'),['salaOpcion' => $request['salaOpcion']]);
+        //die("llega");
+        return view('salas/index', compact('calendar','nombre'),['salaOpcion' => $request['salaOpcion'],'nombre' => $request['nombre']]);
 
     }
-
-
-
-
 
 
 

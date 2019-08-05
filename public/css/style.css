@@ -582,53 +582,6 @@ input[type="file"] {
 
 
 
-/*******************************************************/
-/*********************GENERAL*****************************/
-/*******************************************************/
-
-.centro {
-    position: absolute;
-    margin-left: auto;
-    margin-right: auto;
-    left: 10%;
-    right: 0;
-    top: 20%;
-}
-
-.btn-circle {
-    width: 30px;
-    height: 30px;
-    text-align: center;
-    padding: 6px 0;
-    font-size: 12px;
-    line-height: 1.428571429;
-    border-radius: 15px;
-    color: #3490dc;
-    margin-left: 12px;
-}
-
-.btn-circle:hover {
-    color: #fff !important;
-    background-color: #3490dc;
-}
-
-.btn-circle.btn-lg {
-    width: 50px;
-    height: 50px;
-    padding: 10px 16px;
-    font-size: 18px;
-    line-height: 1.33;
-    border-radius: 25px;
-}
-
-.btn-circle.btn-xl {
-    width: 70px;
-    height: 70px;
-    padding: 10px 16px;
-    font-size: 24px;
-    line-height: 1.33;
-    border-radius: 35px;
-}
 
 /*********************************************/
 /****************COMAFE***********************/
@@ -896,10 +849,116 @@ ul {
 /*********************************************************/
 /******************  MANTENIMIENTO ************************
 ***********************************************************/
-
 .reportingBackground {
     background-image: url("/img/mantenimiento.jpg");
     background-repeat: no-repeat;
     max-width: 10%;
     min-height: 10%;
 }
+
+/*********************************************************/
+/******************  SALAS ************************
+***********************************************************/
+.wrapperColorPicker{
+    width: 35px !important;
+    height: 35px !important;
+    alignment: center;
+    border: 1px solid #ccd;
+    background-color: #fff;
+    padding-left: 6px;
+    padding-top: 4px;
+    border-radius: .2em;
+}
+
+
+
+/*******************************************************/
+/*********************GENERAL*****************************/
+/*******************************************************/
+.centro {
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 10%;
+    right: 0;
+    top: 20%;
+}
+
+.btn-circle {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 12px;
+    line-height: 1.428571429;
+    border-radius: 15px;
+    color: #3490dc;
+    margin-left: 12px;
+}
+
+.btn-circle:hover {
+    color: #fff !important;
+    background-color: #3490dc;
+}
+
+.btn-circle.btn-lg {
+    width: 50px;
+    height: 50px;
+    padding: 10px 16px;
+    font-size: 18px;
+    line-height: 1.33;
+    border-radius: 25px;
+}
+
+.btn-circle.btn-xl {
+    width: 70px;
+    height: 70px;
+    padding: 10px 16px;
+    font-size: 24px;
+    line-height: 1.33;
+    border-radius: 35px;
+}
+
+
+
+
+.bgblue{
+    background-color: #3490dc !important;
+}
+.bgindigo{
+    background-color: #6574cd !important;
+}
+.bggreen{
+    background-color:#38c172 !important;
+}
+
+.bgorenge{
+    background-color: #f6993f !important;
+}
+
+.bgpurple{
+    background-color: #9561e2 !important;
+}
+
+/*
+    --purple: #9561e2;
+    --pink: #f66D9b;
+    --red: #e3342f;
+
+    --yellow: #ffed4a;
+    --green: #38c172;
+    --teal: #4dc0b5;
+    --cyan: #6cb2eb;
+    --white: #fff;
+    --gray: #6c757d;
+    --gray-dark: #343a40;
+    --primary: #3490dc;
+    --secondary: #6c757d;
+    --success: #38c172;
+    --info: #6cb2eb;
+    --warning: #ffed4a;
+    --danger: #e3342f;
+    --light: #f8f9fa;
+    --dark: #343a40;
+*/
+

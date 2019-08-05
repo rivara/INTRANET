@@ -1,10 +1,6 @@
 
 @extends('layouts.app')
 @section('content')
-    <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet">
-
-
-
     <div class="container">
         <div class="row">
             <div class="col-md-2">
@@ -24,7 +20,7 @@
 
             <div class="col-md-1">
                 <div class="btn-group" role="group">
-                    <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
+                    <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle width100px" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false"> salas
                         <span class="fa fa-caret-down"></span>
                     </button>
@@ -44,21 +40,22 @@
             <div class="col-md-1">
 
                 @if(isset($salaOpcion))
-                    <form action="{{ route('goEditSala') }}" method="GET">
+                    <form action="{{ route('goRecordSala') }}" method="GET">
                         <button class="btn btn-primary  floatRight">
                             <i class="fa fa-pencil"></i>
                         </button>
-                        <input type="hidden" name="nombre" value="<?php echo $nombre ?>">
+                        <input type="hidden" name="nombre"value={{$nombre}}
                         <input type="hidden" name="salaOpcion" value={{$salaOpcion}}>
                     </form>
                 @endif
             </div>
         </div>
 
-
-        <div class="panel panel-primary">
-            <div class="panel-heading"></div>
-            <div class="panel-body"> {!! $calendar->calendar() !!} {!! $calendar->script() !!} </div>
-        </div>
+        @if(isset($salaOpcion))
+            <div class="panel panel-primary">
+              <div class="panel-heading"></div>
+              <div class="panel-body"> {!! $calendar->calendar() !!} {!! $calendar->script() !!} </div>
+            </div>
+        @endif
     </div>
 @endsection
