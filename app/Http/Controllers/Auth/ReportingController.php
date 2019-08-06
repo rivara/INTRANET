@@ -785,23 +785,29 @@ class reportingController
 
 
 
-        $precabecera = array(
-            array(date("F j, Y, g:i a")),
-            //  array(date("H:i:s")),
-            array("Marca propia por cliente"),
-            array(""),
-            array("*PERIODO", $fechaDesde, "a", $fechaHasta),
-            array("*PERIODO ANTERIOR", date('Y-m-d',strtotime($fechaDesde.'-1 year')), "a",  date('Y-m-d',strtotime($fechaHasta.'-1 year'))),
-            array("*TIPO CLIENTE", $tipoGrupoCliente),
-            array("*CODIGO CLIENTE",$codigoCliente),
-            array(" ")
-        );
 
         /******************************
         SI LA OPCION ES CLIENTE
          *****************************/
 
         if ($tipo=="CLIENTE") {
+
+
+
+            $precabecera = array(
+                array(date("F j, Y, g:i a")),
+                //  array(date("H:i:s")),
+                array("Marca propia por cliente"),
+                array(""),
+                array("*PERIODO", $fechaDesde, "a", $fechaHasta),
+                array("*PERIODO ANTERIOR", date('Y-m-d',strtotime($fechaDesde.'-1 year')), "a",  date('Y-m-d',strtotime($fechaHasta.'-1 year'))),
+                array("*TIPO CLIENTE", $tipoGrupoCliente),
+                array("*CODIGO CLIENTE",$codigoCliente),
+                array(" ")
+            );
+
+
+
 
             $codigoCliente="";
             $codigoClienteInner="";
@@ -820,10 +826,10 @@ class reportingController
                 "NOMBRE CLIENTE",
                 "VENTAS TOTALES A ".date('d/m/Y',strtotime($fechaHasta))." (€)",
                 "VENTAS TOTALES A ".date('d/m/Y',strtotime($fechaHasta.'-1 year'))." (€)",
-                "DIF ".date('d/m/Y',strtotime($fechaHasta))."/".date('d/m/Y',strtotime($fechaHasta.'-1 year'))." (%)",
+                //
                 "VENTAS MARCA PROPIA A ".date('d/m/Y',strtotime($fechaHasta))." (€).",
-                "VENTAS MARCA PROPIA A ".date('d/m/Y',strtotime($fechaHasta.'-1 year'))."(€)",
-                "DIF 19/18 (%)"
+                "VENTAS MARCA PROPIA A ".date('d/m/Y',strtotime($fechaHasta.'-1 year'))."(€)"
+
             );
 
 
@@ -835,10 +841,8 @@ class reportingController
                SELECT c.empresa, c.cliente, c.sucursal, c.nombre 
                 , IFNULL(ventasact.TOTAL,0) Almacen 
                 , IFNULL(v_alm_ant.TOTAL,0) AlmacenAnterior 
-                , ROUND (CASE WHEN iFNULL(v_alm_ant.TOTAL,0) <> 0 THEN ((IFNULL(ventasact.TOTAL,0) - IFNULL(v_alm_ant.TOTAL,0)) / iFNULL(v_alm_ant.TOTAL,0))*100 ELSE 0 END,2) 'Diferencia_almacen (%)' 
                 , IFNULL(v_mp.TOTAL,0) MarcaPropia 
                 , IFNULL(v_mp_ant.TOTAL,0) MarcaPropiaAnterior 
-                , ROUND (CASE WHEN iFNULL(v_mp_ant.TOTAL,0) <> 0 THEN ((IFNULL(v_mp.TOTAL,0) - IFNULL(v_mp_ant.TOTAL,0)) / iFNULL(v_mp_ant.TOTAL,0))*100 ELSE 0 END,2) 'Diferencia_mpropia (%)'
                 
                 FROM clientes c
                 
@@ -929,6 +933,17 @@ class reportingController
 
         if ($tipo=="ARTICULOS") {
 
+            $precabecera = array(
+                array(date("F j, Y, g:i a")),
+                //  array(date("H:i:s")),
+                array("Marca propia por articulo"),
+                array(""),
+                array("*PERIODO", $fechaDesde, "a", $fechaHasta),
+                array("*PERIODO ANTERIOR", date('Y-m-d',strtotime($fechaDesde.'-1 year')), "a",  date('Y-m-d',strtotime($fechaHasta.'-1 year'))),
+                array("*TIPO CLIENTE", $tipoGrupoCliente),
+                array("*CODIGO CLIENTE",$codigoCliente),
+                array(" ")
+            );
 
 
             $db = DB::connection('reporting');
@@ -937,12 +952,8 @@ class reportingController
                 "DESCRIPCIÓN ARTÍCULO (SÓLO MARCA PROPIA)",
                 "VENTAS TOTALES A ".date('d/m/Y',strtotime($fechaHasta))."(UDS)",
                 "VENTAS TOTALES A ".date('d/m/Y',strtotime($fechaHasta))."(€)",
-                "PRECIO VENTA MEDIO ".date('d/m/Y',strtotime($fechaHasta))."(€)",
                 "VENTAS TOTALES A  ".date('d/m/Y',strtotime($fechaHasta.'-1 year'))."(UDS)",
-                "VENTAS TOTALES A  ".date('d/m/Y',strtotime($fechaHasta.'-1 year'))."(€)",
-                "DIF (UDS)".date('d/m/Y',strtotime($fechaDesde)).date('d/m/Y',strtotime($fechaHasta.'-1 year'))."(%)",
-                "DIF(€)".date('d/m/Y',strtotime($fechaDesde)).date('d/m/Y',strtotime($fechaHasta.'-1 year')),
-                "ROTACIÓN DIARÍA (UDS VENDIDAS ".date('d/m/Y',strtotime($fechaHasta))." /  181 DÍAS"
+                "VENTAS TOTALES A  ".date('d/m/Y',strtotime($fechaHasta.'-1 year'))."(€)"
 
             );
             $codigoArticulo="";
@@ -972,12 +983,8 @@ class reportingController
             SELECT a.id, a.nombre
             , IFNULL(SUM(Almacen.TOTAL_UDS),0) AlmacenUds
             , IFNULL(SUM(Almacen.TOTAL_PREC),0) AlmacenImp
-            , IFNULL(IFNULL(SUM(Almacen.TOTAL_PREC),0)/IFNULL(SUM(Almacen.TOTAL_UDS),0),0) PrecioMedio
             , IFNULL(SUM(AlmacenAnterior.TOTAL_UDS),0) AlmacenAnteriorUds
             , IFNULL(SUM(AlmacenAnterior.TOTAL_PREC),0) AlmacenAnteriorImp
-            , (IFNULL(SUM(Almacen.TOTAL_UDS),0) DIV IFNULL(SUM(AlmacenAnterior.TOTAL_UDS),0)) -1 dif_Anual_almacenUDS 
-            , (IFNULL(SUM(Almacen.TOTAL_PREC),0) DIV IFNULL(SUM(AlmacenAnterior.TOTAL_PREC),0)) -1 dif_Anual_almaceNPREC
-            , CASE WHEN DATEDIFF".$fecha." <> 0 THEN IFNULL(SUM(Almacen.TOTAL_UDS),0) / (DATEDIFF ".$fecha.") ELSE 0 END Rotacion 
              FROM articulos a
              LEFT OUTER JOIN proveedores p ON a.proveedor_id = p.id
              LEFT OUTER JOIN (
