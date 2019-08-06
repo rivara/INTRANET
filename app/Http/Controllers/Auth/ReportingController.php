@@ -829,7 +829,6 @@ class reportingController
 
             $tipoGrupoClienteInner=" AND cl.tipo_cliente ='".$request["tipoGrupoCliente"]."'";
             $tipoGrupoCliente=" AND c.tipo_cliente ='".$request["tipoGrupoCliente"]."'";
-
             $fechaActual    = " AND (cab.fecha BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "')";
             $fechaAnterior  = " AND (cab.fecha BETWEEN '" . date('Y-m-d',strtotime($fechaDesde.'-1 year'))."' AND '".date('Y-m-d',strtotime($fechaHasta.'-1 year'))."')";
             $data = $db->select($db->raw("(
@@ -965,18 +964,17 @@ class reportingController
 
 
             $tipoGrupoClienteInner=" AND cl.tipo_cliente ='".$request["tipoGrupoCliente"]."'";
-            // $tipoGrupoCliente=" AND c.tipo_cliente ='".$request["tipoGrupoCliente"]."'";
-
-
+            $tipoGrupoCliente=" AND c.tipo_cliente ='".$request["tipoGrupoCliente"]."'";
 
             $codigoCliente="";
             $codigoClienteInner="";
+
             if(! is_null($request["codigoCliente"])){
                 $codigoClienteInner=" AND cab.cliente_id ='".$request["codigoCliente"]."'";
                 $codigoCliente=" AND c.cliente_id ='".$request["codigoCliente"]."'";
             }
 
-//PRUEBA HARCODEADA
+
             $data= $db->select($db->raw("(
             SELECT a.id, a.nombre
             , IFNULL(SUM(Almacen.TOTAL_UDS),0) AlmacenUds
@@ -1004,7 +1002,9 @@ class reportingController
                 LEFT OUTER JOIN clientes cl ON (cab.empresa = cl.empresa AND cab.cliente_id = cl.cliente AND cab.sucursal_id = cl.sucursal)
                 LEFT OUTER JOIN articulos art ON (det.articulo_id = art.id)
                 LEFT OUTER JOIN proveedores pro ON (art.proveedor_id = pro.id)
-                WHERE (cab.empresa = 1 AND cl.tipo_cliente ='TARICAT' AND cab.cliente_id=724)
+                WHERE (cab.empresa = 1
+                ".$tipoGrupoClienteInner."
+                ".$codigoClienteInner.") 
                 ".$fechaActual."
                 AND (art.es_marca_propia = 1 OR pro.es_marca_propia=1)
                 GROUP BY det.articulo_id
@@ -1024,7 +1024,9 @@ class reportingController
                 LEFT OUTER JOIN clientes cl ON (cab.empresa = cl.empresa AND cab.cliente_id = cl.cliente AND cab.sucursal_id = cl.sucursal)
                 LEFT OUTER JOIN articulos art ON (det.articulo_id = art.id)
                 LEFT OUTER JOIN proveedores pro ON (art.proveedor_id = pro.id)
-                WHERE (cab.empresa = 1 AND cl.tipo_cliente ='TARICAT' AND cab.cliente_id=724)
+                WHERE (cab.empresa = 1 
+                ".$tipoGrupoClienteInner."
+                ".$codigoClienteInner.") 
                 ".$fechaAnterior."
                 AND (art.es_marca_propia = 1 OR pro.es_marca_propia=1)
                 GROUP BY det.articulo_id
