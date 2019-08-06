@@ -90,10 +90,9 @@ class Sheet2 implements FromCollection, WithHeadings, WithEvents, WithTitle ,Wit
                             null,
                             '=SUM(E1:E'.$event->sheet->getDelegate()->getHighestRow().')',
                             '=SUM(F1:F'.$event->sheet->getDelegate()->getHighestRow().')',
-                            null,
-                            '=SUM(H1:H'.$event->sheet->getDelegate()->getHighestRow().')',
-                            '=SUM(I1:I'.$event->sheet->getDelegate()->getHighestRow().')',
-                            null
+                            '=SUM(G1:G'.$event->sheet->getDelegate()->getHighestRow().')',
+                            '=SUM(H1:H'.$event->sheet->getDelegate()->getHighestRow().')'
+
                         ),
                     ), $event);
                     $event->sheet->getDelegate()->getStyle("E".$event->sheet->getDelegate()->getHighestRow())->getFont()->setBold(true);
@@ -111,8 +110,8 @@ class Sheet2 implements FromCollection, WithHeadings, WithEvents, WithTitle ,Wit
                             '=SUM(C1:C'.$event->sheet->getDelegate()->getHighestRow().')',
                             '=SUM(D1:D'.$event->sheet->getDelegate()->getHighestRow().')',
                             '=SUM(E1:E'.$event->sheet->getDelegate()->getHighestRow().')',
-                            '=SUM(F1:F'.$event->sheet->getDelegate()->getHighestRow().')',
-                            '=SUM(G1:G'.$event->sheet->getDelegate()->getHighestRow().')',
+                            '=SUM(F1:F'.$event->sheet->getDelegate()->getHighestRow().')'
+
                         ),
                     ), $event);
                     $event->sheet->getDelegate()->getStyle("C".$event->sheet->getDelegate()->getHighestRow())->getFont()->setBold(true);
