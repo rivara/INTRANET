@@ -953,8 +953,8 @@ class reportingController
             }
 
             //fecha CASE
-            $fecha1="('2019-06-30','2018-07-01')";  //=> PREGUNTAR A SANTI
-            $fecha2="('".$fechaHasta."','".$fechaDesde."')";
+
+            $fecha="('".$fechaHasta."','".$fechaDesde."')";
             //fecha subconsulta
             $fechaActual    = " AND (cab.fecha BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "')";
             $fechaAnterior  = "AND (cab.fecha BETWEEN '" . date('Y-m-d',strtotime($fechaDesde.'-1 year'))."' AND '".date('Y-m-d',strtotime($fechaHasta.'-1 year'))."')";
@@ -984,12 +984,10 @@ class reportingController
             , IFNULL(SUM(AlmacenAnterior.TOTAL_PREC),0) AlmacenAnteriorImp
             , (IFNULL(SUM(Almacen.TOTAL_UDS),0) DIV IFNULL(SUM(AlmacenAnterior.TOTAL_UDS),0)) -1 dif_Anual_almacenUDS 
             , (IFNULL(SUM(Almacen.TOTAL_PREC),0) DIV IFNULL(SUM(AlmacenAnterior.TOTAL_PREC),0)) -1 dif_Anual_almaceNPREC
-            , CASE WHEN DATEDIFF('2019-06-30','2018-07-01') <> 0 THEN IFNULL(SUM(Almacen.TOTAL_UDS),0) / (DATEDIFF ".$fecha2.") ELSE 0 END Rotacion 
-            
+            , CASE WHEN DATEDIFF(".$fecha.") <> 0 THEN IFNULL(SUM(Almacen.TOTAL_UDS),0) / (DATEDIFF ".$fecha.") ELSE 0 END Rotacion 
              FROM articulos a
              LEFT OUTER JOIN proveedores p ON a.proveedor_id = p.id
              LEFT OUTER JOIN (
-            
                 SELECT det.articulo_id ART ,
                 SUM(CASE WHEN det.tipo_documento='A' THEN det.cantidad *-1 ELSE 0 END) TOTABO_UDS ,
                 SUM(CASE WHEN det.tipo_documento='F' THEN det.cantidad ELSE 0 END) TOT_FAC_UDS ,
@@ -1011,7 +1009,6 @@ class reportingController
             
              ) Almacen ON a.id = Almacen.ART
              LEFT OUTER JOIN (
-            
                 SELECT det.articulo_id ART
                 , SUM(CASE WHEN det.tipo_documento='A' THEN det.cantidad *-1 ELSE 0 END) TOTABO_UDS
                 , SUM(CASE WHEN det.tipo_documento='F' THEN det.cantidad ELSE 0 END) TOT_FAC_UDS
@@ -1030,18 +1027,13 @@ class reportingController
                 ".$fechaAnterior."
                 AND (art.es_marca_propia = 1 OR pro.es_marca_propia=1)
                 GROUP BY det.articulo_id
-            
              ) AlmacenAnterior ON a.id = AlmacenAnterior.ART
-            
              WHERE (a.es_marca_propia = 1 OR p.es_marca_propia=1)
              GROUP BY a.id, a.nombre
              -- He añadido esto, para que solo salgan los articulos que han tenido ventas (este año o el anterior), sino quitarlo
              HAVING ( SUM(Almacen.TOTAL_UDS) <> 0 OR SUM(AlmacenAnterior.TOTAL_UDS) <> 0 )
              ORDER BY a.nombre
           )"));
-
-
-
 
 
             $bg = "b5bf00";
@@ -1058,7 +1050,6 @@ class reportingController
                 "H" => NumberFormat::FORMAT_PERCENTAGE,
                 "I" => NumberFormat::FORMAT_PERCENTAGE,
                 "J" => NumberFormat::FORMAT_NUMBER
-
             ];
             $filename = "marcaPropia_Por_Articulo";
         }
