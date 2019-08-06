@@ -1016,7 +1016,7 @@ class reportingController
 
             //fecha CASE
             $fecha1="('2019-06-30','2018-07-01')";  //=> PREGUNTAR A SANTI
-            $fecha2="('".$fechaHasta.",".$fechaDesde.")";
+            $fecha2="('".$fechaHasta."','".$fechaDesde."')";
             //fecha subconsulta
             $fechaActual    = " AND (cab.fecha BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "')";
             $fechaAnterior  = "AND (cab.fecha BETWEEN '" . date('Y-m-d',strtotime($fechaDesde.'-1 year'))."' AND '".date('Y-m-d',strtotime($fechaHasta.'-1 year'))."')";
