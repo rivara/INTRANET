@@ -24,10 +24,29 @@ class SalasController
 
 
     public function actionGoIndexSala(Request $request){
-        $nombre= $request['nombre'];
+        $nombre= $request['salaOpcion'];
 
 
-        $events[] =  Calendar::event( "Evento2", //event title
+        $sala_id=DB::table('salas')->where('nombre',$nombre)->pluck('id');
+        $n_eventos=DB::table('salas')->where('nombre',$nombre)->count();
+
+        die($n_eventos);
+
+        for($i=0;$i<$n_eventos;$i++){
+            $events[] =  Calendar::event( "Evento2", //event title
+                true, //full day event?
+                new \DateTime('2019-08-10'), //start time (you can also use Carbon instead of DateTime)
+                new \DateTime('2019-08-10'), //end time (you can also use Carbon instead of DateTime)
+                null ,
+                [
+                    'color' => '#f05050',
+                    'url' => 'salas/edit',
+                ]);
+        }
+
+
+
+     /*   $events[] =  Calendar::event( "Evento2", //event title
             true, //full day event?
             new \DateTime('2019-08-10'), //start time (you can also use Carbon instead of DateTime)
             new \DateTime('2019-08-10'), //end time (you can also use Carbon instead of DateTime)
@@ -35,7 +54,7 @@ class SalasController
             [
                 'color' => '#f05050',
                 'url' => 'salas/edit',
-            ]);
+            ]);*/
 
 
         /*

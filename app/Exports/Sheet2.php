@@ -98,8 +98,8 @@ class Sheet2 implements FromCollection, WithHeadings, WithEvents, WithTitle ,Wit
                     ), $event);
                     $event->sheet->getDelegate()->getStyle("E".$event->sheet->getDelegate()->getHighestRow())->getFont()->setBold(true);
                     $event->sheet->getDelegate()->getStyle("F".$event->sheet->getDelegate()->getHighestRow())->getFont()->setBold(true);
+                    $event->sheet->getDelegate()->getStyle("G".$event->sheet->getDelegate()->getHighestRow())->getFont()->setBold(true);
                     $event->sheet->getDelegate()->getStyle("H".$event->sheet->getDelegate()->getHighestRow())->getFont()->setBold(true);
-                    $event->sheet->getDelegate()->getStyle("I".$event->sheet->getDelegate()->getHighestRow())->getFont()->setBold(true);
 
 
                 }
@@ -119,7 +119,6 @@ class Sheet2 implements FromCollection, WithHeadings, WithEvents, WithTitle ,Wit
                     $event->sheet->getDelegate()->getStyle("D".$event->sheet->getDelegate()->getHighestRow())->getFont()->setBold(true);
                     $event->sheet->getDelegate()->getStyle("E".$event->sheet->getDelegate()->getHighestRow())->getFont()->setBold(true);
                     $event->sheet->getDelegate()->getStyle("F".$event->sheet->getDelegate()->getHighestRow())->getFont()->setBold(true);
-                    $event->sheet->getDelegate()->getStyle("G".$event->sheet->getDelegate()->getHighestRow())->getFont()->setBold(true);
 
             }
 

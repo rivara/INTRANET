@@ -919,10 +919,9 @@ class reportingController
             $columnFormats = [
                 "E" => NumberFormat::FORMAT_CURRENCY_EUR,
                 "F" => NumberFormat::FORMAT_CURRENCY_EUR,
-                "G" => NumberFormat::FORMAT_PERCENTAGE_00,
-                "H" => NumberFormat::FORMAT_CURRENCY_EUR,
-                "I" => NumberFormat::FORMAT_CURRENCY_EUR,
-                "J" => NumberFormat::FORMAT_PERCENTAGE_00
+                "G" => NumberFormat::FORMAT_CURRENCY_EUR,
+                "H" => NumberFormat::FORMAT_CURRENCY_EUR
+
             ];
             $filename = "marcaPropia_por_Cliente";
         }
@@ -1047,12 +1046,9 @@ class reportingController
             $columnFormats = [
                 "C" => NumberFormat::FORMAT_NUMBER,
                 "D" => NumberFormat::FORMAT_CURRENCY_EUR,
-                "E" => NumberFormat::FORMAT_CURRENCY_EUR,
-                "F" => NumberFormat::FORMAT_NUMBER,
-                "G" => NumberFormat::FORMAT_CURRENCY_EUR,
-                "H" => NumberFormat::FORMAT_PERCENTAGE,
-                "I" => NumberFormat::FORMAT_PERCENTAGE,
-                "J" => NumberFormat::FORMAT_NUMBER
+                "E" => NumberFormat::FORMAT_NUMBER,
+                "F" => NumberFormat::FORMAT_CURRENCY_EUR
+
             ];
             $filename = "marcaPropia_Por_Articulo";
         }
