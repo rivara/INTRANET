@@ -997,6 +997,7 @@ class reportingController
                 ".$tipoGrupoClienteInner."
                 ".$codigoClienteInner.") 
                 ".$fechaActual."
+                ".$codigoArticuloInner."
                 AND (art.es_marca_propia = 1 OR pro.es_marca_propia=1)
                 GROUP BY det.articulo_id
             
@@ -1018,10 +1019,12 @@ class reportingController
                 ".$tipoGrupoClienteInner."
                 ".$codigoClienteInner.") 
                 ".$fechaAnterior."
+                ".$codigoArticuloInner."
                 AND (art.es_marca_propia = 1 OR pro.es_marca_propia=1)
                 GROUP BY det.articulo_id
              ) AlmacenAnterior ON a.id = AlmacenAnterior.ART
              WHERE (a.es_marca_propia = 1 OR p.es_marca_propia=1)
+               ".$codigoArticulo."
              GROUP BY a.id, a.nombre
              -- He añadido esto, para que solo salgan los articulos que han tenido ventas (este año o el anterior), sino quitarlo
              HAVING ( SUM(Almacen.TOTAL_UDS) <> 0 OR SUM(AlmacenAnterior.TOTAL_UDS) <> 0 )

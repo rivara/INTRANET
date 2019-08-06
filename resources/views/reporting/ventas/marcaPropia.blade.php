@@ -116,7 +116,7 @@
 <script>
    $('.codArt').css("visibility", "hidden");
 
-  /*  $('#codigo').change(function(){
+    $('#codigo').change(function(){
         if($(this).val() == 'CLIENTE'){
             $('.codCli').css("visibility", "visible");
             $('.codArt').css("visibility", "hidden");
@@ -127,6 +127,6 @@
             $('.codArt').css("visibility", "visible");
             $("#codigoCliente").val("");
         }
-    });*/
+    });
 
 </script>
