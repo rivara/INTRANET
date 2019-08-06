@@ -913,7 +913,7 @@ class reportingController
 
             $bg = "b5bf00";
             $title = "INFORME DE VENTAS POR CLIENTE";
-            $fin1 = 10;
+            $fin1 = 8;
             $tramo = Coordinate::stringFromColumnIndex(1) . "9:" . Coordinate::stringFromColumnIndex($fin1) . "9";
 
             $columnFormats = [
