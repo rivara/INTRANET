@@ -958,17 +958,10 @@ class reportingController
             //fecha subconsulta
             $fechaActual    = " AND (cab.fecha BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "')";
             $fechaAnterior  = "AND (cab.fecha BETWEEN '" . date('Y-m-d',strtotime($fechaDesde.'-1 year'))."' AND '".date('Y-m-d',strtotime($fechaHasta.'-1 year'))."')";
-
-
-
-
-
             $tipoGrupoClienteInner=" AND cl.tipo_cliente ='".$request["tipoGrupoCliente"]."'";
             $tipoGrupoCliente=" AND c.tipo_cliente ='".$request["tipoGrupoCliente"]."'";
-
             $codigoCliente="";
             $codigoClienteInner="";
-
             if(! is_null($request["codigoCliente"])){
                 $codigoClienteInner=" AND cab.cliente_id ='".$request["codigoCliente"]."'";
                 $codigoCliente=" AND c.cliente_id ='".$request["codigoCliente"]."'";
@@ -984,7 +977,7 @@ class reportingController
             , IFNULL(SUM(AlmacenAnterior.TOTAL_PREC),0) AlmacenAnteriorImp
             , (IFNULL(SUM(Almacen.TOTAL_UDS),0) DIV IFNULL(SUM(AlmacenAnterior.TOTAL_UDS),0)) -1 dif_Anual_almacenUDS 
             , (IFNULL(SUM(Almacen.TOTAL_PREC),0) DIV IFNULL(SUM(AlmacenAnterior.TOTAL_PREC),0)) -1 dif_Anual_almaceNPREC
-            , CASE WHEN DATEDIFF(".$fecha.") <> 0 THEN IFNULL(SUM(Almacen.TOTAL_UDS),0) / (DATEDIFF ".$fecha.") ELSE 0 END Rotacion 
+            , CASE WHEN DATEDIFF".$fecha." <> 0 THEN IFNULL(SUM(Almacen.TOTAL_UDS),0) / (DATEDIFF ".$fecha.") ELSE 0 END Rotacion 
              FROM articulos a
              LEFT OUTER JOIN proveedores p ON a.proveedor_id = p.id
              LEFT OUTER JOIN (
