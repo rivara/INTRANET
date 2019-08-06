@@ -1043,7 +1043,7 @@ class reportingController
             $title = "INFORME DE VENTAS POR ARTICULOS";
             //LEYENDA
             $fin1 = 10;
-            $tramo = Coordinate::stringFromColumnIndex(1)."9:".Coordinate::stringFromColumnIndex($fin1)."9";
+            $tramo = Coordinate::stringFromColumnIndex(1)."7:".Coordinate::stringFromColumnIndex($fin1)."7";
             $columnFormats = [
                 "C" => NumberFormat::FORMAT_NUMBER,
                 "D" => NumberFormat::FORMAT_CURRENCY_EUR,
