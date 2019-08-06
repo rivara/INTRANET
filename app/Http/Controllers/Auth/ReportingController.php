@@ -853,7 +853,7 @@ class reportingController
                     LEFT OUTER JOIN articulos art ON (det.articulo_id = art.id) 
                     LEFT OUTER JOIN proveedores pro ON (art.proveedor_id = pro.id) 
                     WHERE (cab.empresa = 1 AND cl.tipo_cliente ='TARICAT' AND cab.cliente_id=724) 
-                    AND (cab.fecha BETWEEN '2019-04-01' AND '2019-05-31') 
+                   ".$fechaActual."
                     GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
                 ) ventasact ON c.empresa = ventasact.EMP AND c.cliente = ventasact.CLI AND c.sucursal = ventasact.SUC
                 
@@ -865,7 +865,7 @@ class reportingController
                     LEFT OUTER JOIN articulos art ON (det.articulo_id = art.id) 
                     LEFT OUTER JOIN proveedores pro ON (art.proveedor_id = pro.id)
                     WHERE (cab.empresa = 1 AND cl.tipo_cliente ='TARICAT' AND cab.cliente_id=724) 
-                    AND (cab.fecha BETWEEN '2019-04-01' AND '2019-05-31') 
+                  ".$fechaActual."
                     AND (art.es_marca_propia = 1 OR pro.es_marca_propia=1) 
                     GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
                 ) v_mp ON c.empresa = v_mp.EMP AND c.cliente = v_mp.CLI AND c.sucursal = v_mp.SUC
@@ -878,7 +878,7 @@ class reportingController
                     LEFT OUTER JOIN articulos art ON (det.articulo_id = art.id) 
                     LEFT OUTER JOIN proveedores pro ON (art.proveedor_id = pro.id) 
                     WHERE (cab.empresa = 1 AND cl.tipo_cliente ='TARICAT' AND cab.cliente_id=724) 
-                    AND (cab.fecha BETWEEN '2017-04-01' AND '2018-05-31') 
+                   ".$fechaAnterior."
                     GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
                 ) v_alm_ant ON c.empresa = v_alm_ant.EMP AND c.cliente = v_alm_ant.CLI AND c.sucursal = v_alm_ant.SUC
                 
@@ -890,7 +890,7 @@ class reportingController
                     LEFT OUTER JOIN articulos art ON (det.articulo_id = art.id) 
                     LEFT OUTER JOIN proveedores pro ON (art.proveedor_id = pro.id) 
                     WHERE (cab.empresa = 1 AND cl.tipo_cliente ='TARICAT' AND cab.cliente_id=724) 
-                    AND (cab.fecha BETWEEN '2018-04-01' AND '2018-05-31') 
+                   ".$fechaAnterior."
                     AND (art.es_marca_propia = 1 OR pro.es_marca_propia=1) 
                     GROUP BY cab.empresa, cab.cliente_id, cab.sucursal_id
                 ) v_mp_ant ON c.empresa = v_mp_ant.EMP AND c.cliente = v_mp_ant.CLI AND c.sucursal = v_mp_ant.SUC
@@ -1013,8 +1013,18 @@ class reportingController
                 $codigoArticuloInner=" AND det.articulo_id ='".$request["codigoArticulo"]."'";
                 $codigoArticulo=" AND a.id ='".$request["codigoArticulo"]."'";
             }
+
+            //fecha CASE
+            $fecha1="('2019-06-30','2018-07-01')";  //=> PREGUNTAR A SANTI
+            $fecha2="('".$fechaHasta.",".$fechaDesde.")";
+            //fecha subconsulta
             $fechaActual    = " AND (cab.fecha BETWEEN '" . $fechaDesde . "' AND '" . $fechaHasta . "')";
             $fechaAnterior  = "AND (cab.fecha BETWEEN '" . date('Y-m-d',strtotime($fechaDesde.'-1 year'))."' AND '".date('Y-m-d',strtotime($fechaHasta.'-1 year'))."')";
+
+
+
+
+
             $tipoGrupoClienteInner=" AND cl.tipo_cliente ='".$request["tipoGrupoCliente"]."'";
             // $tipoGrupoCliente=" AND c.tipo_cliente ='".$request["tipoGrupoCliente"]."'";
 
@@ -1037,7 +1047,7 @@ class reportingController
             , IFNULL(SUM(AlmacenAnterior.TOTAL_PREC),0) AlmacenAnteriorImp
             , (IFNULL(SUM(Almacen.TOTAL_UDS),0) DIV IFNULL(SUM(AlmacenAnterior.TOTAL_UDS),0)) -1 dif_Anual_almacenUDS 
             , (IFNULL(SUM(Almacen.TOTAL_PREC),0) DIV IFNULL(SUM(AlmacenAnterior.TOTAL_PREC),0)) -1 dif_Anual_almaceNPREC
-            , CASE WHEN DATEDIFF('2019-06-30','2018-07-01') <> 0 THEN IFNULL(SUM(Almacen.TOTAL_UDS),0) / (DATEDIFF('2019-05-31','2019-04-01')) ELSE 0 END Rotacion 
+            , CASE WHEN DATEDIFF('2019-06-30','2018-07-01') <> 0 THEN IFNULL(SUM(Almacen.TOTAL_UDS),0) / (DATEDIFF ".$fecha2.") ELSE 0 END Rotacion 
             
              FROM articulos a
              LEFT OUTER JOIN proveedores p ON a.proveedor_id = p.id
@@ -1056,7 +1066,7 @@ class reportingController
                 LEFT OUTER JOIN articulos art ON (det.articulo_id = art.id)
                 LEFT OUTER JOIN proveedores pro ON (art.proveedor_id = pro.id)
                 WHERE (cab.empresa = 1 AND cl.tipo_cliente ='TARICAT' AND cab.cliente_id=724)
-                AND (cab.fecha BETWEEN '2019-04-01' AND '2019-05-31')
+                ".$fechaActual."
                 AND (art.es_marca_propia = 1 OR pro.es_marca_propia=1)
                 GROUP BY det.articulo_id
             
@@ -1076,7 +1086,7 @@ class reportingController
                 LEFT OUTER JOIN articulos art ON (det.articulo_id = art.id)
                 LEFT OUTER JOIN proveedores pro ON (art.proveedor_id = pro.id)
                 WHERE (cab.empresa = 1 AND cl.tipo_cliente ='TARICAT' AND cab.cliente_id=724)
-                AND (cab.fecha BETWEEN '2018-04-01' AND '2018-05-31')
+                ".$fechaAnterior."
                 AND (art.es_marca_propia = 1 OR pro.es_marca_propia=1)
                 GROUP BY det.articulo_id
             
