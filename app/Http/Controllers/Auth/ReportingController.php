@@ -196,7 +196,7 @@ if(alm.es_extinguir=1,'SI',' ') as extinguir,
 			a.id NOT IN (57145,57148) and
 		  	alm.es_extinguir !=1  and
 		  	alm.stock_actual != 0		  
-		  ORDER BY a.id ;
+		  ORDER BY a.id 
         )"));
 
 
