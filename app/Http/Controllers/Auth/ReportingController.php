@@ -128,7 +128,7 @@ class reportingController
 
 
 
-        $data_ = $db->select($db->raw("(
+        $data = $db->select($db->raw("(
         SELECT 
 		a.id,
         a.nombre as NombreArticulo,
