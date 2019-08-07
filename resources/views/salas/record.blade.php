@@ -1,17 +1,19 @@
 @extends('layouts.app')
 @section('content')
 
-    <form action="{{ route('goIndexSala') }}" method="GET">
-        <button class="btn btn-primary  floatRight ">
-            <i class="fa fa-arrow-left"></i>
-        </button>
-        <input type="hidden" name="nombre" value="<?php echo $nombre ?>">
-    </form>
+
+
     <div class="container wrapper mitad2 ">
+        <form action="{{ route('goIndexSala') }}" method="GET">
+            <button class="btn btn-primary  floatRight ">
+                <i class="fa fa-arrow-left"></i>
+            </button>
+            <input type="hidden" name="salaOpcion" value="{{$salaOpcion}}">
+        </form>
         <form action="{{ route('recordSala') }}" method="GET">
             <div class="row">
                 <div class="col-md-8">
-                    <h2>Reserva de la sala {{$salaOpcion}}</h2>
+                    <h2>Crear reserva de la sala {{$salaOpcion}}</h2>
                 </div>
                 <div class="col-md-12"><br></div>
                 <div class="col-md-2">
@@ -68,7 +70,6 @@
                     <small>(sólo se grabaran los escritos correctos)</small>
                 </div>
                 <div class="col-md-12" class="form-control">
-                    <!--<textarea name="mails" id="autocomplete" rows="3" ></textarea> -->
                     <textarea class="form-control" name="mails" rows="3" id="autocomplete"></textarea>
                 </div>
                 <div class="col-md-12"><br></div>

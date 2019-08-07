@@ -151,33 +151,8 @@ class LoginController extends Controller
 
         }
         if ($url[0] == "reserva") {
-
-            ///////////////////////////////////////////////////////////////////////////////////////////////
-// return view('salas/index',['nombre' => $request['nombre']]);
-
-            $calendario = DB::table('reservas')->get();
-
-            foreach($calendario as $calendar) {
-                $events[] = Calendar::event(
-                    $calendar->descripcion, //event title
-                    false, //full day event?
-                    new \DateTime($calendar->fecha." ".$calendar->hora_inicio), //start time (you can also use Carbon instead of DateTime)
-                    new \DateTime($calendar->fecha." ".$calendar->hora_fin), //end time (you can also use Carbon instead of DateTime)
-                    null,
-                    [
-                        'color' => $calendar->color,
-                        'url' => 'salas/edit',
-                    ]);
-            }
-
             $nombre = $request['nombre'];
-            $calendar = \Calendar::addEvents($events);
             return view('salas/index', compact('calendar','nombre'));
-
-
-
-          //  return view('salas/index');
-
         }
 
 
