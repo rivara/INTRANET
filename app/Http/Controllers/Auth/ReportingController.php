@@ -160,7 +160,7 @@ class reportingController
         (ifnull(ven.CANSUM,0) - ( a.coste_medio * ven.CANSUM )) as margenBruto,
       
         ROUND(stockMedia) as stockM,
-        (ifnull(ven.CANSUM,0)/ROUND(stockMedia))  as indicePorMargeDeRotacion,
+          ifnull((ifnull(ven.CANSUM,0)/ROUND(stockMedia)),0)  as indicePorMargeDeRotacion,
         (ifnull(ven.CANSUM,0) - ( a.coste_medio * ven.CANSUM )/(ifnull(ven.CANSUM,0)/ROUND(stockMedia))) as margenPorRotacion,
         if(alm.es_surtido_alicante,'SI',' ') as surtido
                                 FROM articulos a
