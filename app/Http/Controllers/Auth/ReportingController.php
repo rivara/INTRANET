@@ -130,8 +130,7 @@ class reportingController
 
         $data_ = $db->select($db->raw("(
         SELECT 
-          		Select
-		  a.id,
+		a.id,
         a.nombre as NombreArticulo,
         DATE_FORMAT(a.fecha_alta,'%d/%m/%Y')  as FechaAlta,
         DATE_FORMAT(a.fecha_baja ,'%d/%m/%Y') as FechaBaja,
