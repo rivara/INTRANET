@@ -128,80 +128,9 @@ class reportingController
 
 
 
+
         $data = $db->select($db->raw("(
         SELECT 
-		a.id,
-        a.nombre as NombreArticulo,
-        DATE_FORMAT(a.fecha_alta,'%d/%m/%Y')  as FechaAlta,
-        DATE_FORMAT(a.fecha_baja ,'%d/%m/%Y') as FechaBaja,
-        a.tipo_producto as tipoProcuto,
-        a.tipo_rotacion,
-        a.proveedor_id,
-        pro.nombre as razonSocial,
-        a.referencia_proveedor,
-        pro.comprador_id,
-        a.marca,
-        a.es_merch_ferrokey,
-        a.coste_medio ,
-        a.familia_id,
-        fam.ampliada, 
-substring(a.familia_id,1,2) as n1,
-fam1.nombre as nombreFam1,
-substring(a.familia_id,1,4) as n2,
-fam2.nombre as nombreFam2,
-    substring(a.familia_id,1,6) as n6,
-fam3.nombre as nombreFam3,
-if(alm.es_extinguir=1,'SI',' ') as extinguir,
-        ifnull(ven.CANSUM,0) as VENTA, 
-        ifnull(ven.CANIMP,0) as IMPORTE,
-        a.coste_medio * ven.CANSUM as costeMedio,
-        alm.stock_actual,
-        (ifnull(ven.CANSUM,0) - ( a.coste_medio * ven.CANSUM )) as margenBruto,
-      
-        ROUND(stockMedia) as stockM,
-        (ifnull(ven.CANSUM,0)/ROUND(stockMedia))  as indicePorMargeDeRotacion,
-        (ifnull(ven.CANSUM,0) - ( a.coste_medio * ven.CANSUM )/(ifnull(ven.CANSUM,0)/ROUND(stockMedia))) as margenPorRotacion,
-        if(alm.es_surtido_alicante,'SI',' ') as surtido
-                                FROM articulos a
-                                LEFT OUTER JOIN (
-                                    select articulo_id art,SUM(cantidad) CANSUM ,SUM(importe) CANIMP
-                                    from historico_ventas_detalle v LEFT OUTER JOIN articulos a ON v.articulo_id = a.id
-                                    WHERE empresa=1 
-                                    AND es_directo=0 
-                                    AND a.fecha_baja is null
-                                     
-                                      
-                                    AND v.fecha  BETWEEN '2018-08-01' AND '2019-07-31'  
-                                    GROUP BY articulo_id
-                                ) ven ON a.id = ven.art
-                                
-                                LEFT OUTER JOIN articulos_almacen alm ON a.id = alm.articulo_id AND alm.almacen = 'PRINCIPAL'
-                                LEFT JOIN proveedores pro ON a.proveedor_id = pro.id 
-                                LEFT JOIN familias fam ON a.familia_id = fam.id 
-                                LEFT JOIN familias fam1 ON substring(a.familia_id,1,2) = fam1.id 
-                                LEFT JOIN familias fam2 ON substring(a.familia_id,1,4) = fam2.id 
-                                LEFT JOIN familias fam3 ON substring(a.familia_id,1,6) = fam3.id 
-                                LEFT JOIN (
-                                    SELECT articulo_id ,AVG(mad_stock) as stockMedia
-                                    FROM stock_medio sm
-                                    LEFT JOIN articulos a ON sm.articulo_id = a.id
-                                    WHERE a.fecha_baja is null
-                                     
-                                    AND sm.fecha  BETWEEN '2018-08-01' AND '2019-07-31'  
-                                  GROUP BY articulo_id
-                                ) sm ON a.id = sm.articulo_id
-        WHERE 
-		  	a.fecha_baja is null  and  
-			a.proveedor_id NOT IN (3000,2000,5992,6058) and
-			a.id NOT IN (57145,57148) and
-		  	alm.es_extinguir !=1  and
-		  	alm.stock_actual != 0		  
-		  ORDER BY a.id 
-        )"));
-
-
-
-        $data_ = $db->select($db->raw("(SELECT 
         a.id,
         a.nombre as NombreArticulo,
         DATE_FORMAT(a.fecha_alta,'%d/%m/%Y')  as FechaAlta,
@@ -268,7 +197,6 @@ if(alm.es_extinguir=1,'SI',' ') as extinguir,
 			a.id NOT IN (57145,57148) AND
 		  	alm.es_extinguir !=1  AND
 		  	alm.stock_actual != 0		 
-            
         " . $proveedor . " " . $familia . "   ORDER BY a.id )"));
 
         $bg = array("808080", "0000ff", "B5BF00");
