@@ -201,7 +201,7 @@ Route::group(['middleware' => 'revalidate'], function() {
 /////////////////////////
 //////Salas////////////
 ////////////////////////
-    Route::get('salas/edit', 'Auth\SalasController@actionGoEditSala')->name('goEditSala');
+    Route::get('salas/editSala', 'Auth\SalasController@actionGoEditSala')->name('goEditSala');
     Route::get('salas/index', 'Auth\SalasController@actionGoIndexSala')->name('goIndexSala');
     Route::get('salas/record', 'Auth\SalasController@actionGoRecordSala')->name('goRecordSala');
     Route::get('salas/record/save', 'Auth\SalasController@actionRecordSala')->name('recordSala');

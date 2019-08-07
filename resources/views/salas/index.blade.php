@@ -44,7 +44,7 @@
                         <button class="btn btn-primary  floatRight">
                             <i class="fa fa-pencil"></i>
                         </button>
-                        <input type="hidden" name="nombre"value={{$nombre}}
+                        <input type="hidden" name="nombre"value={{$nombre}}>
                         <input type="hidden" name="salaOpcion" value={{$salaOpcion}}>
                     </form>
                 @endif
@@ -52,6 +52,7 @@
         </div>
 
         @if(isset($salaOpcion))
+
             <div class="panel panel-primary">
               <div class="panel-heading"></div>
               <div class="panel-body"> {!! $calendar->calendar() !!} {!! $calendar->script() !!} </div>
