@@ -22,7 +22,7 @@ use Maatwebsite\Excel\Events\BeforeSheet;
 /**
  * @property  output
  */
-class Sheet implements FromCollection, WithHeadings, WithEvents, WithTitle
+class Sheet1 implements FromCollection, WithHeadings, WithEvents, WithTitle
 {
 
     protected $precabecera;
@@ -99,7 +99,7 @@ class Sheet implements FromCollection, WithHeadings, WithEvents, WithTitle
      */
     public function headings(): array
     {
-        return [$this->cabecera];
+        return $this->cabecera;
     }
 
     /**

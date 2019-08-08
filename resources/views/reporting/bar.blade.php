@@ -159,6 +159,12 @@
                             <input type="hidden" name="option" value="marcaPropia">
                         </form>
                     </li>
+                    <li class="dropdown-submenu">
+                        <form action="{{ route('reportingRedirect')}}" method="get">
+                            <button class="" type="submit"><p>9.-Detalle por proveedor</p></button>
+                            <input type="hidden" name="option" value="detallePorProveedor">
+                        </form>
+                    </li>
                 </ul>
             </li>
 

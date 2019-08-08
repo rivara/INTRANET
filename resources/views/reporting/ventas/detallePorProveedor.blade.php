@@ -1,7 +1,7 @@
 @csrf
 <div class="row wrapperReporting center marginBottom20px">
     <div class="col-md-6">
-        <u><h3>Marca Propia **PRUEBA**</h3></u>
+        <u><h3>Detalles por proveedor </h3></u>
     </div>
     <div class="col-md-6">
         <small>ventas a</small>
@@ -29,7 +29,7 @@
         <div class="form-group">
             <select name="opcion" class="form-control" id="codigo">
                 <option value="CLIENTE">por cliente</option>
-                <option value="ARTICULOS">por articulo</option>
+                <option value="PROVEEDOR">por proveedor</option>
             </select>
         </div>
     </div>
@@ -52,24 +52,10 @@
 
     </div>
     <div class="col-md-4">
-
     </div>
 
-    <!--- -->
-    <div class="col-md-4 codCli">
-        <p>Codigo de cliente <br>
-        <small>(*) si no se mete valor selecciona todos por defecto</small></p>
-    </div>
 
-    <div class="col-md-4 codCli">
-        <input class="form-control" type="text" name="codigoCliente" id="codigoCliente">
-    </div>
-    <div class="col-md-4">
-
-    </div>
     <!-- -->
-
-
     <div class="col-md-4">
         <p>Fecha de ventas</p>
     </div>
@@ -81,28 +67,27 @@
         <small>Hasta</small>
         <input class="form-control floatLeft" type="date" name="fechaHasta" required  value="<?php echo date('Y-m-d', strtotime('last day of previous month')); ?>">
     </div>
+    <!-- -->
+    <div class="col-md-12"><br></div>
     <!--- -->
-    <div class="col-md-4 codArt">
-        <p>Código de articulo</p>
+    <div class="col-md-6"  >&nbsp;
+        <input  type="checkbox" name="codigoArticulo" checked>  Sacar aunque no tenga consumo  </input>
     </div>
-    <div class="col-md-4 codArt">
-        <input class="form-control" type="text" name="codigoArticulo" id="codigoArticulo" >
+    <div class="col-md-6">
     </div>
-    <div class="col-md-4"></div>
-    <div class="col-md-12">&nbsp;</div>
+    <!-- -->
+    <div class="col-md-12"><br></div>
+    <!--- -->
+
     <div class="col-md-12">
         @include('reporting.generador')
     </div>
-
-
-
-    <!--- -->
-    <div class="col-md-12">&nbsp;</div>
     <!-- -->
+    <div class="col-md-12"><br></div>
+    <!--- -->
     <div class="col-md-12">
         <div class="floatLeft">
-            <button type="submit" name="submit" value="Delete"
-                    class="btn btn-light">
+            <button type="submit" name="submit" value="Delete" class="btn btn-light">
                 Realizar informe
             </button>
         </div>
@@ -113,20 +98,3 @@
 <br>
     <!-- -->
 </div>
-<script>
-   $('.codArt').css("visibility", "hidden");
-
-    $('#codigo').change(function(){
-        if($(this).val() == 'CLIENTE'){
-            $('.codCli').css("visibility", "visible");
-            $('.codArt').css("visibility", "hidden");
-            $("#codigoArticulo").val("");
-
-        } else if($(this).val() == 'ARTICULOS'){
-            $('.codCli').css("visibility", "hidden");
-            $('.codArt').css("visibility", "visible");
-            $("#codigoCliente").val("");
-        }
-    });
-
-</script>

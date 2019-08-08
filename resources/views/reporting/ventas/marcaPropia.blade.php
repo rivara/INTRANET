@@ -101,8 +101,7 @@
     <!-- -->
     <div class="col-md-12">
         <div class="floatLeft">
-            <button type="submit" name="submit" value="Delete"
-                    class="btn btn-light">
+            <button type="submit" name="submit" value="Delete" class="btn btn-light">
                 Realizar informe
             </button>
         </div>

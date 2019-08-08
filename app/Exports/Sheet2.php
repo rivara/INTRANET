@@ -151,7 +151,7 @@ class Sheet2 implements FromCollection, WithHeadings, WithEvents, WithTitle ,Wit
      */
     public function headings(): array
     {
-        return [$this->cabecera];
+        return $this->cabecera;
     }
 
     /**

@@ -8,8 +8,9 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Exports\Sheet;
+use App\Exports\Sheet1;
 use App\Exports\Sheet2;
+use App\Exports\Sheet3;
 use App\Exports\SheetLeyenda;
 use App\Exports\SheetsExports;
 use Illuminate\Http\Request;
@@ -258,7 +259,7 @@ class reportingController
         }
 
         $cabeceraL = array();
-        $page1 = new Sheet($precabecera, $data, $cabecera, $bg, $title, $tramos);
+        $page1 = new Sheet1($precabecera, $data, $cabecera, $bg, $title, $tramos);
         $page2 = new SheetLeyenda($precabeceraL, $array, $precabeceraL, $bg, $titleL, $tramosLeyenda);
 
         // Envio del mail
@@ -663,7 +664,7 @@ class reportingController
 
 
         $cabeceraL = array();
-        $page1 = new Sheet($precabecera, $data, $cabecera, $bg, $title, $tramos);
+        $page1 = new Sheet1($precabecera, $data, $cabecera, $bg, $title, $tramos);
         $page2=null;
         //$page2 = new SheetLeyenda($precabeceraL, $array, $precabeceraL, $bg, $titleL, $tramosLeyenda);
 
@@ -679,19 +680,19 @@ class reportingController
             }
 
             if (is_null($request["asunto"])) {
-                $messageBody = "Informe de Indice de rotacion";
+                $messageBody = "Informe de obsoletos";
             } else {
                 $messageBody = $request["asunto"];
             }
             $email = $request["email"];
-            $message = "Este mail contiene el informe de rotacion";
+            $message = "Este mail contiene el informe de obsoletos";
             Mail::raw(/**
              * @param $message
              */
                 $messageBody, function ($message) use ($filename, $page2, $compresion, $email, $page1) {
-                $message->from('rvalle@comafe.es', 'Informe de Indice de rotación');
+                $message->from('rvalle@comafe.es', 'Informe de obsoletos');
                 $message->to($email);
-                $message->subject('indice de rotacion');
+                $message->subject('indice de obsoletos');
 
                 if ($compresion== true) {
                     set_time_limit(20000);
@@ -1086,19 +1087,19 @@ class reportingController
             }
 
             if (is_null($request["asunto"])) {
-                $messageBody = "Informe de Indice de rotacion";
+                $messageBody = "Marca Propia";
             } else {
                 $messageBody = $request["asunto"];
             }
             $email = $request["email"];
-            $message = "Este mail contiene el informe de rotacion";
+            $message = "Este mail contiene la Marca Propia";
             Mail::raw(/**
              * @param $message
              */
                 $messageBody, function ($message) use ($filename, $page2, $compresion, $email, $page1) {
-                $message->from('rvalle@comafe.es', 'Informe de Indice de rotación');
+                $message->from('rvalle@comafe.es', 'Marca Propia');
                 $message->to($email);
-                $message->subject('indice de rotacion');
+                $message->subject('Marca Propia');
 
                 if ($compresion== true) {
                     set_time_limit(20000);
@@ -1156,10 +1157,279 @@ class reportingController
     }
 
 
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////// DETALLE POR PROVEEDOR ///////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function actionDetallePorProveedor(Request $request)
+    {
+
+
+        //VARIABLES
+        $fechaDesde = $request["fechaDesde"];
+        $fechaHasta = $request["fechaHasta"];
+        $proveedor_id = $request["opcion"];
+        $tipoGrupoCliente= $request["tipoGrupoCliente"];
+        $filename = "Detalles proveedor";
+        $compresion=$request["compresion"];
+
+
+        //INFORME
+        $precabecera = array(
+            array(date("F j, Y, g:i a")),
+            array("Destalles ventas por proveedor"),
+            array("CLIENTE:"),
+            array("SUCURSAL:"),
+            array("TIPO CLIENTE:".$tipoGrupoCliente),
+            array("PROEVEEDOR:"),
+            array("FECHA ACTUAL:", $fechaDesde, "a", $fechaHasta),
+            array("FECHA ANTGERIOR:",date('d/m/Y',strtotime($fechaDesde.'-1 year')), "a",date('d/m/Y',strtotime($fechaHasta.'-1 year'))),
+            array("FILTROS ARTICULOS: todos los articulos"),
+            array(" ")
+        );
+        //BBDD
+        //usar otra bbdd
+        $db = DB::connection('reporting');
+        //20
+        $cabecera = array(
+            array(null,null,null,null,null,null,null,null,null,null,null,"2018",null,null,null,null,null,null,null,null,
+                  null,null,null,null,null,null,null,null,null,null,null,"2019",null,null,null,null,null,null,null,null,
+                  null,null,null,null,"SEGUIMIENTO",null,null,null),
+            //
+            array(null,null,null,null,null,null,null,null,null,"ALMACEN MADRID",null,null,null,null,"ALMACEN ALICANTE",null,null,"ALMACEN OTROS",null,null,
+                  "ALMACEN",null,"DIRECTOS","DIRECTOS","TOTAL",null,null,"ALMACEN MADRID",null,null,null,"ALMACEN ALICANTE",null,null,null,"ALMACEN OTROS",null,null,"ALMACEN",
+                  "DIRECTOS","DIRECTOS","TOTAL",null,null,null,null,null),
+            //
+            array(null,null,null,null,null,null,null,"REPARTO",null,"MOSTRADOR","REPARTO",null,"MOSTRADOR",null,"REPARTO",null,"MOSTRADOR",null,null,null,null,null,null,null,"REPARTO",
+                  "MOSTRADOR",null,"REPARTO",null,"MOSTRADOR",null,"REPARTO",null,"MOSTRADOR",null,null,null,null,null,null,null,null,null,null,null,null),
+            //
+            array("CLIENTE","SUCURSAL","NOMBRE","TIPO","CLIENTE","PROVEEDOR","NOMBRE","COMPRADOR","VENTAS","DEVOLUCIONES","VENTAS","DEVOLUCIONES","VENTAS","DEVOLUCIONES","VENTAS","DEVOLUCIONES",
+            "VENTAS","DEVOLUCIONES","VENTAS","DEVOLUCIONES","TOTAL","FACTURAS","ABONOS","TOTAL","VENTAS","DEVOLUCIONES","VENTAS","DEVOLUCIONES","VENTAS","DEVOLUCIONES","VENTAS","DEVOLUCIONES",
+            "VENTAS","DEVOLUCIONES","VENTAS","DEVOLUCIONES","TOTAL","FACTURAS","ABONOS","TOTAL","REPARTO","MOSTRADOR","ALMACEN","DIRECTO","TOTAL")
+        );
+
+        //consultas
 
 
 
 
 
+
+
+
+
+
+
+
+
+        $data = null;//$db->select($db->raw("(SELECT * from articulos limit 10)"));
+
+       /* $bg = "b5bf00";
+        $title = "INFORME DE VENTAS POR ARTICULOS";
+        //LEYENDA
+        $fin1 = 6;
+        $tramo =[];// Coordinate::stringFromColumnIndex(1)."9:".Coordinate::stringFromColumnIndex($fin1)."9";
+        $columnFormats = [];
+        $filename = "marcaPropia_Por_Articulo";*/
+
+
+
+/////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+//LEYENDA
+
+  //tramo 1
+        $tramo11 = Coordinate::stringFromColumnIndex(1) . "11:" . Coordinate::stringFromColumnIndex(7) . "11";
+        $tramo12 = Coordinate::stringFromColumnIndex(8) . "11:" . Coordinate::stringFromColumnIndex(24) . "11";
+        $tramo13 = Coordinate::stringFromColumnIndex(25) . "11:" . Coordinate::stringFromColumnIndex(25) . "11";
+        $tramo14 = Coordinate::stringFromColumnIndex(26) . "11:" . Coordinate::stringFromColumnIndex(42) . "11";
+        $tramo15 = Coordinate::stringFromColumnIndex(43) . "11:" . Coordinate::stringFromColumnIndex(43) . "11";
+        $tramo16 = Coordinate::stringFromColumnIndex(44) . "11:" . Coordinate::stringFromColumnIndex(48) . "11";
+
+ //tramo 2
+        $tramo21 = Coordinate::stringFromColumnIndex(1) . "12:" . Coordinate::stringFromColumnIndex(7) . "12";
+        $tramo22 = Coordinate::stringFromColumnIndex(8 ) . "12:" . Coordinate::stringFromColumnIndex(11) . "12";
+        $tramo23 = Coordinate::stringFromColumnIndex(12 ) . "12:" . Coordinate::stringFromColumnIndex(15) . "12";
+        $tramo24 = Coordinate::stringFromColumnIndex(16 ) . "12:" . Coordinate::stringFromColumnIndex(19) . "12";
+        $tramo25 = Coordinate::stringFromColumnIndex(20) . "12:" . Coordinate::stringFromColumnIndex(20) . "12";
+        $tramo26 = Coordinate::stringFromColumnIndex(21 ) . "12:" . Coordinate::stringFromColumnIndex(22) . "12";
+        $tramo27 = Coordinate::stringFromColumnIndex(23) . "12:" . Coordinate::stringFromColumnIndex(23) . "12";
+        $tramo28 = Coordinate::stringFromColumnIndex(24) . "12:" . Coordinate::stringFromColumnIndex(24) . "12";
+        $tramo29 = Coordinate::stringFromColumnIndex(25) . "12:" . Coordinate::stringFromColumnIndex(25) . "12";
+        $tramo210 = Coordinate::stringFromColumnIndex(26) . "12:" . Coordinate::stringFromColumnIndex(29) . "12";
+        $tramo211 = Coordinate::stringFromColumnIndex(30) . "12:" . Coordinate::stringFromColumnIndex(33) . "12";
+        $tramo212 = Coordinate::stringFromColumnIndex(34) . "12:" . Coordinate::stringFromColumnIndex(37) . "12";
+        $tramo213 = Coordinate::stringFromColumnIndex(38) . "12:" . Coordinate::stringFromColumnIndex(38) . "12";
+        $tramo214= Coordinate::stringFromColumnIndex(39) . "12:" . Coordinate::stringFromColumnIndex(40) . "12";
+        $tramo215 = Coordinate::stringFromColumnIndex(41) . "12:" . Coordinate::stringFromColumnIndex(41) . "12";
+        $tramo216 = Coordinate::stringFromColumnIndex(42) . "12:" . Coordinate::stringFromColumnIndex(42) . "12";
+        $tramo217 = Coordinate::stringFromColumnIndex(44) . "12:" . Coordinate::stringFromColumnIndex(48) . "12";
+
+  //tramo 3
+        $tramo31 = Coordinate::stringFromColumnIndex(1) . "13:" . Coordinate::stringFromColumnIndex(7) . "13";
+        $tramo32 = Coordinate::stringFromColumnIndex(8 ) . "13:" . Coordinate::stringFromColumnIndex(11) . "13";
+        $tramo33 = Coordinate::stringFromColumnIndex(12 ) . "13:" . Coordinate::stringFromColumnIndex(15) . "13";
+        $tramo34 = Coordinate::stringFromColumnIndex(16 ) . "13:" . Coordinate::stringFromColumnIndex(19) . "13";
+        $tramo35 = Coordinate::stringFromColumnIndex(20) . "13:" . Coordinate::stringFromColumnIndex(20) . "13";
+        $tramo36 = Coordinate::stringFromColumnIndex(21 ) . "12:" . Coordinate::stringFromColumnIndex(22) . "13";
+        $tramo37 = Coordinate::stringFromColumnIndex(23) . "13:" . Coordinate::stringFromColumnIndex(23) . "13";
+        $tramo38 = Coordinate::stringFromColumnIndex(24) . "13:" . Coordinate::stringFromColumnIndex(24) . "13";
+        $tramo39 = Coordinate::stringFromColumnIndex(25) . "13:" . Coordinate::stringFromColumnIndex(25) . "13";
+        $tramo310 = Coordinate::stringFromColumnIndex(26) . "13:" . Coordinate::stringFromColumnIndex(29) . "13";
+        $tramo311 = Coordinate::stringFromColumnIndex(30) . "13:" . Coordinate::stringFromColumnIndex(33) . "13";
+        $tramo312 = Coordinate::stringFromColumnIndex(34) . "13:" . Coordinate::stringFromColumnIndex(37) . "13";
+        $tramo313 = Coordinate::stringFromColumnIndex(38) . "13:" . Coordinate::stringFromColumnIndex(38) . "13";
+        $tramo314 = Coordinate::stringFromColumnIndex(39) . "13:" . Coordinate::stringFromColumnIndex(40) . "13";
+        $tramo315 = Coordinate::stringFromColumnIndex(41) . "13:" . Coordinate::stringFromColumnIndex(41) . "13";
+        $tramo316 = Coordinate::stringFromColumnIndex(42) . "13:" . Coordinate::stringFromColumnIndex(42) . "13";
+        $tramo317 = Coordinate::stringFromColumnIndex(44) . "13:" . Coordinate::stringFromColumnIndex(48) . "13";
+  //tramo 4
+        $tramo41 = Coordinate::stringFromColumnIndex(1) . "14:" . Coordinate::stringFromColumnIndex(7) . "14";
+        $tramo42 = Coordinate::stringFromColumnIndex(8 ) . "14:" . Coordinate::stringFromColumnIndex(11) . "14";
+        $tramo43 = Coordinate::stringFromColumnIndex(12 ) . "14:" . Coordinate::stringFromColumnIndex(15) . "14";
+        $tramo44 = Coordinate::stringFromColumnIndex(16 ) . "14:" . Coordinate::stringFromColumnIndex(19) . "14";
+        $tramo45 = Coordinate::stringFromColumnIndex(20) . "14:" . Coordinate::stringFromColumnIndex(20) . "14";
+        $tramo46 = Coordinate::stringFromColumnIndex(21 ) . "14:" . Coordinate::stringFromColumnIndex(22) . "14";
+        $tramo47 = Coordinate::stringFromColumnIndex(23) . "14:" . Coordinate::stringFromColumnIndex(23) . "14";
+        $tramo48 = Coordinate::stringFromColumnIndex(24) . "14:" . Coordinate::stringFromColumnIndex(24) . "14";
+        $tramo49 = Coordinate::stringFromColumnIndex(25) . "14:" . Coordinate::stringFromColumnIndex(25) . "14";
+        $tramo410 = Coordinate::stringFromColumnIndex(26) . "14:" . Coordinate::stringFromColumnIndex(29) . "14";
+        $tramo411 = Coordinate::stringFromColumnIndex(30) . "14:" . Coordinate::stringFromColumnIndex(33) . "14";
+        $tramo412 = Coordinate::stringFromColumnIndex(34) . "14:" . Coordinate::stringFromColumnIndex(37) . "14";
+        $tramo413 = Coordinate::stringFromColumnIndex(38) . "14:" . Coordinate::stringFromColumnIndex(38) . "14";
+        $tramo414 = Coordinate::stringFromColumnIndex(39) . "14:" . Coordinate::stringFromColumnIndex(40) . "14";
+        $tramo415 = Coordinate::stringFromColumnIndex(41) . "14:" . Coordinate::stringFromColumnIndex(41) . "14";
+        $tramo416 = Coordinate::stringFromColumnIndex(42) . "14:" . Coordinate::stringFromColumnIndex(42) . "14";
+        $tramo417 = Coordinate::stringFromColumnIndex(44) . "14:" . Coordinate::stringFromColumnIndex(48) . "14";
+
+        $title="ss";
+        //tramos
+        $tramos1 =      array($tramo11,$tramo12,$tramo13,$tramo14,$tramo15,$tramo16);
+        $tramos2 =      array($tramo21, $tramo22, $tramo23,$tramo24,$tramo25,$tramo26,$tramo27,$tramo28,$tramo29,$tramo210,$tramo211,$tramo212,$tramo213,$tramo214,$tramo215,$tramo216,$tramo217);
+        $tramos3 =      array($tramo31, $tramo32, $tramo33,$tramo34,$tramo35,$tramo36,$tramo37,$tramo38,$tramo39,$tramo310,$tramo311,$tramo312,$tramo313,$tramo314,$tramo315,$tramo316,$tramo317);
+        $tramos4 =      array($tramo41, $tramo42, $tramo43,$tramo44,$tramo45,$tramo46,$tramo47,$tramo48,$tramo49,$tramo410,$tramo411,$tramo412,$tramo413,$tramo414,$tramo415,$tramo416,$tramo417);
+        $tramosArray=   array($tramos1, $tramos2, $tramos3,$tramos4);
+
+
+
+        //color
+        $bg1 = array("e7e3e3","0a13a2","fff","0a13a2","fff"," #f5b7b1");
+        $bg2 = array("e7e3e3", "0000ff", "B5BF00","808080", "0000ff", "B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" );
+        $bg3 = array("e7e3e3", "0000ff", "B5BF00","808080", "0000ff", "B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00"  );
+        $bg4 = array("e7e3e3", "0000ff", "B5BF00","808080", "0000ff", "B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00"  );
+        $bgArray=array($bg1,$bg2,$bg3,$bg4);
+
+        $format= array("tramo"=>$tramosArray,"bgs"=>$bgArray);
+
+        $page1 = new Sheet3($precabecera, $data, $cabecera, $format, $title);
+
+  /////////////////////////////////////////////////////////////////////////////////////
+//$page1 = new Sheet3($precabecera, $data, $cabecera);
+$page2 = null;
+
+
+
+
+
+// Envio del mail
+if ((!is_null($request["email"])) && ($request["enviaMail"] == true)) {
+    set_time_limit(20000);
+    //generacion del zip
+    $zip = new ZipArchive;
+    if ($zip->open($filename.'.zip', ZipArchive::CREATE) === true) {
+        $zip->addFile(Excel::download(new SheetsExports($page1, $page2), $filename . '.xls')->getFile(),
+            $filename.'.xls');
+        $zip->close();
+    }
+
+    if (is_null($request["asunto"])) {
+        $messageBody = "marca propia por articulo";
+    } else {
+        $messageBody = $request["asunto"];
+    }
+    $email = $request["email"];
+    $message = "Este mail contiene el informe de marca propia por articulo";
+    Mail::raw(/**
+     * @param $message
+     */
+        $messageBody, function ($message) use ($filename, $page2, $compresion, $email, $page1) {
+        $message->from('rvalle@comafe.es', 'marca propia por articulo');
+        $message->to($email);
+        $message->subject('marca propia por articulo');
+
+        if ($compresion== true) {
+            set_time_limit(20000);
+            $message->attach(response()->download($filename.".zip")->getFile(), ['as' => 'report.zip']);
+            return redirect()->back();
+        }else{
+            set_time_limit(20000);
+            $message->attach(Excel::download(new SheetsExports($page1, $page2), $filename . '.xls')->getFile(), ['as' => 'report.xls']);
+            return redirect()->back();
+        }
+    });
+
+}
+
+
+
+
+
+
+if (($compresion == true)&&($request["enviaMail"] == false)) {
+    //generacion del zip
+    $zip = new ZipArchive;
+    if ($zip->open($filename.'.zip', ZipArchive::CREATE) === true) {
+        $zip->addFile(Excel::download(new SheetsExports($page1, $page2), $filename . '.xls')->getFile(),
+            $filename.'.xls');
+        $zip->close();
+    }
+    return response()->download($filename.".zip");
+}
+
+
+if ($request["type"] == "xls") {
+    set_time_limit(20000);
+    return (Excel::download(new SheetsExports($page1, $page2), $filename . '.xls'));
+}
+
+
+
+
+
+if ($request["type"] == "csv") {
+    set_time_limit(20000);
+    $cabeza=null;
+    $cabecera ="N ARTICULO;DESCRIPCIÓN ARTÍCULO (SóLO MARCA PROPIA); VENTAS TOTALES A ".$fechaHasta."(UDS); VENTAS TOTALES A  ".$fechaHasta."-1 year(UDS);".$fechaHasta.$fechaHasta."(%);ROTACIÓN DIARÍA (UDS VENDIDAS A 30.06.19 / 181 DÍAS";
+
+
+
+    $array = $cabeza . "\n\n" . $cabecera . "\n";
+    foreach ($data as $list) {
+        foreach ($list as $dat) {
+            $array=$array.$dat.";";
+        }
+        $array = $array . "\n";
+    }
+    return response()->attachmentCSV($array, $filename.".csv");
+}
+}
+
+
+
+
+
+
+
+///////////////////////
 
 }

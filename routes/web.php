@@ -166,10 +166,15 @@ Route::group(['middleware' => 'revalidate'], function() {
 //////Rerporting////////
 ////////////////////////
     Route::get('reporting', 'Auth\ReportingController@actionReportingRedirect')->name('reportingRedirect');
+   //almacen
     Route::get('indiceDeRotacion', 'Auth\ReportingController@actionindiceDeRotacion')->name('indiceDeRotacion');
     Route::get('obsoletos', 'Auth\ReportingController@actionObsoletos')->name('obsoletos');
+    //ventas
     Route::get('marcaPropia', 'Auth\ReportingController@actionMarcaPropia')->name('marcaPropia');
-    Route::get('marcaPropiaPrueba', 'Auth\ReportingController@actionMarcaPropiaPrueba')->name('marcaPropiaPrueba');
+    Route::get('detallePorProveedor', 'Auth\ReportingController@actionDetallePorProveedor')->name('detallePorProveedor');
+
+
+
 
 
 /////////////////////////
