@@ -1234,7 +1234,7 @@ class reportingController
 
 
         $data = $db->select($db->raw("(
-            select  c.cliente, c.sucursal, c.nombre, c.tipo_cliente,p.id,p.nombre 'RAZ_SOCIAL', p.comprador_id
+            select  c.cliente, c.sucursal, c.nombre, c.tipo_cliente,p.nombre 'RAZ_SOCIAL',p.id, p.comprador_id
             from clientes c,proveedores p
             where
             c.empresa = 1 ".$cliente."
