@@ -45,11 +45,13 @@
         $tipos= DB::connection('reporting')->select('select tipo_cliente from clientes group by tipo_cliente');
        ?>
            <select name="tipoGrupoCliente" class="form-control">
+               <option value="TODOS" selected>TODOS</option>
                @foreach($tipos as $tipo)
                     @foreach($tipo as $tip)
                         <option value={{$tip}}>{{$tip}}</option>
                     @endforeach
                @endforeach
+
            </select>
 
     </div>

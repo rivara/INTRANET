@@ -1223,7 +1223,11 @@ class reportingController
             $cliente= "AND c.cliente = '".$request['valor']."'";
         }
 
-
+        if($tipoGrupoCliente=="TODOS"){
+            $tipoCliente= " ";
+        }else{
+            $tipoCliente= "AND c.tipo_cliente = '".$request['tipoGrupoCliente']."'";
+        }
 
 
 
@@ -1234,11 +1238,12 @@ class reportingController
 
 
         $data = $db->select($db->raw("(
-            select  c.cliente, c.sucursal, c.nombre, c.tipo_cliente,p.nombre 'RAZ_SOCIAL',p.id, p.comprador_id
+            select  c.cliente, c.sucursal, c.nombre, c.tipo_cliente,p.id,p.nombre 'RAZ_SOCIAL',p.comprador_id
             from clientes c,proveedores p
             where
             c.empresa = 1 ".$cliente."
             ".$proveedor."
+            ".$tipoCliente."
             ORDER BY c.cliente, p.id
             )"));
 
