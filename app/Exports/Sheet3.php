@@ -92,7 +92,7 @@ class Sheet3 implements FromCollection, WithHeadings, WithEvents, WithTitle
 
                              $event->sheet->getDelegate()->getStyle($this->format["tramo"][$i][$x])->getFont()->setSize(12);
                              $event->sheet->getDelegate()->getStyle($this->format["tramo"][$i][$x])->getFont()->setBold(true);
-                             $event->sheet->getDelegate()->getStyle($this->format["tramo"][$i][$x])->getFont()->getColor()->setRGB('ffffff');
+                             $event->sheet->getDelegate()->getStyle($this->format["tramo"][$i][$x])->getFont()->getColor()->setRGB('000000');
                              $event->sheet->getDelegate()->getStyle($this->format["tramo"][$i][$x])->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB($this->format["bgs"][$i][$x]);
                        }
                    }

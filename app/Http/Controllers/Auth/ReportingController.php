@@ -1173,7 +1173,7 @@ class reportingController
         //VARIABLES
         $fechaDesde = $request["fechaDesde"];
         $fechaHasta = $request["fechaHasta"];
-        $proveedor_id = $request["opcion"];
+        $tipo = $request["opcion"];
         $tipoGrupoCliente= $request["tipoGrupoCliente"];
         $filename = "Detalles proveedor";
         $compresion=$request["compresion"];
@@ -1215,19 +1215,32 @@ class reportingController
 
         //consultas
 
+        if($tipo=="PROVEEDOR"){
+            $proveedor= "AND p.id = '".$request['valor']."'";
+            $cliente= "";
+        }else{
+            $proveedor= "";
+            $cliente= "AND c.cliente = '".$request['valor']."'";
+        }
 
 
 
 
 
 
+   
 
 
 
 
-
-
-        $data = null;//$db->select($db->raw("(SELECT * from articulos limit 10)"));
+        $data = $db->select($db->raw("(
+            select  c.cliente, c.sucursal, c.nombre, c.tipo_cliente, p.nombre 'RAZ_SOCIAL',p.id, p.comprador_id
+            from clientes c,proveedores p
+            where
+            c.empresa = 1 ".$cliente."
+            ".$proveedor."
+            ORDER BY c.cliente, p.id
+            )"));
 
        /* $bg = "b5bf00";
         $title = "INFORME DE VENTAS POR ARTICULOS";

@@ -33,7 +33,9 @@
             </select>
         </div>
     </div>
-    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <input class="form-control" type="text" name="valor">
+    </div>
     <!-- -->
     <div class="col-md-4">
         <p>Tipo de grupo de cliente</p>
