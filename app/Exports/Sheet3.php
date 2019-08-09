@@ -79,20 +79,74 @@ class Sheet3 implements FromCollection, WithHeadings, WithEvents, WithTitle
                 $event->sheet->getDelegate()->getStyle("A1")->getFont()->setBold(true);
                 $event->sheet->getDelegate()->getStyle("A3")->getFont()->setBold(true);
 
+
             },
             AfterSheet::class => function (AfterSheet $event) use ($background) {
 
+                // COMBINAR Y CENTRAR CELDAS
+                //primer nivel
+                $event->sheet->mergeCells('H11:X11');
+                $event->sheet->getDelegate()->getStyle('H11:X11')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+                $event->sheet->mergeCells('Z11:AP11');
+                $event->sheet->getDelegate()->getStyle('Z11:AP11')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+                $event->sheet->mergeCells('AR11:AV11');
+                $event->sheet->getDelegate()->getStyle('AR11:AV11')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+                //segundo nivel
+                $event->sheet->mergeCells('H12:K12');
+                $event->sheet->getDelegate()->getStyle('H12:K12')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+                $event->sheet->mergeCells('L12:O12');
+                $event->sheet->getDelegate()->getStyle('L12:O12')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+                $event->sheet->mergeCells('P12:S12');
+                $event->sheet->getDelegate()->getStyle('P12:S12')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+                $event->sheet->mergeCells('U12:V12');
+                $event->sheet->getDelegate()->getStyle('U12:V12')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+                $event->sheet->mergeCells('Z12:AC12');
+                $event->sheet->getDelegate()->getStyle('Z12:AC12')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+                $event->sheet->mergeCells('AD12:AG12');
+                $event->sheet->getDelegate()->getStyle('AD12:AG12')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+                $event->sheet->mergeCells('AH12:AK12');
+                $event->sheet->getDelegate()->getStyle('AH12:AK12')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+                $event->sheet->mergeCells('AM12:AN12');
+                $event->sheet->getDelegate()->getStyle('AM12:AN12')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+                $event->sheet->mergeCells('AR12:AV12');
+                $event->sheet->getDelegate()->getStyle('AR12:AV12')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+                //tercer nivel
+                $event->sheet->mergeCells('H13:I13');
+                $event->sheet->getDelegate()->getStyle('H13:I13')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+                $event->sheet->mergeCells('J13:K13');
+                $event->sheet->getDelegate()->getStyle('J13:K13')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+                $event->sheet->mergeCells('L13:M13');
+                $event->sheet->getDelegate()->getStyle('L13:M13')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+                $event->sheet->mergeCells('N13:O13');
+                $event->sheet->getDelegate()->getStyle('N13:O13')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+                $event->sheet->mergeCells('P13:Q13');
+                $event->sheet->getDelegate()->getStyle('P13:Q13')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+                $event->sheet->mergeCells('R13:S13');
+                $event->sheet->getDelegate()->getStyle('R13:S13')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+                $event->sheet->mergeCells('Z13:AA13');
+                $event->sheet->getDelegate()->getStyle('Z13:AA13')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+                $event->sheet->mergeCells('AB13:AC13');
+                $event->sheet->getDelegate()->getStyle('AB13:AC13')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+                $event->sheet->mergeCells('AD13:AE13');
+                $event->sheet->getDelegate()->getStyle('AD13:AE13')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+                $event->sheet->mergeCells('AF13:AG13');
+                $event->sheet->getDelegate()->getStyle('AF13:AG13')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+                $event->sheet->mergeCells('AH13:AI13');
+                $event->sheet->getDelegate()->getStyle('AH13:AI13')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+                $event->sheet->mergeCells('AJ13:AK13');
+                $event->sheet->getDelegate()->getStyle('AJ13:AK13')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
 
+                //cuarto nivel
 
-
-
-
-                   for($i=0 ; $i<4 ; $i++){
+                for($i=0 ; $i<4 ; $i++){
                        for($x=0 ; $x< count($this->format["tramo"][$i]) ; $x++) {
 
-                             $event->sheet->getDelegate()->getStyle($this->format["tramo"][$i][$x])->getFont()->setSize(12);
-                             $event->sheet->getDelegate()->getStyle($this->format["tramo"][$i][$x])->getFont()->setBold(true);
-                             $event->sheet->getDelegate()->getStyle($this->format["tramo"][$i][$x])->getFont()->getColor()->setRGB('000000');
+                             $event->sheet->getDelegate()->getStyle($this->format["tramo"][$i][$x])->getFont()->setSize(11);
+                             if($i==0) {
+                                 $event->sheet->getDelegate()->getStyle($this->format["tramo"][$i][$x])->getFont()->getColor()->setRGB('ffffff');
+                             }else{
+                                 $event->sheet->getDelegate()->getStyle($this->format["tramo"][$i][$x])->getFont()->getColor()->setRGB('000000');
+                             }
                              $event->sheet->getDelegate()->getStyle($this->format["tramo"][$i][$x])->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB($this->format["bgs"][$i][$x]);
                        }
                    }

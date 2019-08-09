@@ -1197,20 +1197,21 @@ class reportingController
         $db = DB::connection('reporting');
         //20
         $cabecera = array(
-            array(null,null,null,null,null,null,null,null,null,null,null,"2018",null,null,null,null,null,null,null,null,
-                  null,null,null,null,null,null,null,null,null,null,null,"2019",null,null,null,null,null,null,null,null,
-                  null,null,null,null,"SEGUIMIENTO",null,null,null),
+            array(  null,null,null,null,null,null,null,"2018",null,null,null,null,null,null,null,null,null,null,null,null,
+                    null,null,null,null,null,null,null,null,"2019",null,null,null,null,null,null,null,null,null,null,null,null,
+                    null,null,"SEGUIMIENTO",null,null,null),
             //
-            array(null,null,null,null,null,null,null,null,null,"ALMACEN MADRID",null,null,null,null,"ALMACEN ALICANTE",null,null,"ALMACEN OTROS",null,null,
-                  "ALMACEN",null,"DIRECTOS","DIRECTOS","TOTAL",null,null,"ALMACEN MADRID",null,null,null,"ALMACEN ALICANTE",null,null,null,"ALMACEN OTROS",null,null,"ALMACEN",
+            array(null,null,null,null,null,null,null,"ALMACEN MADRID",null,null,null,"ALMACEN ALICANTE",null,null,null,"ALMACEN OTROS",null,null,null, "ALMACEN",
+                  "DIRECTOS",null,"DIRECTOS","TOTAL",null,"ALMACEN MADRID",null,null,null,"ALMACEN ALICANTE",null,null,null,"ALMACEN OTROS",null,null,"ALMACEN",
                   "DIRECTOS","DIRECTOS","TOTAL",null,null,null,null,null),
             //
-            array(null,null,null,null,null,null,null,"REPARTO",null,"MOSTRADOR","REPARTO",null,"MOSTRADOR",null,"REPARTO",null,"MOSTRADOR",null,null,null,null,null,null,null,"REPARTO",
-                  "MOSTRADOR",null,"REPARTO",null,"MOSTRADOR",null,"REPARTO",null,"MOSTRADOR",null,null,null,null,null,null,null,null,null,null,null,null),
+            array(  null,null,null,null,null,null,null,"REPARTO",null,"MOSTRADOR",null,"REPARTO",null,"MOSTRADOR",null,"REPARTO",null,"MOSTRADOR",null,null,
+                    null,null,"REPARTO", "MOSTRADOR",null,"REPARTO",null,"MOSTRADOR",null,"REPARTO",null,"MOSTRADOR",null,"REPARTO",null,"MOSTRADOR",null,
+                    null,null,null,null,null,null),
             //
-            array("CLIENTE","SUCURSAL","NOMBRE","TIPO CLIENTE","PROVEEDOR","NOMBRE","COMPRADOR","VENTAS","DEVOLUCIONES","VENTAS","DEVOLUCIONES","VENTAS","DEVOLUCIONES","VENTAS","DEVOLUCIONES",
-            "VENTAS","DEVOLUCIONES","VENTAS","DEVOLUCIONES","TOTAL","FACTURAS","ABONOS","TOTAL","VENTAS","DEVOLUCIONES","VENTAS","DEVOLUCIONES","VENTAS","DEVOLUCIONES","VENTAS","DEVOLUCIONES",
-            "VENTAS","DEVOLUCIONES","VENTAS","DEVOLUCIONES","TOTAL","FACTURAS","ABONOS","TOTAL","REPARTO","MOSTRADOR","ALMACEN","DIRECTO","TOTAL")
+            array("CLIENTE","SUCURSAL","NOMBRE","TIPO CLIENTE","PROVEEDOR","NOMBRE","COMPRADOR",null,"VENTAS","DEVOLUCIONES","VENTAS","DEVOLUCIONES","VENTAS","DEVOLUCIONES","VENTAS","DEVOLUCIONES",
+            "VENTAS","DEVOLUCIONES","VENTAS","DEVOLUCIONES","TOTAL",null,"FACTURAS","ABONOS","TOTAL","VENTAS","DEVOLUCIONES","VENTAS","DEVOLUCIONES","VENTAS","DEVOLUCIONES","VENTAS","DEVOLUCIONES",
+            "VENTAS","DEVOLUCIONES","VENTAS","DEVOLUCIONES","TOTAL","FACTURAS","ABONOS","TOTAL",null,"REPARTO","MOSTRADOR","ALMACEN","DIRECTO","TOTAL")
         );
 
         //consultas
@@ -1330,7 +1331,7 @@ class reportingController
         $tramo416 = Coordinate::stringFromColumnIndex(42) . "14:" . Coordinate::stringFromColumnIndex(42) . "14";
         $tramo417 = Coordinate::stringFromColumnIndex(44) . "14:" . Coordinate::stringFromColumnIndex(48) . "14";
 
-        $title="ss";
+        $title="VENTAS";
         //tramos
         $tramos1 =      array($tramo11,$tramo12,$tramo13,$tramo14,$tramo15,$tramo16);
         $tramos2 =      array($tramo21, $tramo22, $tramo23,$tramo24,$tramo25,$tramo26,$tramo27,$tramo28,$tramo29,$tramo210,$tramo211,$tramo212,$tramo213,$tramo214,$tramo215,$tramo216,$tramo217);
@@ -1341,10 +1342,10 @@ class reportingController
 
 
         //color
-        $bg1 = array("e7e3e3","0a13a2","fff","0a13a2","fff"," #f5b7b1");
-        $bg2 = array("e7e3e3", "0000ff", "B5BF00","808080", "0000ff", "B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" );
-        $bg3 = array("e7e3e3", "0000ff", "B5BF00","808080", "0000ff", "B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00"  );
-        $bg4 = array("e7e3e3", "0000ff", "B5BF00","808080", "0000ff", "B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00" ,"B5BF00"  );
+        $bg1 = array("e7e3e3","006bb3","ffffff","006bb3","ffffff","ffc2b3");
+        $bg2 = array("e7e3e3", "afcdff", "ccddff","afcdff", "e7e7e7", "afcdff" ,"e7e7e7" ,"afafaf" ,"ffffff" ,"e7e7e7" ,"afafaf" ,"e7e7e7" ,"afafaf" ,"e7e7e7" ,"afafaf" ,"afafaf" ,"ffc2b3" );
+        $bg3 = array("e7e3e3", "afcdff", "ccddff","afcdff", "e7e7e7", "afcdff" ,"e7e7e7" ,"afafaf" ,"ffffff" ,"e7e7e7" ,"afafaf" ,"e7e7e7" ,"afafaf" ,"e7e7e7" ,"afafaf" ,"afafaf" ,"ffc2b3"  );
+        $bg4 = array("e7e3e3", "afcdff", "ccddff","afcdff", "e7e7e7", "afcdff" ,"e7e7e7" ,"afafaf" ,"ffffff" ,"e7e7e7" ,"afafaf" ,"e7e7e7" ,"afafaf" ,"e7e7e7" ,"afafaf" ,"afafaf" ,"ffc2b3"  );
         $bgArray=array($bg1,$bg2,$bg3,$bg4);
 
         $format= array("tramo"=>$tramosArray,"bgs"=>$bgArray);
