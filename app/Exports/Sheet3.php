@@ -167,6 +167,7 @@ class Sheet3 implements FromCollection, WithHeadings, WithEvents, WithTitle
                 $event->sheet->getDelegate()->getStyle("X12")->getFont()->getColor()->setRGB('ffffff');
                 $event->sheet->getDelegate()->getStyle("AL12")->getFont()->setBold(true);
                 $event->sheet->getDelegate()->getStyle("AO12")->getFont()->setBold(true);
+                $event->sheet->getDelegate()->getStyle("AP12")->getFont()->getColor()->setRGB('ffffff');
                 //NIVEL 3
                 $event->sheet->getDelegate()->getStyle("T13")->getFont()->setSize(14);
                 $event->sheet->getDelegate()->getStyle("T13")->getFont()->getColor()->setRGB('fa3208');
@@ -181,7 +182,7 @@ class Sheet3 implements FromCollection, WithHeadings, WithEvents, WithTitle
                 $event->sheet->getDelegate()->getStyle("AS14")->getFont()->getColor()->setRGB('fa3208');
                 $event->sheet->getDelegate()->getStyle("AT14")->getFont()->getColor()->setRGB('fa3208');
                 $event->sheet->getDelegate()->getStyle("AU14")->getFont()->getColor()->setRGB('fa3208');
-                $event->sheet->getDelegate()->getStyle("AP14")->getFont()->getColor()->setRGB('ffffff');
+
 
 
 
