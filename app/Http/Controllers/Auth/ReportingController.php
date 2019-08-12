@@ -1349,9 +1349,9 @@ class reportingController
     //AZUL CLARO  ccddff
         //color
         $bg1 = array("e7e3e3","006bb3","ffffff","006bb3","ffffff","ffc2b3");
-        $bg2 = array("e7e3e3", "afcdff", "ccddff","afcdff", "e7e7e7", "afcdff" ,"e7e7e7" ,"afafaf" ,"ffffff" ,"afcdff" ,"ccddff" ,"afcdff","e7e7e7","ccddff" ,"afafaf" ,"e7e3e3" ,"ffffff","ffc2b3" );
-        $bg3 = array("e7e3e3", "afcdff", "ccddff","afcdff", "e7e7e7", "afcdff" ,"e7e7e7" ,"afafaf" ,"ffffff" ,"afcdff" ,"ccddff" ,"afcdff","e7e7e7","ccddff" ,"afafaf" ,"e7e3e3" ,"ffffff","ffc2b3"  );
-        $bg4 = array("e7e3e3", "afcdff", "ccddff","afcdff", "e7e7e7", "afcdff" ,"e7e7e7" ,"afafaf" ,"ffffff" ,"afcdff" ,"ccddff" ,"afcdff","e7e7e7","ccddff" ,"afafaf" ,"e7e3e3" ,"ffffff","ffc2b3"  );
+        $bg2 = array("e7e3e3", "afcdff", "ccddff","afcdff", "e7e7e7", "afcdff" ,"e7e7e7" ,"afafaf" ,"ffffff" ,"afcdff" ,"ccddff" ,"afcdff","e7e7e7","ccddff" ,"e7e3e3" ,"afafaf" ,"ffffff","ffc2b3" );
+        $bg3 = array("e7e3e3", "afcdff", "ccddff","afcdff", "e7e7e7", "afcdff" ,"e7e7e7" ,"afafaf" ,"ffffff" ,"afcdff" ,"ccddff" ,"afcdff","e7e7e7","ccddff" ,"e7e3e3" ,"afafaf" ,"ffffff","ffc2b3"  );
+        $bg4 = array("e7e3e3", "afcdff", "ccddff","afcdff", "e7e7e7", "afcdff" ,"e7e7e7" ,"afafaf" ,"ffffff" ,"afcdff" ,"ccddff" ,"afcdff","e7e7e7","ccddff" ,"e7e3e3" ,"afafaf" ,"ffffff","ffc2b3"  );
         $bgArray=array($bg1,$bg2,$bg3,$bg4);
 
         $format= array("tramo"=>$tramosArray,"bgs"=>$bgArray);
