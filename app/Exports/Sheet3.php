@@ -70,15 +70,21 @@ class Sheet3 implements FromCollection, WithHeadings, WithEvents, WithTitle
     {
         $background = $this->background;
 
-        return array(
+        return [
 
             BeforeSheet::class => function (BeforeSheet $event) {
 
                 $event->sheet->append($this->precabecera);
                 //$event->sheet->fromArray($this->data, null, 'A1', true);
                 $event->sheet->getDelegate()->getStyle("A1")->getFont()->setBold(true);
+                $event->sheet->getDelegate()->getStyle("A2")->getFont()->setBold(true);
                 $event->sheet->getDelegate()->getStyle("A3")->getFont()->setBold(true);
-
+                $event->sheet->getDelegate()->getStyle("A4")->getFont()->setBold(true);
+                $event->sheet->getDelegate()->getStyle("A5")->getFont()->setBold(true);
+                $event->sheet->getDelegate()->getStyle("A6")->getFont()->setBold(true);
+                $event->sheet->getDelegate()->getStyle("A7")->getFont()->setBold(true);
+                $event->sheet->getDelegate()->getStyle("A8")->getFont()->setBold(true);
+                $event->sheet->getDelegate()->getStyle("A9")->getFont()->setBold(true);
 
             },
             AfterSheet::class => function (AfterSheet $event) use ($background) {
@@ -90,7 +96,7 @@ class Sheet3 implements FromCollection, WithHeadings, WithEvents, WithTitle
                 $event->sheet->mergeCells('Z11:AP11');
                 $event->sheet->getDelegate()->getStyle('Z11:AP11')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
                 $event->sheet->mergeCells('AR11:AV11');
-                $event->sheet->getDelegate()->getStyle('AR11:AV11')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+                $event->sheet->getDelegate()->getStyle('AR11:AU11')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
                 //segundo nivel
                 $event->sheet->mergeCells('H12:K12');
                 $event->sheet->getDelegate()->getStyle('H12:K12')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
@@ -109,7 +115,7 @@ class Sheet3 implements FromCollection, WithHeadings, WithEvents, WithTitle
                 $event->sheet->mergeCells('AM12:AN12');
                 $event->sheet->getDelegate()->getStyle('AM12:AN12')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
                 $event->sheet->mergeCells('AR12:AV12');
-                $event->sheet->getDelegate()->getStyle('AR12:AV12')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+                $event->sheet->getDelegate()->getStyle('AR12:AU12')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
                 //tercer nivel
                 $event->sheet->mergeCells('H13:I13');
                 $event->sheet->getDelegate()->getStyle('H13:I13')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
@@ -152,6 +158,30 @@ class Sheet3 implements FromCollection, WithHeadings, WithEvents, WithTitle
                    }
 
 
+              // MODIFICO TOTALES Y SEGUIMIENMTO
+                //NIVEL 1
+                $event->sheet->getDelegate()->getStyle("AR11")->getFont()->getColor()->setRGB('fa3208');
+                //NIVEL 2
+                $event->sheet->getDelegate()->getStyle("T12")->getFont()->setBold(true);
+                $event->sheet->getDelegate()->getStyle("W12")->getFont()->setBold(true);
+                $event->sheet->getDelegate()->getStyle("X12")->getFont()->getColor()->setRGB('ffffff');
+                $event->sheet->getDelegate()->getStyle("AL12")->getFont()->setBold(true);
+                $event->sheet->getDelegate()->getStyle("AO12")->getFont()->setBold(true);
+                //NIVEL 3
+                $event->sheet->getDelegate()->getStyle("T13")->getFont()->setSize(14);
+                $event->sheet->getDelegate()->getStyle("T13")->getFont()->getColor()->setRGB('fa3208');
+                //NIVEL 4
+                $event->sheet->getDelegate()->getStyle("AR14:AV14")->getFont()->getColor()->setRGB('fa3208');
+                $event->sheet->getDelegate()->getStyle("T14")->getFont()->setBold(true);
+                $event->sheet->getDelegate()->getStyle("W14")->getFont()->setBold(true);
+                $event->sheet->getDelegate()->getStyle("AL14")->getFont()->setBold(true);
+                $event->sheet->getDelegate()->getStyle("AO14")->getFont()->setBold(true);
+                $event->sheet->getDelegate()->getStyle("AQ14")->getFont()->getColor()->setRGB('fa3208');
+                $event->sheet->getDelegate()->getStyle("AR14")->getFont()->getColor()->setRGB('fa3208');
+                $event->sheet->getDelegate()->getStyle("AS14")->getFont()->getColor()->setRGB('fa3208');
+                $event->sheet->getDelegate()->getStyle("AT14")->getFont()->getColor()->setRGB('fa3208');
+                $event->sheet->getDelegate()->getStyle("AU14")->getFont()->getColor()->setRGB('fa3208');
+                $event->sheet->getDelegate()->getStyle("AP14")->getFont()->getColor()->setRGB('ffffff');
 
 
 
@@ -169,7 +199,7 @@ class Sheet3 implements FromCollection, WithHeadings, WithEvents, WithTitle
                 getStartColor()->setRGB($background[2]);*/
 
             },
-        );
+        ];
 
     }
 
