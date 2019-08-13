@@ -60,7 +60,7 @@ class Sheet3 implements FromCollection, WithHeadings, WithEvents, WithTitle
 
 
 
-        $a = collect(array_merge($this->array1,$this->array2 ));
+        $a = collect(array_combine($this->array1,$this->array2 ));
 
         return $a;
     }
