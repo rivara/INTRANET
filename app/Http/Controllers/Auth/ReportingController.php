@@ -1234,12 +1234,12 @@ class reportingController
 
 
 
-   
 
 
 
 
-        $data = $db->select($db->raw("(
+
+        $array1 = $db->select($db->raw("(
             select  c.cliente, c.sucursal, c.nombre, c.tipo_cliente,p.id,p.nombre 'RAZ_SOCIAL',p.comprador_id
             from clientes c,proveedores p
             where
@@ -1249,19 +1249,19 @@ class reportingController
             ORDER BY c.cliente, p.id
             )"));
 
-       /* $bg = "b5bf00";
-        $title = "INFORME DE VENTAS POR ARTICULOS";
-        //LEYENDA
-        $fin1 = 6;
-        $tramo =[];// Coordinate::stringFromColumnIndex(1)."9:".Coordinate::stringFromColumnIndex($fin1)."9";
-        $columnFormats = [];
-        $filename = "marcaPropia_Por_Articulo";*/
+        $array2 = $db->select($db->raw("(
+            SELECT det.*
+            FROM historico_ventas cab
+            INNER JOIN historico_ventas_detalle det ON cab.empresa = det.empresa AND cab.tipo_documento = det.tipo_documento AND cab.documento = det.documento
+            LEFT OUTER JOIN articulos art ON det.articulo_id = art.id
+            WHERE cab.empresa = 1 AND cab.cliente_id = '139'
+            AND art.proveedor_id = '1087'
+            AND DATE_FORMAT(cab.fecha, '%Y') = 2019
+            ORDER BY det.fecha_actualizacion desc
+        )"));
 
 
-
-/////////////////////////////////////////////////////////////////////////////////
-
-
+       $data=array_merge($array1, $array2);
 
 
 
@@ -1345,22 +1345,15 @@ class reportingController
         $tramos4 = array($tramo41, $tramo42, $tramo43,$tramo44,$tramo45,$tramo46,$tramo47,$tramo48,$tramo49,$tramo410,$tramo411,$tramo412,$tramo413,$tramo414,$tramo415,$tramo416,$tramo417,$tramo418);
         $tramosArray=   array($tramos1, $tramos2, $tramos3,$tramos4);
 
-    //AZUL OSCURO afcdff
-    //AZUL CLARO  ccddff
         //color
         $bg1 = array("e7e3e3","006bb3","ffffff","006bb3","ffffff","ffc2b3");
         $bg2 = array("e7e3e3", "afcdff", "ccddff","afcdff", "e7e7e7", "afcdff" ,"e7e7e7" ,"afafaf" ,"ffffff" ,"afcdff" ,"ccddff" ,"afcdff","e7e7e7","ccddff" ,"e7e3e3" ,"afafaf" ,"ffffff","ffc2b3" );
         $bg3 = array("e7e3e3", "afcdff", "ccddff","afcdff", "e7e7e7", "afcdff" ,"e7e7e7" ,"afafaf" ,"ffffff" ,"afcdff" ,"ccddff" ,"afcdff","e7e7e7","ccddff" ,"e7e3e3" ,"afafaf" ,"ffffff","ffc2b3"  );
         $bg4 = array("e7e3e3", "afcdff", "ccddff","afcdff", "e7e7e7", "afcdff" ,"e7e7e7" ,"afafaf" ,"ffffff" ,"afcdff" ,"ccddff" ,"afcdff","e7e7e7","ccddff" ,"e7e3e3" ,"afafaf" ,"ffffff","ffc2b3"  );
         $bgArray=array($bg1,$bg2,$bg3,$bg4);
-
         $format= array("tramo"=>$tramosArray,"bgs"=>$bgArray);
-
         $page1 = new Sheet3($precabecera, $data, $cabecera, $format, $title);
-
-  /////////////////////////////////////////////////////////////////////////////////////
-//$page1 = new Sheet3($precabecera, $data, $cabecera);
-$page2 = null;
+        $page2 = null;
 
 
 
