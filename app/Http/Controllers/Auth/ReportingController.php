@@ -1255,7 +1255,8 @@ class reportingController
             FROM historico_ventas cab
             INNER JOIN historico_ventas_detalle det ON cab.empresa = det.empresa AND cab.tipo_documento = det.tipo_documento AND cab.documento = det.documento
             LEFT OUTER JOIN articulos art ON det.articulo_id = art.id
-            WHERE cab.empresa = 1 AND cab.cliente_id = '139'
+            WHERE cab.empresa = 1 AND cab.cliente_id like '139'
+            AND DATE_FORMAT(cab.fecha, '%Y') = 2019
             ORDER BY det.fecha_actualizacion desc
             limit 10
         )"));
