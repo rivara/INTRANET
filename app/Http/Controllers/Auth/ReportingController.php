@@ -1237,6 +1237,7 @@ class reportingController
 
 
 // PROVEEDORES ID
+        $data=null;
 
         $listado_proveedores = $db->select($db->raw("(
            	SELECT det.proveedor_id
@@ -1276,7 +1277,7 @@ foreach($listado_proveedores as $list){
             ".$proveedor."
             and p.id in (".$listadoFin.")
             GROUP BY p.id
-            ORDER BY c.cliente, p.id 
+            ORDER BY c.cliente, p.id *
           )"));
 
 
@@ -1296,7 +1297,7 @@ foreach($listado_proveedores as $list){
             )"));*/
 
 // VENTAS EN REPARTO MADRID
-        $array2=$db->select($db->raw("(
+        $array2 =$db->select($db->raw("(
            	SELECT sum(det.importe) as ventas , det.proveedor_id
             FROM historico_ventas c
             INNER JOIN historico_ventas_detalle det ON c.empresa = det.empresa AND c.tipo_documento = det.tipo_documento AND c.documento = det.documento
