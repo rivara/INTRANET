@@ -38,11 +38,12 @@ class Sheet3 implements FromCollection, WithHeadings, WithEvents, WithTitle
     protected $tramo;
     protected $columnFormats;
 
-    public function __construct($precabecera, $data, $cabecera, $format, $title)
+    public function __construct($precabecera, $array1,$array2, $cabecera, $format, $title)
     {
         $this->precabecera = $precabecera;
         $this->cabecera = $cabecera;
-        $this->data = $data;
+        $this->array1 = $array1;
+        $this->array2 = $array2;
         $this->format = $format;
         $this->title = $title;
 
@@ -56,8 +57,8 @@ class Sheet3 implements FromCollection, WithHeadings, WithEvents, WithTitle
      */
     public function collection()
     {
-        $merged= array_combine($this->data,$this->data);
-        $a = collect($merged);
+
+        $a = collect(  array_combine($this->array1,$this->array2));
 
         return $a;
     }

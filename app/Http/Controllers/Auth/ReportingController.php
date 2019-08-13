@@ -1236,18 +1236,59 @@ class reportingController
 
 
 
+// PROVEEDORES ID
 
-
-
-        $data = $db->select($db->raw("(
-            select  c.cliente, c.sucursal, c.nombre, c.tipo_cliente,p.id,p.nombre 'RAZ_SOCIAL',p.comprador_id
-            from clientes c,proveedores p
-            where
-            c.empresa = 1 ".$cliente."
+        $listado_proveedores = $db->select($db->raw("(
+            SELECT det.proveedor_id
+            FROM historico_ventas c
+            INNER JOIN historico_ventas_detalle det ON c.empresa = det.empresa AND c.tipo_documento = det.tipo_documento AND c.documento = det.documento
+            LEFT OUTER JOIN articulos art ON det.articulo_id = art.id
+            WHERE c.empresa = 1 
             ".$proveedor."
             ".$tipoCliente."
-            ORDER BY c.cliente, p.id
+            AND DATE_FORMAT(c.fecha, '%Y') = 2019
+            GROUP BY det.proveedor_id
+            ORDER BY det.fecha_actualizacion desc
+          )"));
+
+
+
+// Primer tramo
+        $array1 = $db->select($db->raw("(
+           select  c.cliente, c.sucursal, c.nombre, c.tipo_cliente,p.id as proveedor_id,p.nombre 'RAZ_SOCIAL',p.comprador_id 
+            from clientes c,proveedores p
+            where c.empresa = 1 
+            ".$proveedor."
+            and p.id in (".$listado_proveedores.")
+            GROUP BY p.id
+            ORDER BY c.cliente, p.id 
+          )"));
+
+        // se sacan los IDS
+
+
+        // de esos ids se sacan
+      /*  $array1=$db->select($db->raw("(
+            select SUM(importe) as total,articulo_id , cliente_id from historico_ventas_detalle
+            where cliente_id =139 and sucursal_id =1
+            group by articulo_id
+            limit 10
+            )"));*/
+
+
+        $array2=$db->select($db->raw("(
+          				SELECT sum(det.importe) as ventas 
+            FROM historico_ventas c
+            INNER JOIN historico_ventas_detalle det ON c.empresa = det.empresa AND c.tipo_documento = det.tipo_documento AND c.documento = det.documento
+            LEFT OUTER JOIN articulos art ON det.articulo_id = art.id
+            WHERE c.empresa = 1 AND c.cliente_id = '139'
+            AND DATE_FORMAT(c.fecha, '%Y') = 2019
+            GROUP BY det.proveedor_id
+            ORDER BY det.fecha_actualizacion desc
+            
+            
             )"));
+
 
 
 
@@ -1342,7 +1383,7 @@ class reportingController
         $bg4 = array("e7e3e3", "afcdff", "ccddff","afcdff", "e7e7e7", "afcdff" ,"e7e7e7" ,"afafaf" ,"ffffff" ,"afcdff" ,"ccddff" ,"afcdff","e7e7e7","ccddff" ,"e7e3e3" ,"afafaf" ,"ffffff","ffc2b3"  );
         $bgArray=array($bg1,$bg2,$bg3,$bg4);
         $format= array("tramo"=>$tramosArray,"bgs"=>$bgArray);
-        $page1 = new Sheet3($precabecera, $data, $cabecera, $format, $title);
+        $page1 = new Sheet3($precabecera, $array1,$array2, $cabecera, $format, $title);
         $page2 = null;
 
 
