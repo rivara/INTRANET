@@ -1259,7 +1259,7 @@ foreach($listado_proveedores as $list){
 }
 
 
-
+die(var_dump($list2));
 
 
 
