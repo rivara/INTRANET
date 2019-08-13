@@ -1259,8 +1259,8 @@ foreach($listado_proveedores as $list){
 }
 
         $separado_por_comas = implode(",", $list2);
-
-die(var_dump($separado_por_comas));
+        $fin=substr($separado_por_comas, 1, strlen($separado_por_comas));
+        die($fin);
 
 
 
