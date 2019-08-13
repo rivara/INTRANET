@@ -1296,7 +1296,7 @@ foreach($listado_proveedores as $list){
 
 // VENTAS EN REPARTO MADRID
         $array2=$db->select($db->raw("(
-          				SELECT sum(det.importe) as ventas 
+          	SELECT sum(det.importe) as ventas 
             FROM historico_ventas c
             INNER JOIN historico_ventas_detalle det ON c.empresa = det.empresa AND c.tipo_documento = det.tipo_documento AND c.documento = det.documento
             LEFT OUTER JOIN articulos art ON det.articulo_id = art.id
@@ -1304,8 +1304,6 @@ foreach($listado_proveedores as $list){
             AND DATE_FORMAT(c.fecha, '%Y') = 2019
             GROUP BY det.proveedor_id
             ORDER BY det.fecha_actualizacion desc
-            
-            
             )"));
 
 // VENTA EN MOSTRADOR MADRID
