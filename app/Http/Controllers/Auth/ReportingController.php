@@ -1219,7 +1219,7 @@ class reportingController
 
         if($tipo=="PROVEEDOR"){
             $proveedor= "AND p.id = '".$request['valor']."'";
-            $cliente= "";
+            $cliente= " ";
         }else{
             $proveedor= "";
             $cliente= "AND c.cliente_id = '".$request['valor']."'";
@@ -1249,7 +1249,7 @@ class reportingController
             AND DATE_FORMAT(c.fecha, '%Y') = 2019
             AND  det.proveedor_id != ' '
             GROUP BY det.proveedor_id
-            ORDER BY det.fecha_actualizacion desc *
+            ORDER BY det.fecha_actualizacion desc 
           )"));
 
 
@@ -1279,7 +1279,7 @@ class reportingController
             ".$proveedor."
             ".$listado."
             GROUP BY p.id
-            ORDER BY c.cliente, p.id 
+            ORDER BY c.cliente, p.id #
           )"));
 
 
