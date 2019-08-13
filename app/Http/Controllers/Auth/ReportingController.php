@@ -1251,11 +1251,17 @@ class reportingController
             ORDER BY det.fecha_actualizacion desc
           )"));
 
-print_r(count($listado_proveedores));
-echo"@@";
-print_r($listado_proveedores[0]->proveedor_id);
-die();
+//print_r(count($listado_proveedores));
+//print_r($listado_proveedores[0]->proveedor_id);
 
+
+foreach($listado_proveedores as $list){
+    $list2[]=$list->proveedor_id;
+}
+
+var_dump($list2);
+
+die();
 
 
 
