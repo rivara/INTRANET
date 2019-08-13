@@ -1284,18 +1284,6 @@ foreach($listado_proveedores as $list){
 
 
 
-
-        // se sacan los IDS
-
-
-        // de esos ids se sacan
-      /*  $array1=$db->select($db->raw("(
-            select SUM(importe) as total,articulo_id , cliente_id from historico_ventas_detalle
-            where cliente_id =139 and sucursal_id =1
-            group by articulo_id
-            limit 10
-            )"));*/
-
 // VENTAS EN REPARTO MADRID
         $array2 =$db->select($db->raw("(
            	SELECT sum(det.importe) as ventas , det.proveedor_id
