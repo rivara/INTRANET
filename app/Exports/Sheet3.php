@@ -56,7 +56,7 @@ class Sheet3 implements FromCollection, WithHeadings, WithEvents, WithTitle
      */
     public function collection()
     {
-        $merged= array_merge($this->data,$this->data);
+        $merged= array_combine($this->data,$this->data);
         $a = collect($merged);
 
         return $a;
