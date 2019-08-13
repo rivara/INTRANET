@@ -1259,8 +1259,7 @@ foreach($listado_proveedores as $list){
 }
 
         $separado_por_comas = implode(",", $list2);
-        $fin=substr($separado_por_comas, 1, strlen($separado_por_comas));
-        die($fin);
+        $listadoFin=substr($separado_por_comas, 1, strlen($separado_por_comas));
 
 
 
@@ -1274,7 +1273,7 @@ foreach($listado_proveedores as $list){
             from clientes c,proveedores p
             where c.empresa = 1 
             ".$proveedor."
-            and p.id in (".print_r($list2).")
+            and p.id in (".$listadoFin.")
             GROUP BY p.id
             ORDER BY c.cliente, p.id *
           )"));
