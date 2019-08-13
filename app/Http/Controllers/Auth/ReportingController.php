@@ -1252,10 +1252,10 @@ class reportingController
 
 //print_r(count($listado_proveedores));
 //print_r($listado_proveedores[0]->proveedor_id);
-$list2=null;
+        $list2[]=null;
 
 foreach($listado_proveedores as $list){
-    $list2=$list2+$list->proveedor_id;
+    $list2[]=$list->proveedor_id;
 }
 
 
