@@ -1241,7 +1241,7 @@ class reportingController
 
         $array1 = $db->select($db->raw("(
             select  c.cliente, c.sucursal, c.nombre, c.tipo_cliente,p.id,p.nombre 'RAZ_SOCIAL',p.comprador_id
-            from clientes c,proveedores p
+            from clientes c,proveedores p limit 10
             where
             c.empresa = 1 ".$cliente."
             ".$proveedor."
@@ -1250,13 +1250,11 @@ class reportingController
             )"));
 
         $array2 = $db->select($db->raw("(
-            SELECT det.*
+            SELECT det.* limit 10
             FROM historico_ventas cab
             INNER JOIN historico_ventas_detalle det ON cab.empresa = det.empresa AND cab.tipo_documento = det.tipo_documento AND cab.documento = det.documento
             LEFT OUTER JOIN articulos art ON det.articulo_id = art.id
             WHERE cab.empresa = 1 AND cab.cliente_id = '139'
-            AND art.proveedor_id = '1087'
-            AND DATE_FORMAT(cab.fecha, '%Y') = 2019
             ORDER BY det.fecha_actualizacion desc
         )"));
 
