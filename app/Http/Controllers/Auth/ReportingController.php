@@ -1222,7 +1222,7 @@ class reportingController
             $cliente= "";
         }else{
             $proveedor= "";
-            $cliente= "AND c.cliente = '".$request['valor']."'";
+            $cliente= "AND c.cliente_id = '".$request['valor']."'";
         }
 
         if($tipoGrupoCliente=="TODOS"){
