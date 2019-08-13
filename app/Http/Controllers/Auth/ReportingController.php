@@ -1246,6 +1246,7 @@ class reportingController
             WHERE c.empresa = 1 
             ".$cliente."
             AND DATE_FORMAT(c.fecha, '%Y') = 2019
+            AND  det.proveedor_id != ' '
             GROUP BY det.proveedor_id
             ORDER BY det.fecha_actualizacion desc
           )"));
@@ -1275,7 +1276,7 @@ foreach($listado_proveedores as $list){
             ".$proveedor."
             and p.id in (".$listadoFin.")
             GROUP BY p.id
-            ORDER BY c.cliente, p.id *
+            ORDER BY c.cliente, p.id 
           )"));
 
 
