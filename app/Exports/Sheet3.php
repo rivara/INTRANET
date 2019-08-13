@@ -57,7 +57,7 @@ class Sheet3 implements FromCollection, WithHeadings, WithEvents, WithTitle
      */
     public function collection()
     {
-        $a = collect(array_combine($this->array1,$this->array1));
+        $a = collect(array_combine($this->array2,$this->array2));
         return $a;
     }
 
