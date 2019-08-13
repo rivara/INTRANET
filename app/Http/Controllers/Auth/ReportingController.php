@@ -1252,22 +1252,19 @@ class reportingController
             ORDER BY det.fecha_actualizacion desc
           )"));
 
-//print_r(count($listado_proveedores));
-//print_r($listado_proveedores[0]->proveedor_id);
+
         $list2[]=null;
 
-foreach($listado_proveedores as $list){
-    $list2[]=$list->proveedor_id;
-}
+        foreach($listado_proveedores as $list){
+            $list2[]=$list->proveedor_id;
+        }
 
         $separado_por_comas = implode(",", $list2);
         $listadoFin=substr($separado_por_comas, 1, strlen($separado_por_comas));
         $listado=" ";
         if (!empty($listadoFin)){
-            $listado=  "and p.id in (".$listadoFin.")";
+            $listado=  "AND p.id in (".$listadoFin.")";
         }
-
-
 
 
 // Primer tramo LOS PROVEEDORES
