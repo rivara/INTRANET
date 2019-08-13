@@ -1273,7 +1273,7 @@ foreach($listado_proveedores as $list){
             from clientes c,proveedores p
             where c.empresa = 1 
             ".$proveedor."
-            and p.id in (".$list2.")
+            and p.id in (".print_r($list2).")
             GROUP BY p.id
             ORDER BY c.cliente, p.id 
           )"));
