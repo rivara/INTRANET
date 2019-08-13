@@ -1254,6 +1254,15 @@ class reportingController
 
 var_dump($listado_proveedores);
 die();
+
+
+
+
+
+
+
+
+
 // Primer tramo
         $array1 = $db->select($db->raw("(
            select  c.cliente, c.sucursal, c.nombre, c.tipo_cliente,p.id as proveedor_id,p.nombre 'RAZ_SOCIAL',p.comprador_id 
