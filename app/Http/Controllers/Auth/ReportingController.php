@@ -1252,7 +1252,7 @@ class reportingController
           )"));
 
 
-var_dump($listado_proveedores[0]->proveedor_id);
+var_dump($listado_proveedores[0]);
 die();
 // Primer tramo
         $array1 = $db->select($db->raw("(
