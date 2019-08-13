@@ -1258,9 +1258,7 @@ foreach($listado_proveedores as $list){
     $list2[]=$list->proveedor_id;
 }
 
-var_dump($list2);
 
-die();
 
 
 
@@ -1275,10 +1273,17 @@ die();
             from clientes c,proveedores p
             where c.empresa = 1 
             ".$proveedor."
-            and p.id in (".$listado_proveedores.")
+            and p.id in (".$list2.")
             GROUP BY p.id
             ORDER BY c.cliente, p.id 
           )"));
+
+
+
+        var_dump($list2);
+
+        die();
+
 
         // se sacan los IDS
 
