@@ -1251,8 +1251,9 @@ class reportingController
             ORDER BY det.fecha_actualizacion desc
           )"));
 
-
-var_dump($listado_proveedores);
+print_r(count($listado_proveedores));
+echo"@@";
+print_r($listado_proveedores[0]->proveedor_id);
 die();
 
 
@@ -1263,7 +1264,7 @@ die();
 
 
 
-// Primer tramo
+// Primer tramo LOS PROVEEDORES
         $array1 = $db->select($db->raw("(
            select  c.cliente, c.sucursal, c.nombre, c.tipo_cliente,p.id as proveedor_id,p.nombre 'RAZ_SOCIAL',p.comprador_id 
             from clientes c,proveedores p
@@ -1285,7 +1286,7 @@ die();
             limit 10
             )"));*/
 
-
+// VENTAS EN REPARTO MADRID
         $array2=$db->select($db->raw("(
           				SELECT sum(det.importe) as ventas 
             FROM historico_ventas c
@@ -1299,11 +1300,17 @@ die();
             
             )"));
 
+// VENTA EN MOSTRADOR MADRID
 
 
 
 
+// VENTAS EN REPARTO ALICANTE
 
+
+
+
+// VENTAS EN MOSTRADOR ALICANTE
 
 
 
