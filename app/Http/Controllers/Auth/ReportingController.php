@@ -1261,7 +1261,7 @@ class reportingController
         )"));
 
 
-       $data=array_merge($array1, $array2);
+       $data=array_combine($array1, $array2);
 
 
 
