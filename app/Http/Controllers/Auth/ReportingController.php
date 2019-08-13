@@ -1262,9 +1262,9 @@ class reportingController
         $separado_por_comas = implode(",", $list2);
         $listadoFin=substr($separado_por_comas, 1, strlen($separado_por_comas));
         $listado=" ";
-        if (!empty($listadoFin)){
+       /* if (!empty($listadoFin)){
             $listado=  "AND p.id in (".$listadoFin.")";
-        }
+        }*/
 
 
 // Primer tramo LOS PROVEEDORES
