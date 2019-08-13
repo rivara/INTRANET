@@ -1237,7 +1237,7 @@ class reportingController
 
 
 // PROVEEDORES ID
-        $data=null;
+
 
         $listado_proveedores = $db->select($db->raw("(
            	SELECT det.proveedor_id
@@ -1249,7 +1249,7 @@ class reportingController
             AND DATE_FORMAT(c.fecha, '%Y') = 2019
             AND  det.proveedor_id != ' '
             GROUP BY det.proveedor_id
-            ORDER BY det.fecha_actualizacion desc
+            ORDER BY det.fecha_actualizacion desc *
           )"));
 
 
@@ -1258,6 +1258,10 @@ class reportingController
         foreach($listado_proveedores as $list){
             $list2[]=$list->proveedor_id;
         }
+
+
+
+
 
         $separado_por_comas = implode(",", $list2);
         $listadoFin=substr($separado_por_comas, 1, strlen($separado_por_comas));
