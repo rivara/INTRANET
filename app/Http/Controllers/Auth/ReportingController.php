@@ -1280,9 +1280,7 @@ foreach($listado_proveedores as $list){
 
 
 
-        var_dump($list2);
 
-        die();
 
 
         // se sacan los IDS
