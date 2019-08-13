@@ -1258,8 +1258,9 @@ foreach($listado_proveedores as $list){
     $list2[]=$list->proveedor_id;
 }
 
+        $separado_por_comas = implode(",", $list2);
 
-die(var_dump($list2));
+die(var_dump($separado_por_comas));
 
 
 
