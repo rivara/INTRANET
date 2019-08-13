@@ -1277,7 +1277,7 @@ foreach($listado_proveedores as $list){
             ".$proveedor."
             and p.id in (".$listadoFin.")
             GROUP BY p.id
-            ORDER BY c.cliente, p.id *
+            ORDER BY c.cliente, p.id 
           )"));
 
 
