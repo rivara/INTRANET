@@ -1294,7 +1294,7 @@ class reportingController
             WHERE c.empresa = 1 
             ".$cliente."
             AND DATE_FORMAT(c.fecha, '%Y') = 2019
-           
+            AND det.proveedor_id  like ".$lists[$i]->proveedor_id."
             GROUP BY det.proveedor_id
             ORDER BY det.fecha_actualizacion desc
             )"));
