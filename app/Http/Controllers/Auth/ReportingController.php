@@ -1253,6 +1253,13 @@ class reportingController
 
 
 
+        if($tipo=="PROVEEDOR"){
+            $proveedor= "AND p.id = '".$request['valor']."'";
+            $cliente= " ";
+        }else{
+            $proveedor= "";
+            $cliente= "AND c.cliente_id = '".$request['valor']."'";
+        }
 
 
 
