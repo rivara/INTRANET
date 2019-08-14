@@ -1291,9 +1291,10 @@ class reportingController
             FROM historico_ventas c
             INNER JOIN historico_ventas_detalle det ON c.empresa = det.empresa AND c.tipo_documento = det.tipo_documento AND c.documento = det.documento
             LEFT OUTER JOIN articulos art ON det.articulo_id = art.id
-            WHERE c.empresa = 1 AND c.cliente_id = '139' 
+            WHERE c.empresa = 1 
+            ".$cliente."
             AND DATE_FORMAT(c.fecha, '%Y') = 2019
-            AND det.proveedor_id  like ".$lists[$i]->proveedor_id."
+           
             GROUP BY det.proveedor_id
             ORDER BY det.fecha_actualizacion desc
             )"));
