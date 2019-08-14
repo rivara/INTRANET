@@ -1262,6 +1262,19 @@ class reportingController
         }
 
 
+        // MAXIMO
+        $max = $db->select($db->raw("(
+            SELECT  COUNT(cab.cliente_id) AS maxi , cab.cliente_id
+            FROM historico_ventas cab
+            INNER JOIN historico_ventas_detalle det ON cab.empresa = det.empresa AND cab.tipo_documento = det.tipo_documento AND cab.documento = det.documento
+            LEFT OUTER JOIN articulos art ON det.articulo_id = art.id
+            WHERE cab.empresa = 1 
+            GROUP BY cab.cliente_id
+            ORDER BY  CUENTA DESC
+            LIMIT 1;
+          )"));
+
+   die($max[0]->maxi);
 
 
         for($i=0;$i<=200;$i++) {
@@ -1274,7 +1287,7 @@ class reportingController
             $data[$i][6] = $lists[$i]->comp;
            // ALMACEN MADRID REPARTO
             $array2 =$db->select($db->raw("(
-            SELECT sum(det.importe) as ventas 
+            SELECT cab.cliente_id, cab.sucursal_id, cab.almacen as almacen, cab.tipo_documento, art.proveedor_id ProvAlmacen, det.es_directo, det.proveedor_id ProvDirecto, det.tipo_venta, SUM(det.importe) ventas
             FROM historico_ventas c
             INNER JOIN historico_ventas_detalle det ON c.empresa = det.empresa AND c.tipo_documento = det.tipo_documento AND c.documento = det.documento
             LEFT OUTER JOIN articulos art ON det.articulo_id = art.id
@@ -1286,33 +1299,75 @@ class reportingController
             ORDER BY det.fecha_actualizacion desc
             )"));
 
-            if (isset($array2[0]->ventas)) {
-                $data[$i][7] = $array2[0]->ventas;
-            }else{
-                $data[$i][7]=" ";
-            }
-
 
 
             // ALMACEN MADRID REPARTO
 
+            if (isset($array2[0]->ventas)) {
+             //ALMACEN MADRID REPARTO
+                if($array2[0]->almacen=='PRINCPAL'){
+                    $data[$i][7] =  $array2[0]->ventas;
+                    $data[$i][8] =  " ";
+                    $data[$i][9] =  " ";
+                    $data[$i][10] = " ";
+                    $data[$i][11] = " ";
+                    $data[$i][12] = " ";
+                    $data[$i][13] = " ";
+                    $data[$i][14] = " ";
+                    $data[$i][15] = " ";
+                }
+/*
 
-            // ALMACEN MADRID MOSTRADOR
+            //ALMACEN MADRID MOSTRADOR
+                if($array2[0]->almacen=='PRINNCPAL'){
+                    $data[$i][7] =  " ";
+                    $data[$i][8] =  $array2[0]->ventas;
+                    $data[$i][9] =  " ";
+                    $data[$i][10] = " ";
+                    $data[$i][11] = " ";
+                    $data[$i][12] = " ";
+                    $data[$i][13] = " ";
+                    $data[$i][14] = " ";
+                    $data[$i][15] = " ";
+                }*/
 
+            //ALMACEN ALICANTE REPARTO
+                if($array2[0]->almacen=='ALICANTE'){
+                    $data[$i][7] =  " ";
+                    $data[$i][8] =  " ";
+                    $data[$i][9] =  $array2[0]->ventas;
+                    $data[$i][10] = " ";
+                    $data[$i][11] = " ";
+                    $data[$i][12] = " ";
+                    $data[$i][13] = " ";
+                    $data[$i][14] = " ";
+                    $data[$i][15] = " ";
+                }
 
-            // ALMACEN ALICANTE REPARTO
+          /*  //ALMACEN ALICANTE MOSTRADOR
+                if($array2[0]->almacen=='ALICANTE'){
+                    $data[$i][7] =  " ";
+                    $data[$i][8] =  " ";
+                    $data[$i][9] =  " ";
+                    $data[$i][10] =  $array2[0]->ventas;
+                    $data[$i][11] = " ";
+                    $data[$i][12] = " ";
+                    $data[$i][13] = " ";
+                    $data[$i][14] = " ";
+                    $data[$i][15] = " ";
+                }
+*/
 
-
-            // ALMACEN ALICANTE MOSTRADOR
-
-            $data[$i][8] = [0];
-            $data[$i][9] = [0];
-            $data[$i][10] = [0];
-            $data[$i][11] = [0];
-            $data[$i][12] = [0];
-            $data[$i][13] = [0];
-            $data[$i][14] = [0];
-            $data[$i][15] = [0];
+            }else{
+                $data[$i][7] =  " ";
+                $data[$i][8] =  " ";
+                $data[$i][9] =  " ";
+                $data[$i][10] = " ";
+                $data[$i][11] = " ";
+                $data[$i][12] = " ";
+                $data[$i][13] = " ";
+                $data[$i][14] = " ";
+                $data[$i][15] = " ";
         }
 //$data=array(null,null,"0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0");
 
