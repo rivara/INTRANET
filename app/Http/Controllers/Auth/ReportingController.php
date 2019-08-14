@@ -1293,6 +1293,7 @@ class reportingController
             LEFT OUTER JOIN articulos art ON det.articulo_id = art.id
             WHERE c.empresa = 1 
             ".$cliente."
+            AND det.proveedor_id like '1000'
             AND DATE_FORMAT(c.fecha, '%Y') = 2019
             GROUP BY det.proveedor_id
             ORDER BY det.fecha_actualizacion desc
