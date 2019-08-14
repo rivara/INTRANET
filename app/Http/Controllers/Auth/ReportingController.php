@@ -1274,7 +1274,7 @@ class reportingController
             LIMIT 1;
           )"));
 
-   die($max[0]->maxi);
+
 
 
         for($i=0;$i<=200;$i++) {
