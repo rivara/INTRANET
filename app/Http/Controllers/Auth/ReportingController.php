@@ -1295,16 +1295,15 @@ LIMIT 1;*/
             $data[$i][6] = $lists[$i]->comp;
             // ALMACEN MADRID REPARTO
             $array2 = $db->select($db->raw("(
-            SELECT cab.cliente_id, cab.sucursal_id, cab.almacen as almacen, cab.tipo_documento, art.proveedor_id ProvAlmacen, det.es_directo, det.proveedor_id ProvDirecto, det.tipo_venta, SUM(det.importe) ventas
-            FROM historico_ventas c
-            INNER JOIN historico_ventas_detalle det ON c.empresa = det.empresa AND c.tipo_documento = det.tipo_documento AND c.documento = det.documento
-            LEFT OUTER JOIN articulos art ON det.articulo_id = art.id
-            WHERE c.empresa = 1 
-             " . $cliente . "
-            AND det.proveedor_id like '" . $lists[$i]->proveedor_id . "'
-            AND DATE_FORMAT(c.fecha, '%Y') = 2019
-            GROUP BY det.proveedor_id
-            ORDER BY det.fecha_actualizacion desc
+                SELECT c.cliente_id, c.sucursal_id, c.almacen, c.tipo_documento, art.proveedor_id ProvAlmacen, det.es_directo, det.proveedor_id ProvDirecto, det.tipo_venta, SUM(det.importe) 'Total'
+                FROM historico_ventas c
+                INNER JOIN historico_ventas_detalle det ON c.empresa = det.empresa AND c.tipo_documento = det.tipo_documento AND c.documento = det.documento
+                LEFT OUTER JOIN articulos art ON det.articulo_id = art.id
+                WHERE c.empresa = 1 
+                ".$cliente."
+                AND det.proveedor_id like '" . $lists[$i]->proveedor_id . "'
+                AND DATE_FORMAT(c.fecha, '%Y') = 2019
+                GROUP BY c.cliente_id, c.sucursal_id, c.tipo_documento, c.almacen, art.proveedor_id, det.es_directo, det.proveedor_id, det.tipo_venta
             )"));
 
 
