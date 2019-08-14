@@ -1299,11 +1299,7 @@ class reportingController
             )"));
 
             $data[$i][7] = $array2[0]->ventas;
-            if(empty($array2->ventas)){
-                $data[$i][7] = [0];
-            }else{
-                $data[$i][7] = $array2->ventas;
-            }
+
 
 
 
