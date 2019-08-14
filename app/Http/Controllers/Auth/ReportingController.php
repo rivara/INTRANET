@@ -1298,8 +1298,9 @@ class reportingController
             GROUP BY det.proveedor_id
             ORDER BY det.fecha_actualizacion desc
             )"));
-            $data[$i][7] = $array2[0]->ventas;
-
+            if (! empty($array2)) {
+                $data[$i][7] = $array2[0]->ventas;
+            }
 
 
 
