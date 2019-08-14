@@ -1222,7 +1222,7 @@ class reportingController
             $cliente= " ";
         }else{
             $proveedor= "";
-            $cliente= "AND c.cliente_id = '".$request['valor']."'";
+            $cliente= "AND c.cliente = '".$request['valor']."'";
         }
 
         if($tipoGrupoCliente=="TODOS"){
@@ -1251,13 +1251,7 @@ class reportingController
             ORDER BY c.cliente, p.id
           )"));
 
-        if($tipo=="PROVEEDOR"){
-            $proveedor= "AND p.id = '".$request['valor']."'";
-            $cliente= " ";
-        }else{
-            $proveedor= "";
-            $cliente= "AND c.cliente = '".$request['valor']."'";
-        }
+
 
 
 
