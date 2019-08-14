@@ -1239,42 +1239,22 @@ class reportingController
 // PROVEEDORES ID
 
 
-        $listado_proveedores = $db->select($db->raw("(
-           	SELECT det.proveedor_id
-            FROM historico_ventas c
-            INNER JOIN historico_ventas_detalle det ON c.empresa = det.empresa AND c.tipo_documento = det.tipo_documento AND c.documento = det.documento
-            LEFT OUTER JOIN articulos art ON det.articulo_id = art.id
-            WHERE c.empresa = 1 
-            ".$cliente."
-            AND DATE_FORMAT(c.fecha, '%Y') = 2019
-            AND  det.proveedor_id != ' '
-            GROUP BY det.proveedor_id
-            ORDER BY det.fecha_actualizacion desc 
-          )"));
 
-        // Primer tramo LOS PROVEEDORES  c.nombre, c.tipo_cliente,p.id as proveedor_id,p.nombre 'RAZ_SOCIAL',p.comprador_id
+        // Primer tramo LOS PROVEEDORES
         $lists = $db->select($db->raw("(
            select  c.cliente as cli, c.sucursal as suc, c.nombre as nom , c.tipo_cliente as tp ,p.id as proveedor_id,p.nombre as razon_Soc,p.comprador_id as comp
             from clientes c,proveedores p
             where c.empresa = 1 
             ".$proveedor."
+            ".$cliente."
             GROUP BY p.id
             ORDER BY c.cliente, p.id
-          )"));
+          )*"));
 
 
 
 
 
-        if($tipo=="PROVEEDOR"){
-            $proveedor= "AND p.id = '".$request['valor']."'";
-            $cliente= " ";
-        }else{
-            $proveedor= "";
-            $cliente= "AND c.cliente_id = '".$request['valor']."'";
-        }
-
-        die($cliente);
 
         for($i=0;$i<=200;$i++) {
             $data[$i][0] = $lists[$i]->cli;
@@ -1291,6 +1271,7 @@ class reportingController
             INNER JOIN historico_ventas_detalle det ON c.empresa = det.empresa AND c.tipo_documento = det.tipo_documento AND c.documento = det.documento
             LEFT OUTER JOIN articulos art ON det.articulo_id = art.id
             WHERE c.empresa = 1 
+             ".$cliente."
             AND det.proveedor_id like '". $lists[$i]->proveedor_id."'
             AND DATE_FORMAT(c.fecha, '%Y') = 2019
             GROUP BY det.proveedor_id
