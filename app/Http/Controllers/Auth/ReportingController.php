@@ -1249,7 +1249,7 @@ class reportingController
             ".$cliente."
             GROUP BY p.id
             ORDER BY c.cliente, p.id
-          )*"));
+          )"));
 
 
 
