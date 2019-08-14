@@ -1299,7 +1299,7 @@ class reportingController
             ORDER BY det.fecha_actualizacion desc
             )"));
 
-            if (! isset($array2)) {
+            if ($array2 !=0) {
                 $data[$i][7] = $array2[0]->ventas;
             }else{
                 die("llega");
