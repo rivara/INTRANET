@@ -1300,7 +1300,7 @@ class reportingController
             )"));
 
 
-            if (isset( $array2[0]->venta)) {
+            if (isset($array2[0]->ventas)) {
                 $data[$i][7] = $array2[0]->ventas;
             }else{
                 $data[$i][7]=[0];
