@@ -1298,7 +1298,7 @@ class reportingController
             GROUP BY det.proveedor_id
             ORDER BY det.fecha_actualizacion desc
             )"));
-            var_dump(isset($array2));
+            var_dump(isset( $array2[0]->venta));
              die();
 
 
