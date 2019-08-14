@@ -1298,7 +1298,7 @@ class reportingController
             ORDER BY det.fecha_actualizacion desc
             )"));
             // die (var_dump($array2));
-            $data[$i][7] = $array2->ventas;
+            $data[$i][7] = $array2[0]->ventas;
             if(empty($array2->ventas)){
                 $data[$i][7] = [0];
             }else{
