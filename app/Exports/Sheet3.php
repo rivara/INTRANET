@@ -45,9 +45,6 @@ class Sheet3 implements FromCollection, WithHeadings, WithEvents, WithTitle
         $this->data = $data;
         $this->format = $format;
         $this->title = $title;
-
-
-
     }
 
 
