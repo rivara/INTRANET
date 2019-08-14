@@ -1266,16 +1266,15 @@ class reportingController
 
 
 
+        if($tipo=="PROVEEDOR"){
+            $proveedor= "AND p.id = '".$request['valor']."'";
+            $cliente= " ";
+        }else{
+            $proveedor= "";
+            $cliente= "AND c.cliente_id = '".$request['valor']."'";
+        }
 
-// aqui meto la segunda select
-        // probar co0n matriz
-
-        $a[]=array(0,0,0,0,0,0,0);
-      /*for($i=0;$i<=5;$i++){
-            $data[$i]=$lists[1];
-            $data[$i]=$lists[2];
-
-        }*/
+        die($cliente);
 
         for($i=0;$i<=200;$i++) {
             $data[$i][0] = $lists[$i]->cli;
@@ -1292,7 +1291,7 @@ class reportingController
             INNER JOIN historico_ventas_detalle det ON c.empresa = det.empresa AND c.tipo_documento = det.tipo_documento AND c.documento = det.documento
             LEFT OUTER JOIN articulos art ON det.articulo_id = art.id
             WHERE c.empresa = 1 
-            ".$cliente."
+            
             AND det.proveedor_id like '". $lists[$i]->proveedor_id."'
             AND DATE_FORMAT(c.fecha, '%Y') = 2019
             GROUP BY det.proveedor_id
@@ -1303,7 +1302,7 @@ class reportingController
             if (isset($array2[0]->ventas)) {
                 $data[$i][7] = $array2[0]->ventas;
             }else{
-                $data[$i][7]=[0];
+                $data[$i][7]=" ";
             }
 
 
