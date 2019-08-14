@@ -1252,35 +1252,80 @@ class reportingController
             ORDER BY det.fecha_actualizacion desc 
           )"));
 
+        // Primer tramo LOS PROVEEDORES  c.nombre, c.tipo_cliente,p.id as proveedor_id,p.nombre 'RAZ_SOCIAL',p.comprador_id
+        $lists = $db->select($db->raw("(
+           select  c.cliente as cli, c.sucursal as suc, c.nombre as nom , c.tipo_cliente as tp ,p.id as proveedor_id,p.nombre as razon_Soc,p.comprador_id as comp
+            from clientes c,proveedores p
+            where c.empresa = 1 
+            ".$proveedor."
+            GROUP BY p.id
+            ORDER BY c.cliente, p.id
+          )"));
 
-        $list2[]=null;
 
-        foreach($listado_proveedores as $list){
-            $list2[]=$list->proveedor_id;
+
+
+
+
+// aqui meto la segunda select
+        // probar co0n matriz
+
+        $a[]=array(0,0,0,0,0,0,0);
+      /*for($i=0;$i<=5;$i++){
+            $data[$i]=$lists[1];
+            $data[$i]=$lists[2];
+
+        }*/
+
+        for($i=0;$i<=5;$i++) {
+            $data[$i][0] = $lists[$i]->cli;
+            $data[$i][1] = $lists[$i]->suc;
+            $data[$i][2] = $lists[$i]->nom;
+            $data[$i][3] = $lists[$i]->tp;
+            $data[$i][4] = $lists[$i]->proveedor_id;
+            $data[$i][5] = $lists[$i]->razon_Soc;
+            $data[$i][6] = $lists[$i]->comp;
+           // query de ventas
+            $array2 =$db->select($db->raw("(
+            SELECT sum(det.importe) as ventas 
+            FROM historico_ventas c
+            INNER JOIN historico_ventas_detalle det ON c.empresa = det.empresa AND c.tipo_documento = det.tipo_documento AND c.documento = det.documento
+            LEFT OUTER JOIN articulos art ON det.articulo_id = art.id
+            WHERE c.empresa = 1 AND c.cliente_id = '139' 
+            AND DATE_FORMAT(c.fecha, '%Y') = 2019
+            AND det.proveedor_id  like '2562'
+            GROUP BY det.proveedor_id
+            ORDER BY det.fecha_actualizacion desc
+            )"));
+            $data[$i][7] = $array2[0]->ventas;
+            $data[$i][8] = [0];
+            $data[$i][9] = [0];
+            $data[$i][10] = [0];
+            $data[$i][11] = [0];
+            $data[$i][12] = [0];
+            $data[$i][13] = [0];
+            $data[$i][14] = [0];
+            $data[$i][15] = [0];
         }
+//$data=array(null,null,"0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0");
 
 
 
 
-
+        /*
         $separado_por_comas = implode(",", $list2);
         $listadoFin=substr($separado_por_comas, 1, strlen($separado_por_comas));
         $listado=" ";
-       /* if (!empty($listadoFin)){
+       if (!empty($listadoFin)){
             $listado=  "AND p.id in (".$listadoFin.")";
         }*/
 
 
-// Primer tramo LOS PROVEEDORES
-        $array1 = $db->select($db->raw("(
-           select  c.cliente, c.sucursal, c.nombre, c.tipo_cliente,p.id as proveedor_id,p.nombre 'RAZ_SOCIAL',p.comprador_id 
-            from clientes c,proveedores p
-            where c.empresa = 1 
-            ".$proveedor."
-            ".$listado."
-            GROUP BY p.id
-            ORDER BY c.cliente, p.id #
-          )"));
+
+
+
+
+
 
 
 
@@ -1300,6 +1345,15 @@ class reportingController
             )"));
 
 // VENTA EN MOSTRADOR MADRID
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1399,7 +1453,9 @@ class reportingController
         $bg4 = array("e7e3e3", "afcdff", "ccddff","afcdff", "e7e7e7", "afcdff" ,"e7e7e7" ,"afafaf" ,"ffffff" ,"afcdff" ,"ccddff" ,"afcdff","e7e7e7","ccddff" ,"e7e3e3" ,"afafaf" ,"ffffff","ffc2b3"  );
         $bgArray=array($bg1,$bg2,$bg3,$bg4);
         $format= array("tramo"=>$tramosArray,"bgs"=>$bgArray);
-        $page1 = new Sheet3($precabecera, $array1,$array2, $cabecera, $format, $title);
+
+
+        $page1 = new Sheet3($precabecera,$data, $cabecera, $format, $title);
         $page2 = null;
 
 
