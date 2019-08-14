@@ -1293,13 +1293,13 @@ class reportingController
             LEFT OUTER JOIN articulos art ON det.articulo_id = art.id
             WHERE c.empresa = 1 
             ".$cliente."
-            AND  det.proveedor_id LIKE '".$lists[$i]->proveedor_id."'
+            AND  det.proveedor_id LIKE ".$lists[$i]->proveedor_id."
             AND DATE_FORMAT(c.fecha, '%Y') = 2019
             GROUP BY det.proveedor_id
             ORDER BY det.fecha_actualizacion desc
             )"));
-             die (var_dump($array2));
-            $data[$i][7] = $array2->ventas;
+
+            $data[$i][7] = $array2[0]->ventas;
             if(empty($array2->ventas)){
                 $data[$i][7] = [0];
             }else{
