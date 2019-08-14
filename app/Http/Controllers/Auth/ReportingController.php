@@ -1277,7 +1277,7 @@ class reportingController
 
         }*/
 
-        for($i=0;$i<=5;$i++) {
+        for($i=0;$i<=200;$i++) {
             $data[$i][0] = $lists[$i]->cli;
             $data[$i][1] = $lists[$i]->suc;
             $data[$i][2] = $lists[$i]->nom;
@@ -1293,7 +1293,7 @@ class reportingController
             LEFT OUTER JOIN articulos art ON det.articulo_id = art.id
             WHERE c.empresa = 1 
             ".$cliente."
-            AND det.proveedor_id like '1000'
+            AND det.proveedor_id like '". $lists[$i]->proveedor_id."'
             AND DATE_FORMAT(c.fecha, '%Y') = 2019
             GROUP BY det.proveedor_id
             ORDER BY det.fecha_actualizacion desc
