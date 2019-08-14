@@ -1297,7 +1297,7 @@ class reportingController
             GROUP BY det.proveedor_id
             ORDER BY det.fecha_actualizacion desc
             )"));
-            var_dump($array2);
+            var_dump($lists[$i]->proveedor_id);
                 die();
             $data[$i][7] = $array2->ventas;
             // ALMACEN MADRID REPARTO
