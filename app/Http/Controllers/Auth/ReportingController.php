@@ -1303,11 +1303,10 @@ class reportingController
             if (isset( $array2[0]->venta)) {
                 $data[$i][7] = $array2[0]->ventas;
             }else{
-                die("llega");
+                $data[$i][7]=[0];
             }
 
-            var_dump($array2);
-            die();
+
 
             // ALMACEN MADRID REPARTO
 
