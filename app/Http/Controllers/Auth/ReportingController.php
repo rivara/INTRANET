@@ -1298,7 +1298,7 @@ class reportingController
             ORDER BY det.fecha_actualizacion desc
             )"));
 
-            $data[$i][7] = $array2[0]->ventas;
+            $data[$i][7] = $array2[$i]->ventas;
 
 
 
