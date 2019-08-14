@@ -1251,7 +1251,7 @@ class reportingController
             ORDER BY c.cliente, p.id
           )"));
 
- die("llega--");
+
 
 
 
