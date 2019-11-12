@@ -16,7 +16,7 @@
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/hall.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
-    <script src="{{ asset('js/comafe.js') }}"></script>
+    <script src="{{ asset('js/company.js') }}"></script>
     <script src="{{ asset('js/jquery-1.12.4.js')}}"></script>
     <script src="{{ asset('js/jquery-ui.js')}}"></script>
 
@@ -29,7 +29,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/font-awesome.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/comafe.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/company.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 </head>
 

@@ -117,8 +117,8 @@
                 <div class="modal-content">
                     <div class="modal-body">
                         <h6>Si tienes problemas contacte con informática</h6>
-                        <a href="mailto:informatica@comafe.es">
-                            informatica@comafe.es
+                        <a href="mailto:informatica@company.es">
+                            informatica@company.es
                         </a>
                     </div>
                 </div>

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="title">
-        <h1>Hola mundo<?php echo $nombre[0] ?></h1>
+        <h1>Hola <?php echo $nombre[0] ?></h1>
     </div>
 
     <div class="center">

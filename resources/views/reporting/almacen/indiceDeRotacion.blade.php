@@ -1,5 +1,6 @@
 
 @csrf
+
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <div class="row wrapperReporting center marginBottom20px">
     <div class="col-md-8">
@@ -8,16 +9,7 @@
     <div class="col-md-4">
         <small><b>ventas a</b></small>
         <small>
-            <?php
-            // rvr formatear la fecha
-            use Illuminate\Support\Facades\DB;
-            $primerafecha=DB::connection('reporting')->table('historico_ventas')->orderBy('fecha','asc')->value("fecha");
-            $ultimafecha=DB::connection('reporting')->table('historico_ventas')->orderBy('fecha','desc')->value("fecha");
-            // echo ($primerafecha);
-            echo(date("d-m-Y", strtotime($primerafecha)));
-            echo ("&nbsp;&nbsp;<b>a</b>&nbsp;&nbsp;");
-            echo(date("d-m-Y", strtotime($ultimafecha)));
-            ?>
+
         </small>
     </div>
     <!--- -->
