@@ -32,15 +32,17 @@
                 </form>
 
             </div>
-            <div class="col-sm-4">
-                <form class="floatLeft" action="{{route('goMenu')}}" method="GET">
+
+
+            <div class="col-sm-2">
+                <form class="floatLeft" action="{{route('goRoom')}}" method="GET">
                     <button type="submit" class="btn btn-primary btn-sm">
-                        <i class="fa fa-th-list"></i>
-                        <span>menus b2b</span>
+                        <i class="fa fa-square-o"></i>
+                        <span>gestion de salas</span>
                     </button>
-                    <input type="hidden" name="nombre" value="{{$nombre}}">
                 </form>
             </div>
+
         </div>
 
 

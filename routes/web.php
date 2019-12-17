@@ -90,78 +90,18 @@ Route::group(['middleware' => 'revalidate'], function() {
 
 
 ///////////////////////////////
-/////Administracion menus///
-///////////////////////////////
-
-    Route::get('menu/', 'Auth\Desb2bController@actionGoMenu')->name('goMenu');
-    Route::get('menu/create', 'Auth\Desb2bController@actionCreateMenu')->name('createMenu');
-    Route::get('menu/update', 'Auth\Desb2bController@actionUpdateMenu')->name('updateMenu');
-    Route::get('menu/update/dropSubmenu', 'Auth\Desb2bController@actionGoDropSubcategoria')->name('goDropSubCategoria');
-    Route::get('menu/update/addSubmenu', 'Auth\Desb2bController@actionGoAddSubcategoria')->name('goAddSubCategoria');
-    Route::get('menu/categoria', 'Auth\Desb2bController@actionGoCreateCategoria')->name('goCreateCategoria');
-    Route::get('menu/subcategoria', 'Auth\Desb2bController@actionGoCreateSubcategoria')->name('goCreateSubcategoria');
-    Route::get('menu/drop/categoria', 'Auth\Desb2bController@actiongoDeleteCategoria')->name('goDeleteCategoria');
-    Route::get('menu/drop/subcategoria', 'Auth\Desb2bController@actiongoDeleteSubCategoria')->name('goDeleteSubCategoria');
-    Route::post('menu/categorias', 'Auth\Desb2bController@actiongoChargeCategoria')->name('chargeCategoria');
 
 
 
 
+/////////////////////////////
+/////Administracion menus////
+/////////////////////////////
 
-    //crea y borra menu y crea subcategoria
-    Route::get('menu/create/categoria', 'Auth\Desb2bController@actionSaveCategoria')->name('saveCategoria');
-    Route::get('menu/create/subcategoria', 'Auth\Desb2bController@actionSaveSubCategoria')->name('saveSubCategoria');
+    Route::get('rooms','Auth\RoomController@actionGoRoom')->name('goRoom');
+    Route::get('groups/createRooms', 'Auth\RoomController@actionGoCreateRoom')->name('goCreateRoom');
+    Route::get('groups/updateRooms', 'Auth\RoomController@actionGoUpadeteRoom')->name('goUpdateRoom');
 
-    Route::get('menu/drop/drop/categoria', 'Auth\Desb2bController@actionDeleteCategoria')->name('deleteCategoria');
-    Route::get('menu/drop/drop/subcategoria', 'Auth\Desb2bController@actionDeleteSubCategoria')->name('deleteSubCategoria');
-
-
-    //borra menu
-    Route::get('menu/delete', 'Auth\Desb2bController@actionDeleteMenu')->name('deleteMenu');
-    //borra categoria y subcategoria
-    Route::get('menu/delete/subcategoria', 'Auth\Desb2bController@actionDeleteCategoria')->name('deleteCategoria');
-    Route::get('menu/delete/categoria', 'Auth\Desb2bController@actionDeleteSubCategoria')->name('deleteSubCategoria');
-
-
-
-    Route::get('menu/delete/subcategoria', 'Auth\Desb2bController@actionDeleteMenuSubCategoria')->name('deleteMenuSubCategoria');
-    //graba menu
-    Route::get('menu/create/record', 'Auth\Desb2bController@actionRecordMenu')->name('recordMenu');
-    Route::get('menu/add', 'Auth\Desb2bController@actionGoMenuAdd')->name('goMenuAdd');
-    //graba categoria
-    Route::get('menu/add/categoria', 'Auth\Desb2bController@actionAddCategorias')->name('sddCategorias');
-
-
-//DESB2
-    //otros -- inicial
-    Route::get('Ejemplo', 'Auth\Desb2bController@actionEjemplo')->name('Ejemplo');
-    Route::get('WebAdmLog', 'Auth\Desb2bController@actionWebAdmLog')->name('WebAdmLog');
-    Route::get('Index/', 'Auth\Desb2bController@actionIndex')->name('Index');
-    //consultas
-
-    Route::get('WebSociosCart', 'Auth\Desb2bController@actionWebSociosCart')->name('WebSociosCart');
-    Route::get('WebProveedorTarifaCabecera', 'Auth\Desb2bController@actionWebProveedorTarifaCabecera')->name('WebProveedorTarifaCabecera');
-    Route::get('WebSociosAcum', 'Auth\Desb2bController@actionWebSociosAcum')->name('WebSociosAcum');
-    Route::get('WebProveedorRap', 'Auth\Desb2bController@actionWebProveedorRap')->name('WebProveedorRap');
-    Route::get('WebRiesgo', 'Auth\Desb2bController@actionWebRiesgo')->name('WebRiesgo');
-    Route::get('WebConformidad', 'Auth\Desb2bController@actionWebConformidad')->name('WebConformidad');
-    Route::get('WebArticulos', 'Auth\Desb2bController@actionWebArticulos')->name('WebArticulos');
-    //************************************* *Art.Comprados ******************************************
-    Route::get('WebSociosAven', 'Auth\Desb2bController@actionWebSociosAven')->name('WebSociosAven');
-    Route::get('WebArticulosPres', 'Auth\Desb2bController@actionWebArticulosPres')->name('WebArticulosPres');
-    Route::get('WebAdmConfUsu', 'Auth\Desb2bController@actionWebAdmConfUsu')->name('WebAdmConfUsu');
-    //movimientos
-    Route::get('WebClientesCart', 'Auth\Desb2bController@actionWebClientesCart')->name('WebClientesCart');
-    Route::get('WebSociosSuc', 'Auth\Desb2bController@actionWebSociosSuc')->name('WebSociosSuc');
-    Route::get('WebSociosAven', 'Auth\Desb2bController@actionWebSociosAven')->name('WebSociosAven');
-    Route::get('WebSociosCfac', 'Auth\Desb2bController@actionWebSociosCfac')->name('WebSociosCfac');
-    Route::get('WebSociosSucs', 'Auth\Desb2bController@actionWebSociosSucs')->name('WebSociosSucs');
-    Route::get('WebSociosPagPen', 'Auth\Desb2bController@actionWebSociosPagPen')->name('WebSociosPagPen');
-    Route::get('WebSociosCfac2', 'Auth\Desb2bController@actionWebSociosCfac2')->name('WebSociosCfac2');
-    // conversion PHP (prndiente)
-    Route::get('toExcell', 'Auth\Desb2bController@actionToExcell')->name('ToExcel');
-    // generico se indica la tabla
-    Route::get('drop', 'Auth\Desb2bController@actionToExcell')->name('drop');
 /////////////////////////
 //////Rerporting////////
 ////////////////////////

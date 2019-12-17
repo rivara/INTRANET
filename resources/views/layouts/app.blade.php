@@ -10,26 +10,24 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Portal-Empresa') }}</title>
 <!-- Scripts -->
+    <!-- general -->
+    <script src="{{ asset('js/lang-all.js') }}" ></script>
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/hall.js') }}" ></script>
     <script src="{{ asset('js/app.js') }}" ></script>
     <script src="{{ asset('js/Gruntfile.js')}}"></script>
     <script src="{{ asset('js/simple-iconpicker.js')}}"></script>
     <script src="{{ asset('js/bootstrap.bundle.min.js')}}"></script>
+    <!--drgAndDrop -->
     <script src="{{ asset('js/jsDrag/plugins/sortable.js')}}"></script>
     <script src="{{ asset('js/jsDrag/fileinput.js')}}"></script>
     <script src="{{ asset('js/jsDrag/locales/es.js')}}"></script>
+
+    <!-- calendar -->
     <script src="{{ asset('js/calendar/moment.min.js')}}"></script>
     <script src="{{ asset('js/calendar/fullcalendar.js')}}"></script>
-    <script src="{{ asset('js/calendar/gcal.js')}}"></script>
-    <script src="{{ asset('js/calendar/locale-all.js')}}"></script>
-    <script src="{{ asset('js/calendar/locale/es.js') }}"></script>
-    <script src="{{ asset('js/colorselector.js') }}"></script>
-    <script src="{{ asset('js/jquery2.min.js') }}"></script>
-    <script src="{{ asset('js/tag-editor.js') }}"></script>
-    <script src="{{ asset('js/list.js') }}"></script>
-
-
+    <script src="{{ asset('js/calendar/locales/es.js')}}"></script>
+  <!-- NO FUNCIONA EN ESPAÑOL -->
 
 
 <!-- picker color -->
