@@ -3,7 +3,6 @@
     <div class="subtitle">
         <h4>Administración de menus</h4>
     </div>
-
     <div class="container">
         <div class="row">
             <div class="col-md-4">
@@ -85,12 +84,11 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
 
-                    <form method="GET">
+                    <form method="GET"  action="{{ route('deleteRoom') }}">
                         <button type="submit" name="submit" value="Delete" class="btn btn-danger ">
                             borrar
                         </button>
-                        <input type="hidden" name="usuarioId" id="id">
-                        <input type="hidden" name="grupoId" value={{$sala->id}}>
+                        <input type="hidden" name="salaId" value={{$sala->id}}>
                     </form>
                 </div>
             </div>

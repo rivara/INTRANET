@@ -15,9 +15,88 @@ use MaddHatter\LaravelFullcalendar\Calendar;
 class SalasController
 {
 
-    public function actionGoRecordSala(Request $request)
+    /////////////////////////////////////////////// GESTION salas
+
+    public function actionGoRoom(Request $request)
+    {
+        return view("/management/room/room");
+    }
+
+
+
+    public function actionGoUpadeteRoom(Request $request)
+    {
+        return view("/management/room/update");
+    }
+
+
+
+    public function actionGoCreateRoom(Request $request)
+    {
+        return view("/management/room/create");
+    }
+
+    public function actionCreateRoom(Request $request)
+    {
+        $nombreError = array('nombre' => ' ');
+        $capacidadError  = array('capacidad' => ' ');
+        $datosError = array('datos' => ' ');
+
+        if (is_null($request['nombre'])) {
+            $nombreError = array('nombre' => 'No debe ser vacio');
+        }
+        if (is_null($request['capacidad'])) {
+            $capacidadError = array('capacidad' => 'No debe ser vacio');
+        }
+        if (is_null($request['datos'])) {
+            $datosError = array('datos' => 'No debe ser vacio');
+        }
+        if (is_null($request['nombre']) || is_null($request['capacidad']) || is_null($request['datos'])) {
+            return redirect()->back()->withErrors(array_merge($nombreError, $capacidadError,$datosError));
+        }
+
+        $nombreError = array('nombre' => 'Existe este portal');
+        // si el nombre ya existe no se podara grabar por lo que reenviara un mensaje de error
+        $dato=DB::table('salas')->where('nombre',strtoupper($request['nombre']))->get();
+
+
+        if(count($dato)== 0) {
+            DB::table('salas')->insert(array('nombre' =>strtoupper($request['nombre']),'capacidad'=>$request['capacidad'],'datos'=>$request['datos']));
+            return view("/management/room/room");
+        }else{
+            return redirect()->back()->withErrors(array_merge($nombreError));
+        }
+
+    }
+
+
+
+//  Update pending
+
+//???????????????????????????????????????????????????????????????????????????????????????????
+
+    public function actionUpdateRoom(Request $request)
+    {
+     //   DB::table('portales')->where('id', $request['id'])->update(['url' => $request['url'],'nombre'=>$request['nombre'],'icono'=>$request['icono'],'target'=>$request['target']]);
+      //  return view("/management/portals/portals");
+
+    }
+
+
+    public function actionDeleteRoom(Request $request)
     {
 
+        DB::table('salas')->where('id',$request["salaId"])->delete();
+        return view("/management/room/room");
+    }
+
+
+
+
+    ////////////////////////////////////////////////////// GESTION citas
+
+    public function actionGoRecordSala(Request $request)
+    {
         return view('salas/record', compact('calendar','nombre'),['salaOpcion' => $request['salaOpcion'],'nombre' => $request['nombre']]);
     }
 
@@ -160,13 +239,13 @@ class SalasController
 
         // busco
         $calendar = \Calendar::addEvents($events);
-
-
-
-
-
         return view('salas/index', compact('calendar','nombre'),['salaOpcion' => $request['salaOpcion'],'nombre' => $request['nombre']]);
 
+    }
+
+
+    public function actionCreateSala(Request $request){
+      die("llega");
     }
 
 
