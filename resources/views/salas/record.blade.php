@@ -1,8 +1,6 @@
 @extends('layouts.app')
 @section('content')
 
-
-
     <div class="container wrapper mitad2 ">
         <form action="{{ route('goIndexSala') }}" method="GET">
             <button class="btn btn-primary  floatRight ">
@@ -27,7 +25,7 @@
                 <div class="col-md-12"><br></div>
 
 
-                <div class="col-md-2">
+                <div class="col-md-1">
                     hora
                 </div>
                 <div class="col-md-3">
@@ -36,10 +34,10 @@
                 <div class="col-md-3">
                     <input class="form-control " type="time" name="fechaHasta" >
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div class="wrapperColorPicker">
-                        <select id="colorselector_1" name="color">
-                            <option value="#A0522D" data-color="#A0522D"></option>
+                        <select id="colorselector_2" name="color">
+                            <option value="106" data-color="#A0522D"></option>
                             <option value="#87CEFA" data-color="#87CEFA"></option>
                             <option value="#FF4500" data-color="#FF4500"></option>
                             <option value="#008B8B" data-color="#008B8B"></option>

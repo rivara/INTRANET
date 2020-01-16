@@ -143,9 +143,9 @@ Route::group(['middleware' => 'revalidate'], function() {
     Route::get('rooms','Auth\SalasController@actionGoRoom')->name('goRoom');
     Route::get('salas/goRooms', 'Auth\SalasController@actionGoCreateRoom')->name('goCreateRoom');
     Route::get('salas/updateRooms', 'Auth\SalasController@actionGoUpadeteRoom')->name('goUpdateRoom');
+    Route::get('salas/update', 'Auth\SalasController@actionUpdateRoom')->name('updateRoom');
 
     Route::post('salas/create', 'Auth\SalasController@actionCreateRoom')->name('createRoom');
-    Route::post('salas/update', 'Auth\SalasController@actionUpdateRoom')->name('updateRoom');
     Route::get('sala/delate', 'Auth\SalasController@actionDeleteRoom')->name('deleteRoom');
 
 /// citas
@@ -153,7 +153,7 @@ Route::group(['middleware' => 'revalidate'], function() {
     Route::get('salas/index', 'Auth\SalasController@actionGoIndexSala')->name('goIndexSala');
     Route::get('salas/record', 'Auth\SalasController@actionGoRecordSala')->name('goRecordSala');
     Route::get('salas/record/save', 'Auth\SalasController@actionRecordSala')->name('recordSala');
-    Route::get('salas/record/update', 'Auth\SalasController@actionUpdateSala')->name('updateSala');
+  //  Route::get('salas/record/update', 'Auth\SalasController@actionUpdateRoom')->name('updateSala');
 
 
 

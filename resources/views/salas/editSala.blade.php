@@ -49,7 +49,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="wrapperColorPicker">
-                        <select id="colorselector_1" name="color">
+                        <select id="colorselector_2" name="color">
                             <option value={{$color}} data-color="{{$color}}" selected></option>
                             <option value="#87CEFA" data-color="#87CEFA"></option>
                             <option value="#FF4500" data-color="#FF4500"></option>

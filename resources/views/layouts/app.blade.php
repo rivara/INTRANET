@@ -10,44 +10,27 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Portal-Empresa') }}</title>
 <!-- Scripts -->
-    <!-- general -->
-    <script src="{{ asset('js/lang-all.js') }}" ></script>
-    <script src="{{ asset('js/jquery.min.js') }}"></script>
+    <!--jquery-->
+    <script src="{{ asset('js/jquery.min.js') }}" ></script>
+    <!-- own-->
     <script src="{{ asset('js/hall.js') }}" ></script>
     <script src="{{ asset('js/app.js') }}" ></script>
-    <script src="{{ asset('js/Gruntfile.js')}}"></script>
-    <script src="{{ asset('js/simple-iconpicker.js')}}"></script>
-    <script src="{{ asset('js/bootstrap.bundle.min.js')}}"></script>
-    <!--drgAndDrop -->
-    <script src="{{ asset('js/jsDrag/plugins/sortable.js')}}"></script>
-    <script src="{{ asset('js/jsDrag/fileinput.js')}}"></script>
-    <script src="{{ asset('js/jsDrag/locales/es.js')}}"></script>
-
-    <!-- calendar -->
+    <script src="{{ asset('js/colorpicker.js')}}"></script>
+    <!--calendar-->
     <script src="{{ asset('js/calendar/moment.min.js')}}"></script>
     <script src="{{ asset('js/calendar/fullcalendar.js')}}"></script>
     <script src="{{ asset('js/calendar/locales/es.js')}}"></script>
-  <!-- NO FUNCIONA EN ESPAÑOL -->
+    <script src="{{ asset('js/bootstrap-colorselector.min.js')}}"></script>
+    <!--drgAndDrop -->
+    <script src="{{ asset('js/jsDrag/plugins/sortable.js')}}"></script>
+    <script src="{{ asset('js/jsDrag/fileinput.js')}}"></script>
+    <script src="{{ asset('js/Gruntfile.js')}}"></script>
+    <!-- picker color -->
+    <script src="{{ asset('js/simple-iconpicker.js')}}"></script>
 
 
-<!-- picker color -->
-    <script>
-        $(function() {
-            window.prettyPrint && prettyPrint();
-            $('#colorselector_1').colorselector();
-            $('#colorselector_2').colorselector({
-                callback : function(value, color, title) {
-                    $("#colorValue").val(value);
-                    $("#colorColor").val(color);
-                    $("#colorTitle").val(title);
-                }
-            });
-        });
-    </script>
-    @stack('scripts')
 <!-- Icons -->
     <?php $var= Illuminate\Support\Facades\App::basePath();
-
     if($var === 'C:\laragon\www\hall'){ ?>
         <link rel="icon" href="{{asset('icono2.ico')}}" type="image/x-icon"/>
         <link rel="shortcut icon" href="{{asset('icono2.ico')}}" type="image/x-icon"/>
@@ -56,12 +39,9 @@
         <link rel="shortcut icon" href="{{asset('icono1.ico')}}" type="image/x-icon"/>
     <?php } ?>
 
-
 <!-- Fonts -->
-
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
-
 <!-- Styles -->
     <link href="{{ asset('css/tag-editor.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -72,8 +52,8 @@
     <link href="{{ asset('css/themes/explorer-fas/theme.css') }}" rel="stylesheet">
     <link href="{{ asset('css/calendar/fullcalendar.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/colorselector.css') }}" rel="stylesheet">
-
     <link href="{{ asset('css/list.css') }}" rel="stylesheet">
+
 
 </head>
 <body>
@@ -103,7 +83,6 @@
                     </ul>
                 </div>
             </div>
-
         </nav>
         <main class="py-4">
             @yield('content')

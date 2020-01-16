@@ -54,6 +54,7 @@
                                 {{$sala->datos}}
                             </td>
                             <td>
+
                                 <button type="submit" name="submit" value="Edit" class="btn btn-link btnE "><i
                                         class="fa fa-pencil fa-lg"></i></button>
 
@@ -61,7 +62,8 @@
                                         data-target="#confirm" value="{{$sala->id}}">
                                     <i class="fa fa-trash fa-lg"></i>
                                 </button>
-                                <input type="hidden" name="grupoId" value={{$sala->id}}>
+                                <input type="hidden" name="salaId" value={{$sala->id}}>
+
                             </td>
                         </tr>
                         </form>

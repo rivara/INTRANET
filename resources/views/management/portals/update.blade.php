@@ -10,7 +10,7 @@
             <input type="hidden" name="name" value="" style="display:none;">
         </form>
     </div>
-    <h1 style="text-align: center">&nbsp;Crear Portales</h1>
+    <h1 style="text-align: center">&nbsp;Modificar Portales</h1>
     <br>
     <div class="container wrapper mitad ">
         <?php $portales = DB::table('portales')->where('id',$portalId)->get() ?>

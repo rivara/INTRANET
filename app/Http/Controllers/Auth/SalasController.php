@@ -26,7 +26,8 @@ class SalasController
 
     public function actionGoUpadeteRoom(Request $request)
     {
-        return view("/management/room/update");
+
+        return view("/management/room/update",['salaId' => $request['salaId']]);
     }
 
 
@@ -70,19 +71,6 @@ class SalasController
     }
 
 
-
-//  Update pending
-
-//???????????????????????????????????????????????????????????????????????????????????????????
-
-    public function actionUpdateRoom(Request $request)
-    {
-     //   DB::table('portales')->where('id', $request['id'])->update(['url' => $request['url'],'nombre'=>$request['nombre'],'icono'=>$request['icono'],'target'=>$request['target']]);
-      //  return view("/management/portals/portals");
-
-    }
-
-
     public function actionDeleteRoom(Request $request)
     {
 
@@ -91,7 +79,11 @@ class SalasController
     }
 
 
-
+    public function actionUpdateRoom(Request $request)
+    {
+         DB::table('salas')->where('id', $request['id'])->update(['nombre'=>$request['nombre'],'capacidad'=>$request['capacidad'],'datos'=>$request['datos']]);
+         return view("/management/room/room");
+    }
 
     ////////////////////////////////////////////////////// GESTION citas
 
