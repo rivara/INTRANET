@@ -1,6 +1,5 @@
 @extends('layouts.app')
 @section('content')
-
     <div class="container">
         <div class="row">
             <div class="col-md-2">
@@ -55,7 +54,21 @@
 
             <div class="panel panel-primary">
               <div class="panel-heading"></div>
-              <div class="panel-body"> {!! $calendar->calendar() !!} {!! $calendar->script() !!} </div>
+                <!-- Hay que inicializar --->
+                <script>
+                $('#calendar').fullCalendar({
+                events: [
+                {
+                    title: 'All Day Event',
+                    start: '2020-01-25',
+                    end: '2020-01-25',
+                    url: 'http://google.com'
+                }
+                ]});
+                </script>
+              <div class="panel-body"> {!! $calendar->calendar() !!} {!! $calendar->script() !!}
+
+              </div>
             </div>
         @endif
     </div>

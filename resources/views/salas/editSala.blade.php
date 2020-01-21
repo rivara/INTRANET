@@ -1,8 +1,5 @@
 @extends('layouts.app')
 @section('content')
-
-
-
     <div class="container wrapper mitad2 ">
         <form action="{{ route('goIndexSala') }}" method="GET">
             <button class="btn btn-primary   floatRight">

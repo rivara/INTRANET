@@ -151,6 +151,17 @@ class LoginController extends Controller
 
         }
         if ($url[0] == "reserva") {
+            // inicializo
+         /*
+            $('#calendar').fullCalendar({
+            events: [
+        {
+            title: 'All Day Event',
+            start: '2015-12-01',
+            url: 'http://google.com'
+        }
+        ]*/
+
             $nombre = $request['nombre'];
             return view('salas/index', compact('calendar','nombre'));
         }

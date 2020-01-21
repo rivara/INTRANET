@@ -71,12 +71,6 @@ class SalasController
     }
 
 
-    public function actionDeleteRoom(Request $request)
-    {
-
-        DB::table('salas')->where('id',$request["salaId"])->delete();
-        return view("/management/room/room");
-    }
 
 
     public function actionUpdateRoom(Request $request)
